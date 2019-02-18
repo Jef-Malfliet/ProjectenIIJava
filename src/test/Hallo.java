@@ -10,5 +10,7 @@ package test;
  * @author Nante
  */
 public class Hallo {
-    
+    public static void main(String[] args) {
+        System.out.println("Mout Commit test");
+    }
 }
