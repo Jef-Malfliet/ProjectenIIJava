@@ -16,7 +16,11 @@ public class Lid implements Serializable {
     private long id;
     
     private String naam;
+    
+    @Column(name="graad")
     private Graad graad;
+    
+    @Transient
     private Type type;
 
     public Lid() {
@@ -38,14 +42,20 @@ public class Lid implements Serializable {
         return naam;
     }
 
-    @javax.persistence.Column(name="graad")
 	public Graad getGraad() {
         return graad;
     }
 
-    @javax.persistence.Transient
 	public Type getType() {
         return type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
 
