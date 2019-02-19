@@ -10,43 +10,41 @@ import javax.persistence.*;
  */
 @Entity
 public class Lid implements Serializable {
-   
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     private String naam;
-    
-    @Column(name="graad")
+
+    @Column(name = "graad")
     private Graad graad;
-    
+
     @Transient
-    private Type type;
+    private final Type type = Type.LID;
 
     public Lid() {
     }
 
     /**
-	 * 
-	 * @param naam
-	 * @param graad
-	 * @param type
-	 */
-	public Lid(String naam, Graad graad, Type type) {
+     *
+     * @param naam
+     * @param graad
+     */
+    public Lid(String naam, Graad graad) {
         this.naam = naam;
         this.graad = graad;
-        this.type = type;
     }
 
     public String getNaam() {
         return naam;
     }
 
-	public Graad getGraad() {
+    public Graad getGraad() {
         return graad;
     }
 
-	public Type getType() {
+    public Type getType() {
         return type;
     }
 
@@ -57,7 +55,5 @@ public class Lid implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
 
-    
 }

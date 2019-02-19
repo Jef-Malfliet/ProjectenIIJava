@@ -6,6 +6,14 @@ import persistentie.*;
 public class Beheerder {
 
     private PersistentieController persistentieController;
+    private final List<Lid> lijstLeden;
+    private final Type type;
+
+    public Beheerder(PersistentieController persistentieController) {
+        setPersistentieController(persistentieController);
+        lijstLeden = this.persistentieController.geefLijstLeden();
+        this.type = Type.BEHEERDER;
+    }
 
     /**
      *
@@ -43,9 +51,16 @@ public class Beheerder {
         throw new UnsupportedOperationException();
     }
 
-    public List<Lid> geefLijstLeden() {
-        // TODO - implement Beheerder.geefLijstLeden
-        throw new UnsupportedOperationException();
+    public List<Lid> getLijstLeden() {
+        return lijstLeden;
+    }
+
+    private void setPersistentieController(PersistentieController persistentieController) {
+        this.persistentieController = persistentieController;
+    }
+
+    public Type getType() {
+        return type;
     }
 
 }
