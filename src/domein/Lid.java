@@ -32,8 +32,8 @@ public class Lid implements Serializable {
      * @param graad
      */
     public Lid(String naam, Graad graad) {
-        this.naam = naam;
-        this.graad = graad;
+        setNaam(naam);
+        setGraad(graad);
     }
 
     public String getNaam() {
@@ -52,8 +52,20 @@ public class Lid implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    //is deze wel nodig?
+    private void setId(Long id) {
         this.id = id;
+    }
+
+    private void setNaam(String naam) {
+        if (naam == null || naam.isEmpty()) {
+            throw new IllegalArgumentException("Naam mag niet leeg zijn");
+        }
+        this.naam = naam;
+    }
+
+    private void setGraad(Graad graad) {
+        this.graad = graad;
     }
 
 }
