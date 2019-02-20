@@ -1,6 +1,7 @@
 package domein;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.*;
 
@@ -67,5 +68,36 @@ public class Lid implements Serializable {
     private void setGraad(Graad graad) {
         this.graad = graad;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.naam);
+        hash = 71 * hash + Objects.hashCode(this.graad);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Lid other = (Lid) obj;
+        if (!Objects.equals(this.naam, other.naam)) {
+            return false;
+        }
+        if (this.graad != other.graad) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

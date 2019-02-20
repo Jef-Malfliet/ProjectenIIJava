@@ -1,5 +1,6 @@
 package domein;
 
+import java.util.Iterator;
 import java.util.List;
 import persistentie.*;
 
@@ -20,15 +21,22 @@ public class Beheerder {
      * @param lid
      */
     public boolean verwijderLid(Lid lid) {
-        // TODO - implement Beheerder.verwijderLid
-        throw new UnsupportedOperationException();
+        Iterator it = lijstLeden.iterator();
+        while(it.hasNext()){
+            Lid temp = (Lid)it.next();
+            if(temp.equals(lid)){
+                it.remove();
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      *
      * @param lid
      */
-    public boolean wijzigLid(Lid lid) {
+    public boolean wijzigLid(Lid lid) {//deze methode moet hermaakt worden, slecht opgesteld
         // TODO - implement Beheerder.wijzigLid
         throw new UnsupportedOperationException();
     }
@@ -37,7 +45,7 @@ public class Beheerder {
      *
      * @param lid
      */
-    public Lid toonLid(Lid lid) {
+    public Lid toonLid(Lid lid) {//methode moet hermaakt worden, slecht opgesteld
         // TODO - implement Beheerder.toonLid
         throw new UnsupportedOperationException();
     }
@@ -47,8 +55,13 @@ public class Beheerder {
      * @param lid
      */
     public boolean voegLidToe(Lid lid) {
-        // TODO - implement Beheerder.voegLidToe
-        throw new UnsupportedOperationException();
+        for (Lid temp : lijstLeden) {
+            if (temp.equals(lid)) {
+                return false;
+            }
+        }
+        lijstLeden.add(lid);
+        return true;
     }
 
     public List<Lid> getLijstLeden() {
