@@ -54,7 +54,7 @@ public class Lid implements Serializable {
     }
 
     //is deze wel nodig?
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

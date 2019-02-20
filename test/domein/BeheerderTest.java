@@ -5,12 +5,9 @@
  */
 package domein;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,20 +23,25 @@ public class BeheerderTest {
     private Beheerder beheerder;
     private PersistentieController persistentieControllerDummy;
     private Lid testLid;
-    private final Set<Lid> ledenLijst = new HashSet<>(
-            Arrays.asList(new Lid("Bram Vanoverbeke", Graad.GRAAD1),
-                    new Lid("Tom Clarys", Graad.GRAAD2),
-                    new Lid("Seba Moons", Graad.GRAAD1))
-    );
+    private Lid lid1;
+    private Lid lid2;
+    private Lid lid3;
+    private final Set<Lid> ledenLijst = new HashSet<>();
 
     @Before
     public void before() {
-        
+
         persistentieControllerDummy = Mockito.mock(PersistentieController.class);
-      
-       
+
         testLid = new Lid("Beau Van Canegem", Graad.GRAAD2);
-        
+        lid1 = new Lid("Bram Vanoverbeke", Graad.GRAAD1);
+        lid1.setId(1L);
+        lid2 = new Lid("Tom Clarys", Graad.GRAAD2);
+        lid2.setId(2L);
+        lid3 = new Lid("Seba Moons", Graad.GRAAD1);
+        lid3.setId(3L);
+
+        ledenLijst.addAll(Arrays.asList(lid1, lid2, lid3));
     }
 
     /**
@@ -49,12 +51,11 @@ public class BeheerderTest {
     public void testVerwijderLid() {
         Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
         beheerder = new Beheerder(persistentieControllerDummy);
-        Lid lid = new Lid("Bram Vanoverbeke", Graad.GRAAD1);
-        beheerder.verwijderLid(lid);
+        beheerder.verwijderLid(lid1);
         Assert.assertEquals(2, beheerder.getLijstLeden().size());
         System.out.println(ledenLijst);
         System.out.println(beheerder.getLijstLeden());
-        Assert.assertFalse(beheerder.getLijstLeden().contains(lid));
+        Assert.assertFalse(beheerder.getLijstLeden().contains(lid1));
 //        IntStream.range(0, beheerder.getLijstLeden().size())
 //                .forEach(index ->
 //                        Assert.assertEquals(ledenLijst..get(index), beheerder.getLijstLeden().get(index))//als deze in het midden van de lijst verwijderd 
