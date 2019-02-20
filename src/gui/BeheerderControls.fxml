@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="2048.0" prefWidth="221.0" style="-fx-background-color: #484857;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox fx:id="btnLogUit" prefHeight="66.0" prefWidth="221.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="78.0" prefWidth="235.0" text="LOG UIT" textFill="#e6e6e6">
+               <font>
+                  <Font name="Quicksand-Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox fx:id="btnInschrijvenLid" prefHeight="66.0" prefWidth="221.0" style="-fx-background-color: #454553;">
+         <children>
+            <Label alignment="CENTER" prefHeight="78.0" prefWidth="235.0" text="WIJZIG LID" textFill="#e6e6e6">
+               <font>
+                  <Font name="Quicksand-Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox fx:id="btnBekijkLesMateriaal" prefHeight="66.0" prefWidth="221.0" style="-fx-border-radius: 1px;">
+         <children>
+            <Label alignment="CENTER" prefHeight="78.0" prefWidth="235.0" text="BEHEER ACTIVITEITEN" textFill="#e6e6e6">
+               <font>
+                  <Font name="Quicksand-Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox fx:id="btnBeheerLesMateriaal" prefHeight="66.0" prefWidth="221.0" style="-fx-background-color: #454553;">
+         <children>
+            <Label alignment="CENTER" prefHeight="78.0" prefWidth="235.0" text="BEHEER LESMATERIAAL" textFill="#e6e6e6">
+               <font>
+                  <Font name="Quicksand-Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</fx:root>
