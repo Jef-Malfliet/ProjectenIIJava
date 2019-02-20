@@ -33,8 +33,8 @@ public class DomeinController {
      *
      * @param lid
      */
-    public String toonLid(Lid lid) {
-        return beheerder.toonLid(lid).toString();
+    public String toonLid(long id) {
+        return beheerder.toonLid(id).toString();
     }
 
     /**

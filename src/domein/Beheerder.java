@@ -1,12 +1,14 @@
 package domein;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 import persistentie.*;
 
 public class Beheerder {
 
     private PersistentieController persistentieController;
-    private final Set<Lid> lijstLeden;
+    private final List<Lid> lijstLeden;
     private final Type type;
 
     public Beheerder(PersistentieController persistentieController) {
@@ -43,17 +45,15 @@ public class Beheerder {
      * @param lid
      */
     public boolean wijzigLid(Lid lid) {//deze methode moet hermaakt worden, slecht opgesteld
-        // TODO - implement Beheerder.wijzigLid
-        throw new UnsupportedOperationException();
+        return persistentieController.wijzigLid(lid);
     }
 
     /**
      *
      * @param lid
      */
-    public Lid toonLid(Lid lid) {//methode moet hermaakt worden, slecht opgesteld
-        // TODO - implement Beheerder.toonLid
-        throw new UnsupportedOperationException();
+    public Lid toonLid(long id) { //methode moet hermaakt worden, slecht opgesteld
+        return lijstLeden.stream().filter(l -> l.getId() == id).findFirst().orElse(null);
     }
 
     /**
@@ -61,7 +61,11 @@ public class Beheerder {
      * @param lid
      */
     public boolean voegLidToe(Lid lid) {
-       return lijstLeden.add(lid);
+       if(!lijstLeden.contains(lid))
+            return lijstLeden.add(lid);
+        return false;
+        
+       //return lijstLeden.add(lid);
        
 //        for (Lid temp : lijstLeden) {
 //            if (temp.equals(lid)) {
@@ -73,7 +77,7 @@ public class Beheerder {
 //        return true;
     }
     
-    public Set<Lid> getLijstLeden() {
+    public List<Lid> getLijstLeden() {
         return lijstLeden;
     }
 
