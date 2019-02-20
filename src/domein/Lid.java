@@ -71,9 +71,8 @@ public class Lid implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.naam);
-        hash = 71 * hash + Objects.hashCode(this.graad);
+        int hash = 3;
+        hash = 79 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
@@ -89,15 +88,10 @@ public class Lid implements Serializable {
             return false;
         }
         final Lid other = (Lid) obj;
-        if (!Objects.equals(this.naam, other.naam)) {
-            return false;
-        }
-        if (this.graad != other.graad) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
     }
-    
-    
 
 }

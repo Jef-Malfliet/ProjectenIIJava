@@ -7,7 +7,9 @@ package domein;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 import org.junit.Test;
 import org.junit.Assert;
@@ -24,7 +26,7 @@ public class BeheerderTest {
     private Beheerder beheerder;
     private PersistentieController persistentieControllerDummy;
     private Lid testLid;
-    private final List<Lid> ledenLijst = new ArrayList<>(
+    private final Set<Lid> ledenLijst = new HashSet<>(
             Arrays.asList(new Lid("Bram Vanoverbeke", Graad.GRAAD1),
                     new Lid("Tom Clarys", Graad.GRAAD2),
                     new Lid("Seba Moons", Graad.GRAAD1))
@@ -32,9 +34,12 @@ public class BeheerderTest {
 
     @Before
     public void before() {
+        
         persistentieControllerDummy = Mockito.mock(PersistentieController.class);
-        beheerder = new Beheerder(persistentieControllerDummy);
+      
+       
         testLid = new Lid("Beau Van Canegem", Graad.GRAAD2);
+        
     }
 
     /**
@@ -42,14 +47,20 @@ public class BeheerderTest {
      */
     @Test
     public void testVerwijderLid() {
-        //Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
-        beheerder.verwijderLid(new Lid("Bram Vanoverbeke", Graad.GRAAD1));
+        Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
+        beheerder = new Beheerder(persistentieControllerDummy);
+        Lid lid = new Lid("Bram Vanoverbeke", Graad.GRAAD1);
+        beheerder.verwijderLid(lid);
         Assert.assertEquals(2, beheerder.getLijstLeden().size());
-        IntStream.range(0, beheerder.getLijstLeden().size())
-                .forEach(index ->
-                        Assert.assertEquals(ledenLijst.get(index+1), beheerder.getLijstLeden().get(index))//als deze in het midden van de lijst verwijderd wordt moet die +1 weg, miss best nog is herschrijven?
-        );
-        //Mockito.verify(persistentieControllerDummy).geefLijstLeden();
+        System.out.println(ledenLijst);
+        System.out.println(beheerder.getLijstLeden());
+        Assert.assertFalse(beheerder.getLijstLeden().contains(lid));
+//        IntStream.range(0, beheerder.getLijstLeden().size())
+//                .forEach(index ->
+//                        Assert.assertEquals(ledenLijst..get(index), beheerder.getLijstLeden().get(index))//als deze in het midden van de lijst verwijderd 
+//                                                                                    //wordt moet die +1 weg, miss best nog is herschrijven?
+//        );
+        Mockito.verify(persistentieControllerDummy).geefLijstLeden();
 
     }
 
@@ -80,15 +91,17 @@ public class BeheerderTest {
      */
     @Test
     public void testVoegLidToe() {
-        //Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
+        Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
+        beheerder = new Beheerder(persistentieControllerDummy);
         beheerder.voegLidToe(testLid);
         Assert.assertEquals(4, beheerder.getLijstLeden().size());
-        IntStream.range(0, ledenLijst.size() - 1)
-                .forEach(index ->
-                 Assert.assertEquals(beheerder.getLijstLeden().get(index), ledenLijst.get(index)));
-        Assert.assertEquals(testLid, beheerder.getLijstLeden().get(beheerder.getLijstLeden().size() - 1)
-        );
-        //Mockito.verify(persistentieControllerDummy).geefLijstLeden();
+        Assert.assertTrue(beheerder.getLijstLeden().contains(testLid));
+//        IntStream.range(0, ledenLijst.size() - 1)
+//                .forEach(index ->
+//                 Assert.assertEquals(beheerder.getLijstLeden().get(index), ledenLijst.get(index)));
+//        Assert.assertEquals(testLid, beheerder.getLijstLeden().get(beheerder.getLijstLeden().size() - 1)
+//        );
+        Mockito.verify(persistentieControllerDummy).geefLijstLeden();
     }
 
 }

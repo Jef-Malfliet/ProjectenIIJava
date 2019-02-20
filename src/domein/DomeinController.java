@@ -2,6 +2,7 @@ package domein;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 
@@ -25,17 +26,15 @@ public class DomeinController {
     
 
     public List<String> toonLeden() {
-        // TODO - implement DomeinController.geefLijstLeden
-        throw new UnsupportedOperationException();
+       return beheerder.getLijstLeden().stream().map(Lid::toString).collect(Collectors.toList());
     }
 
     /**
      *
      * @param lid
      */
-    public List<String> toonLid(Lid lid) {
-        // TODO - implement DomeinController.toonLid
-        throw new UnsupportedOperationException();
+    public String toonLid(Lid lid) {
+        return beheerder.toonLid(lid).toString();
     }
 
     /**
@@ -43,8 +42,7 @@ public class DomeinController {
      * @param lid
      */
     public boolean voegLidToe(Lid lid) {
-        // TODO - implement DomeinController.voegLidToe
-        throw new UnsupportedOperationException();
+        return beheerder.voegLidToe(lid);
     }
 
     /**
@@ -52,8 +50,7 @@ public class DomeinController {
      * @param lid
      */
     public boolean verwijderLid(Lid lid) {
-        // TODO - implement DomeinController.verwijderLid
-        throw new UnsupportedOperationException();
+        return beheerder.verwijderLid(lid);
     }
 
     /**
@@ -63,6 +60,10 @@ public class DomeinController {
     public void filterLijst(String optie) {
         // TODO - implement DomeinController.filterLijst
         throw new UnsupportedOperationException();
+        
+        //switch(optie){
+            
+        //}
     }
 
 }

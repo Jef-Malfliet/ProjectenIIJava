@@ -1,13 +1,13 @@
 package persistentie;
 
-import java.util.List;
 import domein.*;
+import java.util.Set;
 
 public class PersistentieController {
 
-	private List<Lid> leden;
+	private Set<Lid> leden;
 
-	public List<Lid> geefLijstLeden() {
+	public Set<Lid> geefLijstLeden() {
 		return leden;
 	}
 
