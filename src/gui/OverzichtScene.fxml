@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OverzichtSceneController">
+   <children>
+      <HBox prefHeight="70.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Leden beheren" textAlignment="CENTER" textFill="#e6e6e6">
+               <font>
+                  <Font name="Quicksand-Bold" size="31.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="265.0" prefWidth="600.0">
+         <children>
+            <TableView fx:id="tableOverview" prefHeight="294.0" prefWidth="600.0" style="-fx-padding: 5;">
+              <columns>
+                <TableColumn fx:id="colName" editable="false" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" style="-fx-background-color: #00B4AB; -fx-text-fill: red;" text="Naam" />
+                <TableColumn fx:id="colBand" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" style="-fx-background-color: #00B4AB;" text="Band" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
+   </children>
+</fx:root>

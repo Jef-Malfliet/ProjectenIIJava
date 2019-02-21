@@ -19,6 +19,8 @@ public class MainPanel extends BorderPane{
     public MainPanel(DomeinController dc){
         this.dc=dc;
         BeheerderControlController bcc = new BeheerderControlController(dc);
+        OverzichtSceneController osc = new OverzichtSceneController(dc);
+        this.setCenter(osc);
         this.setLeft(bcc);
     }
     

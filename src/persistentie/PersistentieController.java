@@ -14,9 +14,12 @@ public class PersistentieController<E> implements IPersistentieController {
     private EntityManager em;
 
     public PersistentieController() {
-        this.leden = (List<Lid>) geefAlles(Stuff.LID);
+        
         emf = JPA_Utility.getEntityManagerFactory();
         em = emf.createEntityManager();
+        em.getTransaction().begin();
+        this.leden = (List<Lid>) geefAlles(Stuff.LID);
+        closeConnection();
     }
 
     @Override
@@ -24,19 +27,16 @@ public class PersistentieController<E> implements IPersistentieController {
 
         switch (type) {
             case ACTIVITEIT:
-                openConnection();
                 List<E> activiteiten = em.createQuery("SELECT * FROM Activiteit").getResultList();
                 closeConnection();
                 return activiteiten;
 
             case KAMPIOENSCHAP:
-                openConnection();
                 List<E> kampioenschappen = em.createQuery("SELECT * FROM Kampioenschap").getResultList();
                 closeConnection();
                 return kampioenschappen;
 
             case LID:
-                openConnection();
                 List<E> leden = em.createQuery("SELECT * FROM Lid").getResultList();
                 closeConnection();
                 return leden;
@@ -49,7 +49,6 @@ public class PersistentieController<E> implements IPersistentieController {
     public boolean wijzig(Object item) {
         Lid lid = (Lid) item;
         try {
-            openConnection();
             Lid gevonden_lid = em.find(Lid.class, lid.getId());
             gevonden_lid.wijzigLid(lid.getNaam(), lid.getGraad());
             em.merge(gevonden_lid);
@@ -62,7 +61,6 @@ public class PersistentieController<E> implements IPersistentieController {
 
     @Override
     public boolean delete(Object item) {
-        openConnection();
         switch (item.getClass().toString()) {
             case "Activiteit":
                 //Activiteit gevonden_activiteit = em.find(Activiteit.class, gevonden_activiteit)
@@ -85,9 +83,7 @@ public class PersistentieController<E> implements IPersistentieController {
     }
 
     @Override
-    public Object geefById(Stuff type, Object item) {
-        openConnection();
-        
+    public Object geefById(Stuff type, Object item) {        
         switch (type) {
             case LID:
                 Lid lid = (Lid)item;
@@ -99,7 +95,6 @@ public class PersistentieController<E> implements IPersistentieController {
 
     @Override
     public void add(Object item) {
-        openConnection();
         em.persist(item);
         closeConnection();
 
@@ -111,8 +106,5 @@ public class PersistentieController<E> implements IPersistentieController {
         emf.close();
     }
 
-    private void openConnection() {
-        em.getTransaction().begin();
-    }
 
 }

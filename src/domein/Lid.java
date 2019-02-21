@@ -19,17 +19,18 @@ public class Lid implements Serializable {
 
     private String naam;
 
-    @javax.persistence.Transient
+    @Transient
     private Graad graad;
 
     @Transient
-    private final Type type;
+    private final Type type = Type.LID;
     
+    @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
+    @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
 
     public Lid() {
-        type = Type.LID;
     }
 
     /**
@@ -40,19 +41,18 @@ public class Lid implements Serializable {
     public Lid(String naam, Graad graad) {
         setNaam(naam);
         setGraad(graad);
-        type = Type.LID;
     }
 
     public String getNaam() {
         return naam;
     }
 
-    @javax.persistence.Transient
+    @Transient
 	public Graad getGraad() {
         return graad;
     }
 
-    @javax.persistence.Transient
+    @Transient
 	public Type getType() {
         return type;
     }

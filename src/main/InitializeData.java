@@ -23,9 +23,9 @@ public class InitializeData {
 
     private void initialize() {
         Lid lid0 = new Lid("Nante Vermeulen", Graad.GEEL);
-        Lid lid1 = new Lid("Indy Van Canegem", Graad.WIT);
+        Lid lid1 = new Lid("Indy Van Canegem", Graad.BRUIN);
         Lid lid2 = new Lid("Jef Malfliet", Graad.ORANJE);
-        Lid lid3 = new Lid("Mout Pessemier", Graad.BRUIN);
+        Lid lid3 = new Lid("Mout Pessemier", Graad.WIT);
         EntityManagerFactory emf = JPA_Utility.getEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();      
