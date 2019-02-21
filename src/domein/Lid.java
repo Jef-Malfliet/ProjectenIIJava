@@ -2,6 +2,7 @@ package domein;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
 import javax.persistence.*;
 
@@ -22,9 +23,13 @@ public class Lid implements Serializable {
     private Graad graad;
 
     @Transient
-    private final Type type = Type.LID;
+    private final Type type;
+    
+    private SimpleStringProperty naamProperty = new SimpleStringProperty();
+    private SimpleStringProperty graadProperty = new SimpleStringProperty();
 
     public Lid() {
+        type = Type.LID;
     }
 
     /**
@@ -35,20 +40,24 @@ public class Lid implements Serializable {
     public Lid(String naam, Graad graad) {
         setNaam(naam);
         setGraad(graad);
+        type = Type.LID;
     }
 
     public String getNaam() {
         return naam;
     }
 
-    public Graad getGraad() {
+    @javax.persistence.Transient
+	public Graad getGraad() {
         return graad;
     }
 
-    public Type getType() {
+    @javax.persistence.Transient
+	public Type getType() {
         return type;
     }
 
+    @Id
     public Long getId() {
         return id;
     }
@@ -63,10 +72,12 @@ public class Lid implements Serializable {
             throw new IllegalArgumentException("Naam mag niet leeg zijn");
         }
         this.naam = naam;
+        setNaamProperty(new SimpleStringProperty(this.naam));
     }
 
     private void setGraad(Graad graad) {
         this.graad = graad;
+        setGraadProperty(new SimpleStringProperty(this.graad.toString()));
     }
     
     public void wijzigLid(String naam, Graad graad){
@@ -98,5 +109,29 @@ public class Lid implements Serializable {
         }
         return true;
     }
+
+	public SimpleStringProperty getNaamProperty() {
+		return this.naamProperty;
+	}
+
+	/**
+	 * 
+	 * @param naamProperty
+	 */
+	public void setNaamProperty(SimpleStringProperty naamProperty) {
+		this.naamProperty = naamProperty;
+	}
+
+	public SimpleStringProperty getGraadProperty() {
+		return this.graadProperty;
+	}
+
+	/**
+	 * 
+	 * @param attribute
+	 */
+	public void setGraadProperty(SimpleStringProperty attribute) {
+		this.graadProperty = attribute;
+	}
 
 }

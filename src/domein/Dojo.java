@@ -1,18 +1,35 @@
 package domein;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import persistentie.IPersistentieController;
 import persistentie.PersistentieController;
 
 public class Dojo {
-    private PersistentieController persistentieController;
-    private final List<Lid> lijstLeden;
+
+    private IPersistentieController persistentieController;
+    private List<Lid> lijstLeden;
     private final Type type;
+    private final ObservableList<Lid> leden;
+    private final Comparator<Lid> opNaam = (lid1, lid2) -> lid1.getNaam().compareToIgnoreCase(lid2.getNaam());
+    private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
+    private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
+    private final Comparator<Lid> sortOrder = opNaam.thenComparing(opGraad).thenComparing(opType);
+    private final FilteredList<Lid> filtered;
+    private final SortedList<Lid> sorted;
 
     public Dojo(PersistentieController persistentieController) {
         setPersistentieController(persistentieController);
-        lijstLeden = this.persistentieController.geefLijstLeden();
-
+        lijstLeden = this.persistentieController.geefAlles(Stuff.LID);
         this.type = Type.BEHEERDER;
+        leden = FXCollections.observableArrayList(lijstLeden);
+        filtered = new FilteredList<>(leden);
+        sorted = new SortedList<>(filtered,sortOrder);
     }
 
     public Dojo() {
@@ -24,7 +41,8 @@ public class Dojo {
      * @param lid
      */
     public boolean verwijderLid(Lid lid) {
-        return lijstLeden.remove(lid);
+        this.persistentieController.delete(lid);
+        return this.lijstLeden.remove(lid);
     }
 
     /**
@@ -32,7 +50,9 @@ public class Dojo {
      * @param lid
      */
     public boolean wijzigLid(Lid lid) {
-        return persistentieController.wijzigLid(lid);
+        boolean succes = persistentieController.wijzig(lid);
+        lijstLeden = persistentieController.geefAlles(Stuff.LID);
+        return succes;
     }
 
     /**
@@ -49,7 +69,11 @@ public class Dojo {
      */
     public boolean voegLidToe(Lid lid) {
         if (!lijstLeden.contains(lid)) {
-            return lijstLeden.add(lid);
+            if(persistentieController.geefById(Stuff.LID, lid)==null){
+                persistentieController.add(lid);
+                lijstLeden.add(lid);
+                return true;
+            }
         }
         return false;
     }
@@ -58,12 +82,20 @@ public class Dojo {
         return lijstLeden;
     }
 
-    private void setPersistentieController(PersistentieController persistentieController) {
+    private void setPersistentieController(IPersistentieController persistentieController) {
         this.persistentieController = persistentieController;
     }
 
     public Type getType() {
         return type;
+    }
+
+    public ObservableList<Lid> getLeden() {
+            return sorted;
+    }
+    
+    public FilteredList getFilteredLeden(){
+        return filtered;
     }
 
 }
