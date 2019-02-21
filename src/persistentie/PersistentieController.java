@@ -8,7 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import util.JPA_Utility;
 
 public class PersistentieController<E> implements IPersistentieController {
-    
+
     private EntityManagerFactory emf;
     private EntityManager em;
 
@@ -16,8 +16,8 @@ public class PersistentieController<E> implements IPersistentieController {
     }
 
     @Override
-    public List<Lid> geefAlles(Stuff type) {
-
+    public List<Object> geefAlles(Stuff type) {
+        openConnection();
         switch (type) {
             case ACTIVITEIT:
                 return null;
@@ -26,8 +26,7 @@ public class PersistentieController<E> implements IPersistentieController {
                 return null;
 
             case LID:
-                openConnection();
-                List<Lid> leden = em.createNamedQuery("Lid.GetAll",Lid.class).getResultList();
+                List<Object> leden = em.createNamedQuery("Lid.GetAll").getResultList();
                 closeConnection();
                 return leden;
         }
@@ -37,11 +36,13 @@ public class PersistentieController<E> implements IPersistentieController {
 
     @Override
     public boolean wijzig(Object item) {
+        openConnection();
         Lid lid = (Lid) item;
         try {
             Lid gevonden_lid = em.find(Lid.class, lid.getId());
             gevonden_lid.wijzigLid(lid.getNaam(), lid.getGraad());
             em.merge(gevonden_lid);
+            closeConnection();
 
             return true;
         } catch (Exception e) {
@@ -51,6 +52,7 @@ public class PersistentieController<E> implements IPersistentieController {
 
     @Override
     public boolean delete(Object item) {
+        openConnection();
         switch (item.getClass().toString()) {
             case "Activiteit":
                 return false;
@@ -69,11 +71,13 @@ public class PersistentieController<E> implements IPersistentieController {
     }
 
     @Override
-    public Object geefById(Stuff type, Object item) {        
+    public Object geefById(Stuff type, Object item) {
+        openConnection();
         switch (type) {
             case LID:
-                Lid lid = (Lid)item;
-                Lid gevonden_lid = em.find(Lid.class,lid.getId());
+                Lid lid = (Lid) item;
+                Lid gevonden_lid = em.find(Lid.class, lid.getId());
+                closeConnection();
                 return gevonden_lid;
         }
         return null;
@@ -81,21 +85,22 @@ public class PersistentieController<E> implements IPersistentieController {
 
     @Override
     public void add(Object item) {
+        openConnection();
         em.persist(item);
         closeConnection();
 
     }
 
-    private void openConnection(){
-                
+    private void openConnection() {
+
         emf = JPA_Utility.getEntityManagerFactory();
         em = emf.createEntityManager();
         em.getTransaction().begin();
     }
+
     private void closeConnection() {
         em.getTransaction().commit();
         em.close();
     }
-
 
 }
