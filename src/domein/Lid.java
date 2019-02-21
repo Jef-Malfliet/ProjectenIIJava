@@ -12,7 +12,8 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e")
+    @NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e"),
+    @NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
 })
 public class Lid implements Serializable {
 

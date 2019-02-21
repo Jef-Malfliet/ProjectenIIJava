@@ -7,14 +7,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import persistentie.GenericDao;
+import persistentie.GenericDaoJpa;
+import persistentie.LidDao;
+import persistentie.LidDaoJpa;
 
 public class DomeinController {
 
     private Dojo dojo;
+    private GenericDao<Dojo> dojoRepository;
+    private LidDao lidRepository;
 
     public DomeinController() {
         dojo = new Dojo();
-
+        setDojoRepository(new GenericDaoJpa<>(Dojo.class));
+        setLidRepository(new LidDaoJpa());
     }
 
     public List<String> toonLeden() {
@@ -39,7 +46,7 @@ public class DomeinController {
 
     public boolean wijzigLid(Lid lid) {
         return dojo.wijzigLid(lid);
-        
+
     }
 
     /**
@@ -75,6 +82,14 @@ public class DomeinController {
 
     public ObservableList<Lid> getLeden() {
         return dojo.getSortedLeden();
+    }
+
+    public void setDojoRepository(GenericDao<Dojo> dojoRepository) {
+        this.dojoRepository = dojoRepository;
+    }
+
+    public void setLidRepository(LidDao lidRepository) {
+        this.lidRepository = lidRepository;
     }
 
 }
