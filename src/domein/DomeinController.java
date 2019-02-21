@@ -21,6 +21,7 @@ public class DomeinController {
     private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
     private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
     private final Comparator<Lid> sortOrder = opNaam.thenComparing(opGraad).thenComparing(opType);
+	private Administrator administrator;
 
     public DomeinController() {
         leden = FXCollections.observableArrayList(beheerder.getLijstLeden());
