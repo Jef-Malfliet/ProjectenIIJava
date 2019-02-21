@@ -8,36 +8,26 @@ import javax.persistence.EntityManagerFactory;
 import util.JPA_Utility;
 
 public class PersistentieController<E> implements IPersistentieController {
-
-    private List<Lid> leden;
+    
     private EntityManagerFactory emf;
     private EntityManager em;
 
     public PersistentieController() {
-        
-        emf = JPA_Utility.getEntityManagerFactory();
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
-        this.leden = (List<Lid>) geefAlles(Stuff.LID);
-        closeConnection();
     }
 
     @Override
-    public List<E> geefAlles(Stuff type) {
+    public List<Lid> geefAlles(Stuff type) {
 
         switch (type) {
             case ACTIVITEIT:
-                List<E> activiteiten = em.createQuery("SELECT * FROM Activiteit").getResultList();
-                closeConnection();
-                return activiteiten;
+                return null;
 
             case KAMPIOENSCHAP:
-                List<E> kampioenschappen = em.createQuery("SELECT * FROM Kampioenschap").getResultList();
-                closeConnection();
-                return kampioenschappen;
+                return null;
 
             case LID:
-                List<E> leden = em.createQuery("SELECT * FROM Lid").getResultList();
+                openConnection();
+                List<Lid> leden = em.createNamedQuery("Lid.GetAll",Lid.class).getResultList();
                 closeConnection();
                 return leden;
         }
@@ -63,13 +53,9 @@ public class PersistentieController<E> implements IPersistentieController {
     public boolean delete(Object item) {
         switch (item.getClass().toString()) {
             case "Activiteit":
-                //Activiteit gevonden_activiteit = em.find(Activiteit.class, gevonden_activiteit)
-                closeConnection();
-                return true;
+                return false;
             case "Kampioenschap":
-                //Kampioenschap gevonden_kampioenschap = em.find(Activiteit.class, gevonden_kampioenschap )
-                closeConnection();
-                return true;
+                return false;
             case "Lid":
                 Lid lid = (Lid) item;
                 Lid gevonden_lid = em.find(Lid.class, lid.getId());
@@ -100,10 +86,15 @@ public class PersistentieController<E> implements IPersistentieController {
 
     }
 
+    private void openConnection(){
+                
+        emf = JPA_Utility.getEntityManagerFactory();
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+    }
     private void closeConnection() {
         em.getTransaction().commit();
         em.close();
-        emf.close();
     }
 
 

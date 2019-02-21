@@ -69,7 +69,7 @@ public class DomeinController {
     }
 
     public ObservableList<Lid> getLeden() {
-        return dojo.getFilteredLeden();
+        return dojo.getSortedLeden();
     }
 
 }

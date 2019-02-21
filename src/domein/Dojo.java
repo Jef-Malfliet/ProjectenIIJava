@@ -23,7 +23,7 @@ public class Dojo {
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
 
-    public Dojo(PersistentieController persistentieController) {
+    public Dojo(IPersistentieController persistentieController) {
         setPersistentieController(persistentieController);
         lijstLeden = this.persistentieController.geefAlles(Stuff.LID);
         this.type = Type.BEHEERDER;
@@ -90,7 +90,7 @@ public class Dojo {
         return type;
     }
 
-    public ObservableList<Lid> getLeden() {
+    public ObservableList<Lid> getSortedLeden() {
             return sorted;
     }
     

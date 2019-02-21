@@ -11,6 +11,9 @@ import javax.persistence.*;
  * @author Nante
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e")
+})
 public class Lid implements Serializable {
 
     @Id
@@ -19,12 +22,12 @@ public class Lid implements Serializable {
 
     private String naam;
 
-    @Transient
+    @Enumerated(EnumType.STRING)
     private Graad graad;
 
     @Transient
     private final Type type = Type.LID;
-    
+
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
     @Transient
@@ -47,13 +50,13 @@ public class Lid implements Serializable {
         return naam;
     }
 
-    @Transient
-	public Graad getGraad() {
-        return graad;
+    public Graad getGraad() {
+
+        return this.graad;
     }
 
     @Transient
-	public Type getType() {
+    public Type getType() {
         return type;
     }
 
@@ -79,12 +82,12 @@ public class Lid implements Serializable {
         this.graad = graad;
         setGraadProperty(new SimpleStringProperty(this.graad.toString()));
     }
-    
-    public void wijzigLid(String naam, Graad graad){
+
+    public void wijzigLid(String naam, Graad graad) {
         setGraad(graad);
         setNaam(naam);
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -110,28 +113,28 @@ public class Lid implements Serializable {
         return true;
     }
 
-	public SimpleStringProperty getNaamProperty() {
-		return this.naamProperty;
-	}
+    public SimpleStringProperty getNaamProperty() {
+        return this.naamProperty;
+    }
 
-	/**
-	 * 
-	 * @param naamProperty
-	 */
-	public void setNaamProperty(SimpleStringProperty naamProperty) {
-		this.naamProperty = naamProperty;
-	}
+    /**
+     *
+     * @param naamProperty
+     */
+    public void setNaamProperty(SimpleStringProperty naamProperty) {
+        this.naamProperty = naamProperty;
+    }
 
-	public SimpleStringProperty getGraadProperty() {
-		return this.graadProperty;
-	}
+    public SimpleStringProperty getGraadProperty() {
+        return this.graadProperty;
+    }
 
-	/**
-	 * 
-	 * @param attribute
-	 */
-	public void setGraadProperty(SimpleStringProperty attribute) {
-		this.graadProperty = attribute;
-	}
+    /**
+     *
+     * @param attribute
+     */
+    public void setGraadProperty(SimpleStringProperty attribute) {
+        this.graadProperty = attribute;
+    }
 
 }
