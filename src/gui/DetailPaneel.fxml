@@ -28,7 +28,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txfVoornaam" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtVoornaam" prefHeight="28.0" prefWidth="231.0" />
                </children>
             </HBox>
             <HBox prefHeight="36.0" prefWidth="590.0">
@@ -38,7 +38,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txfAchternaam" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtAchternaam" prefHeight="28.0" prefWidth="231.0" />
                </children>
             </HBox>
             <HBox prefHeight="36.0" prefWidth="590.0">
@@ -48,7 +48,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txfGraad" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtGraad" prefHeight="28.0" prefWidth="231.0" />
                </children>
             </HBox>
             <HBox prefHeight="36.0" prefWidth="590.0">
@@ -58,7 +58,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txfStraat" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtStraat" prefHeight="28.0" prefWidth="231.0" />
                </children>
             </HBox>
             <HBox prefHeight="36.0" prefWidth="590.0">
@@ -68,7 +68,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txfPostCode" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtPostCode" prefHeight="28.0" prefWidth="231.0" />
                </children>
             </HBox>
             <HBox prefHeight="36.0" prefWidth="590.0">
@@ -78,7 +78,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txfGemeente" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtGemeente" prefHeight="28.0" prefWidth="231.0" />
                </children>
             </HBox>
             <HBox prefHeight="36.0" prefWidth="590.0">
@@ -88,7 +88,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txfEmail" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtEmail" prefHeight="28.0" prefWidth="231.0" />
                </children>
             </HBox>
             <HBox prefHeight="36.0" prefWidth="590.0">
@@ -98,7 +98,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txfTelefoonnummer" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtTelefoonnummer" prefHeight="28.0" prefWidth="231.0" />
                </children>
             </HBox>
             <HBox prefHeight="60.0" prefWidth="590.0">

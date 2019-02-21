@@ -6,6 +6,8 @@
 package gui;
 
 import domein.DomeinController;
+import domein.Graad;
+import domein.Lid;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,24 +28,24 @@ public class DetailPaneelController extends VBox{
      private DomeinController dc;
     
     @FXML
-    private TextField txfVoornaam;
+    private TextField txtVoornaam;
     @FXML
-    private TextField txfAchternaam;
+    private TextField txtAchternaam;
     @FXML
-    private TextField txfGraad;
+    private TextField txtGraad;
     @FXML
-    private TextField txfStraat;
+    private TextField txtStraat;
     @FXML
-    private TextField txfPostCode;
+    private TextField txtPostCode;
     @FXML
-    private TextField txfGemeente;
+    private TextField txtGemeente;
     @FXML
-    private TextField txfEmail;
+    private TextField txtEmail;
     @FXML
-    private TextField txfTelefoonnummer;
+    private TextField txtTelefoonnummer;
 
     public DetailPaneelController(DomeinController dc) {
-       FXMLLoader loader = new FXMLLoader(getClass().getResource("BeheerderControl.fxml"));
+       FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
         loader.setController(this);
         loader.setRoot(this);
         try {
@@ -52,20 +54,31 @@ public class DetailPaneelController extends VBox{
             throw new RuntimeException(ex);
         }
         this.dc=dc;
-        buildGui();
+        
     }
-
+    
+    public void fillLid(Lid lid){
+        txtVoornaam.setText(lid.getVoornaam());
+        txtGraad.setText(lid.getGraad().name());
+    }
+    
+    
     @FXML
     private void bevestigWijziging(ActionEvent event) {
+               
+         String voornaam = txtVoornaam.getText();
+         String graad = txtGraad.getText();
+         Lid lid = new Lid(voornaam, Graad.valueOf(graad));
+         dc.wijzigLid(lid);
+         
     }
 
     @FXML
     private void annuleerwijziging(ActionEvent event) {
+       txtVoornaam.clear();
+       txtGraad.clear();
     }
 
-    private void buildGui() {
-        
-    }
 
    
     

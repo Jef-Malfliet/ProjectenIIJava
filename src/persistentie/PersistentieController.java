@@ -40,7 +40,7 @@ public class PersistentieController<E> implements IPersistentieController {
         Lid lid = (Lid) item;
         try {
             Lid gevonden_lid = em.find(Lid.class, lid.getId());
-            gevonden_lid.wijzigLid(lid.getNaam(), lid.getGraad());
+            gevonden_lid.wijzigLid(lid.getVoornaam(), lid.getGraad());
             em.merge(gevonden_lid);
             closeConnection();
 

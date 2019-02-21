@@ -7,6 +7,8 @@ package gui;
 
 import domein.DomeinController;
 import domein.Lid;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,7 +24,7 @@ import javafx.scene.layout.VBox;
  *
  * @author IndyV
  */
-public class OverzichtSceneController extends VBox {
+public class OverzichtSceneController extends VBox implements PropertyChangeListener {
 
     private DomeinController dc;
 
@@ -31,10 +33,10 @@ public class OverzichtSceneController extends VBox {
     @FXML
     private TableColumn<Lid, String> colName = new TableColumn<>();
     @FXML
-    private TableColumn<Lid, String> colBand= new TableColumn<>();
+    private TableColumn<Lid, String> colBand = new TableColumn<>();
+    private final DetailPaneelController dpc;
 
-
-    public OverzichtSceneController(DomeinController dc) {
+    public OverzichtSceneController(DomeinController dc, DetailPaneelController dpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtScene.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -43,14 +45,34 @@ public class OverzichtSceneController extends VBox {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        this.dc=dc;
+        this.dc = dc;
+        this.dpc = dpc;
         buildGui();
     }
 
     private void buildGui() {
+
+        tableOverview.getSelectionModel().selectedItemProperty().
+                addListener((observableValue, oldLid, newLid)
+                        -> {
+                    if (newLid != null) {
+                        dpc.fillLid(newLid);
+                        
+                        int index = tableOverview.getSelectionModel().getSelectedIndex();
+                        System.out.printf("%d %s\n", index, newLid);
+                        
+                        
+                    }
+                });
+
         tableOverview.setItems(dc.getLeden());
-        colName.setCellValueFactory(cellData->cellData.getValue().getNaamProperty());
-        colBand.setCellValueFactory(cellData->cellData.getValue().getGraadProperty());
+        colName.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
+        colBand.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+         tableOverview.setItems(dc.getLeden());
     }
 
 }

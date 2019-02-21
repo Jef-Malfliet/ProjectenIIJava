@@ -17,10 +17,10 @@ public class Dojo {
     private List<Lid> lijstLeden;
     private final Type type;
     private final ObservableList<Lid> leden;
-    private final Comparator<Lid> opNaam = (lid1, lid2) -> lid1.getNaam().compareToIgnoreCase(lid2.getNaam());
+    private final Comparator<Lid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
     private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
     private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
-    private final Comparator<Lid> sortOrder = opNaam.thenComparing(opGraad).thenComparing(opType);
+    private final Comparator<Lid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
 

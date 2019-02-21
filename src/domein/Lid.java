@@ -1,5 +1,8 @@
 package domein;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Objects;
 import javafx.beans.property.SimpleStringProperty;
@@ -34,7 +37,7 @@ public class Lid implements Serializable {
     @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
 
-    
+    private PropertyChangeSupport subject;
     
     
     public Lid() {
@@ -48,6 +51,7 @@ public class Lid implements Serializable {
     public Lid(String voornaam, Graad graad) {
         setVoornaam(voornaam);
         setGraad(graad);
+        subject = new PropertyChangeSupport(this);
         fillSimpleProperties();
     }
     
@@ -90,6 +94,8 @@ public class Lid implements Serializable {
     public void wijzigLid(String voornaam, Graad graad) {
         setGraad(graad);
         setVoornaam(voornaam);
+        subject.firePropertyChange("lid",this,this);
+        
     }
 
     @Override
@@ -144,6 +150,17 @@ public class Lid implements Serializable {
      */
     public void setGraadProperty(SimpleStringProperty attribute) {
         this.graadProperty = attribute;
+    }
+    
+    public void addPropertyChangeListener(PropertyChangeListener pc1){
+        subject.addPropertyChangeListener(pc1);
+        pc1.propertyChange(new PropertyChangeEvent(pc1,"lid",null,this));
+        
+    }
+     public void removePropertyChangeListener(PropertyChangeListener pc1){
+        subject.removePropertyChangeListener(pc1);
+       
+        
     }
 
 }

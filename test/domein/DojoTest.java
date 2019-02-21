@@ -69,7 +69,7 @@ public class DojoTest {
         boolean succes = beheerder.wijzigLid(lid1);
         Lid gewijzigdLid = beheerder.toonLid(lid1.getId());
         Assert.assertTrue(succes);
-        Assert.assertEquals(lid1.getNaam(), gewijzigdLid.getNaam());
+        Assert.assertEquals(lid1.getVoornaam(), gewijzigdLid.getVoornaam());
         Assert.assertEquals(lid1.getGraad(), gewijzigdLid.getGraad());
         Mockito.verify(persistentieControllerDummy).geefAlles(Stuff.LID);
         Mockito.verify(persistentieControllerDummy).wijzig(lid1);

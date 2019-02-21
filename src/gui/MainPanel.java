@@ -22,10 +22,11 @@ public class MainPanel extends BorderPane{
         this.dc=dc;
         BeheerderControlController bcc = new BeheerderControlController(dc);
         bcc.setPrefSize(250, SCREENHEIGHT);
-        OverzichtSceneController osc = new OverzichtSceneController(dc);
-        osc.setPrefSize(1190, SCREENHEIGHT);
         DetailPaneelController dpc = new DetailPaneelController(dc);
         dpc.setPrefSize(1190, SCREENHEIGHT);
+        OverzichtSceneController osc = new OverzichtSceneController(dc,dpc);
+        osc.setPrefSize(1190, SCREENHEIGHT);
+       
         this.setCenter(osc);
         this.setLeft(bcc);
         this.setRight(dpc);
