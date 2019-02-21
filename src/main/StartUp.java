@@ -27,7 +27,7 @@ public class StartUp extends Application {
         
         MainPanel root = new MainPanel();
         
-        Scene scene = new Scene(root, 2000 , 2400);
+        Scene scene = new Scene(root, 1024 , 768);
         
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
