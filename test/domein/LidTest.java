@@ -19,7 +19,7 @@ public class LidTest {
 
     @Before
     public void before() {
-        huidigLid = new Lid("Bram Vanoverbeke", Graad.GRAAD1);
+        huidigLid = new Lid("Bram Vanoverbeke", Graad.WIT);
     }
 
     /**
@@ -27,9 +27,9 @@ public class LidTest {
      */
     @Test
     public void testConstructor() {
-        Lid nieuwLid = new Lid("Tom Clarys", Graad.GRAAD2);
+        Lid nieuwLid = new Lid("Tom Clarys", Graad.BRUIN);
         Assert.assertEquals("Tom Clarys", nieuwLid.getNaam());
-        Assert.assertEquals(Graad.GRAAD2, nieuwLid.getGraad());
+        Assert.assertEquals(Graad.BRUIN, nieuwLid.getGraad());
         Assert.assertEquals(Type.LID, nieuwLid.getType());
     }
 
@@ -38,7 +38,7 @@ public class LidTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testConstructor_EmptyName_ThrowsException() {
-        Lid nieuwLid = new Lid("", Graad.GRAAD1);
+        Lid nieuwLid = new Lid("", Graad.GEEL);
     }
 
     /**
@@ -46,7 +46,7 @@ public class LidTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testConstructor_NullName_ThrowsException() {
-        Lid nieuwLid = new Lid(null, Graad.GRAAD1);
+        Lid nieuwLid = new Lid(null, Graad.ORANJE);
     }
 
 }

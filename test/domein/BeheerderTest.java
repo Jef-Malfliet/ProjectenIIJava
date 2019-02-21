@@ -7,9 +7,7 @@ package domein;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,17 +30,14 @@ public class BeheerderTest {
 
     @Before
     public void before() {
-
         persistentieControllerDummy = Mockito.mock(PersistentieController.class);
-
-        testLid = new Lid("Beau Van Canegem", Graad.GRAAD2);
-        lid1 = new Lid("Bram Vanoverbeke", Graad.GRAAD1);
+        testLid = new Lid("Beau Van Canegem", Graad.BRUIN);
+        lid1 = new Lid("Bram Vanoverbeke", Graad.BLAUW);
         lid1.setId(1L);
-        lid2 = new Lid("Tom Clarys", Graad.GRAAD2);
+        lid2 = new Lid("Tom Clarys", Graad.GEEL);
         lid2.setId(2L);
-        lid3 = new Lid("Seba Moons", Graad.GRAAD1);
+        lid3 = new Lid("Seba Moons", Graad.GROEN);
         lid3.setId(3L);
-
         ledenLijst.addAll(Arrays.asList(lid1, lid2, lid3));
     }
 
@@ -58,11 +53,6 @@ public class BeheerderTest {
         System.out.println(ledenLijst);
         System.out.println(beheerder.getLijstLeden());
         Assert.assertFalse(beheerder.getLijstLeden().contains(lid1));
-//        IntStream.range(0, beheerder.getLijstLeden().size())
-//                .forEach(index ->
-//                        Assert.assertEquals(ledenLijst..get(index), beheerder.getLijstLeden().get(index))//als deze in het midden van de lijst verwijderd 
-//                                                                                    //wordt moet die +1 weg, miss best nog is herschrijven?
-//        );
         Mockito.verify(persistentieControllerDummy).geefLijstLeden();
 
     }
@@ -70,23 +60,31 @@ public class BeheerderTest {
     /**
      * Test of wijzigLid method, of class Beheerder.
      */
-//    @Test
-//    public void testWijzigLid() {//deze methode klopt niet, we geven alleen een lid mee, niet wat er gewijzigd moet worden?
-//        boolean succes = beheerder.wijzigLid(testLid);//deze methode moet volgens mij een lid terug geven, tenzij we toonLid gebruiken om het gewijzigde lid op te gaan vragen
-//        Lid gewijzigdLid = beheerder.toonLid(testLid.getId());
-//        Assert.assertTrue(succes);
-//        Assert.assertEquals(testLid.getNaam(), gewijzigdLid.getNaam());//naam van het gewijzigde lid
-//        Assert.assertEquals(testLid.getGraad(), gewijzigdLid.getGraad());//graad van het gewijzigde lid
-//        Assert.assertEquals(testLid.getType(), gewijzigdLid.getType());//Type van het gewijzigde lid
-//    }
+    @Test
+    public void testWijzigLid() {
+        Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
+        Mockito.when(persistentieControllerDummy.wijzigLid(lid1)).thenReturn(true);
+        beheerder = new Beheerder(persistentieControllerDummy);
+        lid1.wijzigLid("TestTest", Graad.GROEN);
+        boolean succes = beheerder.wijzigLid(lid1);
+        Lid gewijzigdLid = beheerder.toonLid(lid1.getId());
+        Assert.assertTrue(succes);
+        Assert.assertEquals(lid1.getNaam(), gewijzigdLid.getNaam());
+        Assert.assertEquals(lid1.getGraad(), gewijzigdLid.getGraad());
+        Mockito.verify(persistentieControllerDummy).geefLijstLeden();
+        Mockito.verify(persistentieControllerDummy).wijzigLid(lid1);
+    }
 
     /**
      * Test of toonLid method, of class Beheerder.
      */
     @Test
     public void testToonLid() {
-        Lid toonLid = beheerder.toonLid(testLid.getId());
-        Assert.assertEquals(testLid, toonLid);
+        Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
+        beheerder = new Beheerder(persistentieControllerDummy);
+        Lid toonLid = beheerder.toonLid(lid1.getId());
+        Assert.assertEquals(lid1, toonLid);
+        Mockito.verify(persistentieControllerDummy).geefLijstLeden();
     }
 
     /**
@@ -99,11 +97,6 @@ public class BeheerderTest {
         beheerder.voegLidToe(testLid);
         Assert.assertEquals(4, beheerder.getLijstLeden().size());
         Assert.assertTrue(beheerder.getLijstLeden().contains(testLid));
-//        IntStream.range(0, ledenLijst.size() - 1)
-//                .forEach(index ->
-//                 Assert.assertEquals(beheerder.getLijstLeden().get(index), ledenLijst.get(index)));
-//        Assert.assertEquals(testLid, beheerder.getLijstLeden().get(beheerder.getLijstLeden().size() - 1)
-//        );
         Mockito.verify(persistentieControllerDummy).geefLijstLeden();
     }
 

@@ -1,8 +1,6 @@
 package domein;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 import persistentie.*;
 
 public class Beheerder {
@@ -14,13 +12,13 @@ public class Beheerder {
     public Beheerder(PersistentieController persistentieController) {
         setPersistentieController(persistentieController);
         lijstLeden = this.persistentieController.geefLijstLeden();
-        
+
         this.type = Type.BEHEERDER;
     }
-    public Beheerder(){
+
+    public Beheerder() {
         this(new PersistentieController());
     }
-
 
     /**
      *
@@ -28,23 +26,13 @@ public class Beheerder {
      */
     public boolean verwijderLid(Lid lid) {
         return lijstLeden.remove(lid);
-        
-//        Iterator it = lijstLeden.iterator();
-//        while(it.hasNext()){
-//            Lid temp = (Lid)it.next();
-//            if(temp.equals(lid)){
-//                it.remove();
-//                return true;
-//            }
-//        }
-//        return false;
     }
 
     /**
      *
      * @param lid
      */
-    public boolean wijzigLid(Lid lid) {//deze methode moet hermaakt worden, slecht opgesteld
+    public boolean wijzigLid(Lid lid) {
         return persistentieController.wijzigLid(lid);
     }
 
@@ -52,7 +40,7 @@ public class Beheerder {
      *
      * @param lid
      */
-    public Lid toonLid(long id) { //methode moet hermaakt worden, slecht opgesteld
+    public Lid toonLid(long id) {
         return lijstLeden.stream().filter(l -> l.getId() == id).findFirst().orElse(null);
     }
 
@@ -61,22 +49,12 @@ public class Beheerder {
      * @param lid
      */
     public boolean voegLidToe(Lid lid) {
-       if(!lijstLeden.contains(lid))
+        if (!lijstLeden.contains(lid)) {
             return lijstLeden.add(lid);
+        }
         return false;
-        
-       //return lijstLeden.add(lid);
-       
-//        for (Lid temp : lijstLeden) {
-//            if (temp.equals(lid)) {
-//                return false;
-//            }
-//        }
-//        
-//        lijstLeden.add(lid);
-//        return true;
     }
-    
+
     public List<Lid> getLijstLeden() {
         return lijstLeden;
     }
