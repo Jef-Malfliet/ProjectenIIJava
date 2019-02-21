@@ -37,6 +37,11 @@ public class DomeinController {
         return dojo.voegLidToe(lid);
     }
 
+    public boolean wijzigLid(Lid lid) {
+        return dojo.wijzigLid(lid);
+        
+    }
+
     /**
      *
      * @param lid
