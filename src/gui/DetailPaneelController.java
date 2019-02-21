@@ -43,6 +43,7 @@ public class DetailPaneelController extends VBox{
     private TextField txtEmail;
     @FXML
     private TextField txtTelefoonnummer;
+    private Lid current_lid;
 
     public DetailPaneelController(DomeinController dc) {
        FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
@@ -58,6 +59,7 @@ public class DetailPaneelController extends VBox{
     }
     
     public void fillLid(Lid lid){
+        current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
         txtGraad.setText(lid.getGraad().name());
     }
@@ -69,6 +71,7 @@ public class DetailPaneelController extends VBox{
          String voornaam = txtVoornaam.getText();
          String graad = txtGraad.getText();
          Lid lid = new Lid(voornaam, Graad.valueOf(graad));
+         lid.setId(current_lid.getId());
          dc.wijzigLid(lid);
          
     }

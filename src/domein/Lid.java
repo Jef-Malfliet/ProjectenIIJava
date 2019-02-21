@@ -36,7 +36,7 @@ public class Lid implements Serializable {
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
-
+    @Transient
     private PropertyChangeSupport subject;
     
     
@@ -95,6 +95,7 @@ public class Lid implements Serializable {
         setGraad(graad);
         setVoornaam(voornaam);
         subject.firePropertyChange("lid",this,this);
+        //geeft nog nullpointer :( 
         
     }
 

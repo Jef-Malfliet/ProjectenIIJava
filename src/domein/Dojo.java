@@ -1,5 +1,7 @@
 package domein;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -103,4 +105,14 @@ public class Dojo {
     private void fillSimplePropertiesForGui() {
         lijstLeden.forEach(lid -> lid.fillSimpleProperties());
     }
+     public void addPropertyChangeListener(PropertyChangeListener pc1){
+        lijstLeden.forEach(lid -> lid.addPropertyChangeListener(pc1));
+        
+    }
+     public void removePropertyChangeListener(PropertyChangeListener pc1){
+        lijstLeden.forEach(lid -> lid.removePropertyChangeListener(pc1));
+       
+        
+    }
+
 }

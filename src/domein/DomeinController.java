@@ -1,5 +1,7 @@
 package domein;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,6 +92,17 @@ public class DomeinController {
 
     public void setLidRepository(LidDao lidRepository) {
         this.lidRepository = lidRepository;
+    }
+
+    
+     public void addPropertyChangeListener(PropertyChangeListener pc1){
+       dojo.addPropertyChangeListener(pc1);
+        
+    }
+     public void removePropertyChangeListener(PropertyChangeListener pc1){
+        dojo.removePropertyChangeListener(pc1);
+       
+        
     }
 
 }

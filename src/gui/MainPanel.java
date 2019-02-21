@@ -12,24 +12,25 @@ import javafx.scene.layout.BorderPane;
  *
  * @author IndyV
  */
-public class MainPanel extends BorderPane{
-    
+public class MainPanel extends BorderPane {
+
     private DomeinController dc;
     private final double SCREENWIDTH = 1440;
     private final double SCREENHEIGHT = 900;
-    
-    public MainPanel(DomeinController dc){
-        this.dc=dc;
+
+    public MainPanel(DomeinController dc) {
+        this.dc = dc;
         BeheerderControlController bcc = new BeheerderControlController(dc);
         bcc.setPrefSize(250, SCREENHEIGHT);
         DetailPaneelController dpc = new DetailPaneelController(dc);
         dpc.setPrefSize(1190, SCREENHEIGHT);
-        OverzichtSceneController osc = new OverzichtSceneController(dc,dpc);
+        OverzichtSceneController osc = new OverzichtSceneController(dc, dpc);
         osc.setPrefSize(1190, SCREENHEIGHT);
-       
+        dc.addPropertyChangeListener(osc);
+
         this.setCenter(osc);
         this.setLeft(bcc);
         this.setRight(dpc);
     }
-    
+
 }

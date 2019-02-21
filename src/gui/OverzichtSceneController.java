@@ -72,6 +72,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("OverzichtSceneController -- PropertyChange Lukt");
          tableOverview.setItems(dc.getLeden());
     }
 
