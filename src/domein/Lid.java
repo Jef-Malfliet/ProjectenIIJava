@@ -54,7 +54,7 @@ public class Lid implements Serializable {
     }
 
     //is deze wel nodig?
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,7 +68,12 @@ public class Lid implements Serializable {
     private void setGraad(Graad graad) {
         this.graad = graad;
     }
-
+    
+    public void wijzigLid(String naam, Graad graad){
+        setGraad(graad);
+        setNaam(naam);
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
