@@ -18,11 +18,11 @@ public class Lid implements Serializable {
 
     private String naam;
 
-    @Column(name = "graad")
+    @javax.persistence.Transient
     private Graad graad;
 
     @Transient
-    private final Type type = Type.LID;
+    private final Type type;
 
     public Lid() {
     }

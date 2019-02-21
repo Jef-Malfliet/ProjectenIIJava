@@ -20,13 +20,14 @@ import persistentie.PersistentieController;
  */
 public class BeheerderTest {
 
-    private Beheerder beheerder;
+    private Beheerder attribute;
     private PersistentieController persistentieControllerDummy;
     private Lid testLid;
     private Lid lid1;
     private Lid lid2;
     private Lid lid3;
     private final List<Lid> ledenLijst = new ArrayList<>();
+	private Administrator beheerder;
 
     @Before
     public void before() {
