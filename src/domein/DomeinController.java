@@ -22,6 +22,7 @@ public class DomeinController {
     private Dojo dojo;
 
     public DomeinController() {
+        dojo = new Dojo();
         leden = FXCollections.observableArrayList(dojo.getLijstLeden());
         filtered = new FilteredList<>(leden, p -> true);
         sorted = new SortedList<>(filtered, sortOrder);
