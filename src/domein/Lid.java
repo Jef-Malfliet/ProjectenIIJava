@@ -20,7 +20,7 @@ public class Lid implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String naam;
+    private String voornaam;
 
     @Enumerated(EnumType.STRING)
     private Graad graad;
@@ -29,26 +29,30 @@ public class Lid implements Serializable {
     private final Type type = Type.LID;
 
     @Transient
-    private SimpleStringProperty naamProperty = new SimpleStringProperty();
+    private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
 
+    
+    
+    
     public Lid() {
     }
 
     /**
      *
-     * @param naam
+     * @param voornaam
      * @param graad
      */
-    public Lid(String naam, Graad graad) {
-        setNaam(naam);
+    public Lid(String voornaam, Graad graad) {
+        setVoornaam(voornaam);
         setGraad(graad);
         fillSimpleProperties();
     }
-
-    public String getNaam() {
-        return naam;
+    
+    
+    public String getVoornaam() {
+        return voornaam;
     }
 
     public Graad getGraad() {
@@ -71,20 +75,20 @@ public class Lid implements Serializable {
         this.id = id;
     }
 
-    private void setNaam(String naam) {
-        if (naam == null || naam.isEmpty()) {
-            throw new IllegalArgumentException("Naam mag niet leeg zijn");
+    private void setVoornaam(String voornaam) {
+        if (voornaam == null || voornaam.isEmpty()) {
+            throw new IllegalArgumentException("Voornaam mag niet leeg zijn");
         }
-        this.naam = naam;
+        this.voornaam = voornaam;
     }
 
     private void setGraad(Graad graad) {
         this.graad = graad;
     }
 
-    public void wijzigLid(String naam, Graad graad) {
+    public void wijzigLid(String voornaam, Graad graad) {
         setGraad(graad);
-        setNaam(naam);
+        setVoornaam(voornaam);
     }
 
     @Override
@@ -114,19 +118,19 @@ public class Lid implements Serializable {
     
     public void fillSimpleProperties(){
         this.setGraadProperty(new SimpleStringProperty(this.getGraad().toString()));
-        this.setNaamProperty(new SimpleStringProperty(this.getNaam()));
+        this.setVoornaamProperty(new SimpleStringProperty(this.getVoornaam()));
     }
 
-    public SimpleStringProperty getNaamProperty() {
-        return this.naamProperty;
+    public SimpleStringProperty getVoornaamProperty() {
+        return this.voornaamProperty;
     }
 
     /**
      *
      * @param naamProperty
      */
-    public void setNaamProperty(SimpleStringProperty naamProperty) {
-        this.naamProperty = naamProperty;
+    public void setVoornaamProperty(SimpleStringProperty voornaamProperty) {
+        this.voornaamProperty = voornaamProperty;
     }
 
     public SimpleStringProperty getGraadProperty() {
