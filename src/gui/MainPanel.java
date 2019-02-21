@@ -5,6 +5,7 @@
  */
 package gui;
 
+import domein.DomeinController;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -13,13 +14,12 @@ import javafx.scene.layout.BorderPane;
  */
 public class MainPanel extends BorderPane{
     
-    public MainPanel(){
-        StrangerControlsController scc = new StrangerControlsController();
-        LidControlsController lcc = new LidControlsController();
-        BeheerderControlsController bcc = new BeheerderControlsController();
-        this.setRight(lcc);
-        this.setLeft(scc);
-        this.setCenter(bcc);
+    private DomeinController dc;
+    
+    public MainPanel(DomeinController dc){
+        this.dc=dc;
+        BeheerderControlController bcc = new BeheerderControlController(dc);
+        this.setLeft(bcc);
     }
     
 }
