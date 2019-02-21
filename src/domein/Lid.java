@@ -22,7 +22,7 @@ public class Lid implements Serializable {
     private Graad graad;
 
     @Transient
-    private final Type type;
+    private final Type type = Type.LID;
 
     public Lid() {
     }

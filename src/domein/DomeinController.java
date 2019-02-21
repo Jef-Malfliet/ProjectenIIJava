@@ -1,6 +1,5 @@
 package domein;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,8 +10,7 @@ import javafx.collections.transformation.SortedList;
 
 public class DomeinController {
 
-    private Beheerder beheerder;
-    private ObservableList<Lid> leden;
+    private final ObservableList<Lid> leden;
 
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
@@ -21,16 +19,16 @@ public class DomeinController {
     private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
     private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
     private final Comparator<Lid> sortOrder = opNaam.thenComparing(opGraad).thenComparing(opType);
-	private Administrator administrator;
+    private Dojo dojo;
 
     public DomeinController() {
-        leden = FXCollections.observableArrayList(beheerder.getLijstLeden());
+        leden = FXCollections.observableArrayList(dojo.getLijstLeden());
         filtered = new FilteredList<>(leden, p -> true);
         sorted = new SortedList<>(filtered, sortOrder);
     }
 
     public List<String> toonLeden() {
-        return beheerder.getLijstLeden().stream().map(Lid::toString).collect(Collectors.toList());
+        return dojo.getLijstLeden().stream().map(Lid::toString).collect(Collectors.toList());
     }
 
     /**
@@ -38,7 +36,7 @@ public class DomeinController {
      * @param lid
      */
     public String toonLid(long id) {
-        return beheerder.toonLid(id).toString();
+        return dojo.toonLid(id).toString();
     }
 
     /**
@@ -46,7 +44,7 @@ public class DomeinController {
      * @param lid
      */
     public boolean voegLidToe(Lid lid) {
-        return beheerder.voegLidToe(lid);
+        return dojo.voegLidToe(lid);
     }
 
     /**
@@ -54,7 +52,7 @@ public class DomeinController {
      * @param lid
      */
     public boolean verwijderLid(Lid lid) {
-        return beheerder.verwijderLid(lid);
+        return dojo.verwijderLid(lid);
     }
 
     /**
@@ -62,7 +60,7 @@ public class DomeinController {
      * @param end
      * @param optie
      */
-    public void filterLijst(String optie, String start,String end) {
+    public void filterLijst(String optie, String start, String end) {
         filtered.setPredicate(lid -> {
             if (optie == null || optie.isEmpty()) {
                 return true;

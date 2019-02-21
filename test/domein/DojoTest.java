@@ -8,26 +8,25 @@ package domein;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 import org.junit.Before;
 import org.mockito.Mockito;
 import persistentie.PersistentieController;
 
 /**
  *
- * @author Nante
+ * @author Mout
  */
-public class BeheerderTest {
+public class DojoTest {
 
-    private Beheerder attribute;
     private PersistentieController persistentieControllerDummy;
     private Lid testLid;
     private Lid lid1;
     private Lid lid2;
     private Lid lid3;
     private final List<Lid> ledenLijst = new ArrayList<>();
-	private Administrator beheerder;
+    private Dojo beheerder;
 
     @Before
     public void before() {
@@ -48,7 +47,7 @@ public class BeheerderTest {
     @Test
     public void testVerwijderLid() {
         Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
-        beheerder = new Beheerder(persistentieControllerDummy);
+        beheerder = new Dojo(persistentieControllerDummy);
         beheerder.verwijderLid(lid1);
         Assert.assertEquals(2, beheerder.getLijstLeden().size());
         System.out.println(ledenLijst);
@@ -65,7 +64,7 @@ public class BeheerderTest {
     public void testWijzigLid() {
         Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
         Mockito.when(persistentieControllerDummy.wijzigLid(lid1)).thenReturn(true);
-        beheerder = new Beheerder(persistentieControllerDummy);
+        beheerder = new Dojo(persistentieControllerDummy);
         lid1.wijzigLid("TestTest", Graad.GROEN);
         boolean succes = beheerder.wijzigLid(lid1);
         Lid gewijzigdLid = beheerder.toonLid(lid1.getId());
@@ -82,7 +81,7 @@ public class BeheerderTest {
     @Test
     public void testToonLid() {
         Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
-        beheerder = new Beheerder(persistentieControllerDummy);
+        beheerder = new Dojo(persistentieControllerDummy);
         Lid toonLid = beheerder.toonLid(lid1.getId());
         Assert.assertEquals(lid1, toonLid);
         Mockito.verify(persistentieControllerDummy).geefLijstLeden();
@@ -94,11 +93,10 @@ public class BeheerderTest {
     @Test
     public void testVoegLidToe() {
         Mockito.when(persistentieControllerDummy.geefLijstLeden()).thenReturn(ledenLijst);
-        beheerder = new Beheerder(persistentieControllerDummy);
+        beheerder = new Dojo(persistentieControllerDummy);
         beheerder.voegLidToe(testLid);
         Assert.assertEquals(4, beheerder.getLijstLeden().size());
         Assert.assertTrue(beheerder.getLijstLeden().contains(testLid));
         Mockito.verify(persistentieControllerDummy).geefLijstLeden();
     }
-
 }
