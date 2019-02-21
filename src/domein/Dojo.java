@@ -3,6 +3,7 @@ package domein;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -29,7 +30,7 @@ public class Dojo {
         this.type = Type.BEHEERDER;
         leden = FXCollections.observableArrayList(lijstLeden);
         filtered = new FilteredList<>(leden);
-        sorted = new SortedList<>(filtered,sortOrder);
+        sorted = new SortedList<>(filtered, sortOrder);
     }
 
     public Dojo() {
@@ -69,7 +70,7 @@ public class Dojo {
      */
     public boolean voegLidToe(Lid lid) {
         if (!lijstLeden.contains(lid)) {
-            if(persistentieController.geefById(Stuff.LID, lid)==null){
+            if (persistentieController.geefById(Stuff.LID, lid) == null) {
                 persistentieController.add(lid);
                 lijstLeden.add(lid);
                 return true;
@@ -91,11 +92,15 @@ public class Dojo {
     }
 
     public ObservableList<Lid> getSortedLeden() {
-            return sorted;
+        fillSimplePropertiesForGui();
+        return FXCollections.observableArrayList(lijstLeden);
     }
-    
-    public FilteredList getFilteredLeden(){
+
+    public FilteredList getFilteredLeden() {
         return filtered;
     }
 
+    private void fillSimplePropertiesForGui() {
+        lijstLeden.forEach(lid -> lid.fillSimpleProperties());
+    }
 }

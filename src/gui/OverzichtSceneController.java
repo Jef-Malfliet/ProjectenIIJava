@@ -27,11 +27,11 @@ public class OverzichtSceneController extends VBox {
     private DomeinController dc;
 
     @FXML
-    private TableView<Lid> tableOverview;
+    private TableView<Lid> tableOverview = new TableView<>();
     @FXML
-    private TableColumn<Lid, String> colName;
+    private TableColumn<Lid, String> colName = new TableColumn<>();
     @FXML
-    private TableColumn<Lid, String> colBand;
+    private TableColumn<Lid, String> colBand= new TableColumn<>();
 
 
     public OverzichtSceneController(DomeinController dc) {
@@ -43,7 +43,7 @@ public class OverzichtSceneController extends VBox {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        
+        this.dc=dc;
         buildGui();
     }
 

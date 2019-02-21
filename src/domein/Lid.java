@@ -44,6 +44,7 @@ public class Lid implements Serializable {
     public Lid(String naam, Graad graad) {
         setNaam(naam);
         setGraad(graad);
+        fillSimpleProperties();
     }
 
     public String getNaam() {
@@ -75,12 +76,10 @@ public class Lid implements Serializable {
             throw new IllegalArgumentException("Naam mag niet leeg zijn");
         }
         this.naam = naam;
-        setNaamProperty(new SimpleStringProperty(this.naam));
     }
 
     private void setGraad(Graad graad) {
         this.graad = graad;
-        setGraadProperty(new SimpleStringProperty(this.graad.toString()));
     }
 
     public void wijzigLid(String naam, Graad graad) {
@@ -111,6 +110,11 @@ public class Lid implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    public void fillSimpleProperties(){
+        this.setGraadProperty(new SimpleStringProperty(this.getGraad().toString()));
+        this.setNaamProperty(new SimpleStringProperty(this.getNaam()));
     }
 
     public SimpleStringProperty getNaamProperty() {
