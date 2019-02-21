@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="600.0" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Lid wijzigen" textAlignment="CENTER" textFill="#e6e6e6">
+               <font>
+                  <Font name="Quicksand-Bold" size="31.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox prefHeight="814.0" prefWidth="600.0">
+         <children>
+            <HBox prefHeight="36.0" prefWidth="590.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="115.0" text="Voornaam">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txfVoornaam" prefHeight="28.0" prefWidth="231.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="36.0" prefWidth="590.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="115.0" text="Achternaam">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txfAchternaam" prefHeight="28.0" prefWidth="231.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="36.0" prefWidth="590.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="115.0" text="Graad">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txfGraad" prefHeight="28.0" prefWidth="231.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="36.0" prefWidth="590.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="115.0" text="Straat">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txfStraat" prefHeight="28.0" prefWidth="231.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="36.0" prefWidth="590.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="115.0" text="Postcode">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txfPostCode" prefHeight="28.0" prefWidth="231.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="36.0" prefWidth="590.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="115.0" text="Gemeente">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txfGemeente" prefHeight="28.0" prefWidth="231.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="36.0" prefWidth="590.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="115.0" text="E-mailadres">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txfEmail" prefHeight="28.0" prefWidth="231.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="36.0" prefWidth="590.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="115.0" text="Telefoonnummer">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txfTelefoonnummer" prefHeight="28.0" prefWidth="231.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="60.0" prefWidth="590.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#bevestigWijziging" prefHeight="39.0" prefWidth="303.0" text="Bevestig" />
+                  <Button mnemonicParsing="false" onAction="#annuleerwijziging" prefHeight="38.0" prefWidth="292.0" text="Annuleer" />
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </HBox>
+            <HBox prefHeight="237.0" prefWidth="590.0">
+               <padding>
+                  <Insets top="50.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+   </children>
+</fx:root>
