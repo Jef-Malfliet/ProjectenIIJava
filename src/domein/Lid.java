@@ -88,6 +88,10 @@ public class Lid implements Serializable {
         this.graadProperty = graadProperty;
     }
 
+    public Type getType() {
+        return type;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
