@@ -62,6 +62,18 @@ public class Lid implements Serializable {
 
     }
 
+    public void wijzigLid(String voornaam, String achternaam, Graad graad, String telefoon, String email, String straat, int postcode, String gemeente) {
+        setVoornaam(voornaam);
+        setAchternaam(achternaam);
+        setGraad(graad);
+        setTelefoon(telefoon);
+        setEmail(email);
+        setStraat(straat);
+        setPostcode(postcode);
+        setGemeente(gemeente);
+        fillSimpleProperties();
+    }
+
     public void fillSimpleProperties() {
         this.setGraadProperty(new SimpleStringProperty(this.getGraad().toString()));
         this.setVoornaamProperty(new SimpleStringProperty(this.getVoornaam()));
@@ -69,7 +81,7 @@ public class Lid implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %d in %s", voornaam,achternaam,graad.toString(),telefoon,email,straat,postcode,gemeente);
+        return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %d in %s", voornaam, achternaam, graad.toString(), telefoon, email, straat, postcode, gemeente);
     }
 
     public SimpleStringProperty getVoornaamProperty() {

@@ -94,7 +94,7 @@ public class DetailPaneelController extends VBox {
             if (nieuwlid) {
                 dc.voegLidToe(new Lid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente));
             } else {
-                current_lid.wijzigLid(voornaam, Graad.valueOf(graad));
+                current_lid.wijzigLid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente);
                 dc.wijzigLid(current_lid);
 
             }

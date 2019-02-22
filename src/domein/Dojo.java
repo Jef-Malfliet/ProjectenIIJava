@@ -9,7 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import persistentie.IPersistentieController;
+//import persistentie.IPersistentieController;
 import persistentie.LidDao;
 import persistentie.LidDaoJpa;
 
@@ -78,7 +78,7 @@ public class Dojo {
      */
     public boolean voegLidToe(Lid lid) {
       
-        //if (!lijstLeden.contains(lid)) {
+        if (!lijstLeden.contains(lid)) {
             if (lidRepo.get(lid.getId()) == null) {
                
                 lidRepo.insert(lid);
@@ -87,7 +87,7 @@ public class Dojo {
                 subject.firePropertyChange("lijstleden", null, lijstLeden);
                 return true;
             }
-     //   }
+        }
         return false;
     }
 
