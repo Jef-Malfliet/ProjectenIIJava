@@ -22,7 +22,7 @@ public class InitializeData {
     }
 
     private void initialize() {
-        Lid lid0 = new Lid("Nante Vermeulen", Graad.GEEL);
+        Lid lid0 = new Lid("Nante", "Vermeulen", Graad.GROEN, "12/34567890", "nante.vermeulen@student.hogent.be", "weet ik niet", 9300, "Landeghem");
         Lid lid1 = new Lid("Indy Van Canegem", Graad.BRUIN);
         Lid lid2 = new Lid("Jef Malfliet", Graad.ORANJE);
         Lid lid3 = new Lid("Mout Pessemier", Graad.WIT);

@@ -1,7 +1,6 @@
 package persistentie;
 
 import domein.*;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -39,7 +38,6 @@ public class PersistentieController<E> implements IPersistentieController {
         openConnection();
         Lid lid = (Lid) item;
         try {
-
             Lid gevonden_lid = em.find(Lid.class, lid.getId());
             gevonden_lid.wijzigLid(lid.getVoornaam(), lid.getGraad());
             em.merge(gevonden_lid);
@@ -55,7 +53,7 @@ public class PersistentieController<E> implements IPersistentieController {
     @Override
     public boolean delete(Object item) {
         openConnection();
-        switch (item.getClass().toString()) {
+        switch (item.getClass().getSimpleName()) {
             case "Activiteit":
                 return false;
             case "Kampioenschap":
@@ -94,7 +92,6 @@ public class PersistentieController<E> implements IPersistentieController {
     }
 
     private void openConnection() {
-
         emf = JPA_Utility.getEntityManagerFactory();
         em = emf.createEntityManager();
         em.getTransaction().begin();
