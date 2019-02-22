@@ -20,16 +20,6 @@
             </Label>
          </children>
       </HBox>
-      <HBox prefHeight="800.0" prefWidth="600.0">
-         <children>
-            <TableView fx:id="tableOverview" prefHeight="748.0" prefWidth="600.0" style="-fx-padding: 5;">
-              <columns>
-                <TableColumn fx:id="colName" editable="false" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" text="Naam" />
-                <TableColumn fx:id="colBand" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" text="Band" />
-              </columns>
-            </TableView>
-         </children>
-      </HBox>
       <HBox prefHeight="26.0" prefWidth="600.0">
          <children>
             <Label text="Filter op:" />
@@ -38,6 +28,16 @@
             <TextField fx:id="txtVan" onKeyPressed="#filter" prefHeight="25.0" prefWidth="148.0" />
             <Label text="Eindletter" />
             <TextField fx:id="txtTot" onKeyPressed="#filter" prefHeight="25.0" prefWidth="148.0" />
+         </children>
+      </HBox>
+      <HBox prefHeight="800.0" prefWidth="600.0">
+         <children>
+            <TableView fx:id="tableOverview" prefHeight="748.0" prefWidth="600.0" style="-fx-padding: 5;">
+              <columns>
+                <TableColumn fx:id="colName" editable="false" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" text="Naam" />
+                <TableColumn fx:id="colBand" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" text="Band" />
+              </columns>
+            </TableView>
          </children>
       </HBox>
    </children>
