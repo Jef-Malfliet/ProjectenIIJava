@@ -33,23 +33,4 @@ public class LidTest {
         Assert.assertEquals(Graad.BRUIN, nieuwLid.getGraad());
         Assert.assertEquals(Type.LID, nieuwLid.getType());
     }
-
-    /**
-     *
-     */
-        //IK DENK BEST MET PARAMETERISED TEST VOOR ALLE STRINGS TE TESTEN
-    @Test(expected = IllegalArgumentException.class)
-    public void testConstructor_EmptyName_ThrowsException() {
-        Lid nieuwLid = new Lid("","Clarys", Graad.GEEL, "12/34567890", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele");
-    }
-
-    /**
-     *
-     */
-    //IK DENK BEST MET PARAMETERISED TEST VOOR ALLE STRINGS TE TESTEN
-    @Test(expected = IllegalArgumentException.class)
-    public void testConstructor_NullName_ThrowsException() {
-        Lid nieuwLid = new Lid(null,"Clarys", Graad.GEEL, "12/34567890", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele");
-    }
-
 }
