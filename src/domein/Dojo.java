@@ -119,4 +119,42 @@ public class Dojo {
     public void setLidRepo(LidDao mock) {
         lidRepo = mock;
     }
+
+    /**
+     * @param start
+     * @param einde
+     * @param optie
+     */
+    public void filter(SorteerType optie, String start, String einde) {
+        filtered.setPredicate(lid -> {
+            switch (optie) {
+                case VOORNAAM:
+                    if (start == null || start.isEmpty()) {
+                        return lid.getVoornaam().compareToIgnoreCase(einde) <= 0 || lid.getVoornaam().toLowerCase().startsWith(einde.toLowerCase());
+                    }
+                    if (einde == null || einde.isEmpty()) {
+                        return lid.getVoornaam().compareToIgnoreCase(start) >= 0;
+                    } else {
+                        return (lid.getVoornaam().compareToIgnoreCase(start) >= 0
+                                && lid.getVoornaam().compareToIgnoreCase(einde) <= 0 || lid.getVoornaam().toLowerCase().startsWith(einde.toLowerCase()));
+                    }
+                case ACHTERNAAM:
+                    if (start == null || start.isEmpty()) {
+                        return lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase());
+                    }
+                    if (einde == null || einde.isEmpty()) {
+                        return lid.getAchternaam().compareToIgnoreCase(start) >= 0;
+                    } else {
+                        return (lid.getAchternaam().compareToIgnoreCase(start) >= 0
+                                && lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase()));
+                    }
+                case GRAAD:
+                    return start.toLowerCase().equals(lid.getGraad().toString().toLowerCase());
+                case TYPE:
+                    return start.toLowerCase().equals(lid.getType().toString().toLowerCase());
+                default:
+                    return true;
+            }
+        });
+    }
 }

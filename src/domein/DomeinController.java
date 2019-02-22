@@ -52,27 +52,8 @@ public class DomeinController {
         return dojo.verwijderLid(lid);
     }
 
-    /**
-     * @param start
-     * @param end
-     * @param optie
-     */
-    public void filterLijst(String optie, String start, String end) {
-        dojo.getFilteredLeden().setPredicate(lid -> {
-            if (optie == null || optie.isEmpty()) {
-                return true;
-            }
-            switch (optie) {
-                case "naam":
-                    return false;
-                case "graad":
-                    return false;
-                case "type":
-                    return false;
-                default:
-                    return true;
-            }
-        });
+    public void filter(SorteerType type, String start, String einde) {
+        dojo.filter(type, start, einde);
     }
 
     public ObservableList<Lid> getLeden() {

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OverzichtSceneController">
    <children>
       <HBox prefHeight="70.0" prefWidth="600.0">
          <children>
@@ -20,12 +22,22 @@
       </HBox>
       <HBox prefHeight="800.0" prefWidth="600.0">
          <children>
-            <TableView fx:id="tableOverview" prefHeight="900.0" prefWidth="600.0" style="-fx-padding: 5;">
+            <TableView fx:id="tableOverview" prefHeight="748.0" prefWidth="600.0" style="-fx-padding: 5;">
               <columns>
                 <TableColumn fx:id="colName" editable="false" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" text="Naam" />
                 <TableColumn fx:id="colBand" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" text="Band" />
               </columns>
             </TableView>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="Filter op:" />
+            <ComboBox fx:id="cboFilterOptie" prefWidth="150.0" />
+            <Label text="Startletter:" />
+            <TextField fx:id="txtVan" onKeyPressed="#filter" prefHeight="25.0" prefWidth="148.0" />
+            <Label text="Eindletter" />
+            <TextField fx:id="txtTot" onKeyPressed="#filter" prefHeight="25.0" prefWidth="148.0" />
          </children>
       </HBox>
    </children>
