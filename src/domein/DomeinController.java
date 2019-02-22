@@ -12,7 +12,7 @@ import persistentie.LidDaoJpa;
 public class DomeinController {
 
     private Dojo dojo;
-    private LidDaoJpa lidRepository;
+    private LidDao lidRepository;
 
     public DomeinController() {
         setLidRepository(new LidDaoJpa());
@@ -28,7 +28,10 @@ public class DomeinController {
      * @param lid
      */
     public String toonLid(long id) {
-        return dojo.toonLid(id).toString();
+        GenericDaoJpa.startTransaction();
+        String lid1 = dojo.toonLid(id).toString();
+        GenericDaoJpa.commitTransaction();
+        return lid1;
     }
 
     /**
@@ -36,11 +39,17 @@ public class DomeinController {
      * @param lid
      */
     public boolean voegLidToe(Lid lid) {
-        return dojo.voegLidToe(lid);
+        GenericDaoJpa.startTransaction();
+        boolean lid1 = dojo.voegLidToe(lid);
+        GenericDaoJpa.commitTransaction();
+        return lid1;
     }
 
     public boolean wijzigLid(Lid lid) {
-        return dojo.wijzigLid(lid);
+        GenericDaoJpa.startTransaction();
+        boolean lid1 = dojo.wijzigLid(lid);
+        GenericDaoJpa.commitTransaction();
+        return lid1;
 
     }
 
@@ -60,7 +69,7 @@ public class DomeinController {
         return dojo.getSortedLeden();
     }
 
-    public void setLidRepository(LidDaoJpa lidRepository) {
+    public void setLidRepository(LidDao lidRepository) {
         this.lidRepository = lidRepository;
     }
 

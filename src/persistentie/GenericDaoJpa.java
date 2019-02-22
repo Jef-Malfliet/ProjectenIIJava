@@ -24,20 +24,20 @@ public class GenericDaoJpa<E> implements GenericDao<E> {
         this.type = type;
     }
 
-    public void closePersistency() {
+    public static void closePersistency() {
         em.close();
         emf.close();
     }
 
-    public void startTransaction() {
+    public static void startTransaction() {
         em.getTransaction().begin();
     }
 
-    public void commitTransaction() {
+    public static void commitTransaction() {
         em.getTransaction().commit();
     }
 
-    public void rollbackTransaction() {
+    public static void rollbackTransaction() {
         em.getTransaction().rollback();
     }
 
