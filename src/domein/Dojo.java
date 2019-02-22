@@ -25,9 +25,9 @@ public class Dojo {
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
     private PropertyChangeSupport subject;
-    private LidDao lidRepo;
+    private LidDaoJpa lidRepo;
 
-    public Dojo(LidDao lidRepo) {
+    public Dojo(LidDaoJpa lidRepo) {
         setLidRepo(lidRepo);
         lijstLeden = this.lidRepo.findAll();
         this.type = Type.BEHEERDER;
@@ -42,7 +42,9 @@ public class Dojo {
      * @param lid
      */
     public boolean verwijderLid(Lid lid) {
+        lidRepo.startTransaction();
         this.lidRepo.delete(lid);
+        lidRepo.commitTransaction();
         return this.lijstLeden.remove(lid);
     }
 
@@ -51,7 +53,9 @@ public class Dojo {
      * @param lid
      */
     public boolean wijzigLid(Lid lid) {
+        lidRepo.startTransaction();
         Lid temp = lidRepo.update(lid);
+        lidRepo.commitTransaction();
         lijstLeden = lidRepo.findAll();
         subject.firePropertyChange("lijstleden", null, lijstLeden);
         if (temp == null) {
@@ -73,14 +77,17 @@ public class Dojo {
      * @param lid
      */
     public boolean voegLidToe(Lid lid) {
-        if (!lijstLeden.contains(lid)) {
+      
+        //if (!lijstLeden.contains(lid)) {
             if (lidRepo.get(lid.getId()) == null) {
+                lidRepo.startTransaction();
                 lidRepo.insert(lid);
+                lidRepo.commitTransaction();
                 lijstLeden.add(lid);
                 subject.firePropertyChange("lijstleden", null, lijstLeden);
                 return true;
             }
-        }
+     //   }
         return false;
     }
 
@@ -116,7 +123,7 @@ public class Dojo {
 
     }
 
-    public void setLidRepo(LidDao mock) {
+    public void setLidRepo(LidDaoJpa mock) {
         lidRepo = mock;
     }
 

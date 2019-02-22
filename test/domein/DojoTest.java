@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.Before;
 import org.mockito.Mockito;
 import persistentie.LidDao;
+import persistentie.LidDaoJpa;
 
 /**
  *
@@ -20,7 +21,7 @@ import persistentie.LidDao;
  */
 public class DojoTest {
 
-    private LidDao lidDaoDummy;
+    private LidDaoJpa lidDaoDummy;
     private Lid testLid;
     private Lid lid1;
     private Lid lid2;
@@ -31,7 +32,7 @@ public class DojoTest {
 
     @Before
     public void before() {
-        lidDaoDummy = Mockito.mock(LidDao.class);
+        lidDaoDummy = Mockito.mock(LidDaoJpa.class);
         testLid = new Lid("Beau", "Van Canegem", Graad.BRUIN, "12/34567890", "indy.vancanegem@student.hogent.be", "Straat", 9240, "Zele");
         lid1 = new Lid("Bram","Vanoverbeke", Graad.BLAUW, "12/34567890", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst");
         lid2 = new Lid("Tom","Clarys", Graad.GEEL, "12/34567890", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele");

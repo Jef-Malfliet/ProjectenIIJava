@@ -12,7 +12,7 @@ import persistentie.LidDaoJpa;
 public class DomeinController {
 
     private Dojo dojo;
-    private LidDao lidRepository;
+    private LidDaoJpa lidRepository;
 
     public DomeinController() {
         setLidRepository(new LidDaoJpa());
@@ -60,7 +60,7 @@ public class DomeinController {
         return dojo.getSortedLeden();
     }
 
-    public void setLidRepository(LidDao lidRepository) {
+    public void setLidRepository(LidDaoJpa lidRepository) {
         this.lidRepository = lidRepository;
     }
 

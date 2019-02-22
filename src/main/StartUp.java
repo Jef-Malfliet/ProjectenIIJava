@@ -24,8 +24,8 @@ public class StartUp extends Application {
 
         DomeinController dc = new DomeinController();
         
-        Lid lid0 = new Lid("Nante", "Vermeulen", Graad.GROEN, "12/34567890", "nante.vermeulen@student.hogent.be", "Straat", 9300, "Landeghem");
-        Lid lid1 = new Lid("Indy", "Van Canegem", Graad.BRUIN, "12/34567890", "indy.vancanegem@student.hogent.be", "Straat", 9240, "Zele");
+        Lid lid1 = new Lid("Nante", "Vermeulen", Graad.GROEN, "12/34567890", "nante.vermeulen@student.hogent.be", "Straat", 9300, "Landeghem");
+        Lid lid0 = new Lid("Indy", "Van Canegem", Graad.BRUIN, "12/34567890", "indy.vancanegem@student.hogent.be", "Straat", 9240, "Zele");
         Lid lid2 = new Lid("Jef", "Malfliet", Graad.ORANJE, "12/34567890", "jef.malfliet@student.hogent.be", "Straat", 9220, "Hamme");
         Lid lid3 = new Lid("Mout", "Pessemier", Graad.WIT, "12/34567890", "mout.pessemier@student.hogent.be", "Straat", 9320, "Erembodegen");
 

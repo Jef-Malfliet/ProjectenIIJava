@@ -62,10 +62,17 @@ public class DetailPaneelController extends VBox {
     }
 
     public void fillLid(Lid lid) {
+        
         lblDetail.setText("Lid wijzigen");
         current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
+        txtAchternaam.setText(lid.getAchternaam());
         txtGraad.setText(lid.getGraad().name());
+        txtStraat.setText(lid.getStraat());
+        txtGemeente.setText(lid.getGemeente());
+        txtPostCode.setText(String.format("%s",lid.getPostcode()));
+        txtEmail.setText(lid.getEmail());
+        txtTelefoonnummer.setText(lid.getTelefoon());
         nieuwlid = false;
     }
 
@@ -106,9 +113,16 @@ public class DetailPaneelController extends VBox {
 
     private void clearTextFields() {
         txtVoornaam.clear();
+        txtAchternaam.clear();
         txtGraad.clear();
+        txtStraat.clear();
+        txtPostCode.clear();
+        txtGemeente.clear();
+        txtEmail.clear();
+        txtTelefoonnummer.clear();
+        
     }
-
+    
     public void nieuwLid() {
         nieuwlid = true;
         lblDetail.setText("Nieuw Lid toevoegen");

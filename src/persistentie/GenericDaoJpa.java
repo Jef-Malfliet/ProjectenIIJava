@@ -62,7 +62,7 @@ public class GenericDaoJpa<E> implements GenericDao<E> {
     }
 
     @Override
-    public void insert(E object) {
+    public void insert(E object) {     
         em.persist(object);
     }
 
