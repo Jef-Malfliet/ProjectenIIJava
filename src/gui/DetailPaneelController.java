@@ -71,6 +71,7 @@ public class DetailPaneelController extends VBox {
         current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
         txtGraad.setText(lid.getGraad().name());
+        nieuwlid = false;
     }
 
     @FXML
