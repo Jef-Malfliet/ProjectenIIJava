@@ -30,7 +30,7 @@
             </TableView>
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="26.0" prefWidth="600.0">
          <children>
             <Label text="Filter op:" />
             <ComboBox fx:id="cboFilterOptie" prefWidth="150.0" />
