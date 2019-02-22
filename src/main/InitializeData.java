@@ -22,13 +22,13 @@ public class InitializeData {
     }
 
     private void initialize() {
-        Lid lid0 = new Lid("Nante", "Vermeulen", Graad.GROEN, "12/34567890", "nante.vermeulen@student.hogent.be", "weet ik niet", 9300, "Landeghem");
-        Lid lid1 = new Lid("Indy Van Canegem", Graad.BRUIN);
-        Lid lid2 = new Lid("Jef Malfliet", Graad.ORANJE);
-        Lid lid3 = new Lid("Mout Pessemier", Graad.WIT);
+        Lid lid0 = new Lid("Nante", "Vermeulen", Graad.GROEN, "12/34567890", "nante.vermeulen@student.hogent.be", "Straat", 9300, "Landeghem");
+        Lid lid1 = new Lid("Indy", "Van Canegem", Graad.BRUIN, "12/34567890", "indy.vancanegem@student.hogent.be", "Straat", 9240, "Zele");
+        Lid lid2 = new Lid("Jef", "Malfliet", Graad.ORANJE, "12/34567890", "jef.malfliet@student.hogent.be", "Straat", 9220, "Hamme");
+        Lid lid3 = new Lid("Mout", "Pessemier", Graad.WIT, "12/34567890", "mout.pessemier@student.hogent.be", "Straat", 9320, "Erembodegen");
         EntityManagerFactory emf = JPA_Utility.getEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();      
+        em.getTransaction().begin();
         em.persist(lid0);
         em.persist(lid1);
         em.persist(lid2);
@@ -37,6 +37,5 @@ public class InitializeData {
         em.close();
         emf.close();
     }
-   
 
 }

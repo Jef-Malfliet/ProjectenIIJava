@@ -198,4 +198,9 @@ public class Lid implements Serializable {
     public long getId() {
         return id;
     }
+
+    public Type getType() {
+        return type;
+    }
+
 }

@@ -10,11 +10,11 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import persistentie.IPersistentieController;
-import persistentie.PersistentieController;
+import persistentie.LidDao;
+import persistentie.LidDaoJpa;
 
 public class Dojo {
 
-    private IPersistentieController persistentieController;
     private List<Lid> lijstLeden;
     private final Type type;
     private final ObservableList<Lid> leden;
@@ -25,18 +25,15 @@ public class Dojo {
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
     private PropertyChangeSupport subject;
-    
-    public Dojo(IPersistentieController persistentieController) {
-        setPersistentieController(persistentieController);
-        lijstLeden = this.persistentieController.geefAlles(Stuff.LID);
+    private LidDao lidRepo;
+
+    public Dojo(LidDao lidRepo) {
+        setLidRepo(lidRepo);
+        lijstLeden = this.lidRepo.findAll();
         this.type = Type.BEHEERDER;
         leden = FXCollections.observableArrayList(lijstLeden);
-        filtered = new FilteredList<>(leden);
+        filtered = new FilteredList<>(leden, (p) -> true);
         sorted = new SortedList<>(filtered, sortOrder);
-    }
-
-    public Dojo() {
-        this(new PersistentieController());
         subject = new PropertyChangeSupport(this);
     }
 
@@ -45,7 +42,7 @@ public class Dojo {
      * @param lid
      */
     public boolean verwijderLid(Lid lid) {
-        this.persistentieController.delete(lid);
+        this.lidRepo.delete(lid);
         return this.lijstLeden.remove(lid);
     }
 
@@ -54,11 +51,13 @@ public class Dojo {
      * @param lid
      */
     public boolean wijzigLid(Lid lid) {
-        boolean succes = persistentieController.wijzig(lid);
-       
-        lijstLeden = persistentieController.geefAlles(Stuff.LID);
-        subject.firePropertyChange("lijstleden",null,lijstLeden);
-        return succes;
+        Lid temp = lidRepo.update(lid);
+        lijstLeden = lidRepo.findAll();
+        subject.firePropertyChange("lijstleden", null, lijstLeden);
+        if (temp == null) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -75,10 +74,10 @@ public class Dojo {
      */
     public boolean voegLidToe(Lid lid) {
         if (!lijstLeden.contains(lid)) {
-            if (persistentieController.geefById(Stuff.LID, lid) == null) {
-                persistentieController.add(lid);
+            if (lidRepo.get(lid.getId()) == null) {
+                lidRepo.insert(lid);
                 lijstLeden.add(lid);
-                subject.firePropertyChange("lijstleden",null,lijstLeden);
+                subject.firePropertyChange("lijstleden", null, lijstLeden);
                 return true;
             }
         }
@@ -87,10 +86,6 @@ public class Dojo {
 
     public List<Lid> getLijstLeden() {
         return lijstLeden;
-    }
-
-    private void setPersistentieController(IPersistentieController persistentieController) {
-        this.persistentieController = persistentieController;
     }
 
     public Type getType() {
@@ -109,17 +104,19 @@ public class Dojo {
     private void fillSimplePropertiesForGui() {
         lijstLeden.forEach(lid -> lid.fillSimpleProperties());
     }
-    public void addPropertyChangeListener(PropertyChangeListener pc1){
-        subject.addPropertyChangeListener(pc1);
-        pc1.propertyChange(new PropertyChangeEvent(pc1,"lijstleden",null,lijstLeden));
-        
-    }
-     public void removePropertyChangeListener(PropertyChangeListener pc1){
-        subject.removePropertyChangeListener(pc1);
-       
-        
-    }
-    
-   
 
+    public void addPropertyChangeListener(PropertyChangeListener pc1) {
+        subject.addPropertyChangeListener(pc1);
+        pc1.propertyChange(new PropertyChangeEvent(pc1, "lijstleden", null, lijstLeden));
+
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener pc1) {
+        subject.removePropertyChangeListener(pc1);
+
+    }
+
+    public void setLidRepo(LidDao mock) {
+        lidRepo = mock;
+    }
 }

@@ -12,7 +12,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
 import org.mockito.Mockito;
-import persistentie.PersistentieController;
+import persistentie.LidDao;
 
 /**
  *
@@ -20,24 +20,23 @@ import persistentie.PersistentieController;
  */
 public class DojoTest {
 
-    private PersistentieController persistentieControllerDummy;
+    private LidDao lidDaoDummy;
     private Lid testLid;
     private Lid lid1;
     private Lid lid2;
     private Lid lid3;
+    private Lid lid1b;
     private final List<Lid> ledenLijst = new ArrayList<>();
     private Dojo beheerder;
 
     @Before
     public void before() {
-        persistentieControllerDummy = Mockito.mock(PersistentieController.class);
-        testLid = new Lid("Beau Van Canegem", Graad.BRUIN);
-        lid1 = new Lid("Bram Vanoverbeke", Graad.BLAUW);
-        lid1.setId(1L);
-        lid2 = new Lid("Tom Clarys", Graad.GEEL);
-        lid2.setId(2L);
-        lid3 = new Lid("Seba Moons", Graad.GROEN);
-        lid3.setId(3L);
+        lidDaoDummy = Mockito.mock(LidDao.class);
+        testLid = new Lid("Beau", "Van Canegem", Graad.BRUIN, "12/34567890", "indy.vancanegem@student.hogent.be", "Straat", 9240, "Zele");
+        lid1 = new Lid("Bram","Vanoverbeke", Graad.BLAUW, "12/34567890", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst");
+        lid2 = new Lid("Tom","Clarys", Graad.GEEL, "12/34567890", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele");
+        lid3 = new Lid("Seba","Moons", Graad.GROEN, "12/34567890", "seba.moons@student.hogent.be", "Straat", 9240, "Zele");
+        lid1b = new Lid("TestTest","Vanoverbeke", Graad.GROEN, "12/34567890", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst");
         ledenLijst.addAll(Arrays.asList(lid1, lid2, lid3));
     }
 
@@ -46,14 +45,14 @@ public class DojoTest {
      */
     @Test
     public void testVerwijderLid() {
-        Mockito.when(persistentieControllerDummy.geefAlles(Stuff.LID)).thenReturn(ledenLijst);
-        beheerder = new Dojo(persistentieControllerDummy);
+        Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
+        beheerder = new Dojo(lidDaoDummy);
         beheerder.verwijderLid(lid1);
         Assert.assertEquals(2, beheerder.getLijstLeden().size());
         System.out.println(ledenLijst);
         System.out.println(beheerder.getLijstLeden());
         Assert.assertFalse(beheerder.getLijstLeden().contains(lid1));
-        Mockito.verify(persistentieControllerDummy).geefAlles(Stuff.LID);
+        Mockito.verify(lidDaoDummy).findAll();
 
     }
 
@@ -62,17 +61,17 @@ public class DojoTest {
      */
     @Test
     public void testWijzigLid() {
-        Mockito.when(persistentieControllerDummy.geefAlles(Stuff.LID)).thenReturn(ledenLijst);
-        Mockito.when(persistentieControllerDummy.wijzig(lid1)).thenReturn(true);
-        beheerder = new Dojo(persistentieControllerDummy);
+        Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
+        Mockito.when(lidDaoDummy.update(lid1)).thenReturn(lid1b);
+        beheerder = new Dojo(lidDaoDummy);
         lid1.wijzigLid("TestTest", Graad.GROEN);
         boolean succes = beheerder.wijzigLid(lid1);
         Lid gewijzigdLid = beheerder.toonLid(lid1.getId());
         Assert.assertTrue(succes);
         Assert.assertEquals(lid1.getVoornaam(), gewijzigdLid.getVoornaam());
         Assert.assertEquals(lid1.getGraad(), gewijzigdLid.getGraad());
-        Mockito.verify(persistentieControllerDummy).geefAlles(Stuff.LID);
-        Mockito.verify(persistentieControllerDummy).wijzig(lid1);
+        Mockito.verify(lidDaoDummy).findAll();
+        Mockito.verify(lidDaoDummy).update(lid1);
     }
 
     /**
@@ -80,11 +79,11 @@ public class DojoTest {
      */
     @Test
     public void testToonLid() {
-        Mockito.when(persistentieControllerDummy.geefAlles(Stuff.LID)).thenReturn(ledenLijst);
-        beheerder = new Dojo(persistentieControllerDummy);
+        Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
+        beheerder = new Dojo(lidDaoDummy);
         Lid toonLid = beheerder.toonLid(lid1.getId());
         Assert.assertEquals(lid1, toonLid);
-        Mockito.verify(persistentieControllerDummy).geefAlles(Stuff.LID);
+        Mockito.verify(lidDaoDummy).findAll();
     }
 
     /**
@@ -92,11 +91,11 @@ public class DojoTest {
      */
     @Test
     public void testVoegLidToe() {
-        Mockito.when(persistentieControllerDummy.geefAlles(Stuff.LID)).thenReturn(ledenLijst);
-        beheerder = new Dojo(persistentieControllerDummy);
+        Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
+        beheerder = new Dojo(lidDaoDummy);
         beheerder.voegLidToe(testLid);
         Assert.assertEquals(4, beheerder.getLijstLeden().size());
         Assert.assertTrue(beheerder.getLijstLeden().contains(testLid));
-        Mockito.verify(persistentieControllerDummy).geefAlles(Stuff.LID);
+        Mockito.verify(lidDaoDummy).insert(testLid);
     }
 }

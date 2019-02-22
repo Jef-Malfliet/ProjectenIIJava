@@ -12,13 +12,11 @@ import persistentie.LidDaoJpa;
 public class DomeinController {
 
     private Dojo dojo;
-    private GenericDao<Dojo> dojoRepository;
     private LidDao lidRepository;
 
     public DomeinController() {
-        dojo = new Dojo();
-        setDojoRepository(new GenericDaoJpa<>(Dojo.class));
         setLidRepository(new LidDaoJpa());
+        dojo = new Dojo(this.lidRepository);
     }
 
     public List<String> toonLeden() {
@@ -79,10 +77,6 @@ public class DomeinController {
 
     public ObservableList<Lid> getLeden() {
         return dojo.getSortedLeden();
-    }
-
-    public void setDojoRepository(GenericDao<Dojo> dojoRepository) {
-        this.dojoRepository = dojoRepository;
     }
 
     public void setLidRepository(LidDao lidRepository) {

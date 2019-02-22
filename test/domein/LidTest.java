@@ -19,16 +19,17 @@ public class LidTest {
 
     @Before
     public void before() {
-        huidigLid = new Lid("Bram Vanoverbeke", Graad.WIT);
+        huidigLid = new Lid("Bram","Vanoverbeke", Graad.BLAUW, "12/34567890", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst");
     }
 
     /**
      *
      */
+    // ALLE ARGUMENTEN TESTEN
     @Test
     public void testConstructor() {
-        Lid nieuwLid = new Lid("Tom Clarys", Graad.BRUIN);
-        Assert.assertEquals("Tom Clarys", nieuwLid.getVoornaam());
+        Lid nieuwLid = new Lid("Tom","Clarys", Graad.BRUIN, "12/34567890", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele");
+        Assert.assertEquals("Tom", nieuwLid.getVoornaam());
         Assert.assertEquals(Graad.BRUIN, nieuwLid.getGraad());
         Assert.assertEquals(Type.LID, nieuwLid.getType());
     }
@@ -36,17 +37,19 @@ public class LidTest {
     /**
      *
      */
+        //IK DENK BEST MET PARAMETERISED TEST VOOR ALLE STRINGS TE TESTEN
     @Test(expected = IllegalArgumentException.class)
     public void testConstructor_EmptyName_ThrowsException() {
-        Lid nieuwLid = new Lid("", Graad.GEEL);
+        Lid nieuwLid = new Lid("","Clarys", Graad.GEEL, "12/34567890", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele");
     }
 
     /**
      *
      */
+    //IK DENK BEST MET PARAMETERISED TEST VOOR ALLE STRINGS TE TESTEN
     @Test(expected = IllegalArgumentException.class)
     public void testConstructor_NullName_ThrowsException() {
-        Lid nieuwLid = new Lid(null, Graad.ORANJE);
+        Lid nieuwLid = new Lid(null,"Clarys", Graad.GEEL, "12/34567890", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele");
     }
 
 }
