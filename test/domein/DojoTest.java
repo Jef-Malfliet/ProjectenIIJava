@@ -31,10 +31,13 @@ public class DojoTest {
     @Before
     public void before() {
         persistentieControllerDummy = Mockito.mock(PersistentieController.class);
-        testLid = new Lid("Beau","Van Canegem", Graad.BRUIN, "123", "beau.email@email.com", "Straatstraat 49", 9220, "Hamme");
-        lid1 = new Lid("Bram","Vanoverbeke", Graad.BLAUW, "123", "bram.email@email.com", "Straatstraat 123", 9220, "Hamme");
-        lid2 = new Lid("Tom","Clarys", Graad.GEEL, "123", "tom.email@email.com", "Straatstraat 456", 9220, "Hamme");
-        lid3 = new Lid("Seba","Moons", Graad.GROEN, "123", "seba.email@email.com", "Straatstraat 789", 9220, "Hamme");
+        testLid = new Lid("Beau Van Canegem", Graad.BRUIN);
+        lid1 = new Lid("Bram Vanoverbeke", Graad.BLAUW);
+        lid1.setId(1L);
+        lid2 = new Lid("Tom Clarys", Graad.GEEL);
+        lid2.setId(2L);
+        lid3 = new Lid("Seba Moons", Graad.GROEN);
+        lid3.setId(3L);
         ledenLijst.addAll(Arrays.asList(lid1, lid2, lid3));
     }
 
