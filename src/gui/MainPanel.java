@@ -22,13 +22,14 @@ public class MainPanel extends BorderPane {
 
     public MainPanel(DomeinController dc) {
         this.dc = dc;
-        BeheerderControlController bcc = new BeheerderControlController(dc);
-        bcc.setPrefSize(250, SCREENHEIGHT);
+        
         DetailPaneelController dpc = new DetailPaneelController(dc);
         dpc.setPrefSize(600, SCREENHEIGHT);
         OverzichtSceneController osc = new OverzichtSceneController(dc, dpc);
         osc.setPrefSize(600, SCREENHEIGHT);
         dc.addPropertyChangeListener(osc);
+        BeheerderControlController bcc = new BeheerderControlController(dc, osc);
+        bcc.setPrefSize(250, SCREENHEIGHT);
         
 
         this.setCenter(osc);

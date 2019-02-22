@@ -38,13 +38,16 @@ public class BeheerderControlController extends VBox {
     private HBox btnStateActiviteitBeheren;
     @FXML
     private HBox btnLesmateriaalBeheren;
-
+    
+    private OverzichtSceneController oc;
+    @FXML
+    private HBox btnVerwijderenLid;
     /**
      * Constructor beheerderControlController
      *
      * Initialiseert de GUI en zijn nodige dependencies.
      */
-    public BeheerderControlController(DomeinController dc) {
+    public BeheerderControlController(DomeinController dc,OverzichtSceneController oc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BeheerderControl.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -53,6 +56,7 @@ public class BeheerderControlController extends VBox {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        this.oc = oc;
         buildGui();
     }
 
@@ -69,6 +73,13 @@ public class BeheerderControlController extends VBox {
             }
 
         });
+        btnVerwijderenLid.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                verwijderLid();
+            }
+
+        });
         
         
     }
@@ -80,6 +91,12 @@ public class BeheerderControlController extends VBox {
      */
     private void schrijfLidIn() {
         btnInschrijvenLid.setStyle("-fx-background-color: red");
+        oc.getDpc().nieuwLid();
+        
+    }
+    private void verwijderLid() {
+        btnInschrijvenLid.setStyle("-fx-background-color: red");
+        oc.verwijdergeselecteerdLid();
     }
 
 }

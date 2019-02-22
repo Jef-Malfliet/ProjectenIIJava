@@ -49,6 +49,9 @@ public class DetailPaneelController extends VBox {
     private Lid current_lid;
     @FXML
     private Label errorMessage;
+    @FXML
+    private Label lblDetail;
+    private boolean nieuwlid;
 
     public DetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
@@ -64,6 +67,7 @@ public class DetailPaneelController extends VBox {
     }
 
     public void fillLid(Lid lid) {
+        lblDetail.setText("Lid wijzigen");
         current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
         txtGraad.setText(lid.getGraad().name());
@@ -71,18 +75,25 @@ public class DetailPaneelController extends VBox {
 
     @FXML
     private void bevestigWijziging(ActionEvent event) {
+        
         errorMessage.setVisible(false);
+       
         String voornaam = txtVoornaam.getText();
-        String graad = txtGraad.getText();
-
-         try {
+        String graad = txtGraad.getText().toUpperCase();
+        
+             
+       try {
+           if(nieuwlid){
+            dc.voegLidToe(new Lid(voornaam,Graad.valueOf(graad)));
+        }else{
                 current_lid.wijzigLid(voornaam, Graad.valueOf(graad));
                 dc.wijzigLid(current_lid);
             
-        } catch (IllegalArgumentException e) {
+           }} catch (IllegalArgumentException e) {
             errorMessage.setText("Deze graad is niet toegelaten");
             errorMessage.setVisible(true);
         }
+        
         
 
     }
@@ -90,8 +101,18 @@ public class DetailPaneelController extends VBox {
     @FXML
     private void annuleerwijziging(ActionEvent event) {
         current_lid = null;
+        clearTextFields();
+    }
+    private void clearTextFields(){
         txtVoornaam.clear();
         txtGraad.clear();
     }
+    public void nieuwLid() {
+        nieuwlid = true;
+        lblDetail.setText("Nieuw Lid toevoegen");
+        clearTextFields();
+    }
+
+   
 
 }

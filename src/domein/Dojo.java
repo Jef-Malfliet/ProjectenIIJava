@@ -81,6 +81,7 @@ public class Dojo {
             if (persistentieController.geefById(Stuff.LID, lid) == null) {
                 persistentieController.add(lid);
                 lijstLeden.add(lid);
+                subject.firePropertyChange("lijstleden",null,lijstLeden);
                 return true;
             }
         }

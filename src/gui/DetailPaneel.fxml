@@ -12,7 +12,7 @@
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label alignment="CENTER" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Lid wijzigen" textAlignment="CENTER" textFill="#e6e6e6">
+            <Label fx:id="lblDetail" alignment="CENTER" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Lid wijzigen" textAlignment="CENTER" textFill="#e6e6e6">
                <font>
                   <Font name="Quicksand-Bold" size="31.0" />
                </font>

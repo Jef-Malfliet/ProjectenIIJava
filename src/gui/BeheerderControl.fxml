@@ -16,6 +16,15 @@
             </Label>
          </children>
       </HBox>
+      <HBox fx:id="btnVerwijderenLid" prefHeight="66.0" prefWidth="221.0" style="-fx-background-color: #454553;">
+         <children>
+            <Label alignment="CENTER" prefHeight="78.0" prefWidth="235.0" text="Lid verwijderen" textFill="#e6e6e6">
+               <font>
+                  <Font name="Quicksand-Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
       <HBox fx:id="btnOverzichtenRaadplegen" prefHeight="66.0" prefWidth="221.0" style="-fx-border-radius: 1px;">
          <children>
             <Label alignment="CENTER" prefHeight="78.0" prefWidth="235.0" text="Overzichten raadplegen" textFill="#e6e6e6">

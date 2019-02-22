@@ -12,6 +12,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -66,9 +67,26 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        tableOverview.refresh();
+       update(); 
        
     }
+    private void update(){
+        tableOverview.setItems(dc.getLeden());
+        tableOverview.refresh();
+    }
+    public DetailPaneelController getDpc() {
+        return dpc;
+    }
+
+    public void verwijdergeselecteerdLid() {
+        Lid lid = tableOverview.getSelectionModel().selectedItemProperty().get();
+        if(lid != null){
+            dc.verwijderLid(lid);
+            update();
+        }
+        
+    }
+    
 
 
 
