@@ -13,7 +13,7 @@
    <children>
       <HBox prefHeight="70.0" prefWidth="600.0">
          <children>
-            <Label alignment="CENTER" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Leden beheren" textAlignment="CENTER" textFill="#e6e6e6">
+            <Label alignment="CENTER" maxHeight="82.0" minHeight="82.0" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Leden beheren" textAlignment="CENTER" textFill="#e6e6e6">
                <font>
                   <Font name="Quicksand-Bold" size="31.0" />
                </font>
