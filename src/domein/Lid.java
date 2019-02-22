@@ -1,10 +1,6 @@
 package domein;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.Objects;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -25,6 +21,12 @@ public class Lid implements Serializable {
     private long id;
 
     private String voornaam;
+    private String achternaam;
+    private String telefoon;
+    private String email;
+    private String straat;
+    private int postcode;
+    private String gemeente;
 
     @Enumerated(EnumType.STRING)
     private Graad graad;
@@ -34,68 +36,56 @@ public class Lid implements Serializable {
 
     @Transient
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
+
     @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
-    
-    
-   
-    
+
     public Lid() {
     }
 
-    /**
-     *
-     * @param voornaam
-     * @param graad
-     */
-    public Lid(String voornaam, Graad graad) {
+    public Lid(String voornaam, String achternaam, Graad graad, String telefoon, String email, String straat, int postcode, String gemeente) {
         setVoornaam(voornaam);
+        setAchternaam(achternaam);
         setGraad(graad);
+        setTelefoon(telefoon);
+        setEmail(email);
+        setStraat(straat);
+        setPostcode(postcode);
+        setGemeente(gemeente);
         fillSimpleProperties();
-    }
-    
-    
-    public String getVoornaam() {
-        return voornaam;
-    }
-
-    public Graad getGraad() {
-
-        return this.graad;
-    }
-
-    @Transient
-    public Type getType() {
-        return type;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
-    }
-
-    //is deze wel nodig?
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    private void setVoornaam(String voornaam) {
-        if (voornaam == null || voornaam.isEmpty()) {
-            throw new IllegalArgumentException("Voornaam mag niet leeg zijn");
-        }
-        this.voornaam = voornaam;
-    }
-
-    private void setGraad(Graad graad) {
-        this.graad = graad;
     }
 
     public void wijzigLid(String voornaam, Graad graad) {
         setGraad(graad);
         setVoornaam(voornaam);
         fillSimpleProperties();
-        
-       
+
+    }
+
+    public void fillSimpleProperties() {
+        this.setGraadProperty(new SimpleStringProperty(this.getGraad().toString()));
+        this.setVoornaamProperty(new SimpleStringProperty(this.getVoornaam()));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %d in %s", voornaam,achternaam,graad.toString(),telefoon,email,straat,postcode,gemeente);
+    }
+
+    public SimpleStringProperty getVoornaamProperty() {
+        return this.voornaamProperty;
+    }
+
+    public void setVoornaamProperty(SimpleStringProperty voornaamProperty) {
+        this.voornaamProperty = voornaamProperty;
+    }
+
+    public SimpleStringProperty getGraadProperty() {
+        return this.graadProperty;
+    }
+
+    public void setGraadProperty(SimpleStringProperty graadProperty) {
+        this.graadProperty = graadProperty;
     }
 
     @Override
@@ -122,41 +112,90 @@ public class Lid implements Serializable {
         }
         return true;
     }
-    
-    public void fillSimpleProperties(){
-        this.setGraadProperty(new SimpleStringProperty(this.getGraad().toString()));
-        this.setVoornaamProperty(new SimpleStringProperty(this.getVoornaam()));
+
+    public String getVoornaam() {
+        return voornaam;
     }
 
-    public SimpleStringProperty getVoornaamProperty() {
-        return this.voornaamProperty;
+    public void setVoornaam(String voornaam) {
+        if (voornaam == null || voornaam.isEmpty()) {
+            throw new IllegalArgumentException("Voornaam mag niet leeg zijn.");
+        }
+        this.voornaam = voornaam;
     }
 
-    /**
-     *
-     * @param naamProperty
-     */
-    public void setVoornaamProperty(SimpleStringProperty voornaamProperty) {
-        this.voornaamProperty = voornaamProperty;
+    public String getAchternaam() {
+        return achternaam;
     }
 
-    public SimpleStringProperty getGraadProperty() {
-        return this.graadProperty;
+    public void setAchternaam(String achternaam) {
+        if (achternaam == null || achternaam.isEmpty()) {
+            throw new IllegalArgumentException("Achternaam mag niet leeg zijn.");
+        }
+        this.achternaam = achternaam;
     }
 
-    /**
-     *
-     * @param attribute
-     */
-    public void setGraadProperty(SimpleStringProperty attribute) {
-        this.graadProperty = attribute;
+    public String getTelefoon() {
+        return telefoon;
     }
 
-    @Override
-    public String toString() {
-        return "Lid{" + "id=" + id + ", voornaam=" + voornaam + ", graad=" + graad + ", type=" + type + ", voornaamProperty=" + voornaamProperty + ", graadProperty=" + graadProperty + '}';
+    public void setTelefoon(String telefoon) {
+        if (telefoon == null || telefoon.isEmpty()) {
+            throw new IllegalArgumentException("Telefoon mag niet leeg zijn.");
+        }
+        this.telefoon = telefoon;
     }
-    
-    
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("E-mail mag niet leeg zijn.");
+        }
+        this.email = email;
+    }
+
+    public String getStraat() {
+        return straat;
+    }
+
+    public void setStraat(String straat) {
+        if (straat == null || straat.isEmpty()) {
+            throw new IllegalArgumentException("Straat mag niet leeg zijn.");
+        }
+        this.straat = straat;
+    }
+
+    public int getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(int postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getGemeente() {
+        return gemeente;
+    }
+
+    public void setGemeente(String gemeente) {
+        if (gemeente == null || gemeente.isEmpty()) {
+            throw new IllegalArgumentException("Gemeente mag niet leeg zijn.");
+        }
+        this.gemeente = gemeente;
+    }
+
+    public Graad getGraad() {
+        return graad;
+    }
+
+    public void setGraad(Graad graad) {
+        this.graad = graad;
+    }
+
+    public long getId() {
+        return id;
+    }
 }
