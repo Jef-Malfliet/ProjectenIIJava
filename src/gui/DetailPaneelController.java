@@ -10,11 +10,14 @@ import domein.Graad;
 import domein.Lid;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -23,10 +26,10 @@ import javafx.scene.layout.VBox;
  *
  * @author Nante
  */
-public class DetailPaneelController extends VBox{
+public class DetailPaneelController extends VBox {
 
-     private DomeinController dc;
-    
+    private DomeinController dc;
+
     @FXML
     private TextField txtVoornaam;
     @FXML
@@ -44,9 +47,11 @@ public class DetailPaneelController extends VBox{
     @FXML
     private TextField txtTelefoonnummer;
     private Lid current_lid;
+    @FXML
+    private Label errorMessage;
 
     public DetailPaneelController(DomeinController dc) {
-       FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
         loader.setController(this);
         loader.setRoot(this);
         try {
@@ -54,35 +59,39 @@ public class DetailPaneelController extends VBox{
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        this.dc=dc;
-        
+        this.dc = dc;
+
     }
-    
-    public void fillLid(Lid lid){
+
+    public void fillLid(Lid lid) {
         current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
         txtGraad.setText(lid.getGraad().name());
     }
-    
-    
+
     @FXML
     private void bevestigWijziging(ActionEvent event) {
-               
-         String voornaam = txtVoornaam.getText();
-         String graad = txtGraad.getText();
-         Lid lid = new Lid(voornaam, Graad.valueOf(graad));
-         lid.setId(current_lid.getId());
-         dc.wijzigLid(lid);
-         
+        errorMessage.setVisible(false);
+        String voornaam = txtVoornaam.getText();
+        String graad = txtGraad.getText();
+
+         try {
+                current_lid.wijzigLid(voornaam, Graad.valueOf(graad));
+                dc.wijzigLid(current_lid);
+            
+        } catch (IllegalArgumentException e) {
+            errorMessage.setText("Deze graad is niet toegelaten");
+            errorMessage.setVisible(true);
+        }
+        
+
     }
 
     @FXML
     private void annuleerwijziging(ActionEvent event) {
-       txtVoornaam.clear();
-       txtGraad.clear();
+        current_lid = null;
+        txtVoornaam.clear();
+        txtGraad.clear();
     }
 
-
-   
-    
 }

@@ -94,15 +94,14 @@ public class DomeinController {
         this.lidRepository = lidRepository;
     }
 
-    
-     public void addPropertyChangeListener(PropertyChangeListener pc1){
-       dojo.addPropertyChangeListener(pc1);
-        
+    public void addPropertyChangeListener(PropertyChangeListener pc1) {
+        dojo.addPropertyChangeListener(pc1);
+
     }
-     public void removePropertyChangeListener(PropertyChangeListener pc1){
+
+    public void removePropertyChangeListener(PropertyChangeListener pc1) {
         dojo.removePropertyChangeListener(pc1);
-       
-        
+
     }
 
 }

@@ -36,9 +36,9 @@ public class Lid implements Serializable {
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
-    @Transient
-    private PropertyChangeSupport subject;
     
+    
+   
     
     public Lid() {
     }
@@ -51,7 +51,6 @@ public class Lid implements Serializable {
     public Lid(String voornaam, Graad graad) {
         setVoornaam(voornaam);
         setGraad(graad);
-        subject = new PropertyChangeSupport(this);
         fillSimpleProperties();
     }
     
@@ -94,9 +93,9 @@ public class Lid implements Serializable {
     public void wijzigLid(String voornaam, Graad graad) {
         setGraad(graad);
         setVoornaam(voornaam);
-        subject.firePropertyChange("lid",this,this);
-        //geeft nog nullpointer :( 
+        fillSimpleProperties();
         
+       
     }
 
     @Override
@@ -152,16 +151,12 @@ public class Lid implements Serializable {
     public void setGraadProperty(SimpleStringProperty attribute) {
         this.graadProperty = attribute;
     }
+
+    @Override
+    public String toString() {
+        return "Lid{" + "id=" + id + ", voornaam=" + voornaam + ", graad=" + graad + ", type=" + type + ", voornaamProperty=" + voornaamProperty + ", graadProperty=" + graadProperty + '}';
+    }
     
-    public void addPropertyChangeListener(PropertyChangeListener pc1){
-        subject.addPropertyChangeListener(pc1);
-        pc1.propertyChange(new PropertyChangeEvent(pc1,"lid",null,this));
-        
-    }
-     public void removePropertyChangeListener(PropertyChangeListener pc1){
-        subject.removePropertyChangeListener(pc1);
-       
-        
-    }
+    
 
 }

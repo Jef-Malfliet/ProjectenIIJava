@@ -39,19 +39,15 @@ public class PersistentieController<E> implements IPersistentieController {
         openConnection();
         Lid lid = (Lid) item;
         try {
-            
-            System.out.println("PersistentieController -- wijzig lid ervoor ");
+
             Lid gevonden_lid = em.find(Lid.class, lid.getId());
             gevonden_lid.wijzigLid(lid.getVoornaam(), lid.getGraad());
-            System.out.println("PersistentieController --  lid erachter");
             em.merge(gevonden_lid);
             closeConnection();
 
             return true;
         } catch (Exception e) {
-            System.out.println("PersistentieController -- stackTrace");
-            e.printStackTrace();
-            
+
             return false;
         }
     }

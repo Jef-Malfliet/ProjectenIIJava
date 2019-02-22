@@ -24,7 +24,7 @@ import javafx.scene.layout.VBox;
  *
  * @author IndyV
  */
-public class OverzichtSceneController extends VBox implements PropertyChangeListener {
+public class OverzichtSceneController extends VBox implements PropertyChangeListener{
 
     private DomeinController dc;
 
@@ -51,18 +51,12 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     }
 
     private void buildGui() {
-
+        
         tableOverview.getSelectionModel().selectedItemProperty().
                 addListener((observableValue, oldLid, newLid)
                         -> {
                     if (newLid != null) {
-                        dpc.fillLid(newLid);
-                        
-                        int index = tableOverview.getSelectionModel().getSelectedIndex();
-                        System.out.printf("%d %s\n", index, newLid);
-                        
-                        
-                    }
+                        dpc.fillLid(newLid);                      }
                 });
 
         tableOverview.setItems(dc.getLeden());
@@ -72,8 +66,10 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("OverzichtSceneController -- PropertyChange Lukt");
-         tableOverview.setItems(dc.getLeden());
+        tableOverview.refresh();
+       
     }
+
+
 
 }

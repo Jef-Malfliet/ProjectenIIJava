@@ -9,4 +9,5 @@ public enum Graad implements Serializable {
         GROEN,
         BLAUW,
         BRUIN
+        
 }

@@ -2,7 +2,9 @@ package domein;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
@@ -25,7 +27,8 @@ public class Dojo {
     private final Comparator<Lid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
-
+    private PropertyChangeSupport subject;
+    
     public Dojo(IPersistentieController persistentieController) {
         setPersistentieController(persistentieController);
         lijstLeden = this.persistentieController.geefAlles(Stuff.LID);
@@ -37,6 +40,7 @@ public class Dojo {
 
     public Dojo() {
         this(new PersistentieController());
+        subject = new PropertyChangeSupport(this);
     }
 
     /**
@@ -54,7 +58,9 @@ public class Dojo {
      */
     public boolean wijzigLid(Lid lid) {
         boolean succes = persistentieController.wijzig(lid);
+       
         lijstLeden = persistentieController.geefAlles(Stuff.LID);
+        subject.firePropertyChange("lijstleden",null,lijstLeden);
         return succes;
     }
 
@@ -105,14 +111,17 @@ public class Dojo {
     private void fillSimplePropertiesForGui() {
         lijstLeden.forEach(lid -> lid.fillSimpleProperties());
     }
-     public void addPropertyChangeListener(PropertyChangeListener pc1){
-        lijstLeden.forEach(lid -> lid.addPropertyChangeListener(pc1));
+    public void addPropertyChangeListener(PropertyChangeListener pc1){
+        subject.addPropertyChangeListener(pc1);
+        pc1.propertyChange(new PropertyChangeEvent(pc1,"lijstleden",null,lijstLeden));
         
     }
      public void removePropertyChangeListener(PropertyChangeListener pc1){
-        lijstLeden.forEach(lid -> lid.removePropertyChangeListener(pc1));
+        subject.removePropertyChangeListener(pc1);
        
         
     }
+    
+   
 
 }
