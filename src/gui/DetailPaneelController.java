@@ -62,7 +62,7 @@ public class DetailPaneelController extends VBox {
     }
 
     public void fillLid(Lid lid) {
-        
+
         lblDetail.setText("Lid wijzigen");
         current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
@@ -70,7 +70,7 @@ public class DetailPaneelController extends VBox {
         txtGraad.setText(lid.getGraad().name());
         txtStraat.setText(lid.getStraat());
         txtGemeente.setText(lid.getGemeente());
-        txtPostCode.setText(String.format("%s",lid.getPostcode()));
+        txtPostCode.setText(String.format("%s", lid.getPostcode()));
         txtEmail.setText(lid.getEmail());
         txtTelefoonnummer.setText(lid.getTelefoon());
         nieuwlid = false;
@@ -87,22 +87,35 @@ public class DetailPaneelController extends VBox {
         String telefoon = txtTelefoonnummer.getText();
         String email = txtEmail.getText();
         String straat = txtStraat.getText();
-        int postcode = Integer.parseInt(txtPostCode.getText());
         String gemeente = txtGemeente.getText();
-
-        try {
-            if (nieuwlid) {
-                dc.voegLidToe(new Lid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente));
-            } else {
-                current_lid.wijzigLid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente);
-                dc.wijzigLid(current_lid);
-
-            }
-        } catch (IllegalArgumentException e) {
-            errorMessage.setText("Deze graad is niet toegelaten");
+        if (voornaam == null || voornaam.isEmpty() || achternaam == null || achternaam.isEmpty() || graad == null || graad.isEmpty()
+                || telefoon == null || telefoon.isEmpty() || email == null || email.isEmpty() || straat == null
+                || straat.isEmpty() || gemeente == null || gemeente.isEmpty()) {
+            errorMessage.setText("Sommige gegevens ontbreken");
             errorMessage.setVisible(true);
-        }
 
+        } else {
+            try {
+                if (!txtPostCode.getText().matches("[1-9][0-9]{3}")) {
+                    errorMessage.setText("Postcode is geen bestaande postcode");
+                    errorMessage.setVisible(true);
+                } else {
+
+                    int postcode = Integer.parseInt(txtPostCode.getText());
+                    if (nieuwlid) {
+                        dc.voegLidToe(new Lid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente));
+                    } else {
+                        current_lid.wijzigLid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente);
+                        dc.wijzigLid(current_lid);
+
+                    }
+
+                }
+            } catch (IllegalArgumentException e) {
+                errorMessage.setText("Deze graad is niet toegelaten");
+                errorMessage.setVisible(true);
+            }
+        }
     }
 
     @FXML
@@ -120,9 +133,9 @@ public class DetailPaneelController extends VBox {
         txtGemeente.clear();
         txtEmail.clear();
         txtTelefoonnummer.clear();
-        
+
     }
-    
+
     public void nieuwLid() {
         nieuwlid = true;
         lblDetail.setText("Nieuw Lid toevoegen");

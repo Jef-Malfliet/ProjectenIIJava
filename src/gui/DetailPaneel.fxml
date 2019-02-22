@@ -117,7 +117,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="errorMessage" alignment="CENTER" prefHeight="82.0" prefWidth="600.0" textAlignment="CENTER" textFill="#e6e6e6">
+                  <Label fx:id="errorMessage" alignment="CENTER" prefHeight="82.0" prefWidth="600.0" textAlignment="CENTER" textFill="#3b3535">
                      <font>
                         <Font name="Quicksand-Bold" size="31.0" />
                      </font>
