@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.junit.Before;
 import org.mockito.Mockito;
 import persistentie.LidDao;
-import persistentie.LidDaoJpa;
 
 /**
  *

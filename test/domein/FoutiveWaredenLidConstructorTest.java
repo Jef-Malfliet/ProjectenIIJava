@@ -44,7 +44,14 @@ public class FoutiveWaredenLidConstructorTest {
             {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, null},
             {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, ""},
             {"Bert", "Brackeman", null, "0494562819", "test@test.test.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 0, ""}
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 0, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 012345, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "testtest.test.com", "straat straat", 9300, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "Test@", "straat straat", 9300, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "_test@test.com", "straat straat", 9300, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test&.com", "straat straat", 9300, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "045615203", "test@test.com", "straat straat", 9300, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "04945628198", "test@test.com", "straat straat", 9300, ""}
         });
     }
 
