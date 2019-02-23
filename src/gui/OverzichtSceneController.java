@@ -11,6 +11,7 @@ import domein.SorteerType;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -38,7 +39,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private TableColumn<Lid, String> colBand = new TableColumn<>();
     private final DetailPaneelController dpc;
     @FXML
-    private ComboBox<SorteerType> cboFilterOptie;
+    private ComboBox<SorteerType> cboFilterOptie = new ComboBox<>();
     @FXML
     private TextField txtVan;
     @FXML
@@ -71,6 +72,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         tableOverview.setItems(dc.getLeden());
         colName.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
         colBand.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
+        cboFilterOptie.setItems(FXCollections.observableArrayList(SorteerType.values()));
     }
 
     @Override

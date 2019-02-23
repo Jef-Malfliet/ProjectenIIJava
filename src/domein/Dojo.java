@@ -100,7 +100,7 @@ public class Dojo {
 
     public ObservableList<Lid> getSortedLeden() {
         fillSimplePropertiesForGui();
-        return FXCollections.observableArrayList(lijstLeden);
+        return sorted;
     }
 
     public FilteredList getFilteredLeden() {
@@ -144,20 +144,20 @@ public class Dojo {
                         return (lid.getVoornaam().compareToIgnoreCase(start) >= 0
                                 && lid.getVoornaam().compareToIgnoreCase(einde) <= 0 || lid.getVoornaam().toLowerCase().startsWith(einde.toLowerCase()));
                     }
-                case ACHTERNAAM:
-                    if (start == null || start.isEmpty()) {
-                        return lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase());
-                    }
-                    if (einde == null || einde.isEmpty()) {
-                        return lid.getAchternaam().compareToIgnoreCase(start) >= 0;
-                    } else {
-                        return (lid.getAchternaam().compareToIgnoreCase(start) >= 0
-                                && lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase()));
-                    }
+//                case ACHTERNAAM:
+//                    if (start == null || start.isEmpty()) {
+//                        return lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase());
+//                    }
+//                    if (einde == null || einde.isEmpty()) {
+//                        return lid.getAchternaam().compareToIgnoreCase(start) >= 0;
+//                    } else {
+//                        return (lid.getAchternaam().compareToIgnoreCase(start) >= 0
+//                                && lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase()));
+//                    }
                 case GRAAD:
-                    return start.toLowerCase().equals(lid.getGraad().toString().toLowerCase());
-                case TYPE:
-                    return start.toLowerCase().equals(lid.getType().toString().toLowerCase());
+                    return start.toLowerCase().startsWith(lid.getGraad().toString().toLowerCase());
+//                case TYPE:
+//                    return start.toLowerCase().equals(lid.getType().toString().toLowerCase());
                 default:
                     return true;
             }
