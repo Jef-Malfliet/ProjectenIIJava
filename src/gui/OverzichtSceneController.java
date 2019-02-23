@@ -88,6 +88,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private void update() {
         tableOverview.setItems(dc.getLeden());
         tableOverview.refresh();
+        
     }
 
     public DetailPaneelController getDpc() {
@@ -96,10 +97,14 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
     public void verwijdergeselecteerdLid() {
         Lid lid = tableOverview.getSelectionModel().selectedItemProperty().get();
+        tableOverview.getSelectionModel().clearSelection();
+        dpc.clearTextFields();
         if (lid != null) {
             dc.verwijderLid(lid);
             update();
         }
+         
+      
 
     }
 

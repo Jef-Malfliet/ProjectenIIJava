@@ -134,7 +134,7 @@ public class DetailPaneelController extends VBox {
         clearTextFields();
     }
 
-    private void clearTextFields() {
+    public void clearTextFields() {
         errorMessage.setVisible(false);
         txtVoornaam.clear();
         txtAchternaam.clear();
