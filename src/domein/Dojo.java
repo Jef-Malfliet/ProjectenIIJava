@@ -44,7 +44,6 @@ public class Dojo {
     public boolean verwijderLid(Lid lid) {
      
         this.lidRepo.delete(lid);
-       
         return this.lijstLeden.remove(lid);
     }
 

@@ -58,7 +58,7 @@ public class GenericDaoJpa<E> implements GenericDao<E> {
 
     @Override
     public void delete(E object) {
-        em.remove(em.merge(object));
+        em.remove(object);
     }
 
     @Override
