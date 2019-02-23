@@ -81,7 +81,7 @@ public class Lid implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %d in %s", voornaam, achternaam, graad.toString(), telefoon, email, straat, postcode, gemeente);
+        return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %d in %s%n", voornaam, achternaam, graad.toString(), telefoon, email, straat, postcode, gemeente);
     }
 
     public SimpleStringProperty getVoornaamProperty() {
@@ -185,6 +185,9 @@ public class Lid implements Serializable {
     }
 
     public void setPostcode(int postcode) {
+        if (postcode == 0) {
+            throw new IllegalArgumentException("Postcode mag niet leeg zijn");
+        }
         this.postcode = postcode;
     }
 
@@ -204,6 +207,9 @@ public class Lid implements Serializable {
     }
 
     public void setGraad(Graad graad) {
+        if (graad == null) {
+            throw new IllegalArgumentException("Graad mag niet null zijn");
+        }
         this.graad = graad;
     }
 

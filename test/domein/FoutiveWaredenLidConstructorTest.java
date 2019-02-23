@@ -24,7 +24,7 @@ public class FoutiveWaredenLidConstructorTest {
     private final Graad graad;
     private final String telefoon;
     private final String email;
-    private final String straat;    
+    private final String straat;
     private final int postcode;
     private final String gemeente;
 
@@ -42,7 +42,9 @@ public class FoutiveWaredenLidConstructorTest {
             {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", null, 9300, "Aalst"},
             {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "", 9300, "Aalst"},
             {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, null},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, ""}
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, ""},
+            {"Bert", "Brackeman", null, "0494562819", "test@test.test.com", "straat straat", 9300, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 0, ""}
         });
     }
 
@@ -56,9 +58,9 @@ public class FoutiveWaredenLidConstructorTest {
         this.postcode = postcode;
         this.gemeente = gemeente;
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
-    public void testFoutiveConstructorwaarden(){
+    public void testFoutiveConstructorwaarden() {
         Lid lid = new Lid(voorNaam, achterNaam, graad, telefoon, email, straat, postcode, gemeente);
     }
 }
