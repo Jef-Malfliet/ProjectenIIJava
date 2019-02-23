@@ -24,10 +24,10 @@ public class StartUp extends Application {
 
         DomeinController dc = new DomeinController();
         
-        Lid lid1 = new Lid("Nante", "Vermeulen", Graad.GROEN, "1234567890", "nante.vermeulen@student.hogent.be", "Straat", 9300, "Landeghem");
-        Lid lid0 = new Lid("Indy", "Van Canegem", Graad.BRUIN, "1234567890", "indy.vancanegem@student.hogent.be", "Straat", 9240, "Zele");
-        Lid lid2 = new Lid("Jef", "Malfliet", Graad.ORANJE, "1234567890", "jef.malfliet@student.hogent.be", "Straat", 9220, "Hamme");
-        Lid lid3 = new Lid("Mout", "Pessemier", Graad.WIT, "1234567890", "mout.pessemier@student.hogent.be", "Straat", 9320, "Erembodegen");
+        Lid lid1 = new Lid("Nante", "Vermeulen", Graad.GROEN, "0472112233", "nante.vermeulen@student.hogent.be", "Straat", 9300, "Landeghem");
+        Lid lid0 = new Lid("Indy", "Van Canegem", Graad.BRUIN, "0032472112233", "indy.vancanegem@student.hogent.be", "Straat", 9240, "Zele");
+        Lid lid2 = new Lid("Jef", "Malfliet", Graad.ORANJE, "0234567890", "jef.malfliet@student.hogent.be", "Straat", 9220, "Hamme");
+        Lid lid3 = new Lid("Mout", "Pessemier", Graad.WIT, "0234567890", "mout.pessemier@student.hogent.be", "Straat", 9320, "Erembodegen");
 
         dc.voegLidToe(lid0);
         dc.voegLidToe(lid1);

@@ -80,6 +80,13 @@ public class BeheerderControlController extends VBox {
             }
 
         });
+        btnOverzichtenRaadplegen.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                overzichtRaadplegen();
+            }
+
+        });
         
         
     }
@@ -90,13 +97,34 @@ public class BeheerderControlController extends VBox {
      * Deze functie schrijft een lid in en voegt het lid toe in de databank.
      */
     private void schrijfLidIn() {
-        btnInschrijvenLid.setStyle("-fx-background-color: red");
+        resetStyle();
+        changeBackgroundToRed(btnInschrijvenLid);
         oc.getDpc().nieuwLid();
         
     }
     private void verwijderLid() {
-        btnInschrijvenLid.setStyle("-fx-background-color: red");
+        resetStyle();
+        changeBackgroundToRed(btnVerwijderenLid);
         oc.verwijdergeselecteerdLid();
     }
+    
+    private void overzichtRaadplegen(){
+        resetStyle();
+        changeBackgroundToRed(btnOverzichtenRaadplegen);
+    }
+    
+    
+    private void resetStyle(){
+        String style = "-fx-background-color:#484857";
+        btnInschrijvenLid.setStyle(style);
+        btnVerwijderenLid.setStyle(style);
+        btnOverzichtenRaadplegen.setStyle(style);
+    }
+    
+    private void changeBackgroundToRed(HBox hbox){
+        hbox.setStyle("-fx-background-color: red");
+    }
+    
+    
 
 }

@@ -9,6 +9,8 @@ import domein.DomeinController;
 import domein.Graad;
 import domein.Lid;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,7 +64,7 @@ public class DetailPaneelController extends VBox {
     }
 
     public void fillLid(Lid lid) {
-
+        errorMessage.setVisible(false);
         lblDetail.setText("Lid wijzigen");
         current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
@@ -96,23 +98,28 @@ public class DetailPaneelController extends VBox {
 
         } else {
             try {
-                if (!txtPostCode.getText().matches("[1-9][0-9]{3}")) {
-                    errorMessage.setText("Postcode is geen bestaande postcode");
+                if (Arrays.stream(Graad.values()).noneMatch(g -> graad.toUpperCase().equals(g.toString().toUpperCase()))) {
+                    errorMessage.setText("Deze graad is niet toegelaten");
                     errorMessage.setVisible(true);
                 } else {
-
-                    int postcode = Integer.parseInt(txtPostCode.getText());
-                    if (nieuwlid) {
-                        dc.voegLidToe(new Lid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente));
+                    if (!txtPostCode.getText().matches("[1-9][0-9]{3}")) {
+                        errorMessage.setText("Geen geldige postcode");
+                        errorMessage.setVisible(true);
                     } else {
-                        current_lid.wijzigLid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente);
-                        dc.wijzigLid(current_lid);
+
+                        int postcode = Integer.parseInt(txtPostCode.getText());
+                        if (nieuwlid) {
+                            dc.voegLidToe(new Lid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente));
+                        } else {
+                            current_lid.wijzigLid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente);
+                            dc.wijzigLid(current_lid);
+
+                        }
 
                     }
-
                 }
             } catch (IllegalArgumentException e) {
-                errorMessage.setText("Deze graad is niet toegelaten");
+                errorMessage.setText(e.getMessage());
                 errorMessage.setVisible(true);
             }
         }
@@ -125,6 +132,7 @@ public class DetailPaneelController extends VBox {
     }
 
     private void clearTextFields() {
+        errorMessage.setVisible(false);
         txtVoornaam.clear();
         txtAchternaam.clear();
         txtGraad.clear();

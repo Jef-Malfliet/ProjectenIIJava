@@ -155,7 +155,7 @@ public class Lid implements Serializable {
         if (telefoon == null || telefoon.isEmpty()) {
             throw new IllegalArgumentException("Telefoon mag niet leeg zijn.");
         }
-        if (!telefoon.matches("\\d{10}")) {
+        if (!(telefoon.matches("0\\d{9}") || telefoon.matches("00\\d{11}"))) {
             throw new IllegalArgumentException("Telefoon is niet van het juiste formaat");
         }
         this.telefoon = telefoon;
@@ -170,7 +170,7 @@ public class Lid implements Serializable {
             throw new IllegalArgumentException("E-mail mag niet leeg zijn.");
         }
         if (!email.matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$")) {
-            throw new IllegalArgumentException("E-mail voldoet niet aan het juiste patroon");
+            throw new IllegalArgumentException("E-mail voldoet niet aan het juiste patroon(voorbeeld@voorbeeld.iets");
         }
         this.email = email;
     }
@@ -191,7 +191,7 @@ public class Lid implements Serializable {
     }
 
     public void setPostcode(int postcode) {
-        if (Integer.toString(postcode).length() < 4 || Integer.toString(postcode).length() > 4) {
+        if(postcode < 1000 || postcode > 9999){
             throw new IllegalArgumentException("Geen geldige postcode");
         }
         this.postcode = postcode;
