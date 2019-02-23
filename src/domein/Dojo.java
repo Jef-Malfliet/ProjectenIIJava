@@ -15,7 +15,7 @@ import persistentie.LidDaoJpa;
 
 public class Dojo {
 
-    private List<Lid> lijstLeden;
+  
     private final Type type;
     private final ObservableList<Lid> leden;
     private final Comparator<Lid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
@@ -29,9 +29,8 @@ public class Dojo {
 
     public Dojo(LidDao lidRepo) {
         setLidRepo(lidRepo);
-        lijstLeden = this.lidRepo.findAll();
         this.type = Type.BEHEERDER;
-        leden = FXCollections.observableArrayList(lijstLeden);
+        leden = FXCollections.observableArrayList(this.lidRepo.findAll());
         filtered = new FilteredList<>(leden, (p) -> true);
         sorted = new SortedList<>(filtered, sortOrder);
         subject = new PropertyChangeSupport(this);
@@ -44,7 +43,7 @@ public class Dojo {
     public boolean verwijderLid(Lid lid) {
      
         this.lidRepo.delete(lid);
-        return this.lijstLeden.remove(lid);
+        return this.leden.remove(lid);
     }
 
     /**
@@ -54,9 +53,7 @@ public class Dojo {
     public boolean wijzigLid(Lid lid) {
      
         Lid temp = lidRepo.update(lid);
-        
-        lijstLeden = lidRepo.findAll();
-        subject.firePropertyChange("lijstleden", null, lijstLeden);
+        subject.firePropertyChange("lijstleden", null, leden);
         if (temp == null) {
             return false;
         }
@@ -68,7 +65,7 @@ public class Dojo {
      * @param lid
      */
     public Lid toonLid(long id) {
-        return lijstLeden.stream().filter(l -> l.getId() == id).findFirst().orElse(null);
+        return leden.stream().filter(l -> l.getId() == id).findFirst().orElse(null);
     }
 
     /**
@@ -77,13 +74,13 @@ public class Dojo {
      */
     public boolean voegLidToe(Lid lid) {
       
-        if (!lijstLeden.contains(lid)) {
+        if (!leden.contains(lid)) {
             if (lidRepo.get(lid.getId()) == null) {
                
                 lidRepo.insert(lid);
                 
-                lijstLeden.add(lid);
-                subject.firePropertyChange("lijstleden", null, lijstLeden);
+                leden.add(lid);
+                subject.firePropertyChange("lijstleden", null, leden);
                 return true;
             }
         }
@@ -91,7 +88,7 @@ public class Dojo {
     }
 
     public List<Lid> getLijstLeden() {
-        return lijstLeden;
+        return leden;
     }
 
     public Type getType() {
@@ -108,12 +105,12 @@ public class Dojo {
     }
 
     private void fillSimplePropertiesForGui() {
-        lijstLeden.forEach(lid -> lid.fillSimpleProperties());
+        leden.forEach(lid -> lid.fillSimpleProperties());
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pc1) {
         subject.addPropertyChangeListener(pc1);
-        pc1.propertyChange(new PropertyChangeEvent(pc1, "lijstleden", null, lijstLeden));
+        pc1.propertyChange(new PropertyChangeEvent(pc1, "lijstleden", null, leden));
 
     }
 
@@ -133,6 +130,8 @@ public class Dojo {
      */
     public void filter(SorteerType optie, String start, String einde) {
         filtered.setPredicate(lid -> {
+            if(optie == null)
+                return true;
             switch (optie) {
                 case VOORNAAM:
                     if (start == null || start.isEmpty()) {

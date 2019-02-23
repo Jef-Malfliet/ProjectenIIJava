@@ -12,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -20,6 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.VBox;
 
 /**
@@ -73,6 +76,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         colName.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
         colBand.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
         cboFilterOptie.setItems(FXCollections.observableArrayList(SorteerType.values()));
+        cboFilterOptie.getSelectionModel().selectFirst();
     }
 
     @Override
@@ -114,5 +118,14 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         }
 
     }
+
+
+    @FXML
+    private void filterChange(MouseEvent event) {
+        txtTot.clear();
+        txtVan.clear();
+        dc.filter(null,null,null);
+    }
+
 
 }
