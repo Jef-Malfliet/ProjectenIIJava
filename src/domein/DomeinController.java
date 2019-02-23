@@ -58,7 +58,10 @@ public class DomeinController {
      * @param lid
      */
     public boolean verwijderLid(Lid lid) {
-        return dojo.verwijderLid(lid);
+        GenericDaoJpa.startTransaction();
+        boolean verwijdert = dojo.verwijderLid(lid);
+        GenericDaoJpa.commitTransaction();
+        return verwijdert;
     }
 
     public void filter(SorteerType type, String start, String einde) {
