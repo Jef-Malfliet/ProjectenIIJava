@@ -115,8 +115,11 @@ public class DetailPaneelController extends VBox {
                             dc.wijzigLid(current_lid);
 
                         }
+                         errorMessage.setText("Wijzigingen worden opgeslaan");
+                         errorMessage.setVisible(true);
 
                     }
+                   
                 }
             } catch (IllegalArgumentException e) {
                 errorMessage.setText(e.getMessage());
