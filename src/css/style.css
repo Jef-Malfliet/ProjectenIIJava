@@ -1,0 +1,14 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 24-feb-2019, 13:50:35
+    Author     : Mout
+*/
+.table-row-cell{
+    -fx-background-color: black;
+    -fx-color: white;
+    -fx-font-weight: bold;
+}

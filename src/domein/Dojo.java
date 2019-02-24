@@ -157,7 +157,7 @@ public class Dojo {
 //                                && lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase()));
 //                    }
                 case GRAAD:
-                    return start.toLowerCase().equals(lid.getGraad().toString().toLowerCase());
+                    return lid.getGraad().toString().toLowerCase().compareTo(start) >= 0;
 //                case TYPE:
 //                    return start.toLowerCase().equals(lid.getType().toString().toLowerCase());
                 default:
