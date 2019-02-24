@@ -32,7 +32,7 @@ public class Lid implements Serializable {
     private Graad graad;
 
     @Transient
-    private final Type type = Type.LID;
+    private final RolType type = RolType.LID;
 
     @Transient
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
@@ -223,7 +223,7 @@ public class Lid implements Serializable {
         return id;
     }
 
-    public Type getType() {
+    public RolType getType() {
         return type;
     }
 

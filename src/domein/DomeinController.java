@@ -86,4 +86,11 @@ public class DomeinController {
 
     }
 
+    public void maakOverzicht(OverzichtType type) {
+        dojo.maakOverzicht(type);
+    }
+
+    public List<Overzicht> getOverzicht() {
+        return dojo.getOverzichtList();
+    }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="2048.0" prefWidth="221.0" style="-fx-background-color: #484857;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="2048.0" prefWidth="221.0" style="-fx-background-color: #484857;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.BeheerderControlController">
    <children>
       <HBox fx:id="btnInschrijvenLid" prefHeight="66.0" prefWidth="221.0" style="-fx-background-color: #454553;">
          <children>
@@ -27,9 +27,9 @@
       </HBox>
       <HBox fx:id="btnOverzichtenRaadplegen" prefHeight="66.0" prefWidth="221.0" style="-fx-border-radius: 1px;">
          <children>
-            <Label alignment="CENTER" prefHeight="78.0" prefWidth="235.0" text="Overzichten raadplegen" textFill="#e6e6e6">
+            <Label alignment="CENTER" prefHeight="66.0" prefWidth="247.0" text="Overzichten genereren/raadplegen" textFill="#e6e6e6">
                <font>
-                  <Font name="Quicksand-Bold" size="15.0" />
+                  <Font size="13.0" />
                </font>
             </Label>
          </children>

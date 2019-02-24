@@ -15,7 +15,6 @@ import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -38,16 +37,20 @@ public class BeheerderControlController extends VBox {
     private HBox btnStateActiviteitBeheren;
     @FXML
     private HBox btnLesmateriaalBeheren;
-    
+
     private OverzichtSceneController oc;
     @FXML
     private HBox btnVerwijderenLid;
+
+    private DomeinController dc;
+    private MainPanel mp;
+
     /**
      * Constructor beheerderControlController
      *
      * Initialiseert de GUI en zijn nodige dependencies.
      */
-    public BeheerderControlController(DomeinController dc,OverzichtSceneController oc) {
+    public BeheerderControlController(DomeinController dc, OverzichtSceneController oc, MainPanel mp) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BeheerderControl.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -57,6 +60,8 @@ public class BeheerderControlController extends VBox {
             throw new RuntimeException(ex);
         }
         this.oc = oc;
+        this.dc = dc;
+        this.mp = mp;
         buildGui();
     }
 
@@ -84,11 +89,11 @@ public class BeheerderControlController extends VBox {
             @Override
             public void handle(Event event) {
                 overzichtRaadplegen();
+                OverzichtOpvraagSceneController opsc = new OverzichtOpvraagSceneController(dc);
+                mp.setCenter(opsc);
             }
-
         });
-        
-        
+
     }
 
     /**
@@ -100,31 +105,28 @@ public class BeheerderControlController extends VBox {
         resetStyle();
         changeBackgroundToRed(btnInschrijvenLid);
         oc.getDpc().nieuwLid();
-        
+
     }
+
     private void verwijderLid() {
         resetStyle();
         changeBackgroundToRed(btnVerwijderenLid);
         oc.verwijdergeselecteerdLid();
     }
-    
-    private void overzichtRaadplegen(){
+
+    private void overzichtRaadplegen() {
         resetStyle();
         changeBackgroundToRed(btnOverzichtenRaadplegen);
     }
-    
-    
-    private void resetStyle(){
+
+    private void resetStyle() {
         String style = "-fx-background-color:#484857";
         btnInschrijvenLid.setStyle(style);
         btnVerwijderenLid.setStyle(style);
         btnOverzichtenRaadplegen.setStyle(style);
     }
-    
-    private void changeBackgroundToRed(HBox hbox){
+
+    private void changeBackgroundToRed(HBox hbox) {
         hbox.setStyle("-fx-background-color: red");
     }
-    
-    
-
 }

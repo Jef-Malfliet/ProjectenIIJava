@@ -99,4 +99,9 @@ public class DojoTest {
         Assert.assertTrue(beheerder.getLijstLeden().contains(testLid));
         Mockito.verify(lidDaoDummy).insert(testLid);
     }
+    
+    @Test
+    public void testMaakOverzicht(){
+        
+    }
 }

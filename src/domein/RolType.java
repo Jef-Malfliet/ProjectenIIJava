@@ -2,7 +2,7 @@ package domein;
 
 import java.io.Serializable;
 
-public enum Type implements Serializable{
+public enum RolType implements Serializable{
 	LID,LESGEVER,BEHEERDER;
 
 

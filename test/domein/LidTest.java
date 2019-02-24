@@ -20,6 +20,6 @@ public class LidTest {
         Lid nieuwLid = new Lid("Tom", "Clarys", Graad.BRUIN, "12/34567890", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele");
         Assert.assertEquals("Tom", nieuwLid.getVoornaam());
         Assert.assertEquals(Graad.BRUIN, nieuwLid.getGraad());
-        Assert.assertEquals(Type.LID, nieuwLid.getType());
+        Assert.assertEquals(RolType.LID, nieuwLid.getType());
     }
 }

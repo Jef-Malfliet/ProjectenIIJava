@@ -3,6 +3,8 @@ package domein;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -11,12 +13,10 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 //import persistentie.IPersistentieController;
 import persistentie.LidDao;
-import persistentie.LidDaoJpa;
 
 public class Dojo {
 
-  
-    private final Type type;
+    private final RolType type;
     private final ObservableList<Lid> leden;
     private final Comparator<Lid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
     private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
@@ -26,14 +26,16 @@ public class Dojo {
     private final SortedList<Lid> sorted;
     private PropertyChangeSupport subject;
     private LidDao lidRepo;
+    private final List<Overzicht> overzichtList;
 
     public Dojo(LidDao lidRepo) {
         setLidRepo(lidRepo);
-        this.type = Type.BEHEERDER;
+        this.type = RolType.BEHEERDER;
         leden = FXCollections.observableArrayList(this.lidRepo.findAll());
         filtered = new FilteredList<>(leden, (p) -> true);
         sorted = new SortedList<>(filtered, sortOrder);
         subject = new PropertyChangeSupport(this);
+        overzichtList = new ArrayList();
     }
 
     /**
@@ -41,7 +43,7 @@ public class Dojo {
      * @param lid
      */
     public boolean verwijderLid(Lid lid) {
-     
+
         this.lidRepo.delete(lid);
         return this.leden.remove(lid);
     }
@@ -51,7 +53,7 @@ public class Dojo {
      * @param lid
      */
     public boolean wijzigLid(Lid lid) {
-     
+
         Lid temp = lidRepo.update(lid);
         subject.firePropertyChange("lijstleden", null, leden);
         if (temp == null) {
@@ -73,12 +75,12 @@ public class Dojo {
      * @param lid
      */
     public boolean voegLidToe(Lid lid) {
-      
+
         if (!leden.contains(lid)) {
             if (lidRepo.get(lid.getId()) == null) {
-               
+
                 lidRepo.insert(lid);
-                
+
                 leden.add(lid);
                 subject.firePropertyChange("lijstleden", null, leden);
                 return true;
@@ -91,7 +93,7 @@ public class Dojo {
         return leden;
     }
 
-    public Type getType() {
+    public RolType getType() {
         return type;
     }
 
@@ -130,8 +132,9 @@ public class Dojo {
      */
     public void filter(SorteerType optie, String start, String einde) {
         filtered.setPredicate(lid -> {
-            if(optie == null)
+            if (optie == null) {
                 return true;
+            }
             switch (optie) {
                 case VOORNAAM:
                     if (start == null || start.isEmpty()) {
@@ -162,4 +165,13 @@ public class Dojo {
             }
         });
     }
+
+    public File maakOverzicht(OverzichtType type) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Overzicht> getOverzichtList() {
+        return overzichtList;
+    }
+
 }
