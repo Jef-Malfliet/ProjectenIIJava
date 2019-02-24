@@ -37,6 +37,9 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private TableColumn<Lid, String> colName = new TableColumn<>();
     @FXML
     private TableColumn<Lid, String> colBand = new TableColumn<>();
+    @FXML
+    private TableColumn<Lid, String> colType = new TableColumn<>();
+    
     private final DetailPaneelController dpc;
     @FXML
     private ComboBox<SorteerType> cboFilterOptie = new ComboBox<>();
@@ -44,6 +47,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private TextField txtVan;
     @FXML
     private TextField txtTot;
+    
 
     public OverzichtSceneController(DomeinController dc, DetailPaneelController dpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtScene.fxml"));
@@ -71,6 +75,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         tableOverview.setItems(dc.getLeden());
         colName.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
         colBand.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
+        colType.setCellValueFactory(cellData->cellData.getValue().getTypeProperty());
         cboFilterOptie.setItems(FXCollections.observableArrayList(SorteerType.values()));
         cboFilterOptie.getSelectionModel().selectFirst();
     }
