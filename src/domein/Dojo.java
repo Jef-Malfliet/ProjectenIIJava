@@ -130,11 +130,12 @@ public class Dojo {
      * @param einde
      * @param optie
      */
-    public void filter(SorteerType optie, String start, String einde) {
+    public void filter(SorteerType optie, String start) {
         filtered.setPredicate(lid -> {
             if (optie == null) {
                 return true;
             }
+            
             switch (optie) {
                 case VOORNAAM:
                     return lid.getVoornaam().compareToIgnoreCase(start) >= 0;

@@ -45,9 +45,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     @FXML
     private ComboBox<SorteerType> cboFilterOptie = new ComboBox<>();
     @FXML
-    private TextField txtVan;
-    @FXML
-    private TextField txtTot;
+    private TextField txtZoek;
     
 
     public OverzichtSceneController(DomeinController dc, DetailPaneelController dpc) {
@@ -111,16 +109,14 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     @FXML
     private void filter(KeyEvent event) {
         SorteerType type = cboFilterOptie.getSelectionModel().getSelectedItem();
-        String tot = txtTot.getText();
-        String van = txtVan.getText();
-        if (!(tot == null || tot.isEmpty() || van == null || van.isEmpty()) && type == null) {
+        String van = txtZoek.getText();
+        if (type == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error: geen sorteertype");
             alert.setHeaderText("Error: geen sorteertype meegegeven");
             alert.setContentText("Gelieve een sorteertype mee te geven");
         } else {
-            dc.filter(cboFilterOptie.getSelectionModel().getSelectedItem(), txtVan.getText(), txtTot.getText());
-            System.out.println(txtVan.getText()+"   "+txtTot.getText());
+            dc.filter(cboFilterOptie.getSelectionModel().getSelectedItem(), txtZoek.getText());
         }
     }
 }

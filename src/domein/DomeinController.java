@@ -64,8 +64,8 @@ public class DomeinController {
         return verwijdert;
     }
 
-    public void filter(SorteerType type, String start, String einde) {
-        dojo.filter(type, start, einde);
+    public void filter(SorteerType type, String start) {
+        dojo.filter(type, start);
     }
 
     public ObservableList<Lid> getLeden() {
