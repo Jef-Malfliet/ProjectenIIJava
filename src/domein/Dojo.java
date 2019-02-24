@@ -130,7 +130,7 @@ public class Dojo {
      * @param einde
      * @param optie
      */
-      public void filter(SorteerType optie, String start, String einde) {
+    public void filter(SorteerType optie, String start, String einde) {
         filtered.setPredicate(lid -> {
             if (optie == null) {
                 return true;
@@ -157,9 +157,21 @@ public class Dojo {
                                 && lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase()));
                     }
                 case GRAAD:
-                    return lid.getGraad().toString().toLowerCase().compareTo(start) >= 0;
+                    if (start == null || start.isEmpty()) {
+                        return lid.getGraad().toString().toLowerCase().startsWith(einde.toLowerCase());
+                    } else if (einde == null || einde.isEmpty()) {
+                        return lid.getGraad().toString().toLowerCase().startsWith(start.toLowerCase());
+                    } else {
+                        return lid.getGraad().toString().toLowerCase().startsWith(start.toLowerCase()) && lid.getGraad().toString().toLowerCase().startsWith(einde.toLowerCase());
+                    }
                 case TYPE:
-                    return lid.getType().toString().toLowerCase().compareTo(start) >= 0;
+                    if (start == null || start.isEmpty()) {
+                        return lid.getType().toString().toLowerCase().startsWith(einde.toLowerCase());
+                    } else if (einde == null || einde.isEmpty()) {
+                        return lid.getType().toString().toLowerCase().startsWith(start.toLowerCase());
+                    } else {
+                        return lid.getType().toString().toLowerCase().startsWith(start.toLowerCase()) && lid.getType().toString().toLowerCase().startsWith(start.toLowerCase());
+                    }
                 default:
                     return true;
             }
