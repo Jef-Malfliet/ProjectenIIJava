@@ -1,6 +1,7 @@
 package domein;
 
 import java.io.Serializable;
+import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import javax.persistence.*;
     @NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e"),
     @NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
 })
-public class Lid implements Serializable {
+public class Lid implements Serializable,Exportable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +40,7 @@ public class Lid implements Serializable {
 
     @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
-    
+
     @Transient
     private SimpleStringProperty typeProperty = new SimpleStringProperty();
 
@@ -91,6 +92,15 @@ public class Lid implements Serializable {
         return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %d in %s%n", voornaam, achternaam, graad.toString(), telefoon, email, straat, postcode, gemeente);
     }
 
+    @Override
+    public String excelFormat() {
+        return String.format("%s,%s,%s,%s,%s,%s,%s%n", voornaam, achternaam, graad.toString(), telefoon, email, straat, postcode, gemeente);
+
+    }
+    @Override
+    public String excelheaders(){
+        return String.format("%s,%s,%s,%s,%s,%s,%s%n", "Voornaam", "Achternaam", "Graad", "Telefoon", "Email", "Straat", "Postcode", "Gemeente");
+    }
     public SimpleStringProperty getVoornaamProperty() {
         return this.voornaamProperty;
     }
@@ -198,7 +208,7 @@ public class Lid implements Serializable {
     }
 
     public void setPostcode(int postcode) {
-        if(postcode < 1000 || postcode > 9999){
+        if (postcode < 1000 || postcode > 9999) {
             throw new IllegalArgumentException("Geen geldige postcode");
         }
         this.postcode = postcode;
@@ -230,9 +240,10 @@ public class Lid implements Serializable {
         return id;
     }
 
-    public void setType(RolType type){
-        this.type=type;
+    public void setType(RolType type) {
+        this.type = type;
     }
+
     public RolType getType() {
         return type;
     }
@@ -244,7 +255,5 @@ public class Lid implements Serializable {
     public void setTypeProperty(SimpleStringProperty typeProperty) {
         this.typeProperty = typeProperty;
     }
-    
-    
-    
+
 }

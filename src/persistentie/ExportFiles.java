@@ -5,10 +5,13 @@
  */
 package persistentie;
 
+import com.grapecity.documents.excel.SaveFileFormat;
+import com.grapecity.documents.excel.Workbook;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -27,25 +30,23 @@ import org.apache.poi.ss.util.CellRangeAddress;
  */
 public class ExportFiles {
 
-    public static void toExcel(List<String> lijst, int kolombreedte, float rijhoogte, String bestandNaam) {
-        
-        String locatie = System.getProperty("user.home");
-        locatie += "/Desktop/";
-        locatie += bestandNaam;
-        locatie += ".xls";
-      
+    public static void toExcel(String headers, List<String> lijst, int kolombreedte, float rijhoogte, String locatie) {
+
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("overzicht");
-       // shadeAlt(sheet); // is voor kleurtje van elke rij
+        //shadeAlt(sheet); // is voor kleurtje van elke rij
         sheet.setDefaultColumnWidth(kolombreedte);
         sheet.setDefaultRowHeightInPoints(rijhoogte);
-        Row[] rows = new Row[lijst.size()];
-        IntStream.range(0,lijst.size()-1).forEach(rownumber -> {
+        Row[] rows = new Row[lijst.size() + 1];
+        //header
+        lijst.add(0, headers);
+        //rest
+        IntStream.range(0, lijst.size()).forEach(rownumber -> {
             rows[rownumber] = sheet.createRow(rownumber);
-            String[] split = lijst.get(rownumber).split(" ");
-            IntStream.range(0,split.length -1).forEach(columnnumber -> {
+            String[] split = lijst.get(rownumber).split(",");
+            IntStream.range(0, split.length - 1).forEach(columnnumber -> {
                 rows[rownumber].createCell(columnnumber).setCellValue(split[columnnumber]);
-                
+
             });
 
         });
@@ -58,15 +59,23 @@ public class ExportFiles {
         } catch (FileNotFoundException ex) {
             throw new IllegalArgumentException("Het pad klopt niet");
         } catch (IOException ex) {
-             throw new IllegalArgumentException("Er is een fout opgetreden");
+            throw new IllegalArgumentException("Er is een fout opgetreden");
         }
 
     }
+//werkt nog niet
+//    public static void toPdf(String locatie, String pdfNaam) {
+//       
+//        Workbook workbook = new Workbook();
+//        workbook.open(locatie);
+//        workbook.save(pdfNaam, SaveFileFormat.Pdf);
+//        
+//
+//    }
+
 //nog niet gebruikt
     public static void shadeAlt(Sheet sheet) {
         SheetConditionalFormatting sheetCF = sheet.getSheetConditionalFormatting();
-
-        // Condition 1: Formula Is   =A2=A1   (White Font)
         ConditionalFormattingRule rule1 = sheetCF.createConditionalFormattingRule("MOD(ROW(),2)");
         PatternFormatting fill1 = rule1.createPatternFormatting();
         fill1.setFillBackgroundColor(IndexedColors.WHITE1.index);
@@ -77,31 +86,8 @@ public class ExportFiles {
         fill2.setFillBackgroundColor(IndexedColors.PALE_BLUE.index);
         fill2.setFillPattern(PatternFormatting.SOLID_FOREGROUND);
 
-        CellRangeAddress[] regions = {
-            CellRangeAddress.valueOf("A1:E9")
-        };
-
+        CellRangeAddress[] regions = {CellRangeAddress.valueOf("A1:E9")};
         sheetCF.addConditionalFormatting(regions, rule2, rule1);
     }
-//nog niet gebruikt
-    public static String[][] transpose(String[][] array) {
-        if (array == null || array.length == 0)//empty or unset array, nothing do to here
-        {
-            return array;
-        }
-
-        int width = array.length;
-        int height = array[0].length;
-
-        String[][] array_new = new String[height][width];
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                array_new[y][x] = array[x][y];
-            }
-        }
-        return array_new;
-    }
-
 
 }

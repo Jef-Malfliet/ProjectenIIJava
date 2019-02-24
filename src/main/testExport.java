@@ -30,10 +30,20 @@ public class testExport {
         dc.voegLidToe(lid1);
         dc.voegLidToe(lid2);
         dc.voegLidToe(lid3);
-        
          
-        List<String> lijstleden = dc.getLeden().stream().map(Lid::toString).collect(Collectors.toList());
-        ExportFiles.toExcel(lijstleden, 40, 20, "bestandtest");
+        String locatie = System.getProperty("user.home");
+        locatie += "/Desktop/";
+        //String locatie2 = locatie;
+        locatie += "bestandtest3";
+        
+       // locatie2 +="hallow12.zip";
+        locatie += ".xls";
+
+        List<String> lijstleden = dc.getLeden().stream().map(Lid::excelFormat).collect(Collectors.toList());
+        ExportFiles.toExcel(lid1.excelheaders(),lijstleden, 25, 20, locatie);
+        //ExportFiles.toPdf(locatie, locatie + ".pdf");
+        //ExportFiles.toPdf(locatie, locatie2);
+        
     }
    
 }

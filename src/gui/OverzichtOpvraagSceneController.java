@@ -22,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
+import persistentie.ExportFiles;
 
 /**
  * FXML Controller class
@@ -78,6 +79,8 @@ public class OverzichtOpvraagSceneController extends HBox {
         } else {
             path = selectedDir.getPath();
         }
+        
+        
     }
 
     private void buildGui() {
