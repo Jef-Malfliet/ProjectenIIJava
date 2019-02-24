@@ -10,5 +10,8 @@ package domein;
  * @author Mout
  */
 public enum SorteerType {
-    VOORNAAM, GRAAD
+    VOORNAAM,
+    GRAAD,
+    ACHTERNAAM,
+    TYPE
 }

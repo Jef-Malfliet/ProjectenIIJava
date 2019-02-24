@@ -146,20 +146,20 @@ public class Dojo {
                         return (lid.getVoornaam().compareToIgnoreCase(start) >= 0
                                 && lid.getVoornaam().compareToIgnoreCase(einde) <= 0 || lid.getVoornaam().toLowerCase().startsWith(einde.toLowerCase()));
                     }
-//                case ACHTERNAAM:
-//                    if (start == null || start.isEmpty()) {
-//                        return lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase());
-//                    }
-//                    if (einde == null || einde.isEmpty()) {
-//                        return lid.getAchternaam().compareToIgnoreCase(start) >= 0;
-//                    } else {
-//                        return (lid.getAchternaam().compareToIgnoreCase(start) >= 0
-//                                && lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase()));
-//                    }
+                case ACHTERNAAM:
+                    if (start == null || start.isEmpty()) {
+                        return lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase());
+                    }
+                    if (einde == null || einde.isEmpty()) {
+                        return lid.getAchternaam().compareToIgnoreCase(start) >= 0;
+                    } else {
+                        return (lid.getAchternaam().compareToIgnoreCase(start) >= 0
+                                && lid.getAchternaam().compareToIgnoreCase(einde) <= 0 || lid.getAchternaam().toLowerCase().startsWith(einde.toLowerCase()));
+                    }
                 case GRAAD:
                     return lid.getGraad().toString().toLowerCase().compareTo(start) >= 0;
-//                case TYPE:
-//                    return start.toLowerCase().equals(lid.getType().toString().toLowerCase());
+                case TYPE:
+                    return lid.getType().toString().toLowerCase().compareTo(start) >= 0;
                 default:
                     return true;
             }

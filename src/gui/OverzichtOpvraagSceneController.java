@@ -72,7 +72,8 @@ public class OverzichtOpvraagSceneController extends HBox {
         File selectedDir = dir.showDialog(this.getScene().getWindow());
         String path = "";
         if (selectedDir == null) {
-            path = "C:\\Users\\...\\Documents"; //juiste pad nog vinden
+            path += System.getProperty("user.home");
+            path += "/Documents/";
         } else {
             path = selectedDir.getPath();
         }
