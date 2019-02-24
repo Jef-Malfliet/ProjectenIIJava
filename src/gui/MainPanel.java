@@ -34,11 +34,6 @@ public class MainPanel extends BorderPane {
         dc.addPropertyChangeListener(osc);
         BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, new OverzichtOpvraagSceneController(dc));
         bcc.setPrefSize(250, SCREENHEIGHT);
-        try {
-            Font.loadFont(new FileInputStream(System.getenv("WINDIR")+"\\fonts\\"+"Quicksand.otf"), 20);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
         this.setCenter(osc);
         this.setLeft(bcc);
         this.setRight(dpc);
