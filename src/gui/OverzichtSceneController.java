@@ -119,6 +119,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
             alert.setContentText("Gelieve een sorteertype mee te geven");
         } else {
             dc.filter(cboFilterOptie.getSelectionModel().getSelectedItem(), txtVan.getText(), txtTot.getText());
+            System.out.println(txtVan.getText()+"   "+txtTot.getText());
         }
     }
 }
