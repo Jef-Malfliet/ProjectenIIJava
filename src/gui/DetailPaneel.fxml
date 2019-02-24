@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
@@ -10,16 +11,16 @@
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="600.0" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox maxHeight="82.0" minHeight="82.0" prefHeight="82.0" prefWidth="200.0">
          <children>
-            <Label fx:id="lblDetail" alignment="CENTER" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Lid wijzigen" textAlignment="CENTER" textFill="#e6e6e6">
+            <Label fx:id="lblDetail" alignment="CENTER" maxHeight="82.0" minHeight="82.0" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Lid wijzigen" textAlignment="CENTER" textFill="#e6e6e6">
                <font>
                   <Font name="Quicksand-Bold" size="31.0" />
                </font>
             </Label>
          </children>
       </HBox>
-      <VBox prefHeight="814.0" prefWidth="600.0">
+      <VBox prefHeight="755.0" prefWidth="600.0">
          <children>
             <HBox prefHeight="36.0" prefWidth="590.0">
                <children>
@@ -48,7 +49,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtGraad" prefHeight="28.0" prefWidth="231.0" />
+                  <ComboBox fx:id="cboGraad" prefHeight="28.0" prefWidth="231.0" />
                </children>
             </HBox>
             <HBox prefHeight="36.0" prefWidth="590.0">
@@ -110,7 +111,7 @@
                   <Insets top="10.0" />
                </padding>
             </HBox>
-            <HBox prefHeight="237.0" prefWidth="590.0">
+            <HBox prefHeight="226.0" prefWidth="590.0">
                <padding>
                   <Insets top="50.0" />
                </padding>
@@ -129,5 +130,27 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </VBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="300.0">
+               <children>
+                  <Button fx:id="btnNieuwLid" mnemonicParsing="false" prefWidth="150.0" text="Nieuw lid">
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="70.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="300.0">
+               <children>
+                  <Button fx:id="btnVerwijderLid" alignment="CENTER" mnemonicParsing="false" prefWidth="150.0" text="Verwijder lid">
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="70.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
    </children>
 </fx:root>

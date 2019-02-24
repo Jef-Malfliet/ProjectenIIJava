@@ -7,8 +7,6 @@ package gui;
 
 import domein.DomeinController;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 /**
  *
@@ -27,8 +25,9 @@ public class MainPanel extends BorderPane {
         dpc.setPrefSize(600, SCREENHEIGHT);
         OverzichtSceneController osc = new OverzichtSceneController(dc, dpc);
         osc.setPrefSize(600, SCREENHEIGHT);
+        dpc.setOverzichtSceneController(osc);
         dc.addPropertyChangeListener(osc);
-        BeheerderControlController bcc = new BeheerderControlController(dc, osc, this);
+        BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, new OverzichtOpvraagSceneController(dc));
         bcc.setPrefSize(250, SCREENHEIGHT);
 
         this.setCenter(osc);

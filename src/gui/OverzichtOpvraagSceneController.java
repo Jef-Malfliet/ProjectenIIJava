@@ -20,7 +20,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 
 /**
@@ -28,7 +27,7 @@ import javafx.stage.DirectoryChooser;
  *
  * @author Mout
  */
-public class OverzichtOpvraagSceneController extends VBox {
+public class OverzichtOpvraagSceneController extends HBox {
 
     @FXML
     private ComboBox<OverzichtType> cboType;

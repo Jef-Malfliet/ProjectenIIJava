@@ -7,14 +7,8 @@ package gui;
 
 import domein.DomeinController;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -28,8 +22,6 @@ public class BeheerderControlController extends VBox {
     //Nodige attributen voor de functionaliteiten van de knoppen.
     //Gegenereerde GUI Components vanuit Scenebuilder.
     @FXML
-    private HBox btnInschrijvenLid;
-    @FXML
     private HBox btnOverzichtenRaadplegen;
     @FXML
     private HBox btnLedenBeheren;
@@ -38,19 +30,17 @@ public class BeheerderControlController extends VBox {
     @FXML
     private HBox btnLesmateriaalBeheren;
 
-    private OverzichtSceneController oc;
-    @FXML
-    private HBox btnVerwijderenLid;
-
     private DomeinController dc;
     private MainPanel mp;
+    private OverzichtSceneController osc;
+    private OverzichtOpvraagSceneController opsc;
 
     /**
      * Constructor beheerderControlController
      *
      * Initialiseert de GUI en zijn nodige dependencies.
      */
-    public BeheerderControlController(DomeinController dc, OverzichtSceneController oc, MainPanel mp) {
+    public BeheerderControlController(DomeinController dc, OverzichtSceneController osc, MainPanel mp, OverzichtOpvraagSceneController opsc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BeheerderControl.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -59,9 +49,10 @@ public class BeheerderControlController extends VBox {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        this.oc = oc;
+        this.osc = osc;
         this.dc = dc;
         this.mp = mp;
+        this.opsc = opsc;
         buildGui();
     }
 
@@ -71,27 +62,30 @@ public class BeheerderControlController extends VBox {
      */
     public void buildGui() {
         //Adding click events for buttons.
-        btnInschrijvenLid.setOnMouseClicked(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                schrijfLidIn();
-            }
-
+//        btnInschrijvenLid.setOnMouseClicked(e -> {
+//            schrijfLidIn();
+//        });
+//        btnVerwijderenLid.setOnMouseClicked(e -> {
+//            verwijderLid();
+//        });
+        changeBackgroundToRed(btnLedenBeheren);
+        btnOverzichtenRaadplegen.setOnMouseClicked(e -> {
+            overzichtRaadplegen();
+            mp.setCenter(opsc);
         });
-        btnVerwijderenLid.setOnMouseClicked(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                verwijderLid();
-            }
 
+        btnLedenBeheren.setOnMouseClicked(e -> {
+            ledenBeheren();
+            mp.setCenter(osc);
+            mp.setRight(osc.getDpc());
         });
-        btnOverzichtenRaadplegen.setOnMouseClicked(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                overzichtRaadplegen();
-                OverzichtOpvraagSceneController opsc = new OverzichtOpvraagSceneController(dc);
-                mp.setCenter(opsc);
-            }
+
+        btnLesmateriaalBeheren.setOnMouseClicked(e -> {
+            lesmateriaalBeheren();
+        });
+
+        btnStateActiviteitBeheren.setOnMouseClicked(e -> {
+            activiteitenBeheren();
         });
 
     }
@@ -101,28 +95,39 @@ public class BeheerderControlController extends VBox {
      *
      * Deze functie schrijft een lid in en voegt het lid toe in de databank.
      */
-    private void schrijfLidIn() {
-        resetStyle();
-        changeBackgroundToRed(btnInschrijvenLid);
-        oc.getDpc().nieuwLid();
-
-    }
-
-    private void verwijderLid() {
-        resetStyle();
-        changeBackgroundToRed(btnVerwijderenLid);
-        oc.verwijdergeselecteerdLid();
-    }
-
+//
+//    private void verwijderLid() {
+////        resetStyle();
+////        changeBackgroundToRed(btnVerwijderenLid);
+//        osc.verwijdergeselecteerdLid();
+//    }
     private void overzichtRaadplegen() {
         resetStyle();
         changeBackgroundToRed(btnOverzichtenRaadplegen);
     }
 
+    private void ledenBeheren() {
+        resetStyle();
+        changeBackgroundToRed(btnLedenBeheren);
+    }
+
+    private void activiteitenBeheren() {
+        resetStyle();
+        changeBackgroundToRed(btnStateActiviteitBeheren);
+    }
+
+    private void lesmateriaalBeheren() {
+        resetStyle();
+        changeBackgroundToRed(btnLesmateriaalBeheren);
+    }
+
     private void resetStyle() {
         String style = "-fx-background-color:#484857";
-        btnInschrijvenLid.setStyle(style);
-        btnVerwijderenLid.setStyle(style);
+//        btnInschrijvenLid.setStyle(style);
+//        btnVerwijderenLid.setStyle(style);
+        btnLedenBeheren.setStyle(style);
+        btnLesmateriaalBeheren.setStyle(style);
+        btnStateActiviteitBeheren.setStyle(style);
         btnOverzichtenRaadplegen.setStyle(style);
     }
 

@@ -9,15 +9,15 @@ public enum Graad implements Serializable {
         GROEN,
         BLAUW,
         BRUIN,
-        DAM1,
-        DAM2,
-        DAM3,
-        DAM4,
-        DAM5,
-        DAM6,
-        DAM7,
-        DAM8,
-        DAM9,
-        DAM10
+        DAN1,
+        DAN2,
+        DAN3,
+        DAN4,
+        DAN5,
+        DAN6,
+        DAN7,
+        DAN8,
+        DAN9,
+        DAN10
         
 }

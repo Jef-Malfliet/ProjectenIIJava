@@ -11,9 +11,12 @@ import domein.Lid;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -31,7 +34,6 @@ public class DetailPaneelController extends VBox {
     private TextField txtVoornaam;
     @FXML
     private TextField txtAchternaam;
-    @FXML
     private TextField txtGraad;
     @FXML
     private TextField txtStraat;
@@ -49,6 +51,14 @@ public class DetailPaneelController extends VBox {
     @FXML
     private Label lblDetail;
     private boolean nieuwlid;
+    @FXML
+    private ComboBox<Graad> cboGraad;
+    @FXML
+    private Button btnNieuwLid;
+    @FXML
+    private Button btnVerwijderLid;
+
+    private OverzichtSceneController osc;
 
     public DetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
@@ -60,7 +70,19 @@ public class DetailPaneelController extends VBox {
             throw new RuntimeException(ex);
         }
         this.dc = dc;
+        buildGui();
+    }
 
+    private void buildGui() {
+        cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
+
+        btnNieuwLid.setOnMouseClicked(e -> {
+            nieuwLid();
+        });
+
+        btnVerwijderLid.setOnMouseClicked(e -> {
+            osc.verwijdergeselecteerdLid();
+        });
     }
 
     public void fillLid(Lid lid) {
@@ -69,7 +91,7 @@ public class DetailPaneelController extends VBox {
         current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
         txtAchternaam.setText(lid.getAchternaam());
-        txtGraad.setText(lid.getGraad().name());
+        cboGraad.getSelectionModel().select(lid.getGraad());
         txtStraat.setText(lid.getStraat());
         txtGemeente.setText(lid.getGemeente());
         txtPostCode.setText(String.format("%s", lid.getPostcode()));
@@ -85,7 +107,7 @@ public class DetailPaneelController extends VBox {
 
         String voornaam = txtVoornaam.getText();
         String achternaam = txtAchternaam.getText();
-        String graad = txtGraad.getText().toUpperCase();
+        String graad = cboGraad.getSelectionModel().getSelectedItem().toString();
         String telefoon = txtTelefoonnummer.getText();
         String email = txtEmail.getText();
         String straat = txtStraat.getText();
@@ -115,11 +137,11 @@ public class DetailPaneelController extends VBox {
                             dc.wijzigLid(current_lid);
 
                         }
-                         errorMessage.setText("Wijzigingen worden opgeslaan");
-                         errorMessage.setVisible(true);
+                        errorMessage.setText("Wijzigingen worden opgeslaan");
+                        errorMessage.setVisible(true);
 
                     }
-                   
+
                 }
             } catch (IllegalArgumentException e) {
                 errorMessage.setText(e.getMessage());
@@ -138,7 +160,7 @@ public class DetailPaneelController extends VBox {
         errorMessage.setVisible(false);
         txtVoornaam.clear();
         txtAchternaam.clear();
-        txtGraad.clear();
+        cboGraad.getSelectionModel().clearSelection();
         txtStraat.clear();
         txtPostCode.clear();
         txtGemeente.clear();
@@ -151,6 +173,10 @@ public class DetailPaneelController extends VBox {
         nieuwlid = true;
         lblDetail.setText("Nieuw Lid toevoegen");
         clearTextFields();
+    }
+
+    public void setOverzichtSceneController(OverzichtSceneController osc) {
+        this.osc = osc;
     }
 
 }

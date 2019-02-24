@@ -11,7 +11,7 @@ package domein;
  */
 public enum OverzichtType {
     INSCHRIJVING,
-    AKTIVITEIT,
+    ACTIVITEIT,
     AANWEZIGHEID,
     CLUBKAMPIOENSCHAP,
     LESMATERIAAL
