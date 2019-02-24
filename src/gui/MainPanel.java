@@ -7,6 +7,7 @@ package gui;
 
 import domein.DomeinController;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -29,7 +30,7 @@ public class MainPanel extends BorderPane {
         dc.addPropertyChangeListener(osc);
         BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, new OverzichtOpvraagSceneController(dc));
         bcc.setPrefSize(250, SCREENHEIGHT);
-
+        this.setStyle("-fx-font-family: Quicksand");
         this.setCenter(osc);
         this.setLeft(bcc);
         this.setRight(dpc);

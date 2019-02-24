@@ -21,6 +21,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 /**
  * FXML Controller class
@@ -103,6 +104,7 @@ public class DetailPaneelController extends VBox {
         txtEmail.setText(lid.getEmail());
         txtTelefoonnummer.setText(lid.getTelefoon());
         nieuwlid = false;
+        
     }
 
     @FXML
