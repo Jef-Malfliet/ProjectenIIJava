@@ -51,7 +51,9 @@ public class FoutiveWaredenLidConstructorTest {
             {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "_test@test.com", "straat straat", 9300, ""},
             {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test&.com", "straat straat", 9300, ""},
             {"Bert", "Brackeman", Graad.BLAUW, "045615203", "test@test.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "04945628198", "test@test.com", "straat straat", 9300, ""}
+            {"Bert", "Brackeman", Graad.BLAUW, "04945628198", "test@test.com", "straat straat", 9300, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "004945628198", "test@test.com", "straat straat", 9300, ""},
+            {"Bert", "Brackeman", Graad.BLAUW, "14945628198", "test@test.com", "straat straat", 9300, ""}
         });
     }
 
