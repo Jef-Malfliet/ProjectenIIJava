@@ -6,6 +6,10 @@
 package gui;
 
 import domein.DomeinController;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 
@@ -30,7 +34,11 @@ public class MainPanel extends BorderPane {
         dc.addPropertyChangeListener(osc);
         BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, new OverzichtOpvraagSceneController(dc));
         bcc.setPrefSize(250, SCREENHEIGHT);
-        this.setStyle("-fx-font-family: Quicksand");
+        try {
+            Font.loadFont(new FileInputStream(System.getenv("WINDIR")+"\\fonts\\"+"Quicksand.otf"), 20);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setCenter(osc);
         this.setLeft(bcc);
         this.setRight(dpc);
