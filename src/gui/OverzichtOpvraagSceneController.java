@@ -6,11 +6,14 @@
 package gui;
 
 import domein.DomeinController;
+import domein.Lid;
 import domein.Overzicht;
 import domein.OverzichtType;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -79,6 +82,12 @@ public class OverzichtOpvraagSceneController extends HBox {
         } else {
             path = selectedDir.getPath();
         }
+         
+         //dit is een lijst van alle leden
+         //naam afhankelijk van de lijst later
+         path +="/testlijst.xls";
+         List<String> lijstleden = dc.getLeden().stream().map(Lid::excelFormat).collect(Collectors.toList());
+         ExportFiles.toExcel(dc.getLeden().get(0).excelheaders(),lijstleden, 25, 20, path);
         
         
     }
