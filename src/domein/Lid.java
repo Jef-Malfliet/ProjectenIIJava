@@ -76,6 +76,7 @@ public class Lid implements Serializable {
         setStraat(straat);
         setPostcode(postcode);
         setGemeente(gemeente);
+        setType(type);
         fillSimpleProperties();
     }
 

@@ -103,6 +103,7 @@ public class DetailPaneelController extends VBox {
         txtPostCode.setText(String.format("%s", lid.getPostcode()));
         txtEmail.setText(lid.getEmail());
         txtTelefoonnummer.setText(lid.getTelefoon());
+        cboType.getSelectionModel().select(lid.getType());
         nieuwlid = false;
         
     }
@@ -174,6 +175,7 @@ public class DetailPaneelController extends VBox {
         txtGemeente.clear();
         txtEmail.clear();
         txtTelefoonnummer.clear();
+        cboType.getSelectionModel().clearSelection();
 
     }
 
