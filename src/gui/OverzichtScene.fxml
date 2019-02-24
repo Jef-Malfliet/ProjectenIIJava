@@ -59,8 +59,9 @@
          <children>
             <TableView fx:id="tableOverview" prefHeight="778.0" prefWidth="600.0" style="-fx-padding: 5;">
               <columns>
-                <TableColumn fx:id="colName" editable="false" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" text="Naam" />
-                <TableColumn fx:id="colBand" maxWidth="400.0" minWidth="-Infinity" prefWidth="300.0" text="Band" />
+                <TableColumn fx:id="colName" editable="false" maxWidth="400.0" minWidth="-Infinity" prefWidth="200.0" text="Naam" />
+                <TableColumn fx:id="colBand" maxWidth="436.0" minWidth="-Infinity" prefWidth="200.0" text="Band" />
+                  <TableColumn fx:id="colType" prefWidth="200.0" text="Type" />
               </columns>
             </TableView>
          </children>

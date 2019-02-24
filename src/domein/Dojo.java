@@ -130,7 +130,7 @@ public class Dojo {
      * @param einde
      * @param optie
      */
-    public void filter(SorteerType optie, String start, String einde) {
+      public void filter(SorteerType optie, String start, String einde) {
         filtered.setPredicate(lid -> {
             if (optie == null) {
                 return true;

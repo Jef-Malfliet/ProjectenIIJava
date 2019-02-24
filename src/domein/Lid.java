@@ -31,7 +31,7 @@ public class Lid implements Serializable {
     @Enumerated(EnumType.STRING)
     private Graad graad;
 
-    @Transient
+    @Enumerated(EnumType.STRING)
     private final RolType type = RolType.LID;
 
     @Transient
@@ -39,6 +39,9 @@ public class Lid implements Serializable {
 
     @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
+    
+    @Transient
+    private SimpleStringProperty typeProperty = new SimpleStringProperty();
 
     public Lid() {
     }
@@ -77,6 +80,7 @@ public class Lid implements Serializable {
     public void fillSimpleProperties() {
         this.setGraadProperty(new SimpleStringProperty(this.getGraad().toString()));
         this.setVoornaamProperty(new SimpleStringProperty(this.getVoornaam()));
+        this.setTypeProperty(new SimpleStringProperty(this.getType().toString()));
     }
 
     @Override
@@ -227,4 +231,12 @@ public class Lid implements Serializable {
         return type;
     }
 
+    public SimpleStringProperty getTypeProperty() {
+        return typeProperty;
+    }
+
+    public void setTypeProperty(SimpleStringProperty typeProperty) {
+        this.typeProperty = typeProperty;
+    }
+    
 }
