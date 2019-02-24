@@ -8,6 +8,7 @@ package gui;
 import domein.DomeinController;
 import domein.Graad;
 import domein.Lid;
+import domein.RolType;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -53,12 +54,15 @@ public class DetailPaneelController extends VBox {
     private boolean nieuwlid;
     @FXML
     private ComboBox<Graad> cboGraad;
+        @FXML
+    private ComboBox<RolType> cboType;
     @FXML
     private Button btnNieuwLid;
     @FXML
     private Button btnVerwijderLid;
 
     private OverzichtSceneController osc;
+
 
     public DetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
@@ -75,6 +79,7 @@ public class DetailPaneelController extends VBox {
 
     private void buildGui() {
         cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
+        cboType.setItems(FXCollections.observableArrayList(Arrays.asList(RolType.values())));
 
         btnNieuwLid.setOnMouseClicked(e -> {
             nieuwLid();
@@ -112,6 +117,7 @@ public class DetailPaneelController extends VBox {
         String email = txtEmail.getText();
         String straat = txtStraat.getText();
         String gemeente = txtGemeente.getText();
+        String type = cboType.getSelectionModel().getSelectedItem().toString();
         if (voornaam == null || voornaam.isEmpty() || achternaam == null || achternaam.isEmpty() || graad == null || graad.isEmpty()
                 || telefoon == null || telefoon.isEmpty() || email == null || email.isEmpty() || straat == null
                 || straat.isEmpty() || gemeente == null || gemeente.isEmpty()) {
@@ -131,9 +137,9 @@ public class DetailPaneelController extends VBox {
 
                         int postcode = Integer.parseInt(txtPostCode.getText());
                         if (nieuwlid) {
-                            dc.voegLidToe(new Lid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente));
+                            dc.voegLidToe(new Lid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente, RolType.valueOf(type)));
                         } else {
-                            current_lid.wijzigLid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente);
+                            current_lid.wijzigLid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente,RolType.valueOf(type));
                             dc.wijzigLid(current_lid);
 
                         }

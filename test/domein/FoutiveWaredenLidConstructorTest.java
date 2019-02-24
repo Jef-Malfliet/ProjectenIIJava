@@ -27,37 +27,38 @@ public class FoutiveWaredenLidConstructorTest {
     private final String straat;
     private final int postcode;
     private final String gemeente;
+    private final RolType type;
 
     @Parameters
     public static Collection<Object[]> getParameters() {
         return Arrays.asList(new Object[][]{
-            {null, "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, "Aalst"},
-            {"", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, "Aalst"},
-            {"Bert", null, Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, "Aalst"},
-            {"Bert", "", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, "Aalst"},
-            {"Bert", "Brackeman", Graad.BLAUW, null, "test@test.test.com", "straat straat", 9300, "Aalst"},
-            {"Bert", "Brackeman", Graad.BLAUW, "", "test@test.test.com", "straat straat", 9300, "Aalst"},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", null, "straat straat", 9300, "Aalst"},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "", "straat straat", 9300, "Aalst"},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", null, 9300, "Aalst"},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "", 9300, "Aalst"},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, null},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", null, "0494562819", "test@test.test.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 0, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 012345, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "testtest.test.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "Test@", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "_test@test.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test&.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "045615203", "test@test.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "04945628198", "test@test.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "004945628198", "test@test.com", "straat straat", 9300, ""},
-            {"Bert", "Brackeman", Graad.BLAUW, "14945628198", "test@test.com", "straat straat", 9300, ""}
+            {null, "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, "Aalst",RolType.LID},
+            {"", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, "Aalst",RolType.BEHEERDER},
+            {"Bert", null, Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, "Aalst",RolType.LESGEVER},
+            {"Bert", "", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, "Aalst",RolType.LESGEVER},
+            {"Bert", "Brackeman", Graad.BLAUW, null, "test@test.test.com", "straat straat", 9300, "Aalst",RolType.LESGEVER},
+            {"Bert", "Brackeman", Graad.BLAUW, "", "test@test.test.com", "straat straat", 9300, "Aalst",RolType.LESGEVER},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", null, "straat straat", 9300, "Aalst",RolType.BEHEERDER},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "", "straat straat", 9300, "Aalst",RolType.BEHEERDER},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", null, 9300, "Aalst",RolType.BEHEERDER},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "", 9300, "Aalst",RolType.BEHEERDER},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, null,RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 9300, "",RolType.LID},
+            {"Bert", "Brackeman", null, "0494562819", "test@test.test.com", "straat straat", 9300, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 0, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test.test.com", "straat straat", 012345, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "testtest.test.com", "straat straat", 9300, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "Test@", "straat straat", 9300, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "_test@test.com", "straat straat", 9300, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "0494562819", "test@test&.com", "straat straat", 9300, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "045615203", "test@test.com", "straat straat", 9300, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "04945628198", "test@test.com", "straat straat", 9300, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "004945628198", "test@test.com", "straat straat", 9300, "",RolType.LID},
+            {"Bert", "Brackeman", Graad.BLAUW, "14945628198", "test@test.com", "straat straat", 9300, "",RolType.LID}
         });
     }
 
-    public FoutiveWaredenLidConstructorTest(String voorNaam, String achterNaam, Graad graad, String telefoon, String email, String straat, int postcode, String gemeente) {
+    public FoutiveWaredenLidConstructorTest(String voorNaam, String achterNaam, Graad graad, String telefoon, String email, String straat, int postcode, String gemeente, RolType type) {
         this.voorNaam = voorNaam;
         this.achterNaam = achterNaam;
         this.graad = graad;
@@ -66,10 +67,11 @@ public class FoutiveWaredenLidConstructorTest {
         this.straat = straat;
         this.postcode = postcode;
         this.gemeente = gemeente;
+        this.type=type;
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testFoutiveConstructorwaarden() {
-        Lid lid = new Lid(voorNaam, achterNaam, graad, telefoon, email, straat, postcode, gemeente);
+        Lid lid = new Lid(voorNaam, achterNaam, graad, telefoon, email, straat, postcode, gemeente,type);
     }
 }

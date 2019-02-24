@@ -32,7 +32,7 @@ public class Lid implements Serializable {
     private Graad graad;
 
     @Enumerated(EnumType.STRING)
-    private final RolType type = RolType.LID;
+    private RolType type = RolType.LID;
 
     @Transient
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
@@ -46,7 +46,7 @@ public class Lid implements Serializable {
     public Lid() {
     }
 
-    public Lid(String voornaam, String achternaam, Graad graad, String telefoon, String email, String straat, int postcode, String gemeente) {
+    public Lid(String voornaam, String achternaam, Graad graad, String telefoon, String email, String straat, int postcode, String gemeente, RolType type) {
         setVoornaam(voornaam);
         setAchternaam(achternaam);
         setGraad(graad);
@@ -55,17 +55,19 @@ public class Lid implements Serializable {
         setStraat(straat);
         setPostcode(postcode);
         setGemeente(gemeente);
+        setType(type);
         fillSimpleProperties();
     }
 
-    public void wijzigLid(String voornaam, Graad graad) {
+    public void wijzigLid(String voornaam, Graad graad, RolType type) {
         setGraad(graad);
         setVoornaam(voornaam);
+        setType(type);
         fillSimpleProperties();
 
     }
 
-    public void wijzigLid(String voornaam, String achternaam, Graad graad, String telefoon, String email, String straat, int postcode, String gemeente) {
+    public void wijzigLid(String voornaam, String achternaam, Graad graad, String telefoon, String email, String straat, int postcode, String gemeente, RolType type) {
         setVoornaam(voornaam);
         setAchternaam(achternaam);
         setGraad(graad);
@@ -227,6 +229,9 @@ public class Lid implements Serializable {
         return id;
     }
 
+    public void setType(RolType type){
+        this.type=type;
+    }
     public RolType getType() {
         return type;
     }
@@ -238,5 +243,7 @@ public class Lid implements Serializable {
     public void setTypeProperty(SimpleStringProperty typeProperty) {
         this.typeProperty = typeProperty;
     }
+    
+    
     
 }

@@ -34,10 +34,10 @@ public class DojoTest {
         lidDaoDummy = Mockito.mock(LidDao.class);
         //testLid = new Lid("Beau", "Van Canegem", Graad.BRUIN, "12/34567890", "indy.vancanegem@student.hogent.be", "Straat", 9240, "Zele");
         testLid = Mockito.mock(Lid.class);
-        lid1 = new Lid("Bram", "Vanoverbeke", Graad.BLAUW, "12/34567890", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst");
-        lid2 = new Lid("Tom", "Clarys", Graad.GEEL, "12/34567890", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele");
-        lid3 = new Lid("Seba", "Moons", Graad.GROEN, "12/34567890", "seba.moons@student.hogent.be", "Straat", 9240, "Zele");
-        lid1b = new Lid("TestTest", "Vanoverbeke", Graad.GROEN, "12/34567890", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst");
+        lid1 = new Lid("Bram", "Vanoverbeke", Graad.BLAUW, "0483060043", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst",RolType.LID);
+        lid2 = new Lid("Tom", "Clarys", Graad.GEEL, "0032483060043", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele",RolType.LESGEVER);
+        lid3 = new Lid("Seba", "Moons", Graad.GROEN, "0032483060043", "seba.moons@student.hogent.be", "Straat", 9240, "Zele",RolType.BEHEERDER);
+        lid1b = new Lid("TestTest", "Vanoverbeke", Graad.GROEN, "0032483060043", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst",RolType.LID);
         ledenLijst.addAll(Arrays.asList(lid1, lid2, lid3));
     }
 
@@ -64,13 +64,13 @@ public class DojoTest {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
         Mockito.when(lidDaoDummy.update(lid1)).thenReturn(lid1b);
         beheerder = new Dojo(lidDaoDummy);
-        lid1.wijzigLid("TestTest", Graad.GROEN);
+        lid1.wijzigLid("TestTest", Graad.GROEN,RolType.LID);
         boolean succes = beheerder.wijzigLid(lid1);
         Lid gewijzigdLid = beheerder.toonLid(lid1.getId());
         Assert.assertTrue(succes);
         Assert.assertEquals(lid1.getVoornaam(), gewijzigdLid.getVoornaam());
         Assert.assertEquals(lid1.getGraad(), gewijzigdLid.getGraad());
-        Mockito.verify(lidDaoDummy, Mockito.times(2)).findAll();//2 keer, idk waarom?
+        Mockito.verify(lidDaoDummy, Mockito.times(1)).findAll();//2 keer, idk waarom?
         Mockito.verify(lidDaoDummy).update(lid1);
     }
 
