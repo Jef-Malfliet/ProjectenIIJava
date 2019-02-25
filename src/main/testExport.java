@@ -33,15 +33,17 @@ public class testExport {
          
         String locatie = System.getProperty("user.home");
         locatie += "/Desktop/";
-        //String locatie2 = locatie;
-        locatie += "bestandtest3";
+        String locatie2 = locatie;
+        locatie += "TESTTT";
         
-       // locatie2 +="hallow12.zip";
+       locatie2 +="hallow12.pdf";
         locatie += ".xls";
 
-        ExportFiles.toExcel(dc.getLeden(), 25, 20, locatie);
-        //ExportFiles.toPdf(locatie, locatie + ".pdf");
-        //ExportFiles.toPdf(locatie, locatie2);
+        //ExportFiles.toExcel(dc.getLeden(), 25, 20, locatie);
+       // ExportFiles.toPdf(locatie2, locatie2);
+      //  ExportFiles.toPdf(locatie, locatie + ".pdf");
+      new ExportFiles().toExcel(dc.getLeden(), 25, 20, locatie);
+       new ExportFiles().toPdf(locatie, locatie2);
         
     }
    

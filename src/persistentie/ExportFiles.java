@@ -33,8 +33,7 @@ public class ExportFiles {
 
         List<String> stringLijst = lijst.stream().map(T::excelFormat).collect(Collectors.toList());
         String headers = lijst.get(0).excelheaders();
-        
-        
+
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("overzicht");
         //shadeAlt(sheet); // is voor kleurtje van elke rij
@@ -55,10 +54,16 @@ public class ExportFiles {
         });
 
         try {
-            FileOutputStream out = new FileOutputStream(new File(locatie));
+            File file = new File(locatie);
+            FileOutputStream out = new FileOutputStream(file);
             workbook.write(out);
             out.close();
             workbook.close();
+
+//            Workbook workbook2 = new Workbook();
+//            InputStream fileStream = this.getClass().getResourceAsStream(locatie);
+//            workbook2.open(fileStream);
+//            workbook2.save(locatie + ".pdf", SaveFileFormat.Pdf);
         } catch (FileNotFoundException ex) {
             throw new IllegalArgumentException("Het pad klopt niet");
         } catch (IOException ex) {
@@ -67,14 +72,26 @@ public class ExportFiles {
 
     }
 //werkt nog niet
-//    public static void toPdf(String locatie, String pdfNaam) {
-//       
-//        Workbook workbook = new Workbook();
-//        workbook.open(locatie);
-//        workbook.save(pdfNaam, SaveFileFormat.Pdf);
-//        
+
+    public static void toPdf(String locatie, String pdfNaam) {
+
+        //            PDDocument document = new PDDocument();
+//            PDPage page = new PDPage();
+//            document.addPage(page);
+//            document.save(locatie);
+//            System.out.println("created");
+//            document.close();
+//        Workbook workbook2 = new Workbook();
+//        InputStream fileStream = this.getClass().getResourceAsStream(locatie);
+//        workbook2.open(fileStream);
+//        workbook2.save(locatie + ".pdf", SaveFileFormat.Pdf);
+//        IWorksheets worksheets = workbook.getWorksheets();
+//        IWorksheet get = worksheets.get(0);
+//        get.getCells().setText("hoi");
 //
-//    }
+//        workbook.save(pdfNaam, SaveFileFormat.Pdf);
+
+    }
 
 //nog niet gebruikt
     public static void shadeAlt(Sheet sheet) {
