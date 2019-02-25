@@ -39,8 +39,7 @@ public class testExport {
        // locatie2 +="hallow12.zip";
         locatie += ".xls";
 
-        List<String> lijstleden = dc.getLeden().stream().map(Lid::excelFormat).collect(Collectors.toList());
-        ExportFiles.toExcel(lid1.excelheaders(),lijstleden, 25, 20, locatie);
+        ExportFiles.toExcel(dc.getLeden(), 25, 20, locatie);
         //ExportFiles.toPdf(locatie, locatie + ".pdf");
         //ExportFiles.toPdf(locatie, locatie2);
         

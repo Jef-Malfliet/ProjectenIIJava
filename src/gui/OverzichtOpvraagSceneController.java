@@ -86,9 +86,7 @@ public class OverzichtOpvraagSceneController extends HBox {
          //dit is een lijst van alle leden
          //naam afhankelijk van de lijst later
          path +="/testlijst.xls";
-         List<String> lijstleden = dc.getLeden().stream().map(Lid::excelFormat).collect(Collectors.toList());
-         ExportFiles.toExcel(dc.getLeden().get(0).excelheaders(),lijstleden, 25, 20, path);
-        
+         ExportFiles.toExcel(dc.getLeden(), 25, 20, path);
         
     }
 

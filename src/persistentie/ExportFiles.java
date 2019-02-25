@@ -5,11 +5,13 @@
  */
 package persistentie;
 
+import domein.Exportable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -27,8 +29,12 @@ import org.apache.poi.ss.util.CellRangeAddress;
  */
 public class ExportFiles {
 
-    public static void toExcel(String headers, List<String> lijst, int kolombreedte, float rijhoogte, String locatie) {
+    public static <T extends Exportable> void toExcel(List<T> lijst, int kolombreedte, float rijhoogte, String locatie) {
 
+        List<String> stringLijst = lijst.stream().map(T::excelFormat).collect(Collectors.toList());
+        String headers = lijst.get(0).excelheaders();
+        
+        
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("overzicht");
         //shadeAlt(sheet); // is voor kleurtje van elke rij
@@ -36,11 +42,11 @@ public class ExportFiles {
         sheet.setDefaultRowHeightInPoints(rijhoogte);
         Row[] rows = new Row[lijst.size() + 1];
         //header
-        lijst.add(0, headers);
+        stringLijst.add(0, headers);
         //rest
-        IntStream.range(0, lijst.size()).forEach(rownumber -> {
+        IntStream.range(0, stringLijst.size()).forEach(rownumber -> {
             rows[rownumber] = sheet.createRow(rownumber);
-            String[] split = lijst.get(rownumber).split(",");
+            String[] split = stringLijst.get(rownumber).split(",");
             IntStream.range(0, split.length - 1).forEach(columnnumber -> {
                 rows[rownumber].createCell(columnnumber).setCellValue(split[columnnumber]);
 
