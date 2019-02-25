@@ -38,7 +38,7 @@ public class StartUp extends Application {
 
         Scene scene = new Scene(root, 1440, 900);
 
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Taijitan Jiu Jitsu");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
