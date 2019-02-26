@@ -81,7 +81,7 @@ public class DetailPaneelController extends VBox {
     private void buildGui() {
         cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
         cboType.setItems(FXCollections.observableArrayList(Arrays.asList(RolType.values())));
-
+        nieuwLid();
         btnNieuwLid.setOnMouseClicked(e -> {
             nieuwLid();
         });
@@ -106,6 +106,7 @@ public class DetailPaneelController extends VBox {
         cboType.getSelectionModel().select(lid.getType());
         nieuwlid = false;
         
+        
     }
 
     @FXML
@@ -115,24 +116,21 @@ public class DetailPaneelController extends VBox {
 
         String voornaam = txtVoornaam.getText();
         String achternaam = txtAchternaam.getText();
-        String graad = cboGraad.getSelectionModel().getSelectedItem().toString();
+        Graad graad = cboGraad.getSelectionModel().getSelectedItem();
         String telefoon = txtTelefoonnummer.getText();
         String email = txtEmail.getText();
         String straat = txtStraat.getText();
         String gemeente = txtGemeente.getText();
-        String type = cboType.getSelectionModel().getSelectedItem().toString();
-        if (voornaam == null || voornaam.isEmpty() || achternaam == null || achternaam.isEmpty() || graad == null || graad.isEmpty()
+        RolType type = cboType.getSelectionModel().getSelectedItem();
+        
+        if (voornaam == null || voornaam.isEmpty() || achternaam == null || achternaam.isEmpty() || graad == null
                 || telefoon == null || telefoon.isEmpty() || email == null || email.isEmpty() || straat == null
-                || straat.isEmpty() || gemeente == null || gemeente.isEmpty()) {
+                || straat.isEmpty() || gemeente == null || gemeente.isEmpty() ||type == null ) {
             errorMessage.setText("Sommige gegevens ontbreken");
             errorMessage.setVisible(true);
 
         } else {
             try {
-                if (Arrays.stream(Graad.values()).noneMatch(g -> graad.toUpperCase().equals(g.toString().toUpperCase()))) {
-                    errorMessage.setText("Deze graad is niet toegelaten");
-                    errorMessage.setVisible(true);
-                } else {
                     if (!txtPostCode.getText().matches("[1-9][0-9]{3}")) {
                         errorMessage.setText("Geen geldige postcode");
                         errorMessage.setVisible(true);
@@ -140,9 +138,9 @@ public class DetailPaneelController extends VBox {
 
                         int postcode = Integer.parseInt(txtPostCode.getText());
                         if (nieuwlid) {
-                            dc.voegLidToe(new Lid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente, RolType.valueOf(type)));
+                            dc.voegLidToe(new Lid(voornaam, achternaam, graad, telefoon, email, straat, postcode, gemeente, type));
                         } else {
-                            current_lid.wijzigLid(voornaam, achternaam, Graad.valueOf(graad), telefoon, email, straat, postcode, gemeente,RolType.valueOf(type));
+                            current_lid.wijzigLid(voornaam, achternaam,graad, telefoon, email, straat, postcode, gemeente,type);
                             dc.wijzigLid(current_lid);
 
                         }
@@ -151,7 +149,7 @@ public class DetailPaneelController extends VBox {
 
                     }
 
-                }
+                
             } catch (IllegalArgumentException e) {
                 errorMessage.setText(e.getMessage());
                 errorMessage.setVisible(true);
@@ -162,7 +160,7 @@ public class DetailPaneelController extends VBox {
     @FXML
     private void annuleerwijziging(ActionEvent event) {
         current_lid = null;
-        clearTextFields();
+        nieuwLid();
     }
 
     public void clearTextFields() {
