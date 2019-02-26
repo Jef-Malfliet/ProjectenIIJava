@@ -9,24 +9,22 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" type="HBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="HBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="600.0">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
          <children>
-            <HBox prefHeight="70.0" prefWidth="600.0">
+            <HBox>
                <children>
-                  <Label alignment="CENTER" maxHeight="82.0" minHeight="82.0" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Overzicht opvragen" textAlignment="CENTER" textFill="#e6e6e6">
+                  <Label fx:id="lblOverzichtOpvragen" alignment="CENTER" minHeight="82.0" prefHeight="82.0" style="-fx-background-color: #00B4AB;" text="Overzicht opvragen" textAlignment="CENTER" textFill="#e6e6e6">
                      <font>
                         <Font name="Quicksand-Bold" size="31.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <Line endX="490.0" endY="-1.4158415794372559" startX="1089.585693359375" startY="-1.4158415794372559" />
-            <HBox prefHeight="86.0" prefWidth="600.0">
+            <HBox prefHeight="80.0">
                <children>
                   <VBox prefHeight="112.0" prefWidth="144.0">
                      <children>
@@ -85,7 +83,7 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox maxHeight="50.0" minHeight="50.0" prefHeight="0.0" prefWidth="600.0">
+            <HBox maxHeight="50.0" minHeight="50.0">
                <children>
                   <Label alignment="CENTER" prefHeight="61.0" prefWidth="602.0" text="Extra parametes">
                      <font>
@@ -97,22 +95,21 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxContainer" prefHeight="701.0" prefWidth="600.0" />
+            <HBox fx:id="hBoxContainer" />
          </children>
       </VBox>
-      <VBox prefHeight="900.0" prefWidth="600.0">
+      <VBox>
          <children>
-            <HBox prefHeight="70.0" prefWidth="600.0">
+            <HBox prefWidth="600.0">
                <children>
-                  <Label alignment="CENTER" maxHeight="82.0" minHeight="82.0" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Overzicht raadplegen" textAlignment="CENTER" textFill="#e6e6e6">
+                  <Label fx:id="lblOverzichtRaadplegen" alignment="CENTER" minHeight="82.0" prefHeight="82.0" style="-fx-background-color: #00B4AB;" text="Overzicht raadplegen" textAlignment="CENTER" textFill="#e6e6e6">
                      <font>
                         <Font name="Quicksand-Bold" size="31.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <Line endX="490.0" endY="-1.4158415794372559" startX="1089.585693359375" startY="-1.4158415794372559" />
-            <TableView fx:id="tblOverzicht" prefHeight="817.0" prefWidth="601.0">
+            <TableView fx:id="tblOverzicht">
               <columns>
                 <TableColumn fx:id="overzichtCol" prefWidth="75.0" text="Overzicht" />
                 <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />

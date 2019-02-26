@@ -23,11 +23,13 @@ public class MainPanel extends BorderPane {
     private DomeinController dc;
     
     //BeheerderControl = 2/10 of the full screen.
-    private final double beheerderControlWidth = (FullScreenResolution.getWidth()/10)*2;
+    public final double beheerderControlWidth = (FullScreenResolution.getWidth()/10)*1.5;
     //DetailPaneel = 4/10 of the full screen.
-    private final double detailPaneelWidth = (FullScreenResolution.getWidth()/10)*4;
+    private final double detailPaneelWidth = (FullScreenResolution.getWidth()/10)*4.25;
     //OverzichtScene = 4/10 of the full screen.
-    private final double overzichtWidth = (FullScreenResolution.getWidth()/10)*4;
+    private final double overzichtWidth = (FullScreenResolution.getWidth()/10)*4.25;
+    //OverzichtScene = 8/10 of the full screen.
+    private final double overzichtOpvraagWidth = (FullScreenResolution.getWidth()/10)*8.5;
     //Height is voor alles hetzelfde. = max height.
     private final double height = FullScreenResolution.getHeight();
     
@@ -41,8 +43,10 @@ public class MainPanel extends BorderPane {
         osc.setPrefSize(overzichtWidth, height);
         dpc.setOverzichtSceneController(osc);
         dc.addPropertyChangeListener(osc);
+        OverzichtOpvraagSceneController opsc = new OverzichtOpvraagSceneController(dc);
+        opsc.setPrefSize(overzichtOpvraagWidth, height);
         
-        BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, new OverzichtOpvraagSceneController(dc));
+        BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, opsc);
         bcc.setPrefSize(beheerderControlWidth, height);
         
         this.setCenter(osc);

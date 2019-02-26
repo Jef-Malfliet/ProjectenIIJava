@@ -35,7 +35,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
     private DomeinController dc;
     //OverzichtSceneController was 4/10 van het scherm.
-    private double sceneWidth = FullScreenResolution.getWidth()/10*4;
+    private double sceneWidth = FullScreenResolution.getWidth()/10*4.25;
     private double sceneHeight = FullScreenResolution.getHeight();
     
     @FXML

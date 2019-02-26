@@ -21,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import persistentie.ExportFiles;
+import util.FullScreenResolution;
 
 /**
  * FXML Controller class
@@ -58,6 +60,12 @@ public class OverzichtOpvraagSceneController extends HBox {
     private TextField txtBesNaam;
     
     private String path = "";
+    private double sceneWidth = FullScreenResolution.getWidth()/10*4.25;
+    private double sceneHeight = FullScreenResolution.getHeight();
+    @FXML
+    private Label lblOverzichtOpvragen;
+    @FXML
+    private Label lblOverzichtRaadplegen;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -103,6 +111,7 @@ public class OverzichtOpvraagSceneController extends HBox {
          //ExportFiles.toExcel(dc.getLeden(), 25, 20, path);
         
     }
+    
 
     private void buildGui() {
         cboType.setItems(FXCollections.observableArrayList(Arrays.asList(OverzichtType.values())));
@@ -112,6 +121,19 @@ public class OverzichtOpvraagSceneController extends HBox {
         datumCol.setCellValueFactory(cellData -> cellData.getValue().getDatumProperty());
 
         tblOverzicht.setItems(FXCollections.unmodifiableObservableList(FXCollections.observableArrayList(dc.getOverzicht())));
+        setMaxScreen();
+    }
+    private void setMaxScreen() {
+       lblOverzichtOpvragen.setPrefWidth(sceneWidth);
+       lblOverzichtRaadplegen.setPrefWidth(sceneWidth);
+        tblOverzicht.setPrefWidth(sceneWidth);
+        tblOverzicht.setPrefHeight(sceneHeight);
+        // 3 kolommen, dus 1/3 van de tableview.
+        overzichtCol.prefWidthProperty().bind(tblOverzicht.widthProperty().divide(3));
+        typeCol.prefWidthProperty().bind(tblOverzicht.widthProperty().divide(3));
+        datumCol.prefWidthProperty().bind(tblOverzicht.widthProperty().divide(3));
+
+        
     }
 
 }

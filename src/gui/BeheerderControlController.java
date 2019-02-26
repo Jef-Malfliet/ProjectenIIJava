@@ -9,9 +9,11 @@ import domein.DomeinController;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import util.FullScreenResolution;
 
 /**
  * FXML Controller class
@@ -20,6 +22,8 @@ import javafx.scene.text.Font;
  */
 public class BeheerderControlController extends VBox {
 
+    private double sceneWidth = FullScreenResolution.getWidth() / 10 * 1.5;
+    private double sceneHeight = FullScreenResolution.getHeight();
     //Nodige attributen voor de functionaliteiten van de knoppen.
     //Gegenereerde GUI Components vanuit Scenebuilder.
     @FXML
@@ -35,6 +39,14 @@ public class BeheerderControlController extends VBox {
     private MainPanel mp;
     private OverzichtSceneController osc;
     private OverzichtOpvraagSceneController opsc;
+    @FXML
+    private Label lblLedenBeheren;
+    @FXML
+    private Label lblOverzichtGeneren;
+    @FXML
+    private Label lblStageActiviteiten;
+    @FXML
+    private Label lblLesmateriaal;
 
     /**
      * Constructor beheerderControlController
@@ -73,6 +85,7 @@ public class BeheerderControlController extends VBox {
         btnOverzichtenRaadplegen.setOnMouseClicked(e -> {
             overzichtRaadplegen();
             mp.setCenter(opsc);
+            mp.setRight(null);
         });
 
         btnLedenBeheren.setOnMouseClicked(e -> {
@@ -88,6 +101,7 @@ public class BeheerderControlController extends VBox {
         btnStateActiviteitBeheren.setOnMouseClicked(e -> {
             activiteitenBeheren();
         });
+        setMaxScreen();
 
     }
 
@@ -134,5 +148,15 @@ public class BeheerderControlController extends VBox {
 
     private void changeBackgroundToRed(HBox hbox) {
         hbox.setStyle("-fx-background-color: red");
+    }
+
+    private void setMaxScreen() {
+        lblLedenBeheren.setPrefWidth(sceneWidth);
+        lblLesmateriaal.setPrefWidth(sceneWidth);
+        lblOverzichtGeneren.setPrefWidth(sceneWidth);
+        lblStageActiviteiten.setPrefWidth(sceneWidth);
+        
+
+        
     }
 }
