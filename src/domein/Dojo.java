@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import persistentie.ExportFiles;
 //import persistentie.IPersistentieController;
 import persistentie.LidDao;
 
@@ -151,8 +152,8 @@ public class Dojo {
         });
     }
 
-    public File maakOverzicht(OverzichtType type) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void maakOverzicht(OverzichtType type, String path) {
+        ExportFiles.toExcel(leden, 25, 20, path);
     }
 
     public List<Overzicht> getOverzichtList() {

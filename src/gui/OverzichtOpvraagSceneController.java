@@ -18,10 +18,12 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
@@ -52,6 +54,10 @@ public class OverzichtOpvraagSceneController extends HBox {
     private TableColumn<Overzicht, String> typeCol;
     @FXML
     private TableColumn<Overzicht, String> datumCol;
+    @FXML
+    private TextField txtBesNaam;
+    
+    private String path = "";
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -68,14 +74,13 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     @FXML
     private void maakOverzicht(ActionEvent event) {
-        dc.maakOverzicht(cboType.getSelectionModel().getSelectedItem());
+        dc.maakOverzicht(cboType.getSelectionModel().getSelectedItem(), path);
     }
 
     @FXML
     private void openDirectoryChooser(ActionEvent event) {
         DirectoryChooser dir = new DirectoryChooser();
         File selectedDir = dir.showDialog(this.getScene().getWindow());
-        String path = "";
         if (selectedDir == null) {
             path += System.getProperty("user.home");
             path += "/Documents/";
@@ -85,8 +90,17 @@ public class OverzichtOpvraagSceneController extends HBox {
          
          //dit is een lijst van alle leden
          //naam afhankelijk van de lijst later
-         path +="/testlijst.xls";
-         ExportFiles.toExcel(dc.getLeden(), 25, 20, path);
+         String besNaam = txtBesNaam.getText();
+         if(besNaam == null || besNaam.isEmpty()){
+             Alert alert = new Alert(Alert.AlertType.WARNING);
+             alert.setTitle("Error");
+             alert.setContentText("Geen naam gevonden voor het bestand.");
+             alert.showAndWait();
+         }else {
+             path += "/" + besNaam + ".xls" + "/";
+         }
+         
+         //ExportFiles.toExcel(dc.getLeden(), 25, 20, path);
         
     }
 
