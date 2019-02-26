@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
+import util.FullScreenResolution;
 
 /**
  *
@@ -20,20 +21,30 @@ import javafx.scene.text.Font;
 public class MainPanel extends BorderPane {
 
     private DomeinController dc;
-    private final double SCREENWIDTH = 1440;
-    private final double SCREENHEIGHT = 900;
-
+    
+    //BeheerderControl = 2/10 of the full screen.
+    private final double beheerderControlWidth = (FullScreenResolution.getWidth()/10)*2;
+    //DetailPaneel = 4/10 of the full screen.
+    private final double detailPaneelWidth = (FullScreenResolution.getWidth()/10)*4;
+    //OverzichtScene = 4/10 of the full screen.
+    private final double overzichtWidth = (FullScreenResolution.getWidth()/10)*4;
+    //Height is voor alles hetzelfde. = max height.
+    private final double height = FullScreenResolution.getHeight();
+    
     public MainPanel(DomeinController dc) {
         this.dc = dc;
 
         DetailPaneelController dpc = new DetailPaneelController(dc);
-        dpc.setPrefSize(600, SCREENHEIGHT);
+        dpc.setPrefSize(detailPaneelWidth, height);
+        
         OverzichtSceneController osc = new OverzichtSceneController(dc, dpc);
-        osc.setPrefSize(600, SCREENHEIGHT);
+        osc.setPrefSize(overzichtWidth, height);
         dpc.setOverzichtSceneController(osc);
         dc.addPropertyChangeListener(osc);
+        
         BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, new OverzichtOpvraagSceneController(dc));
-        bcc.setPrefSize(250, SCREENHEIGHT);
+        bcc.setPrefSize(beheerderControlWidth, height);
+        
         this.setCenter(osc);
         this.setLeft(bcc);
         this.setRight(dpc);

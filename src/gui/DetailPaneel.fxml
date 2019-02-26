@@ -9,20 +9,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="600.0" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #e6e6e6;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox maxHeight="82.0" minHeight="82.0" prefHeight="82.0" prefWidth="200.0">
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0">
          <children>
-            <Label fx:id="lblDetail" alignment="CENTER" maxHeight="82.0" minHeight="82.0" prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #00B4AB;" text="Lid wijzigen" textAlignment="CENTER" textFill="#e6e6e6">
+            <Label fx:id="lblDetail" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #00B4AB;" text="Lid wijzigen" textAlignment="CENTER" textFill="#e6e6e6" HBox.hgrow="ALWAYS">
                <font>
-                  <Font name="Quicksand-Bold" size="31.0" />
+                  <Font name="Quicksand-Bold" size="30.0" />
                </font>
             </Label>
          </children>
       </HBox>
       <VBox prefHeight="755.0" prefWidth="600.0">
          <children>
-            <HBox prefHeight="36.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="Voornaam">
                      <HBox.margin>
@@ -31,8 +31,11 @@
                   </Label>
                   <TextField fx:id="txtVoornaam" prefHeight="28.0" prefWidth="231.0" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <HBox prefHeight="36.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="Achternaam">
                      <HBox.margin>
@@ -41,8 +44,11 @@
                   </Label>
                   <TextField fx:id="txtAchternaam" prefHeight="28.0" prefWidth="231.0" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <HBox prefHeight="36.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="Graad">
                      <HBox.margin>
@@ -51,8 +57,11 @@
                   </Label>
                   <ComboBox fx:id="cboGraad" prefHeight="28.0" prefWidth="231.0" promptText="Kies Graad" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <HBox prefHeight="36.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="Straat">
                      <HBox.margin>
@@ -61,8 +70,11 @@
                   </Label>
                   <TextField fx:id="txtStraat" prefHeight="28.0" prefWidth="231.0" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <HBox prefHeight="36.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="Postcode">
                      <HBox.margin>
@@ -71,8 +83,11 @@
                   </Label>
                   <TextField fx:id="txtPostCode" prefHeight="28.0" prefWidth="231.0" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <HBox prefHeight="36.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="Gemeente">
                      <HBox.margin>
@@ -81,8 +96,11 @@
                   </Label>
                   <TextField fx:id="txtGemeente" prefHeight="28.0" prefWidth="231.0" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <HBox prefHeight="36.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="E-mailadres">
                      <HBox.margin>
@@ -91,8 +109,11 @@
                   </Label>
                   <TextField fx:id="txtEmail" prefHeight="28.0" prefWidth="231.0" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <HBox prefHeight="36.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="Type">
                      <HBox.margin>
@@ -101,8 +122,11 @@
                   </Label>
                   <ComboBox fx:id="cboType" prefHeight="28.0" prefWidth="231.0" promptText="Kies Type" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <HBox prefHeight="36.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="Telefoonnummer">
                      <HBox.margin>
@@ -111,8 +135,11 @@
                   </Label>
                   <TextField fx:id="txtTelefoonnummer" prefHeight="28.0" prefWidth="231.0" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <HBox prefHeight="60.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308">
                <children>
                   <Button mnemonicParsing="false" onAction="#bevestigWijziging" prefHeight="39.0" prefWidth="303.0" text="Bevestig" />
                   <Button mnemonicParsing="false" onAction="#annuleerwijziging" prefHeight="38.0" prefWidth="292.0" text="Annuleer" />
@@ -121,12 +148,12 @@
                   <Insets top="10.0" />
                </padding>
             </HBox>
-            <HBox prefHeight="226.0" prefWidth="590.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="226.0" prefWidth="590.0">
                <padding>
                   <Insets top="50.0" />
                </padding>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label fx:id="errorMessage" alignment="CENTER" prefHeight="82.0" prefWidth="600.0" textAlignment="CENTER" textFill="#3b3535">
                      <font>
@@ -139,8 +166,11 @@
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
+         <VBox.margin>
+            <Insets top="40.0" />
+         </VBox.margin>
       </VBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="300.0">
                <children>

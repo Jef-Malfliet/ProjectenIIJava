@@ -16,12 +16,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import util.FullScreenResolution;
 
 /**
  * FXML Controller class
@@ -31,7 +34,10 @@ import javafx.scene.text.Font;
 public class OverzichtSceneController extends VBox implements PropertyChangeListener {
 
     private DomeinController dc;
-
+    //OverzichtSceneController was 4/10 van het scherm.
+    private double sceneWidth = FullScreenResolution.getWidth()/10*4;
+    private double sceneHeight = FullScreenResolution.getHeight();
+    
     @FXML
     private TableView<Lid> tableOverview = new TableView<>();
     @FXML
@@ -40,13 +46,14 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private TableColumn<Lid, String> colBand = new TableColumn<>();
     @FXML
     private TableColumn<Lid, String> colType = new TableColumn<>();
-    
+
     private final DetailPaneelController dpc;
     @FXML
     private ComboBox<SorteerType> cboFilterOptie = new ComboBox<>();
     @FXML
     private TextField txtZoek;
-    
+    @FXML
+    private Label lblLedenBeheren;
 
     public OverzichtSceneController(DomeinController dc, DetailPaneelController dpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtScene.fxml"));
@@ -74,15 +81,28 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         tableOverview.setItems(dc.getLeden());
         colName.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
         colBand.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
-        colType.setCellValueFactory(cellData->cellData.getValue().getTypeProperty());
+        colType.setCellValueFactory(cellData -> cellData.getValue().getTypeProperty());
         cboFilterOptie.setItems(FXCollections.observableArrayList(SorteerType.values()));
         cboFilterOptie.getSelectionModel().selectFirst();
+        setMaxScreen();
+
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         update();
+    }
 
+    private void setMaxScreen() {
+        lblLedenBeheren.setPrefWidth(sceneWidth);
+        tableOverview.setPrefWidth(sceneWidth);
+        tableOverview.setPrefHeight(sceneHeight);
+        // 3 kolommen, dus 1/3 van de tableview.
+        colName.prefWidthProperty().bind(tableOverview.widthProperty().divide(3));
+        colBand.prefWidthProperty().bind(tableOverview.widthProperty().divide(3));
+        colType.prefWidthProperty().bind(tableOverview.widthProperty().divide(3));
+
+        
     }
 
     private void update() {
