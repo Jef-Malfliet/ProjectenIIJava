@@ -20,7 +20,7 @@
             </Label>
          </children>
       </HBox>
-      <VBox prefHeight="755.0" prefWidth="600.0">
+      <VBox prefHeight="755.0" prefWidth="520.0">
          <children>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
@@ -32,7 +32,7 @@
                   <TextField fx:id="txtVoornaam" prefHeight="28.0" prefWidth="231.0" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="25.0" />
                </VBox.margin>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
@@ -45,7 +45,7 @@
                   <TextField fx:id="txtAchternaam" prefHeight="28.0" prefWidth="231.0" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="25.0" />
                </VBox.margin>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
@@ -58,7 +58,7 @@
                   <ComboBox fx:id="cboGraad" prefHeight="28.0" prefWidth="231.0" promptText="Kies Graad" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="25.0" />
                </VBox.margin>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
@@ -71,7 +71,7 @@
                   <TextField fx:id="txtStraat" prefHeight="28.0" prefWidth="231.0" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="25.0" />
                </VBox.margin>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
@@ -84,7 +84,7 @@
                   <TextField fx:id="txtPostCode" prefHeight="28.0" prefWidth="231.0" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="25.0" />
                </VBox.margin>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
@@ -97,7 +97,7 @@
                   <TextField fx:id="txtGemeente" prefHeight="28.0" prefWidth="231.0" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="25.0" />
                </VBox.margin>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
@@ -110,7 +110,7 @@
                   <TextField fx:id="txtEmail" prefHeight="28.0" prefWidth="231.0" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="25.0" />
                </VBox.margin>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
@@ -123,7 +123,7 @@
                   <ComboBox fx:id="cboType" prefHeight="28.0" prefWidth="231.0" promptText="Kies Type" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="25.0" />
                </VBox.margin>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
@@ -136,7 +136,7 @@
                   <TextField fx:id="txtTelefoonnummer" prefHeight="28.0" prefWidth="231.0" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="25.0" />
                </VBox.margin>
             </HBox>
             <HBox maxWidth="1.7976931348623157E308">
@@ -167,7 +167,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <VBox.margin>
-            <Insets top="40.0" />
+            <Insets left="80.0" top="40.0" />
          </VBox.margin>
       </VBox>
       <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
@@ -191,6 +191,9 @@
                </children>
             </HBox>
          </children>
+         <VBox.margin>
+            <Insets left="80.0" />
+         </VBox.margin>
       </HBox>
    </children>
 </fx:root>
