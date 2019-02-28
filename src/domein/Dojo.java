@@ -28,6 +28,8 @@ public class Dojo {
     private PropertyChangeSupport subject;
     private LidDao lidRepo;
     private final List<Overzicht> overzichtList;
+    private List<Kampioenschap> kampioenschappen;
+    private List<Activiteit> activiteiten;
 
     public Dojo(LidDao lidRepo) {
         setLidRepo(lidRepo);
@@ -136,7 +138,7 @@ public class Dojo {
             if (optie == null) {
                 return true;
             }
-            
+
             switch (optie) {
                 case VOORNAAM:
                     return lid.getVoornaam().compareToIgnoreCase(start) >= 0;
