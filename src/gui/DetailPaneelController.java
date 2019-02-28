@@ -97,13 +97,13 @@ public class DetailPaneelController extends VBox {
         lblDetail.setText("Lid wijzigen");
         current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
-        txtAchternaam.setText(lid.getAchternaam());
+        txtAchternaam.setText(lid.getFamilienaam());
         cboGraad.getSelectionModel().select(lid.getGraad());
-        txtStraat.setText(lid.getStraat());
-        txtGemeente.setText(lid.getGemeente());
+        txtStraat.setText(lid.getFamilienaam());
+        txtGemeente.setText(lid.getFamilienaam());
         txtPostCode.setText(String.format("%s", lid.getPostcode()));
         txtEmail.setText(lid.getEmail());
-        txtTelefoonnummer.setText(lid.getTelefoon());
+        txtTelefoonnummer.setText(lid.getTelefoon_vast());
         cboType.getSelectionModel().select(lid.getType());
         nieuwlid = false;
         

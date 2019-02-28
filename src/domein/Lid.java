@@ -98,7 +98,7 @@ public class Lid implements Serializable, Exportable {
         this.setGraadProperty(new SimpleStringProperty(this.getGraad().toString()));
         this.setVoornaamProperty(new SimpleStringProperty(this.getVoornaam()));
         this.setTypeProperty(new SimpleStringProperty(this.getType().toString()));
-        this.setFamilienaamProperty(new SimpleStringProperty(this.getFamilienaam().toString()));
+        this.setFamilienaamProperty(new SimpleStringProperty(this.getFamilienaam()));
     }
 
     @Override
