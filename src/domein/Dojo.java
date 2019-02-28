@@ -31,7 +31,7 @@ public class Dojo {
     private final List<Overzicht> overzichtList;
     private List<Kampioenschap> kampioenschappen;
     private List<Activiteit> activiteiten;
-	private Collection<Oefening> oefeningen;
+    private Collection<Oefening> oefeningen;
 
     public Dojo(LidDao lidRepo) {
         setLidRepo(lidRepo);
@@ -164,9 +164,13 @@ public class Dojo {
         return overzichtList;
     }
 
-	public List<Oefening> toonOefeningen() {
-		// TODO - implement Dojo.toonOefeningen
-		throw new UnsupportedOperationException();
-	}
+    public List<Oefening> toonOefeningen() {
+        // TODO - implement Dojo.toonOefeningen
+        throw new UnsupportedOperationException();
+    }
 
+    public List<Activiteit> getActiviteitenList(){
+        return activiteiten;
+    }
+    
 }
