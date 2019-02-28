@@ -27,17 +27,17 @@ public class Kampioenschap {
 		throw new UnsupportedOperationException();
 	}
 
+	public List<Lid> geefAanwezigen() {
+		// TODO - implement Kampioenschap.geefAanwezigen
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * 
 	 * @param lid
 	 */
-	public void listUitschrijven(Lid lid) {
-		// TODO - implement Kampioenschap.listUitschrijven
-		throw new UnsupportedOperationException();
-	}
-
-	public List<Lid> geefAanwezigen() {
-		// TODO - implement Kampioenschap.geefAanwezigen
+	public void lidUitschrijven(Lid lid) {
+		// TODO - implement Kampioenschap.lidUitschrijven
 		throw new UnsupportedOperationException();
 	}
 

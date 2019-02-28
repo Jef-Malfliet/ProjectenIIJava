@@ -38,7 +38,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="txtZoek" onKeyPressed="#filter" onKeyTyped="#filter" prefHeight="25.0" prefWidth="100.0">
+            <TextField fx:id="txtZoek" onKeyPressed="#filter" onKeyTyped="#filter" prefHeight="25.0" prefWidth="320.0">
                <HBox.margin>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                </HBox.margin>
@@ -49,7 +49,8 @@
          <children>
             <TableView fx:id="tableOverview" prefHeight="778.0" prefWidth="600.0">
               <columns>
-                <TableColumn fx:id="colName" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Naam" />
+                <TableColumn fx:id="colVoorNaam" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Voornaam" />
+                  <TableColumn fx:id="colAchterNaam" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Familienaam" />
                 <TableColumn fx:id="colBand" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Band" />
                   <TableColumn fx:id="colType" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="0.0" text="Type" />
               </columns>

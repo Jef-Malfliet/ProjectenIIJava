@@ -31,8 +31,9 @@ public class Overzicht implements Serializable {
     private long id;
 
     private String name;//db
-    private OverzichtType type;//db
-    @Temporal(TemporalType.DATE)
+    @javax.persistence.Transient
+	private OverzichtType type;//db
+    @javax.persistence.Column(name="datum")
     private Date datum;//db
 
     @Transient

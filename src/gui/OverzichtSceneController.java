@@ -21,9 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import util.FullScreenResolution;
 
 /**
@@ -41,8 +39,6 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     @FXML
     private TableView<Lid> tableOverview = new TableView<>();
     @FXML
-    private TableColumn<Lid, String> colName = new TableColumn<>();
-    @FXML
     private TableColumn<Lid, String> colBand = new TableColumn<>();
     @FXML
     private TableColumn<Lid, String> colType = new TableColumn<>();
@@ -54,6 +50,10 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private TextField txtZoek;
     @FXML
     private Label lblLedenBeheren;
+    @FXML
+    private TableColumn<Lid, String> colVoorNaam = new TableColumn<>();
+    @FXML
+    private TableColumn<Lid, String> colAchterNaam = new TableColumn<>();
 
     public OverzichtSceneController(DomeinController dc, DetailPaneelController dpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtScene.fxml"));
@@ -76,10 +76,11 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
                     if (newLid != null) {
                         dpc.fillLid(newLid);
                     }
-                });
+                }); 
 
         tableOverview.setItems(dc.getLeden());
-        colName.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
+        colVoorNaam.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
+        //colAchterNaam.setCellValueFactory(cellData -> cellData.getValue().getFamilienaamProperty());
         colBand.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
         colType.setCellValueFactory(cellData -> cellData.getValue().getTypeProperty());
         cboFilterOptie.setItems(FXCollections.observableArrayList(SorteerType.values()));
@@ -98,9 +99,10 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         tableOverview.setPrefWidth(sceneWidth);
         tableOverview.setPrefHeight(sceneHeight);
         // 3 kolommen, dus 1/3 van de tableview.
-        colName.prefWidthProperty().bind(tableOverview.widthProperty().divide(3));
-        colBand.prefWidthProperty().bind(tableOverview.widthProperty().divide(3));
-        colType.prefWidthProperty().bind(tableOverview.widthProperty().divide(3));
+        colVoorNaam.prefWidthProperty().bind(tableOverview.widthProperty().divide(4));
+        colAchterNaam.prefWidthProperty().bind(tableOverview.widthProperty().divide(4));
+        colBand.prefWidthProperty().bind(tableOverview.widthProperty().divide(4));
+        colType.prefWidthProperty().bind(tableOverview.widthProperty().divide(4));
 
         
     }
