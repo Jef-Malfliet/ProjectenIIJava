@@ -22,4 +22,22 @@ public class Activiteit {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * 
+	 * @param lid
+	 */
+	public void lidInschrijven(Lid lid) {
+		// TODO - implement Activiteit.lidInschrijven
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 * @param lid
+	 */
+	public void lidUitschrijven(Lid lid) {
+		// TODO - implement Activiteit.lidUitschrijven
+		throw new UnsupportedOperationException();
+	}
+
 }
