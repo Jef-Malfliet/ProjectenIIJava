@@ -31,7 +31,7 @@ public class Dojo {
     private final List<Overzicht> overzichtList;
     private List<Kampioenschap> kampioenschappen;
     private List<Activiteit> activiteiten;
-	private Collection<Oefening> oefeningen;
+    private Collection<Oefening> oefeningen;
 
     public Dojo(LidDao lidRepo) {
         setLidRepo(lidRepo);
@@ -144,7 +144,7 @@ public class Dojo {
             switch (optie) {
                 case VOORNAAM:
                     return lid.getVoornaam().compareToIgnoreCase(start) >= 0;
-                case ACHTERNAAM:
+                case FAMILIENAAM:
                     return lid.getFamilienaam().compareToIgnoreCase(start) >= 0;
                 case GRAAD:
                     return lid.getGraad().toString().toLowerCase().startsWith(start.toLowerCase());
@@ -169,4 +169,8 @@ public class Dojo {
 		throw new UnsupportedOperationException();
 	}
 
+    public List<Activiteit> getActiviteitenList(){
+        return activiteiten;
+    }
+    
 }

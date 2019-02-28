@@ -12,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -80,13 +81,13 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
         tableOverview.setItems(dc.getLeden());
         colVoorNaam.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
-        //colAchterNaam.setCellValueFactory(cellData -> cellData.getValue().getFamilienaamProperty());
+        colAchterNaam.setCellValueFactory(cellData -> cellData.getValue().getFamilienaamProperty());
         colBand.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
         colType.setCellValueFactory(cellData -> cellData.getValue().getTypeProperty());
         cboFilterOptie.setItems(FXCollections.observableArrayList(SorteerType.values()));
         cboFilterOptie.getSelectionModel().selectFirst();
         setMaxScreen();
-
+        ((SortedList)dc.getLeden()).comparatorProperty().bind(tableOverview.comparatorProperty());
     }
 
     @Override
