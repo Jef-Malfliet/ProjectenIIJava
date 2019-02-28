@@ -15,6 +15,8 @@ import persistentie.ExportFiles;
 //import persistentie.IPersistentieController;
 import persistentie.LidDao;
 import java.util.*;
+import persistentie.OefeningDao;
+import persistentie.OefeningDaoJpa;
 
 public class Dojo {
 
@@ -28,19 +30,22 @@ public class Dojo {
     private final SortedList<Lid> sorted;
     private PropertyChangeSupport subject;
     private LidDao lidRepo;
+    private OefeningDao oefeningRepo;
     private final List<Overzicht> overzichtList;
     private List<Kampioenschap> kampioenschappen;
     private List<Activiteit> activiteiten;
-    private Collection<Oefening> oefeningen;
+    private List<Oefening> oefeningen;
 
-    public Dojo(LidDao lidRepo) {
+    public Dojo(LidDao lidRepo, OefeningDao oefeningRepo) {
         setLidRepo(lidRepo);
+        setOefeningRepo(oefeningRepo);
         this.type = RolType.BEHEERDER;
         leden = FXCollections.observableArrayList(this.lidRepo.findAll());
         filtered = new FilteredList<>(leden, (p) -> true);
         sorted = new SortedList<>(filtered, sortOrder);
         subject = new PropertyChangeSupport(this);
         overzichtList = new ArrayList();
+        oefeningen = oefeningRepo.findAll();
     }
 
     /**
@@ -164,13 +169,25 @@ public class Dojo {
         return overzichtList;
     }
 
-	public List<Oefening> getOefeningen() {
-		// TODO - implement Dojo.toonOefeningen
-		throw new UnsupportedOperationException();
-	}
+    public List<Oefening> getOefeningen() {
+        return oefeningen;
+    }
 
-    public List<Activiteit> getActiviteitenList(){
+    public List<Activiteit> getActiviteitenList() {
         return activiteiten;
     }
-    
+
+    /**
+     *
+     * @param oefening
+     */
+    public void addOefening(Oefening oefening) {
+        this.oefeningen.add(oefening);
+        oefeningRepo.insert(oefening);
+    }
+
+    private void setOefeningRepo(OefeningDao oefeningRepo) {
+        this.oefeningRepo=oefeningRepo;
+    }
+
 }

@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domein;
+package persistentie;
+
+import domein.Oefening;
 
 /**
  *
- * @author Mout
+ * @author IndyV
  */
-public enum SorteerType {
-    VOORNAAM,
-    FAMILIENAAM,
-    GRAAD,
-    TYPE,
-	ACHTERNAAM
+public interface OefeningDao extends GenericDao<Oefening>{
+    
 }
