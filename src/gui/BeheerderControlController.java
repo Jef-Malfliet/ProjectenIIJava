@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -20,6 +20,8 @@ import util.FullScreenResolution;
  *
  * @author IndyV
  */
+
+
 public class BeheerderControlController extends VBox {
 
     private double sceneWidth = FullScreenResolution.getWidth() / 10 * 1.5;
@@ -39,6 +41,8 @@ public class BeheerderControlController extends VBox {
     private MainPanel mp;
     private OverzichtSceneController osc;
     private OverzichtOpvraagSceneController opsc;
+    private LesmateriaalBeheerSceneController lmbs;
+
     @FXML
     private Label lblLedenBeheren;
     @FXML
@@ -53,7 +57,7 @@ public class BeheerderControlController extends VBox {
      *
      * Initialiseert de GUI en zijn nodige dependencies.
      */
-    public BeheerderControlController(DomeinController dc, OverzichtSceneController osc, MainPanel mp, OverzichtOpvraagSceneController opsc) {
+    public BeheerderControlController(DomeinController dc, OverzichtSceneController osc, MainPanel mp, OverzichtOpvraagSceneController opsc, LesmateriaalBeheerSceneController lmbs) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BeheerderControl.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -66,6 +70,8 @@ public class BeheerderControlController extends VBox {
         this.dc = dc;
         this.mp = mp;
         this.opsc = opsc;
+        this.lmbs = lmbs;
+
         buildGui();
     }
 
@@ -96,6 +102,9 @@ public class BeheerderControlController extends VBox {
 
         btnLesmateriaalBeheren.setOnMouseClicked(e -> {
             lesmateriaalBeheren();
+            mp.setCenter(lmbs);
+            mp.setRight(null);
+
         });
 
         btnStateActiviteitBeheren.setOnMouseClicked(e -> {
@@ -155,7 +164,7 @@ public class BeheerderControlController extends VBox {
         lblLesmateriaal.setPrefWidth(sceneWidth);
         lblOverzichtGeneren.setPrefWidth(sceneWidth);
         lblStageActiviteiten.setPrefWidth(sceneWidth);
-        
+
 
         
     }

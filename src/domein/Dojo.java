@@ -201,4 +201,13 @@ public class Dojo {
         this.oefeningRepo=oefeningRepo;
     }
 
+	/**
+	 * 
+	 * @param lidRepo
+	 */
+	public Dojo(LidDao lidRepo) {
+		// TODO - implement Dojo.Dojo
+		throw new UnsupportedOperationException();
+	}
+
 }

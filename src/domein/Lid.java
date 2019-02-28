@@ -14,8 +14,8 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-    @javax.persistence.NamedQuery(name="Lid.GetAll", query="SELECT e FROM Lid e"),
-    @javax.persistence.NamedQuery(name="Lid.GetLedenByVoornaam", query="SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
+	@javax.persistence.NamedQuery(name="Lid.GetAll", query="SELECT e FROM Lid e"), 
+	@javax.persistence.NamedQuery(name="Lid.GetLedenByVoornaam", query="SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
 })
 public class Lid implements Serializable, Exportable {
  
@@ -144,7 +144,7 @@ public class Lid implements Serializable, Exportable {
         return String.format("%s,%s,%s,%s,%s,%s,%s%n", "Voornaam", "familienaam", "Graad", "Telefoon_vast", "Email", "Straatnaam", "Postcode", "stad");
     }
  
-    public SimpleStringProperty getVoornaamProperty() {
+    public javafx.beans.property.SimpleStringProperty getVoornaamProperty() {
         return this.voornaamProperty;
     }
  
@@ -215,7 +215,7 @@ public class Lid implements Serializable, Exportable {
         if (telefoon_vast == null || telefoon_vast.isEmpty()) {
             throw new IllegalArgumentException("Telefoon_vast mag niet leeg zijn.");
         }
-        if (!(telefoon_vast.matches("0\\d{9}") || telefoon_vast.matches("00\\d{11}"))) {
+        if (!(telefoon_vast.matches("0\\d{8}") || telefoon_vast.matches("00\\d{10}"))) {
             throw new IllegalArgumentException("Telefoon_vast is niet van het juiste formaat");
         }
         this.telefoon_vast = telefoon_vast;
@@ -358,11 +358,11 @@ public class Lid implements Serializable, Exportable {
         this.geslacht = geslacht;
     }
  
-    public SimpleStringProperty getFamilienaamProperty() {
+    public javafx.beans.property.SimpleStringProperty getFamilienaamProperty() {
         return familienaamProperty;
     }
  
-    public void setFamilienaamProperty(SimpleStringProperty familienaamProperty) {
+    public void setFamilienaamProperty(javafx.beans.property.SimpleStringProperty familienaamProperty) {
         this.familienaamProperty = familienaamProperty;
     }
  

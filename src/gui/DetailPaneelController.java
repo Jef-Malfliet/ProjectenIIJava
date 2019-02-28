@@ -78,6 +78,9 @@ public class DetailPaneelController extends VBox {
     private TextField txtInschrijvingsdatum;
     @FXML
     private TextField txtVasteTelefoon;
+	private TextField txtGraad;
+	@FXML()
+	private TextField txtTelefoonnummer;
 
 
     public DetailPaneelController(DomeinController dc) {
