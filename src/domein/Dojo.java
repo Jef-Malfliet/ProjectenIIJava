@@ -164,13 +164,24 @@ public class Dojo {
         return overzichtList;
     }
 
-	public List<Oefening> getOefeningen() {
-		// TODO - implement Dojo.toonOefeningen
-		throw new UnsupportedOperationException();
-	}
+    public List<Oefening> getOefeningen() {
+        // TODO - implement Dojo.toonOefeningen
+        throw new UnsupportedOperationException();
+    }
 
-    public List<Activiteit> getActiviteitenList(){
+    public List<Activiteit> getActiviteitenList() {
         return activiteiten;
     }
-    
+
+    public void lidInschrijven(long activiteitId, long lidId) {
+        Activiteit tempAct = activiteiten.stream().filter(a -> a.getId() == activiteitId).findFirst().orElse(null);
+        Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
+        tempAct.lidInschrijven(tempLid);
+    }
+
+    public void lidUitschrijven(long activiteitId, long lidId) {
+        Activiteit tempAct = activiteiten.stream().filter(a -> a.getId() == activiteitId).findFirst().orElse(null);
+        Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
+        tempAct.lidUitschrijven(tempLid);
+    }
 }
