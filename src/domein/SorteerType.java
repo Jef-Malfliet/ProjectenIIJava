@@ -13,6 +13,5 @@ public enum SorteerType {
     VOORNAAM,
     FAMILIENAAM,
     GRAAD,
-    TYPE,
-	ACHTERNAAM
+    TYPE
 }
