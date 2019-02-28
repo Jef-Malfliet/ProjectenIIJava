@@ -143,7 +143,7 @@ public class Dojo {
                 case VOORNAAM:
                     return lid.getVoornaam().compareToIgnoreCase(start) >= 0;
                 case ACHTERNAAM:
-                    return lid.getAchternaam().compareToIgnoreCase(start) >= 0;
+                    return lid.getFamilienaam().compareToIgnoreCase(start) >= 0;
                 case GRAAD:
                     return lid.getGraad().toString().toLowerCase().startsWith(start.toLowerCase());
                 case TYPE:
