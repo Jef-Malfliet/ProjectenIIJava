@@ -8,16 +8,19 @@ public class Activiteit {
 
     @OneToMany()
     private List<Lid> aanwezigen;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Transient
     private Date startDatum;
     @Transient
     private Date eindDatum;
     @Transient
     private boolean stage;
+
+    public Activiteit() {
+    }
 
     public Activiteit(Date startDatum, Date eindDatum, boolean stage) {
         this.startDatum = startDatum;
@@ -45,4 +48,35 @@ public class Activiteit {
         aanwezigen.remove(lid);
     }
 
+    public void setAanwezigen(List<Lid> aanwezigen) {
+        this.aanwezigen = aanwezigen;
+    }
+
+    public Date getStartDatum() {
+        return startDatum;
+    }
+
+    public void setStartDatum(Date startDatum) {
+        this.startDatum = startDatum;
+    }
+
+    public Date getEindDatum() {
+        return eindDatum;
+    }
+
+    public void setEindDatum(Date eindDatum) {
+        this.eindDatum = eindDatum;
+    }
+
+    public boolean isStage() {
+        return stage;
+    }
+
+    public void setStage(boolean stage) {
+        this.stage = stage;
+    }
+
+    public long getId() {
+        return id;
+    }
 }

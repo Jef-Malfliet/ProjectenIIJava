@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="975.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #00B4AB;">
+         <children>
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #00B4AB;" text="Activiteit wijzigen" textAlignment="CENTER" textFill="#e6e6e6" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</VBox>

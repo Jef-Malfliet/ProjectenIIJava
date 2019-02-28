@@ -177,6 +177,17 @@ public class Dojo {
         return activiteiten;
     }
 
+    public void lidInschrijven(long activiteitId, long lidId) {
+        Activiteit tempAct = activiteiten.stream().filter(a -> a.getId() == activiteitId).findFirst().orElse(null);
+        Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
+        tempAct.lidInschrijven(tempLid);
+    }
+
+    public void lidUitschrijven(long activiteitId, long lidId) {
+        Activiteit tempAct = activiteiten.stream().filter(a -> a.getId() == activiteitId).findFirst().orElse(null);
+        Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
+        tempAct.lidUitschrijven(tempLid);
+    }
     /**
      *
      * @param oefening
