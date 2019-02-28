@@ -24,6 +24,7 @@ public class Lid implements Serializable, Exportable {
 
     private String voornaam;
     private String familienaam;
+    private String wachtwoord;
     private String telefoon_vast;
     private String straatnaam;
     private int huisnummer;
@@ -60,9 +61,10 @@ public class Lid implements Serializable, Exportable {
     public Lid() {
     }
 
-    public Lid(String voornaam, String familienaam, String telefoon_vast, String straatnaam, int huisnummer, int postcode, String stad, String land, String email, String email_ouders, Date geboortedatum, Date inschrijvingsdatum, List<Date> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
+    public Lid(String voornaam, String familienaam,String wachtwoord, String telefoon_vast, String straatnaam, int huisnummer, int postcode, String stad, String land, String email, String email_ouders, Date geboortedatum, Date inschrijvingsdatum, List<Date> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
         setVoornaam(voornaam);
         setFamilienaam(familienaam);
+        setWachtwoord(wachtwoord);
         setTelefoon_vast(telefoon_vast);
         setStraatnaam(straatnaam);
         setHuisnummer(huisnummer);
@@ -77,6 +79,7 @@ public class Lid implements Serializable, Exportable {
         setGeslacht(geslacht);
         setGraad(graad);
         setType(type);
+        
         fillSimpleProperties();
     }
 
@@ -358,6 +361,14 @@ public class Lid implements Serializable, Exportable {
 
     public void setFamilienaamProperty(SimpleStringProperty familienaamProperty) {
         this.familienaamProperty = familienaamProperty;
+    }
+
+    public String getWachtwoord() {
+        return wachtwoord;
+    }
+
+    private void setWachtwoord(String wachtwoord) {
+        this.wachtwoord = wachtwoord;
     }
     
 
