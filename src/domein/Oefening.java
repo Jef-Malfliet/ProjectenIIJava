@@ -38,4 +38,14 @@ public class Oefening {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * 
+	 * @param type
+	 * @param naam
+	 */
+	public LesMateriaalType getMateriaal(LesMateriaalType type, String naam) {
+		// TODO - implement Oefening.getMateriaal
+		throw new UnsupportedOperationException();
+	}
+
 }

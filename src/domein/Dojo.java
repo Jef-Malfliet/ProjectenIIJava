@@ -14,6 +14,7 @@ import javafx.collections.transformation.SortedList;
 import persistentie.ExportFiles;
 //import persistentie.IPersistentieController;
 import persistentie.LidDao;
+import java.util.*;
 
 public class Dojo {
 
@@ -30,6 +31,7 @@ public class Dojo {
     private final List<Overzicht> overzichtList;
     private List<Kampioenschap> kampioenschappen;
     private List<Activiteit> activiteiten;
+	private Collection<Oefening> oefeningen;
 
     public Dojo(LidDao lidRepo) {
         setLidRepo(lidRepo);
@@ -161,5 +163,10 @@ public class Dojo {
     public List<Overzicht> getOverzichtList() {
         return overzichtList;
     }
+
+	public List<Oefening> toonOefeningen() {
+		// TODO - implement Dojo.toonOefeningen
+		throw new UnsupportedOperationException();
+	}
 
 }

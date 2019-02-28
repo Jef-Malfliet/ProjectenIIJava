@@ -12,10 +12,10 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e"),
-    @NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
+	@javax.persistence.NamedQuery(name="Lid.GetAll", query="SELECT e FROM Lid e"), 
+	@javax.persistence.NamedQuery(name="Lid.GetLedenByVoornaam", query="SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
 })
-public class Lid implements Serializable,Exportable {
+public class Lid implements Serializable, Exportable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +29,11 @@ public class Lid implements Serializable,Exportable {
     private int postcode;
     private String gemeente;
 
-    @Enumerated(EnumType.STRING)
+    @javax.persistence.Transient
     private Graad graad;
 
-    @Enumerated(EnumType.STRING)
-    private RolType type = RolType.LID;
+    @javax.persistence.Transient
+    private RolType type;
 
     @Transient
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
@@ -101,19 +101,19 @@ public class Lid implements Serializable,Exportable {
     public String excelheaders(){
         return String.format("%s,%s,%s,%s,%s,%s,%s%n", "Voornaam", "Achternaam", "Graad", "Telefoon", "Email", "Straat", "Postcode", "Gemeente");
     }
-    public SimpleStringProperty getVoornaamProperty() {
+    public javafx.beans.property.SimpleStringProperty getVoornaamProperty() {
         return this.voornaamProperty;
     }
 
-    public void setVoornaamProperty(SimpleStringProperty voornaamProperty) {
+    public void setVoornaamProperty(javafx.beans.property.SimpleStringProperty voornaamProperty) {
         this.voornaamProperty = voornaamProperty;
     }
 
-    public SimpleStringProperty getGraadProperty() {
+    public javafx.beans.property.SimpleStringProperty getGraadProperty() {
         return this.graadProperty;
     }
 
-    public void setGraadProperty(SimpleStringProperty graadProperty) {
+    public void setGraadProperty(javafx.beans.property.SimpleStringProperty graadProperty) {
         this.graadProperty = graadProperty;
     }
 
@@ -248,11 +248,11 @@ public class Lid implements Serializable,Exportable {
         return type;
     }
 
-    public SimpleStringProperty getTypeProperty() {
+    public javafx.beans.property.SimpleStringProperty getTypeProperty() {
         return typeProperty;
     }
 
-    public void setTypeProperty(SimpleStringProperty typeProperty) {
+    public void setTypeProperty(javafx.beans.property.SimpleStringProperty typeProperty) {
         this.typeProperty = typeProperty;
     }
 
