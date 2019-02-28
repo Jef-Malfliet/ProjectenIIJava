@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import util.FullScreenResolution;
@@ -37,7 +38,6 @@ public class DetailPaneelController extends VBox {
     private TextField txtVoornaam;
     @FXML
     private TextField txtAchternaam;
-    private TextField txtGraad;
     @FXML
     private TextField txtStraat;
     @FXML
@@ -46,8 +46,6 @@ public class DetailPaneelController extends VBox {
     private TextField txtGemeente;
     @FXML
     private TextField txtEmail;
-    @FXML
-    private TextField txtTelefoonnummer;
     private Lid current_lid;
     @FXML
     private Label errorMessage;
@@ -56,7 +54,7 @@ public class DetailPaneelController extends VBox {
     private boolean nieuwlid;
     @FXML
     private ComboBox<Graad> cboGraad;
-        @FXML
+    @FXML
     private ComboBox<RolType> cboType;
     @FXML
     private Button btnNieuwLid;
@@ -64,6 +62,22 @@ public class DetailPaneelController extends VBox {
     private Button btnVerwijderLid;
 
     private OverzichtSceneController osc;
+    @FXML
+    private TextField txtWachtwoord;
+    @FXML
+    private TextField txtGsmnummer;
+    @FXML
+    private TextField txtHuisnummer;
+    @FXML
+    private TextField txtLand;
+    @FXML
+    private TextField txtEmail_ouders;
+    @FXML
+    private TextField txtGeboortedatum;
+    @FXML
+    private TextField txtInschrijvingsdatum;
+    @FXML
+    private TextField txtVasteTelefoon;
 
 
     public DetailPaneelController(DomeinController dc) {
@@ -98,12 +112,19 @@ public class DetailPaneelController extends VBox {
         current_lid = lid;
         txtVoornaam.setText(lid.getVoornaam());
         txtAchternaam.setText(lid.getFamilienaam());
-        cboGraad.getSelectionModel().select(lid.getGraad());
-        txtStraat.setText(lid.getFamilienaam());
-        txtGemeente.setText(lid.getFamilienaam());
+        txtWachtwoord.setText(lid.getWachtwoord());
+       // txtGsmnummer.setText(lid.getG);
+        txtVasteTelefoon.setText(lid.getTelefoon_vast());
+        txtStraat.setText(lid.getStraatnaam());
+        txtHuisnummer.setText(String.format("%s",lid.getHuisnummer()));
+        txtGemeente.setText(lid.getStad());
         txtPostCode.setText(String.format("%s", lid.getPostcode()));
+        txtLand.setText(lid.getLand());
         txtEmail.setText(lid.getEmail());
-        txtTelefoonnummer.setText(lid.getTelefoon_vast());
+        txtGeboortedatum.setText(lid.getGeboortedatum().toString());
+        txtInschrijvingsdatum.setText(lid.getInschrijvingsdatum().toString());
+        txtEmail_ouders.setText(lid.getEmail_ouders());
+        cboGraad.getSelectionModel().select(lid.getGraad());
         cboType.getSelectionModel().select(lid.getType());
         nieuwlid = false;
         
@@ -118,7 +139,7 @@ public class DetailPaneelController extends VBox {
         String voornaam = txtVoornaam.getText();
         String achternaam = txtAchternaam.getText();
         Graad graad = cboGraad.getSelectionModel().getSelectedItem();
-        String telefoon = txtTelefoonnummer.getText();
+        String telefoon = txtVasteTelefoon.getText();
         String email = txtEmail.getText();
         String straat = txtStraat.getText();
         String gemeente = txtGemeente.getText();
@@ -173,7 +194,7 @@ public class DetailPaneelController extends VBox {
         txtPostCode.clear();
         txtGemeente.clear();
         txtEmail.clear();
-        txtTelefoonnummer.clear();
+        txtGsmnummer.clear();
         cboType.getSelectionModel().clearSelection();
 
     }
