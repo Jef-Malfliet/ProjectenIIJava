@@ -227,6 +227,12 @@ public class DetailPaneelController extends VBox {
             lblM_VasteTelefoon.setVisible(true);
             juist = false;
         }
+         if (!(txtGsmnummer.getText().matches("0\\d{9}") || txtGsmnummer.getText().matches("00\\d{11}"))) {
+            lblM_Gsmnummer.setText("Gelieve een geldig telefoonnr op te geven");
+            txtGsmnummer.setStyle(errorstyle);
+            lblM_Gsmnummer.setVisible(true);
+            juist = false;
+        }
         if (!txtPostCode.getText().matches("[1-9][0-9]{3}")) {
             lblM_Postcode.setText("Gelieve een geldige postcode op te geven");
             lblM_Postcode.setVisible(true);

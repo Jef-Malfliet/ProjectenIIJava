@@ -30,14 +30,20 @@ public class Oefening implements Serializable {
     @Lob
     private byte[] image;
     private String video;
+	private String naam;
 
     /**
-     *
-     * @param graad
-     * @param type
-     */
-    public Oefening(Graad graad) {
+	 * 
+	 * @param graad
+	 * @param naam
+	 */
+    public Oefening(Graad graad, String naam) {
         this.graad = graad;
+        this.naam=naam;
+    }
+    
+    public Oefening(){
+        
     }
 
     /**
@@ -60,7 +66,7 @@ public class Oefening implements Serializable {
         try {
             BufferedImage imagebufferd = ImageIO.read(image);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(imagebufferd, "png", outputStream);
+            ImageIO.write(imagebufferd, "jpg", outputStream);
             this.image = outputStream.toByteArray();
         } catch (IOException ex) {
             Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);

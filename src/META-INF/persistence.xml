@@ -3,6 +3,7 @@
   <persistence-unit name="G19_PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>domein.Lid</class>
+    <class>domein.Oefening</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/G19_DB"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
