@@ -41,9 +41,9 @@ import util.FullScreenResolution;
  * @author Nante
  */
 public class DetailPaneelController extends VBox {
-    
+
     private DomeinController dc;
-    
+
     @FXML
     private TextField txtVoornaam;
     @FXML
@@ -70,7 +70,7 @@ public class DetailPaneelController extends VBox {
     private Button btnNieuwLid;
     @FXML
     private Button btnVerwijderLid;
-    
+
     private OverzichtSceneController osc;
     @FXML
     private TextField txtWachtwoord;
@@ -121,7 +121,13 @@ public class DetailPaneelController extends VBox {
     @FXML
     private DatePicker dpInschrijving;
     private List<TextField> niet_verplicht = new ArrayList<>();
-    
+    @FXML
+    private TextField txtBusnummer1;
+    @FXML
+    private Label lblM_Lessen;
+    @FXML
+    private ComboBox<Geslacht> cboGeslacht;
+
     public DetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
         loader.setController(this);
@@ -134,15 +140,16 @@ public class DetailPaneelController extends VBox {
         this.dc = dc;
         buildGui();
     }
-    
+
     private void buildGui() {
         cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
         cboType.setItems(FXCollections.observableArrayList(Arrays.asList(RolType.values())));
+        cboGeslacht.setItems(FXCollections.observableArrayList(Arrays.asList(Geslacht.values())));
         nieuwLid();
         btnNieuwLid.setOnMouseClicked(e -> {
             nieuwLid();
         });
-        
+
         btnVerwijderLid.setOnMouseClicked(e -> {
             osc.verwijdergeselecteerdLid();
         });
@@ -150,35 +157,36 @@ public class DetailPaneelController extends VBox {
         niet_verplicht.add(txtEmail_ouders);
         niet_verplicht.add(txtBusnummer);
     }
-    
+
     public void fillLid(Lid lid) {
-        
-        if(clearTextFields()){
-        errorMessage.setVisible(false);
-        lblDetail.setText("Lid wijzigen");
-        current_lid = lid;
-        txtVoornaam.setText(lid.getVoornaam());
-        txtAchternaam.setText(lid.getFamilienaam());
-        txtWachtwoord.setText(lid.getWachtwoord());
-        txtGsmnummer.setText(lid.getGsm());
-        txtVasteTelefoon.setText(lid.getTelefoon_vast());
-        txtStraat.setText(lid.getStraatnaam());
-        txtHuisnummer.setText(lid.getHuisnummer());
-        txtBusnummer.setText(lid.getBusnummer());
-        txtGemeente.setText(lid.getStad());
-        txtPostCode.setText(lid.getPostcode());
-        txtLand.setText(lid.getLand());
-        txtEmail.setText(lid.getEmail());
-        dpGeboorte.setValue(lid.getGeboortedatum());
-        dpInschrijving.setValue(lid.getInschrijvingsdatum());
-        txtEmail_ouders.setText(lid.getEmail_ouders());
-        cboGraad.getSelectionModel().select(lid.getGraad());
-        cboType.getSelectionModel().select(lid.getType());
-        nieuwlid = false;
+
+        if (clearTextFields()) {
+            errorMessage.setVisible(false);
+            lblDetail.setText("Lid wijzigen");
+            current_lid = lid;
+            txtVoornaam.setText(lid.getVoornaam());
+            txtAchternaam.setText(lid.getFamilienaam());
+            txtWachtwoord.setText(lid.getWachtwoord());
+            txtGsmnummer.setText(lid.getGsm());
+            txtVasteTelefoon.setText(lid.getTelefoon_vast());
+            txtStraat.setText(lid.getStraatnaam());
+            txtHuisnummer.setText(lid.getHuisnummer());
+            txtBusnummer.setText(lid.getBusnummer());
+            txtGemeente.setText(lid.getStad());
+            txtPostCode.setText(lid.getPostcode());
+            txtLand.setText(lid.getLand());
+            txtEmail.setText(lid.getEmail());
+            dpGeboorte.setValue(lid.getGeboortedatum());
+            dpInschrijving.setValue(lid.getInschrijvingsdatum());
+            txtEmail_ouders.setText(lid.getEmail_ouders());
+            cboGraad.getSelectionModel().select(lid.getGraad());
+            cboType.getSelectionModel().select(lid.getType());
+            cboGeslacht.getSelectionModel().select(lid.getGeslacht());
+            nieuwlid = false;
         }
-        
+
     }
-    
+
     private boolean moetIngevuldzijn(TextField textfield) {
         if (niet_verplicht.contains(textfield)) {
             return false;
@@ -188,7 +196,7 @@ public class DetailPaneelController extends VBox {
         }
         return false;
     }
-    
+
     @FXML
     private void bevestigWijziging(ActionEvent event) {
         String errorstyle = "-fx-background-color:#f77d5b";
@@ -197,7 +205,7 @@ public class DetailPaneelController extends VBox {
         TextField[] textfields = geefTextfields();
         Label[] errormessages = geefLabels();
         boolean juist = true;
-        
+
         errorMessage.setVisible(false);
         for (int i = 0; i < textfields.length; i++) {
             if (moetIngevuldzijn(textfields[i])) {
@@ -205,29 +213,29 @@ public class DetailPaneelController extends VBox {
                 errormessages[i].setVisible(true);
                 textfields[i].setStyle(errorstyle);
                 juist = false;
-                
+
             }
-            
+
         }
         if (dpGeboorte.getValue() == null) {
             lblM_Geboortedatum.setVisible(true);
             lblM_Geboortedatum.setText("Gelieve een datum in te vullen");
             juist = false;
-            
+
         }
         if (dpInschrijving.getValue() == null) {
             lblM_Inschrijvingsdatum.setVisible(true);
             lblM_Inschrijvingsdatum.setText("Gelieve een datum in te vullen");
             juist = false;
         }
-        
+
         if (!(txtVasteTelefoon.getText().matches("") || txtVasteTelefoon.getText().matches("0\\d{8}") || txtVasteTelefoon.getText().matches("00\\d{10}"))) {
             lblM_VasteTelefoon.setText("Gelieve een geldig telefoonnr op te geven");
             txtVasteTelefoon.setStyle(errorstyle);
             lblM_VasteTelefoon.setVisible(true);
             juist = false;
         }
-         if (!(txtGsmnummer.getText().matches("0\\d{9}") || txtGsmnummer.getText().matches("00\\d{11}"))) {
+        if (!(txtGsmnummer.getText().matches("0\\d{9}") || txtGsmnummer.getText().matches("00\\d{11}"))) {
             lblM_Gsmnummer.setText("Gelieve een geldig telefoonnr op te geven");
             txtGsmnummer.setStyle(errorstyle);
             lblM_Gsmnummer.setVisible(true);
@@ -256,33 +264,33 @@ public class DetailPaneelController extends VBox {
                 dc.voegLidToe(new Lid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
                         txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
                         txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
-                        Geslacht.MAN, cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem()));
+                        cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem()));
             } else {
                 current_lid.wijzigLid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
                         txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
                         txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
-                        Geslacht.MAN, cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());
+                        cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());
                 dc.wijzigLid(current_lid);
-                
+
             }
-            
+
             errorMessage.setText("Wijzigingen worden opgeslaan");
             errorMessage.setVisible(true);
-            
+
         }
-        
+
     }
-    
+
     @FXML
     private void annuleerwijziging(ActionEvent event
     ) {
-        if (alertNaWijzigen()) {
+        if (clearTextFields()) {
             current_lid = null;
             nieuwLid();
         }
-        
+
     }
-    
+
     private boolean alertNaWijzigen() {
         if (isgewijzigd()) {
             Alert a = new Alert(AlertType.CONFIRMATION);
@@ -290,20 +298,20 @@ public class DetailPaneelController extends VBox {
             ButtonType tochOpslaan = new ButtonType("Toch Opslaan");
             ButtonType wijzigingenVerwijderen = new ButtonType("WijzigigenVerwijderen");
             a.getButtonTypes().clear();
-            
+
             a.getButtonTypes().addAll(tochOpslaan, wijzigingenVerwijderen);
             Optional<ButtonType> showAndWait = a.showAndWait();
             if (showAndWait.isPresent()) {
                 return showAndWait.get() == tochOpslaan;
             }
-            
+
         }
         return false;
     }
-    
+
     public boolean clearTextFields() {
         boolean save = false;
-        if (current_lid == null?true:!(save = alertNaWijzigen())) {
+        if (current_lid == null ? true : !(save = alertNaWijzigen())) {
             controle();
             TextField[] textfields
                     = geefTextfields();
@@ -313,82 +321,90 @@ public class DetailPaneelController extends VBox {
                             -> {
                         txt
                                 .clear();
-                        
+
                     });
             cboType
                     .getSelectionModel().selectFirst();
             cboGraad
                     .getSelectionModel().selectFirst();
+            cboGeslacht.getSelectionModel().selectFirst();
             dpGeboorte.setValue(null);
             dpInschrijving.setValue(LocalDate.now());
             return true;
-            
+
         }
         if (save) {
             bevestigWijziging(new ActionEvent());
             return false;
         }
         return true;
-        
+
     }
-    
+
     private void controle() {
         TextField[] textfields = geefTextfields();
         Label[] errormessages = geefLabels();
         String whitestyle = "-fx-background-color:#ffffff";
         errorMessage.setVisible(false);
-        
+
         Arrays.stream(textfields).forEach(txt -> {
             txt.setStyle(whitestyle);
         });
-        Arrays.stream(errormessages).forEach(label -> label.setVisible(false));
+        Arrays.stream(errormessages).forEach(
+                label -> {
+                    label.setVisible(false);
+
+                });
+
         cboType.setStyle(whitestyle);
-        cboGraad.setStyle(whitestyle
-        );
-        
+        cboGraad.setStyle(whitestyle);
+        cboGeslacht.setStyle(whitestyle);
+
     }
-    
+
     public void nieuwLid() {
-        if(clearTextFields()){
-        nieuwlid = true;
-        lblDetail.setText("Nieuw Lid toevoegen");
+        if (clearTextFields()) {
+            nieuwlid = true;
+            lblDetail.setText("Nieuw Lid toevoegen");
         }
-        
+
     }
-    
+
     public void setOverzichtSceneController(OverzichtSceneController osc
     ) {
         this.osc = osc;
-        
+
     }
-    
+
     private TextField[] geefTextfields() {
         TextField[] textfields = {txtVoornaam, txtAchternaam, txtWachtwoord, txtVasteTelefoon, txtStraat, txtHuisnummer, txtBusnummer, txtPostCode, txtGemeente, txtLand, txtEmail, txtEmail_ouders, txtGsmnummer};
         return textfields;
-        
+
     }
-    
+
     private Label[] geefLabels() {
-        Label[] errormessages = {lblM_Voornaam, lblM_Familienaam, lblM_Wachtwoord, lblM_VasteTelefoon, lblM_Straatnaam, lblM_Huisnummer, lblM_Busnummer, lblM_Postcode, lblM_Stad, lblM_Land, lblM_Email, lblM_Emailouder, lblM_Gsmnummer, lblM_Busnummer, lblM_Inschrijvingsdatum, lblM_Geboortedatum};
+        Label[] errormessages = {lblM_Voornaam, lblM_Familienaam, lblM_Wachtwoord, lblM_VasteTelefoon, lblM_Straatnaam, lblM_Huisnummer, lblM_Busnummer, lblM_Postcode, lblM_Stad, lblM_Land, lblM_Email, lblM_Emailouder, lblM_Gsmnummer, lblM_Inschrijvingsdatum, lblM_Geboortedatum};
         return errormessages;
-        
+
     }
-    
+
     private boolean isgewijzigd() {
-        if(current_lid == null)
+        if (current_lid == null) {
             return false;
-        
+        }
+
         boolean wijzig = current_lid.getVoornaam().equals(txtVoornaam.getText()) && current_lid.getFamilienaam().equals(txtAchternaam.getText())
-                      && current_lid.getWachtwoord().equals(txtWachtwoord.getText()) && current_lid.getGsm().equals(txtGsmnummer.getText())
-                      && current_lid.getTelefoon_vast().equals(txtVasteTelefoon.getText()) && current_lid.getStraatnaam().equals(txtStraat.getText())
-                      && current_lid.getHuisnummer().equals(txtHuisnummer.getText()) && current_lid.getBusnummer().equals(txtBusnummer.getText())
-                      && current_lid.getPostcode().equals(txtPostCode.getText()) && current_lid.getStad().equals(txtGemeente.getText())
-                      && current_lid.getLand().equals(txtLand.getText()) && current_lid.getEmail().equals(txtEmail.getText())
-                      && current_lid.getEmail_ouders().equals(txtEmail_ouders.getText()) && current_lid.getGraad().equals(cboGraad.getSelectionModel().getSelectedItem())
-                      && current_lid.getType().equals(cboType.getSelectionModel().getSelectedItem()) && current_lid.getInschrijvingsdatum().equals(dpInschrijving.getValue())
-                      && current_lid.getGeboortedatum().equals(dpGeboorte.getValue());
-                
+                && current_lid.getWachtwoord().equals(txtWachtwoord.getText()) && current_lid.getGsm().equals(txtGsmnummer.getText())
+                && current_lid.getTelefoon_vast().equals(txtVasteTelefoon.getText()) && current_lid.getStraatnaam().equals(txtStraat.getText())
+                && current_lid.getHuisnummer().equals(txtHuisnummer.getText()) && current_lid.getBusnummer().equals(txtBusnummer.getText())
+                && current_lid.getPostcode().equals(txtPostCode.getText()) && current_lid.getStad().equals(txtGemeente.getText())
+                && current_lid.getLand().equals(txtLand.getText()) && current_lid.getEmail().equals(txtEmail.getText())
+                && current_lid.getEmail_ouders().equals(txtEmail_ouders.getText()) && current_lid.getGraad().equals(cboGraad.getSelectionModel().getSelectedItem())
+                && current_lid.getType().equals(cboType.getSelectionModel().getSelectedItem()) && current_lid.getGeslacht().equals(cboGeslacht.getSelectionModel().getSelectedItem())
+                && current_lid.getInschrijvingsdatum().equals(dpInschrijving.getValue())
+                && current_lid.getGeboortedatum().equals(dpGeboorte.getValue());
+
         return !wijzig;
     }
-    
+
 }
