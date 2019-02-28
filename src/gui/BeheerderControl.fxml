@@ -7,7 +7,7 @@
 
 <fx:root maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="2048.0" prefWidth="221.0" style="-fx-background-color: #484857;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox fx:id="btnLedenBeheren" prefHeight="66.0" style="-fx-background-color: #454553;">
+      <HBox fx:id="btnLedenBeheren" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="80.0" style="-fx-background-color: #454553;">
          <children>
             <Label fx:id="lblLedenBeheren" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="1.0" prefHeight="78.0" text="Leden beheren" textAlignment="CENTER" textFill="#e6e6e6">
                <font>
@@ -16,7 +16,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox fx:id="btnOverzichtenRaadplegen" prefHeight="66.0" style="-fx-border-radius: 1px;">
+      <HBox fx:id="btnOverzichtenRaadplegen" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="80.0" style="-fx-border-radius: 1px;">
          <children>
             <Label fx:id="lblOverzichtGeneren" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="1.0" prefHeight="66.0" text="Overzichten genereren/raadplegen" textAlignment="CENTER" textFill="#e6e6e6">
                <font>
@@ -25,7 +25,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox fx:id="btnStateActiviteitBeheren" prefHeight="66.0" style="-fx-border-radius: 1px;">
+      <HBox fx:id="btnStateActiviteitBeheren" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="80.0" style="-fx-border-radius: 1px;">
          <children>
             <Label fx:id="lblStageActiviteiten" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="1.0" prefHeight="78.0" text="Stage/Activiteiten beheren" textAlignment="CENTER" textFill="#e6e6e6">
                <font>
@@ -34,7 +34,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox fx:id="btnLesmateriaalBeheren" prefHeight="66.0" style="-fx-background-color: #454553;">
+      <HBox fx:id="btnLesmateriaalBeheren" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #454553;">
          <children>
             <Label fx:id="lblLesmateriaal" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="1.0" prefHeight="78.0" text="Lesmateriaal beheren" textAlignment="CENTER" textFill="#e6e6e6">
                <font>

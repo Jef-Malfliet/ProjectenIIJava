@@ -18,6 +18,8 @@ public enum Graad implements Serializable {
         DAN7,
         DAN8,
         DAN9,
-        DAN10
+        DAN10,
+        DAN11,
+        DAN12
         
 }

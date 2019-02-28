@@ -147,7 +147,7 @@ public class BeheerderControlController extends VBox {
     }
 
     private void changeBackgroundToRed(HBox hbox) {
-        hbox.setStyle("-fx-background-color: red");
+        hbox.setStyle("-fx-background-color:  #00B4AB");
     }
 
     private void setMaxScreen() {
