@@ -274,7 +274,7 @@ public class DetailPaneelController extends VBox {
 
             }
 
-            errorMessage.setText("Wijzigingen worden opgeslaan");
+            errorMessage.setText("Wijzigingen zijn opgeslagen");
             errorMessage.setVisible(true);
 
         }
@@ -294,9 +294,11 @@ public class DetailPaneelController extends VBox {
     private boolean alertNaWijzigen() {
         if (isgewijzigd()) {
             Alert a = new Alert(AlertType.CONFIRMATION);
-            a.setContentText("Bent u zeker dat u de wijzigigen niet wil opslaan?");
+            a.setTitle("OPGELET");
+            a.setHeaderText("OPGELET");
+            a.setContentText("Bent u zeker dat u de wijzigingen niet wil opslaan?");
             ButtonType tochOpslaan = new ButtonType("Toch Opslaan");
-            ButtonType wijzigingenVerwijderen = new ButtonType("WijzigigenVerwijderen");
+            ButtonType wijzigingenVerwijderen = new ButtonType("Wijzigingen Verwijderen");
             a.getButtonTypes().clear();
 
             a.getButtonTypes().addAll(tochOpslaan, wijzigingenVerwijderen);
