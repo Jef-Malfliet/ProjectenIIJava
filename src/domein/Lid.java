@@ -34,11 +34,12 @@ public class Lid implements Serializable, Exportable {
     private String email_ouders;
     private Date geboortedatum;
     private Date inschrijvingsdatum;
-    private List<Date> aanwezigheden;
+    @javax.persistence.Column(name="aanwezigheden")
+	private List<Date> aanwezigheden;
 
-    @Enumerated(EnumType.STRING)
+    @javax.persistence.Transient
     private Geslacht geslacht;
-    @Enumerated(EnumType.STRING)
+    @javax.persistence.Transient
     private Graad graad;
 
     @javax.persistence.Transient
@@ -117,7 +118,7 @@ public class Lid implements Serializable, Exportable {
         return String.format("%s,%s,%s,%s,%s,%s,%s%n", "Voornaam", "familienaam", "Graad", "Telefoon_vast", "Email", "Straatnaam", "Postcode", "stad");
     }
 
-    public SimpleStringProperty getVoornaamProperty() {
+    public javafx.beans.property.SimpleStringProperty getVoornaamProperty() {
         return this.voornaamProperty;
     }
 
@@ -315,11 +316,11 @@ public class Lid implements Serializable, Exportable {
         this.inschrijvingsdatum = inschrijvingsdatum;
     }
 
-    public List<Date> getAanwezigheden() {
+    public java.util.List<java.util.Date> getAanwezigheden() {
         return aanwezigheden;
     }
 
-    public void setAanwezigheden(List<Date> aanwezigheden) {
+    public void setAanwezigheden(java.util.List<java.util.Date> aanwezigheden) {
         this.aanwezigheden = aanwezigheden;
     }
 
@@ -331,11 +332,11 @@ public class Lid implements Serializable, Exportable {
         this.geslacht = geslacht;
     }
 
-    public SimpleStringProperty getFamilienaamProperty() {
+    public javafx.beans.property.SimpleStringProperty getFamilienaamProperty() {
         return familienaamProperty;
     }
 
-    public void setFamilienaamProperty(SimpleStringProperty familienaamProperty) {
+    public void setFamilienaamProperty(javafx.beans.property.SimpleStringProperty familienaamProperty) {
         this.familienaamProperty = familienaamProperty;
     }
     

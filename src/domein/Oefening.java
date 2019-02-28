@@ -1,51 +1,99 @@
 package domein;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
 
-public class Oefening {
+@Entity
+public class Oefening implements Serializable {
 
-	private Graad graad;
-	private LesMateriaalType type;
-	private List<File> materiaal;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	/**
-	 * 
-	 * @param graad
-	 * @param type
-	 */
+    @Enumerated(EnumType.STRING)
+    private Graad graad;
+    private String uitleg;
+    @Lob
+    private byte[] image;
+    private String video;
+
+    /**
+     *
+     * @param graad
+     * @param type
+     */
+    public Oefening(Graad graad) {
+        this.graad = graad;
+    }
+
+    /**
+     *
+     * @param uitleg
+     */
+    public void addUitleg(String uitleg) {
+        this.uitleg = uitleg;
+    }
+
+    public String getUitleg() {
+        return this.uitleg;
+    }
+
+    /**
+     *
+     * @param image
+     */
+    public void addImage(File image) {
+        try {
+            BufferedImage imagebufferd = ImageIO.read(image);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(imagebufferd, "png", outputStream);
+            this.image = outputStream.toByteArray();
+        } catch (IOException ex) {
+            Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public BufferedImage getImage() {
+        byte[] opgeslagenBytes = this.image;
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(opgeslagenBytes);
+        BufferedImage bImage2 = null;
+        try {
+            bImage2 = ImageIO.read(inputStream);
+            ImageIO.write(bImage2, "png", new File("output.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bImage2;
         
-	public Oefening(Graad graad, LesMateriaalType type) {
-		// TODO - implement Oefening.Oefening
-		throw new UnsupportedOperationException();
-	}
+    }
 
-	/**
-	 * 
-	 * @param file
-	 */
-	public void removeMateriaal(File file) {
-		// TODO - implement Oefening.removeMateriaal
-		throw new UnsupportedOperationException();
-	}
+    /**
+     *
+     * @param url
+     */
+    public void addVideo(String url) {
+        this.video=url;
+    }
 
-	/**
-	 * 
-	 * @param file
-	 */
-	public void addMateriaal(File file) {
-		// TODO - implement Oefening.addMateriaal
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param type
-	 * @param naam
-	 */
-	public LesMateriaalType getMateriaal(LesMateriaalType type, String naam) {
-		// TODO - implement Oefening.getMateriaal
-		throw new UnsupportedOperationException();
-	}
+    public String getVideo() {
+        return this.video;
+    }
 
 }

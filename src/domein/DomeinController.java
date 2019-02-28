@@ -94,7 +94,7 @@ public class DomeinController {
         return dojo.getOverzichtList();
     }
 
-	public List<Oefening> toonLesmaterialen() {
+	public List<Oefening> toonLesmateriaal() {
 		// TODO - implement DomeinController.toonLesmaterialen
 		throw new UnsupportedOperationException();
 	}

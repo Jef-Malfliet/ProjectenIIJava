@@ -164,7 +164,7 @@ public class Dojo {
         return overzichtList;
     }
 
-	public List<Oefening> toonOefeningen() {
+	public List<Oefening> getOefeningen() {
 		// TODO - implement Dojo.toonOefeningen
 		throw new UnsupportedOperationException();
 	}
