@@ -144,7 +144,7 @@ public class Dojo {
             switch (optie) {
                 case VOORNAAM:
                     return lid.getVoornaam().compareToIgnoreCase(start) >= 0;
-                case ACHTERNAAM:
+                case FAMILIENAAM:
                     return lid.getFamilienaam().compareToIgnoreCase(start) >= 0;
                 case GRAAD:
                     return lid.getGraad().toString().toLowerCase().startsWith(start.toLowerCase());

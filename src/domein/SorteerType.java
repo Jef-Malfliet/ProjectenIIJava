@@ -11,7 +11,7 @@ package domein;
  */
 public enum SorteerType {
     VOORNAAM,
-    ACHTERNAAM,
+    FAMILIENAAM,
     GRAAD,
     TYPE
 }
