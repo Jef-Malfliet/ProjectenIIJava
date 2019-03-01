@@ -121,7 +121,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     public void verwijdergeselecteerdLid() {
         Lid lid = tableOverview.getSelectionModel().selectedItemProperty().get();
         tableOverview.getSelectionModel().clearSelection();
-        dpc.clearTextFields();
+        dpc.clearNaVerwijderen();
         if (lid != null) {
             dc.verwijderLid(lid);
             update();

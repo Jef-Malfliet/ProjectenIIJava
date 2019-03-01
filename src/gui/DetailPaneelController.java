@@ -261,21 +261,23 @@ public class DetailPaneelController extends VBox {
         }
         if (juist) {
             if (nieuwlid) {
-                dc.voegLidToe(new Lid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
+                current_lid = new Lid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
                         txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
                         txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
-                        cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem()));
+                        cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());
+                dc.voegLidToe(current_lid);
+                errorMessage.setText("Lid werd toegevoegd");
+                errorMessage.setVisible(true);
             } else {
                 current_lid.wijzigLid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
                         txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
                         txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
                         cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());
                 dc.wijzigLid(current_lid);
+                errorMessage.setText("Wijzigingen zijn opgeslagen");
+                errorMessage.setVisible(true);
 
             }
-
-            errorMessage.setText("Wijzigingen zijn opgeslagen");
-            errorMessage.setVisible(true);
 
         }
 
@@ -407,6 +409,13 @@ public class DetailPaneelController extends VBox {
                 && current_lid.getGeboortedatum().equals(dpGeboorte.getValue());
 
         return !wijzig;
+    }
+
+    public void clearNaVerwijderen() {
+        current_lid = null;
+        clearTextFields();
+        errorMessage.setText("Lid werd verwijderd");
+        errorMessage.setVisible(true);
     }
 
 }

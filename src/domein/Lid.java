@@ -64,7 +64,7 @@ public class Lid implements Serializable, Exportable {
     public Lid() {
     }
 
-    public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer,String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<Date> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
+    public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<Date> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
         setVoornaam(voornaam);
         setFamilienaam(familienaam);
         setWachtwoord(wachtwoord);
@@ -120,7 +120,7 @@ public class Lid implements Serializable, Exportable {
 //        setType(type);
 //        fillSimpleProperties();
 //    }
-    public void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer,String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<Date> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
+    public void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<Date> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
         setVoornaam(voornaam);
         setFamilienaam(familienaam);
         setWachtwoord(wachtwoord);
@@ -234,11 +234,10 @@ public class Lid implements Serializable, Exportable {
     }
 
     public void setTelefoon_vast(String telefoon_vast) {
-        if (telefoon_vast == null || telefoon_vast.isEmpty()) {
-            throw new IllegalArgumentException("Telefoon_vast mag niet leeg zijn.");
-        }
-        if (!(telefoon_vast.matches("0\\d{8}") || telefoon_vast.matches("00\\d{11}"))) {
-            throw new IllegalArgumentException("Telefoon_vast is niet van het juiste formaat");
+        if (!(telefoon_vast == null || telefoon_vast.isEmpty())) {
+            if (!(telefoon_vast.matches("0\\d{8}") || telefoon_vast.matches("00\\d{11}"))) {
+                throw new IllegalArgumentException("Telefoon_vast is niet van het juiste formaat");
+            }
         }
         this.telefoon_vast = telefoon_vast;
     }
@@ -273,9 +272,9 @@ public class Lid implements Serializable, Exportable {
     }
 
     public void setPostcode(String postcode) {
-         if (!(postcode.matches("[1-9][0-9]{3}"))) {
-                 throw new IllegalArgumentException("postcode ongeldig");
-            }
+        if (!(postcode.matches("[1-9][0-9]{3}"))) {
+            throw new IllegalArgumentException("postcode ongeldig");
+        }
         this.postcode = postcode;
     }
 
@@ -419,5 +418,4 @@ public class Lid implements Serializable, Exportable {
         this.busnummer = busnummer;
     }
 
-    
 }
