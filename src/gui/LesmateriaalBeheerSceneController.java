@@ -15,7 +15,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Worker;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,11 +27,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
@@ -60,6 +66,8 @@ public class LesmateriaalBeheerSceneController extends VBox {
     private ImageView ivPhoto;
     @FXML
     private Button btnHaalOp;
+    @FXML
+    private WebView wvYoutube;
 
     public LesmateriaalBeheerSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalBeheerScene.fxml"));
@@ -96,7 +104,7 @@ public class LesmateriaalBeheerSceneController extends VBox {
         if (imageFile != null) {
             oefening.addImage(imageFile);
         }
-        
+
         dc.addLesMateriaal(oefening);
     }
 
@@ -116,7 +124,7 @@ public class LesmateriaalBeheerSceneController extends VBox {
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
         File selectedFile = fileChooser.showOpenDialog(this.getScene().getWindow());
-        this.imageFile=selectedFile;
+        this.imageFile = selectedFile;
         BufferedImage bi = null;
         try {
             bi = ImageIO.read(selectedFile);
@@ -131,7 +139,11 @@ public class LesmateriaalBeheerSceneController extends VBox {
         Oefening oef = dc.getOefening(1L);
         Image image = oef.getImage();
         this.ivPhoto.setImage(image);
-        
+
+        WebEngine webEngine = wvYoutube.getEngine();
+        wvYoutube.setPrefSize(840, 690);
+        webEngine.load("youtube.com/watch_popup?v=GKiHB5AzihE");
+
     }
 
 }
