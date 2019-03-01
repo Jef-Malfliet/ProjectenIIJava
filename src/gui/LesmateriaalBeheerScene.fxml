@@ -124,6 +124,7 @@
             <Insets />
          </VBox.margin>
       </VBox>
+      <Button fx:id="btnHaalOp" mnemonicParsing="false" onAction="#haalImageOp" prefHeight="25.0" prefWidth="251.0" text="Haal image op" />
       <ImageView fx:id="ivPhoto" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </fx:root>

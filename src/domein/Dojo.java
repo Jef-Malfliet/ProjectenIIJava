@@ -15,6 +15,7 @@ import persistentie.ExportFiles;
 //import persistentie.IPersistentieController;
 import persistentie.LidDao;
 import java.util.*;
+import persistentie.GenericDaoJpa;
 import persistentie.OefeningDao;
 import persistentie.OefeningDaoJpa;
 
@@ -172,6 +173,10 @@ public class Dojo {
     public List<Oefening> getOefeningen() {
         return oefeningen;
     }
+    
+    public Oefening getOefeningById(Long id){
+        return oefeningRepo.get(id);
+    }
 
     public List<Activiteit> getActiviteitenList() {
         return activiteiten;
@@ -194,8 +199,12 @@ public class Dojo {
      */
     public void addOefening(Oefening oefening) {
         this.oefeningen.add(oefening);
+        GenericDaoJpa.startTransaction();
         oefeningRepo.insert(oefening);
+        GenericDaoJpa.commitTransaction();
     }
+    
+    
 
     private void setOefeningRepo(OefeningDao oefeningRepo) {
         this.oefeningRepo=oefeningRepo;

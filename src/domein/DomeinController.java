@@ -110,6 +110,9 @@ public class DomeinController {
         dojo.addOefening(oefening);
     }
 
+    public Oefening getOefening(Long id){
+        return dojo.getOefeningById(id);
+    }
     private void setOefeningRepository(OefeningDaoJpa oefeningDao) {
         this.oefeningRepository=oefeningDao;
     }

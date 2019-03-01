@@ -58,6 +58,8 @@ public class LesmateriaalBeheerSceneController extends VBox {
     private Label lblWarning;
     @FXML
     private ImageView ivPhoto;
+    @FXML
+    private Button btnHaalOp;
 
     public LesmateriaalBeheerSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalBeheerScene.fxml"));
@@ -96,7 +98,6 @@ public class LesmateriaalBeheerSceneController extends VBox {
         }
         
         dc.addLesMateriaal(oefening);
-
     }
 
     private void validate() {
@@ -123,7 +124,14 @@ public class LesmateriaalBeheerSceneController extends VBox {
             Logger.getLogger(LesmateriaalBeheerSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Image image = SwingFXUtils.toFXImage(bi, null);
+    }
+
+    @FXML
+    private void haalImageOp(ActionEvent event) {
+        Oefening oef = dc.getOefening(1L);
+        Image image = oef.getImage();
         this.ivPhoto.setImage(image);
+        
     }
 
 }

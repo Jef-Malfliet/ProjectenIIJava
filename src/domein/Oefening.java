@@ -5,9 +5,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -30,20 +33,20 @@ public class Oefening implements Serializable {
     @Lob
     private byte[] image;
     private String video;
-	private String naam;
+    private String naam;
 
     /**
-	 * 
-	 * @param graad
-	 * @param naam
-	 */
+     *
+     * @param graad
+     * @param naam
+     */
     public Oefening(Graad graad, String naam) {
         this.graad = graad;
-        this.naam=naam;
+        this.naam = naam;
     }
-    
-    public Oefening(){
-        
+
+    public Oefening() {
+
     }
 
     /**
@@ -73,18 +76,17 @@ public class Oefening implements Serializable {
         }
     }
 
-    public BufferedImage getImage() {
+    public Image getImage() {
         byte[] opgeslagenBytes = this.image;
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(opgeslagenBytes);
-        BufferedImage bImage2 = null;
+        InputStream in = new ByteArrayInputStream(opgeslagenBytes);
+        BufferedImage bufferedImage = null;
         try {
-            bImage2 = ImageIO.read(inputStream);
-            ImageIO.write(bImage2, "png", new File("output.png"));
+            bufferedImage = ImageIO.read(in);
         } catch (IOException ex) {
             Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return bImage2;
-        
+        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+        return image;
     }
 
     /**
@@ -92,7 +94,7 @@ public class Oefening implements Serializable {
      * @param url
      */
     public void addVideo(String url) {
-        this.video=url;
+        this.video = url;
     }
 
     public String getVideo() {
