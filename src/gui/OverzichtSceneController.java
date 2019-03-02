@@ -16,12 +16,14 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import util.FullScreenResolution;
 
@@ -46,15 +48,21 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
     private final DetailPaneelController dpc;
     @FXML
-    private ComboBox<SorteerType> cboFilterOptie = new ComboBox<>();
-    @FXML
-    private TextField txtZoek;
-    @FXML
     private Label lblLedenBeheren;
     @FXML
     private TableColumn<Lid, String> colVoorNaam = new TableColumn<>();
     @FXML
     private TableColumn<Lid, String> colAchterNaam = new TableColumn<>();
+    @FXML
+    private TextField txfVnFilter;
+    @FXML
+    private TextField txfFnFilter;
+    @FXML
+    private TextField txfGFilter;
+    @FXML
+    private TextField txfTFilter;
+    @FXML
+    private Button btnFilter;
 
     public OverzichtSceneController(DomeinController dc, DetailPaneelController dpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtScene.fxml"));
@@ -84,8 +92,8 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         colAchterNaam.setCellValueFactory(cellData -> cellData.getValue().getFamilienaamProperty());
         colBand.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
         colType.setCellValueFactory(cellData -> cellData.getValue().getTypeProperty());
-        cboFilterOptie.setItems(FXCollections.observableArrayList(SorteerType.values()));
-        cboFilterOptie.getSelectionModel().selectFirst();
+//        cboFilterOptie.setItems(FXCollections.observableArrayList(SorteerType.values()));
+//        cboFilterOptie.getSelectionModel().selectFirst();
         setMaxScreen();
         ((SortedList)dc.getLeden()).comparatorProperty().bind(tableOverview.comparatorProperty());
     }
@@ -129,17 +137,34 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
     }
 
+//    private void filter(KeyEvent event) {
+//        SorteerType type = cboFilterOptie.getSelectionModel().getSelectedItem();
+//        String van = txtZoek.getText();
+//        if (type == null) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Error: geen sorteertype");
+//            alert.setHeaderText("Error: geen sorteertype meegegeven");
+//            alert.setContentText("Gelieve een sorteertype mee te geven");
+//        } else {
+//            dc.filter(cboFilterOptie.getSelectionModel().getSelectedItem(), txtZoek.getText());
+//        }
+//    }
+
     @FXML
-    private void filter(KeyEvent event) {
-        SorteerType type = cboFilterOptie.getSelectionModel().getSelectedItem();
-        String van = txtZoek.getText();
-        if (type == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error: geen sorteertype");
-            alert.setHeaderText("Error: geen sorteertype meegegeven");
-            alert.setContentText("Gelieve een sorteertype mee te geven");
-        } else {
-            dc.filter(cboFilterOptie.getSelectionModel().getSelectedItem(), txtZoek.getText());
+    private void filter(MouseEvent event) {
+        String voornaamFilter = txfVnFilter.getText();
+        String familienaamFilter = txfVnFilter.getText();
+        String graadFilter = txfVnFilter.getText();
+        String typeFilter = txfVnFilter.getText();
+        
+        if(voornaamFilter != null){
+            dc.filter(SorteerType.VOORNAAM, voornaamFilter);
+        } else if(familienaamFilter != null){
+            dc.filter(SorteerType.FAMILIENAAM, familienaamFilter);
+        } else if(graadFilter != null){
+            dc.filter(SorteerType.GRAAD, graadFilter);
+        } else if(typeFilter != null){
+            dc.filter(SorteerType.TYPE, typeFilter);
         }
     }
 }

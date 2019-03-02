@@ -6,14 +6,11 @@
 package gui;
 
 import domein.DomeinController;
-import domein.Lid;
 import domein.Overzicht;
 import domein.OverzichtType;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,9 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
-import persistentie.ExportFiles;
 import util.FullScreenResolution;
 
 /**
@@ -66,6 +61,8 @@ public class OverzichtOpvraagSceneController extends HBox {
     private Label lblOverzichtOpvragen;
     @FXML
     private Label lblOverzichtRaadplegen;
+    @FXML
+    private TextField txfNaamLid;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
