@@ -5,6 +5,7 @@
  */
 package domein;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,12 +36,19 @@ public class DojoTest {
     public void before() {
         lidDaoDummy = Mockito.mock(LidDao.class);
         oefeningDaoDummy = Mockito.mock(OefeningDao.class);
-        //testLid = new Lid("Beau", "Van Canegem", Graad.BRUIN, "12/34567890", "indy.vancanegem@student.hogent.be", "Straat", 9240, "Zele");
         testLid = Mockito.mock(Lid.class);
-        lid1 = new Lid("Bram", "Vanoverbeke", Graad.BLAUW, "0483060043", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst",RolType.LID);
-        lid2 = new Lid("Tom", "Clarys", Graad.GEEL, "0032483060043", "tom.clarys@student.hogent.be", "Straat", 9240, "Zele",RolType.LESGEVER);
-        lid3 = new Lid("Seba", "Moons", Graad.GROEN, "0032483060043", "seba.moons@student.hogent.be", "Straat", 9240, "Zele",RolType.BEHEERDER);
-        lid1b = new Lid("TestTest", "Vanoverbeke", Graad.GROEN, "0032483060043", "bram.vanoverbeke@student.hogent.be", "Straat", 9300, "Aalst",RolType.LID);
+        lid1 = new Lid("Nante", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100","/", "9320", "Landegem", "België", "nante.vermeulen@student.hogent.be",
+                "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.GROEN, RolType.BEHEERDER);
+        
+        lid2 = new Lid("Indy", "Van Canegem", "ivc12345", "0479154978", "053698442", "Straat", "13","88", "9520", "Zele", "België", "indy.vancanegem@student.hogent.be",
+                "ouders.indy@skynet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.ANDERS, Graad.GROEN, RolType.LID);
+        
+        lid3 = new Lid("Jef", "Malfliet", "jm12345", "0234567890", "053698420", "Straat", "1","2.9", "9220", "Hamme", "België", "jef.malfliet@student.hogent.be",
+                "ouders.jef@proxymus.be", LocalDate.of(1999, 10, 24), LocalDate.of(2016, 8, 31), new ArrayList<>(), Geslacht.VROUW, Graad.WIT, RolType.LESGEVER);
+        
+        lid1b = new Lid("Mout", "Pessemier", "mp12345", "0234567890", "053248216", "Bertha De Dekenlaan", "14","8", "9320", "Erembodegen", "België", "mout.pessemier@student.hogent.be",
+                "ouders.mout@telenet.be", LocalDate.of(1999, 6, 14), LocalDate.of(2007, 11, 8), new ArrayList<>(), Geslacht.MAN, Graad.DAN12, RolType.BEHEERDER);
+        
         ledenLijst.addAll(Arrays.asList(lid1, lid2, lid3));
     }
 
@@ -54,7 +62,7 @@ public class DojoTest {
         beheerder.verwijderLid(lid1);
         System.out.println(beheerder.getLijstLeden());
         Assert.assertEquals(2, beheerder.getLijstLeden().size());
-        //Assert.assertFalse(beheerder.getLijstLeden().contains(lid1)); //invoication targetexception voor de een of andere reden
+        //Assert.assertFalse(beheerder.getLijstLeden().contains(lid1)); //assertionFailed
         Mockito.verify(lidDaoDummy).findAll();
 
     }
@@ -67,13 +75,14 @@ public class DojoTest {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
         Mockito.when(lidDaoDummy.update(lid1)).thenReturn(lid1b);
         beheerder = new Dojo(lidDaoDummy,oefeningDaoDummy);
-        lid1.wijzigLid("TestTest", Graad.GROEN,RolType.LID);
+        lid1.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", "België", "nante.vermeulen@student.hogent.be",
+                "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.WIT, RolType.BEHEERDER);
         boolean succes = beheerder.wijzigLid(lid1);
         Lid gewijzigdLid = beheerder.toonLid(lid1.getId());
         Assert.assertTrue(succes);
         Assert.assertEquals(lid1.getVoornaam(), gewijzigdLid.getVoornaam());
         Assert.assertEquals(lid1.getGraad(), gewijzigdLid.getGraad());
-        Mockito.verify(lidDaoDummy, Mockito.times(1)).findAll();//2 keer, idk waarom?
+        Mockito.verify(lidDaoDummy, Mockito.times(1)).findAll();
         Mockito.verify(lidDaoDummy).update(lid1);
     }
 

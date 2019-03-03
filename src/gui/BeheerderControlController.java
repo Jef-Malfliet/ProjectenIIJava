@@ -10,6 +10,8 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -51,6 +53,8 @@ public class BeheerderControlController extends VBox {
     private Label lblStageActiviteiten;
     @FXML
     private Label lblLesmateriaal;
+    @FXML
+    private ImageView imgLogo;
 
     /**
      * Constructor beheerderControlController
@@ -81,12 +85,9 @@ public class BeheerderControlController extends VBox {
      */
     public void buildGui() {
         //Adding click events for buttons.
-//        btnInschrijvenLid.setOnMouseClicked(e -> {
-//            schrijfLidIn();
-//        });
-//        btnVerwijderenLid.setOnMouseClicked(e -> {
-//            verwijderLid();
-//        });
+        Image logo = new Image("/images/TaijitanLogo.png");
+        imgLogo.setImage(logo);
+        
         changeBackgroundToRed(btnLedenBeheren);
         btnOverzichtenRaadplegen.setOnMouseClicked(e -> {
             overzichtRaadplegen();
