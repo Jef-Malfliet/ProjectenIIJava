@@ -34,11 +34,13 @@ public class Lid implements Serializable, Exportable, ILid {
     private String postcode;
     private String stad;
     private String land;
+    private String rijksregisternummer;
     private String email;
     private String email_ouders;
     private LocalDate geboortedatum;
     private LocalDate inschrijvingsdatum;
     private List<LocalDate> aanwezigheden;
+    private LesType lessen;
 
     @Enumerated(EnumType.STRING)
     private Geslacht geslacht;
@@ -65,16 +67,16 @@ public class Lid implements Serializable, Exportable, ILid {
 
     public Lid(ILid lid) {
         this(lid.getVoornaam(), lid.getFamilienaam(), lid.getWachtwoord(), lid.getGsm(), lid.getTelefoon_vast(), lid.getStraatnaam(), lid.getHuisnummer(), lid.getBusnummer(), lid.getPostcode(), lid.getStad(),
-                lid.getLand(), lid.getEmail(), lid.getEmail_ouders(), lid.getGeboortedatum(), lid.getInschrijvingsdatum(), lid.getAanwezigheden(), lid.getGeslacht(), lid.getGraad(), lid.getType());
+                lid.getLand(),lid.getRijksregisternummer(), lid.getEmail(), lid.getEmail_ouders(), lid.getGeboortedatum(), lid.getInschrijvingsdatum(), lid.getAanwezigheden(), lid.getGeslacht(), lid.getGraad(), lid.getType(),lid.getLessen());
 
     }
 
-    public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
-        wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type);
+    public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land,String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type,LesType lessen) {
+        wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land,rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type,lessen);
 
     }
 
-    public final void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
+    public final void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land,String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type,LesType lessen) {
         setVoornaam(voornaam);
         setFamilienaam(familienaam);
         setWachtwoord(wachtwoord);
@@ -86,6 +88,7 @@ public class Lid implements Serializable, Exportable, ILid {
         setPostcode(postcode);
         setStad(stad);
         setLand(land);
+        setRijksregisternummer(rijksregisternummer);
         setEmail(email);
         setEmail_ouders(email_ouders);
         setGeboortedatum(geboortedatum);
@@ -94,6 +97,7 @@ public class Lid implements Serializable, Exportable, ILid {
         setGeslacht(geslacht);
         setGraad(graad);
         setType(type);
+        setLessen(lessen);
         // fillSimpleProperties();
     }
 
@@ -427,5 +431,25 @@ public class Lid implements Serializable, Exportable, ILid {
         }
         return initials.toString();
     }
+    @Override
+    public LesType getLessen() {
+        return lessen;
+    }
+
+    public void setLessen(LesType lessen) {
+        this.lessen = lessen;
+    }
+
+    @Override
+    public String getRijksregisternummer() {
+        return rijksregisternummer;
+    }
+
+    public void setRijksregisternummer(String rijksregisternummer) {
+        this.rijksregisternummer = rijksregisternummer;
+    }
+    
+    
+    
 
 }

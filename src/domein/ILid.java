@@ -56,6 +56,10 @@ public interface ILid extends Serializable, Exportable {
 
     Graad getGraad();
 
+    LesType getLessen();
+
+    String getRijksregisternummer();
+
     SimpleStringProperty getVoornaamProperty();
 
     SimpleStringProperty getFamilienaamProperty();
@@ -64,4 +68,4 @@ public interface ILid extends Serializable, Exportable {
 
     SimpleStringProperty getTypeProperty();
 
-    }
+}

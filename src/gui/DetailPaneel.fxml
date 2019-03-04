@@ -224,6 +224,24 @@
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
+                  <Label prefHeight="28.0" prefWidth="115.0" text="Rijksregisternummer*">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txtRijksregisternummer" prefHeight="28.0" prefWidth="231.0" />
+                  <Label fx:id="lblM_Rijkregisternummer" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" textAlignment="CENTER" textFill="#f26943">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="25.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
+               <children>
                   <Label prefHeight="28.0" prefWidth="115.0" text="E-mailadres*">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" top="5.0" />
@@ -340,8 +358,8 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtBusnummer1" prefHeight="28.0" prefWidth="231.0" text="WOE - ZA" />
-                  <Label fx:id="lblM_Lessen" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Nog niet geïmplementeerd" textAlignment="CENTER" textFill="#f26943">
+                  <ComboBox fx:id="cboLesType" prefHeight="28.0" prefWidth="231.0" promptText="Kies Lestype" />
+                  <Label fx:id="lblM_Lessen" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" textAlignment="CENTER" textFill="#f26943">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
