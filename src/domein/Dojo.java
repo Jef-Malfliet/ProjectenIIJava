@@ -136,32 +136,6 @@ public class Dojo {
         lidRepo = mock;
     }
 
-    /**
-     * @param start
-     * @param einde
-     * @param optie
-     */
-    public void filter(SorteerType optie, String start) {
-        filtered.setPredicate(lid -> {
-            if (optie == null) {
-                return true;
-            }
-
-            switch (optie) {
-                case VOORNAAM:
-                    return lid.getVoornaam().compareToIgnoreCase(start) >= 0;
-                case FAMILIENAAM:
-                    return lid.getFamilienaam().compareToIgnoreCase(start) >= 0;
-                case GRAAD:
-                    return lid.getGraad().toString().toLowerCase().startsWith(start.toLowerCase());
-                case TYPE:
-                    return lid.getType().toString().toLowerCase().startsWith(start.toLowerCase());
-                default:
-                    return true;
-            }
-        });
-    }
-
     public void maakOverzicht(OverzichtType type, String path) {
         ExportFiles.toExcel(leden, 25, 20, path);
     }
@@ -218,4 +192,96 @@ public class Dojo {
         throw new UnsupportedOperationException();
     }
 
+    public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
+        filtered.setPredicate(lid -> {
+            //4 van de 4 null
+            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
+                    && (graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
+                return true;
+            }
+
+            //1 van de 1, rest null
+            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
+                    && (graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0;
+            }
+
+            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
+                    && (graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0;
+            }
+
+            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
+                    && !(graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
+                //return lid.getGraad().toString().compareToIgnoreCase(graadFilter) >= 0;
+                return lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
+            }
+
+            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
+                    && (graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
+                //return lid.getType().toString().compareToIgnoreCase(typeFilter) >= 0;
+                return lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
+            }
+
+            //2 van de 4, de rest null
+            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
+                    && (graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0;
+            }
+
+            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
+                    && !(graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
+            }
+
+            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
+                    && (graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
+            }
+
+            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
+                    && !(graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0 && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
+            }
+
+            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
+                    && (graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0 && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
+            }
+
+            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
+                    && !(graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase()) && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
+            }
+
+            //3 van de 4, de rest null
+            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
+                    && !(graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0
+                        && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
+            }
+
+            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
+                    && (graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0
+                        && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
+            }
+
+            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
+                    && !(graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase())
+                        && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
+            }
+
+            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
+                    && !(graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
+                return lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0 && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase())
+                        && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
+            } //allemaal
+            else {
+                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0
+                        && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase()) && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
+            }
+        });
+    }
 }

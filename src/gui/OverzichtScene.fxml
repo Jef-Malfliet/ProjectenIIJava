@@ -23,40 +23,59 @@
       </HBox>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox>
                <children>
-                  <Label text="Voornaam filter" />
-                  <TextField fx:id="txfVnFilter" />
+                  <Label fx:id="lblVnFilter" text="Voornaam filter" />
+                  <TextField fx:id="txfVnFilter">
+                     <VBox.margin>
+                        <Insets left="5.0" right="2.0" />
+                     </VBox.margin></TextField>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox>
                <children>
-                  <Label text="Familienaam filter" />
-                  <TextField fx:id="txfFnFilter" />
+                  <Label fx:id="lblFnFilter" text="Familienaam filter" />
+                  <TextField fx:id="txfFnFilter">
+                     <VBox.margin>
+                        <Insets left="3.0" right="2.0" />
+                     </VBox.margin></TextField>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox>
                <children>
-                  <Label text="Graad filter" />
-                  <TextField fx:id="txfGFilter" />
+                  <Label fx:id="lblGFilter" text="Graad filter" />
+                  <TextField fx:id="txfGFilter">
+                     <VBox.margin>
+                        <Insets left="3.0" right="2.0" />
+                     </VBox.margin></TextField>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox>
                <children>
-                  <Label text="Type filter" />
-                  <TextField fx:id="txfTFilter" />
+                  <Label fx:id="lblTFilter" text="Type filter" />
+                  <TextField fx:id="txfTFilter">
+                     <VBox.margin>
+                        <Insets left="3.0" right="2.0" />
+                     </VBox.margin></TextField>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox>
                <children>
-                  <Button fx:id="btnFilter" mnemonicParsing="false" onMouseClicked="#filter" text="Filter" />
+                  <Button fx:id="btnFilter" mnemonicParsing="false" onMouseClicked="#filter" text="Filter">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></Button>
+                  <Button fx:id="btnReset" mnemonicParsing="false" onMouseClicked="#reset" text="Maak leeg" />
                </children>
+               <HBox.margin>
+                  <Insets left="3.0" right="5.0" />
+               </HBox.margin>
             </VBox>
          </children>
       </HBox>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-            <TableView fx:id="tableOverview" prefHeight="778.0" prefWidth="600.0">
+            <TableView fx:id="tableOverview">
               <columns>
                 <TableColumn fx:id="colVoorNaam" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Voornaam" />
                   <TableColumn fx:id="colAchterNaam" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Familienaam" />

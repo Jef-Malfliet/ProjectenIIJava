@@ -55,6 +55,8 @@ public class BeheerderControlController extends VBox {
     private Label lblLesmateriaal;
     @FXML
     private ImageView imgLogo;
+    @FXML
+    private Label lblClubName;
 
     /**
      * Constructor beheerderControlController
@@ -166,7 +168,5 @@ public class BeheerderControlController extends VBox {
         lblOverzichtGeneren.setPrefWidth(sceneWidth);
         lblStageActiviteiten.setPrefWidth(sceneWidth);
 
-
-        
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -10,7 +11,18 @@
    <children>
       <HBox prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: #00B4AB;">
          <children>
-            <ImageView fx:id="imgLogo" fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgLogo" fitHeight="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="3.0" left="7.0" top="7.0" />
+               </HBox.margin></ImageView>
+            <Label fx:id="lblClubName" text="Taijitan Jiu Jitsu" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="5.0" top="23.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
       <HBox fx:id="btnLedenBeheren" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="80.0" style="-fx-background-color: #454553;">

@@ -74,10 +74,6 @@ public class DomeinController {
         return verwijdert;
     }
 
-    public void filter(SorteerType type, String start) {
-        dojo.filter(type, start);
-    }
-
     public ObservableList<ILid> getLeden() {
         return dojo.getSortedLeden();
     }
@@ -122,5 +118,9 @@ public class DomeinController {
 
     private void setOefeningRepository(OefeningDaoJpa oefeningDao) {
         this.oefeningRepository = oefeningDao;
+    }
+
+    public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
+        dojo.filter(voornaamFilter, familienaamFilter, graadFilter, typeFilter);
     }
 }

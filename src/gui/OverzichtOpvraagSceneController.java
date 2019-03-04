@@ -63,6 +63,10 @@ public class OverzichtOpvraagSceneController extends HBox {
     private Label lblOverzichtRaadplegen;
     @FXML
     private TextField txfNaamLid;
+    @FXML
+    private Label lblNaam;
+    @FXML
+    private Label lblDatum;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));

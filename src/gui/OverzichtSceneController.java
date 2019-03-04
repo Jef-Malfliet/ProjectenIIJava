@@ -7,7 +7,6 @@ package gui;
 
 import domein.DomeinController;
 import domein.ILid;
-import domein.SorteerType;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -32,9 +31,9 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
     private DomeinController dc;
     //OverzichtSceneController was 4/10 van het scherm.
-    private double sceneWidth = FullScreenResolution.getWidth()/10*4.25;
+    private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
     private double sceneHeight = FullScreenResolution.getHeight();
-    
+
     @FXML
     private TableView<ILid> tableOverview = new TableView<>();
     @FXML
@@ -59,6 +58,16 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private TextField txfTFilter;
     @FXML
     private Button btnFilter;
+    @FXML
+    private Label lblVnFilter;
+    @FXML
+    private Label lblFnFilter;
+    @FXML
+    private Label lblGFilter;
+    @FXML
+    private Label lblTFilter;
+    @FXML
+    private Button btnReset;
 
     public OverzichtSceneController(DomeinController dc, DetailPaneelController dpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtScene.fxml"));
@@ -81,7 +90,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
                     if (newLid != null) {
                         dpc.fillLid(newLid);
                     }
-                }); 
+                });
 
         tableOverview.setItems(dc.getLeden());
         colVoorNaam.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
@@ -91,7 +100,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 //        cboFilterOptie.setItems(FXCollections.observableArrayList(SorteerType.values()));
 //        cboFilterOptie.getSelectionModel().selectFirst();
         setMaxScreen();
-        ((SortedList)dc.getLeden()).comparatorProperty().bind(tableOverview.comparatorProperty());
+        ((SortedList) dc.getLeden()).comparatorProperty().bind(tableOverview.comparatorProperty());
     }
 
     @Override
@@ -103,13 +112,19 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         lblLedenBeheren.setPrefWidth(sceneWidth);
         tableOverview.setPrefWidth(sceneWidth);
         tableOverview.setPrefHeight(sceneHeight);
-        // 3 kolommen, dus 1/3 van de tableview.
+        // 4 kolommen, dus 1/4 van de tableview.
         colVoorNaam.prefWidthProperty().bind(tableOverview.widthProperty().divide(4));
         colAchterNaam.prefWidthProperty().bind(tableOverview.widthProperty().divide(4));
         colBand.prefWidthProperty().bind(tableOverview.widthProperty().divide(4));
         colType.prefWidthProperty().bind(tableOverview.widthProperty().divide(4));
 
-        
+        lblFnFilter.setPrefWidth(sceneWidth);
+        lblVnFilter.setPrefWidth(sceneWidth);
+        lblGFilter.setPrefWidth(sceneWidth);
+        lblTFilter.setPrefWidth(sceneWidth);
+
+        btnFilter.setPrefWidth(sceneWidth);
+        btnReset.setPrefWidth(sceneWidth);
     }
 
     private void update() {
@@ -133,34 +148,22 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 
     }
 
-//    private void filter(KeyEvent event) {
-//        SorteerType type = cboFilterOptie.getSelectionModel().getSelectedItem();
-//        String van = txtZoek.getText();
-//        if (type == null) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Error: geen sorteertype");
-//            alert.setHeaderText("Error: geen sorteertype meegegeven");
-//            alert.setContentText("Gelieve een sorteertype mee te geven");
-//        } else {
-//            dc.filter(cboFilterOptie.getSelectionModel().getSelectedItem(), txtZoek.getText());
-//        }
-//    }
-
     @FXML
     private void filter(MouseEvent event) {
         String voornaamFilter = txfVnFilter.getText();
-        String familienaamFilter = txfVnFilter.getText();
-        String graadFilter = txfVnFilter.getText();
-        String typeFilter = txfVnFilter.getText();
-        
-        if(voornaamFilter != null){
-            dc.filter(SorteerType.VOORNAAM, voornaamFilter);
-        } else if(familienaamFilter != null){
-            dc.filter(SorteerType.FAMILIENAAM, familienaamFilter);
-        } else if(graadFilter != null){
-            dc.filter(SorteerType.GRAAD, graadFilter);
-        } else if(typeFilter != null){
-            dc.filter(SorteerType.TYPE, typeFilter);
-        }
+        String familienaamFilter = txfFnFilter.getText();
+        String graadFilter = txfGFilter.getText();
+        String typeFilter = txfTFilter.getText();
+
+        dc.filter(voornaamFilter, familienaamFilter, graadFilter, typeFilter);
+    }
+
+    @FXML
+    private void reset(MouseEvent event) {
+        txfFnFilter.clear();
+        txfGFilter.clear();
+        txfTFilter.clear();
+        txfVnFilter.clear();
+        dc.filter("", "", "", "");
     }
 }

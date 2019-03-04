@@ -98,17 +98,23 @@
             </HBox>
             <HBox fx:id="hBoxContainer">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox>
                      <children>
-                        <Label text="Naam lid" />
+                        <Label fx:id="lblNaam" text="Naam lid" />
                         <TextField fx:id="txfNaamLid" />
                      </children>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox>
                      <children>
-                        <Label text="Datum" />
+                        <Label fx:id="lblDatum" text="Datum" />
                         <DatePicker />
                      </children>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
                   </VBox>
                </children>
             </HBox>
