@@ -127,6 +127,7 @@ public class DetailPaneelController extends VBox {
     private Label lblM_Lessen;
     @FXML
     private ComboBox<Geslacht> cboGeslacht;
+    private boolean veldenCompleet;
 
     public DetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
@@ -198,68 +199,44 @@ public class DetailPaneelController extends VBox {
     }
 
     @FXML
-    private void bevestigWijziging(ActionEvent event) {
-        String errorstyle = "-fx-background-color:#f77d5b";
-        String whitestyle = "-fx-background-color:#ffffff";
-        controle();
+    private void bevestigWijziging(ActionEvent event) { 
+        makeElementsWhiteLabelsInvisible();
         TextField[] textfields = geefTextfields();
         Label[] errormessages = geefLabels();
-        boolean juist = true;
+        veldenCompleet = true;
 
         errorMessage.setVisible(false);
         for (int i = 0; i < textfields.length; i++) {
             if (moetIngevuldzijn(textfields[i])) {
-                errormessages[i].setText(String.format("Gelieve in te vullen"));
-                errormessages[i].setVisible(true);
-                textfields[i].setStyle(errorstyle);
-                juist = false;
+                errorOn(errormessages[i], textfields[i], "Gelieve in te vullen");
 
             }
 
         }
         if (dpGeboorte.getValue() == null) {
-            lblM_Geboortedatum.setVisible(true);
-            lblM_Geboortedatum.setText("Gelieve een datum in te vullen");
-            juist = false;
+            errorOn(lblM_Geboortedatum, null, "Gelieve een datum in te vullen");
 
         }
         if (dpInschrijving.getValue() == null) {
-            lblM_Inschrijvingsdatum.setVisible(true);
-            lblM_Inschrijvingsdatum.setText("Gelieve een datum in te vullen");
-            juist = false;
+            errorOn(lblM_Inschrijvingsdatum, null, "Gelieve een datum in te vullen");
         }
 
         if (!(txtVasteTelefoon.getText().matches("") || txtVasteTelefoon.getText().matches("0\\d{8}") || txtVasteTelefoon.getText().matches("00\\d{10}"))) {
-            lblM_VasteTelefoon.setText("Gelieve een geldig telefoonnr op te geven");
-            txtVasteTelefoon.setStyle(errorstyle);
-            lblM_VasteTelefoon.setVisible(true);
-            juist = false;
+            errorOn(lblM_VasteTelefoon, txtVasteTelefoon, "Gelieve een geldig telefoonnr op te geven");
         }
         if (!(txtGsmnummer.getText().matches("0\\d{9}") || txtGsmnummer.getText().matches("00\\d{11}"))) {
-            lblM_Gsmnummer.setText("Gelieve een geldig telefoonnr op te geven");
-            txtGsmnummer.setStyle(errorstyle);
-            lblM_Gsmnummer.setVisible(true);
-            juist = false;
+            errorOn(lblM_Gsmnummer, txtGsmnummer, "Gelieve een geldig telefoonnr op te geven");
         }
         if (!txtPostCode.getText().matches("[1-9][0-9]{3}")) {
-            lblM_Postcode.setText("Gelieve een geldige postcode op te geven");
-            lblM_Postcode.setVisible(true);
-            txtPostCode.setStyle(errorstyle);
-            juist = false;
+            errorOn(lblM_Postcode, txtPostCode, "Gelieve een geldige postcode op te geven");
         }
         if (!txtEmail.getText().matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$")) {
-            lblM_Email.setText("Geen geldig emailadres");
-            lblM_Email.setVisible(true);
-            txtEmail.setStyle(errorstyle);
-            juist = false;
+            errorOn(lblM_Email, txtEmail, "Geen geldig emailadres");
         }
         if (!txtHuisnummer.getText().matches("[0-9]*[a-zA-Z]*")) {
-            lblM_Email.setText("Geen geldig huisnummer");
-            lblM_Email.setVisible(true);
-            txtHuisnummer.setStyle(errorstyle);
-            juist = false;
+            errorOn(lblM_Huisnummer, txtHuisnummer, "Geen geldig huisnummer");
         }
-        if (juist) {
+        if (veldenCompleet) {
             if (nieuwlid) {
                 current_lid = new Lid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
                         txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
@@ -316,7 +293,8 @@ public class DetailPaneelController extends VBox {
     public boolean clearTextFields() {
         boolean save = false;
         if (current_lid == null ? true : !(save = alertNaWijzigen())) {
-            controle();
+            makeElementsWhiteLabelsInvisible();
+            
             TextField[] textfields
                     = geefTextfields();
             Arrays
@@ -345,7 +323,7 @@ public class DetailPaneelController extends VBox {
 
     }
 
-    private void controle() {
+    private void makeElementsWhiteLabelsInvisible() {
         TextField[] textfields = geefTextfields();
         Label[] errormessages = geefLabels();
         String whitestyle = "-fx-background-color:#ffffff";
@@ -416,6 +394,19 @@ public class DetailPaneelController extends VBox {
         clearTextFields();
         errorMessage.setText("Lid werd verwijderd");
         errorMessage.setVisible(true);
+    }
+
+    private void errorOn(Label lbl, TextField txt, String errormessage) {
+        veldenCompleet = false;
+        String errorstyle = "-fx-text-box-border: #f77d5b ;-fx-focus-color: #f77d5b;";
+        if (lbl != null) {
+            lbl.setText(errormessage);
+            lbl.setVisible(true);
+        }
+        if (txt != null) {
+            txt.setStyle(errorstyle);
+        }
+
     }
 
 }
