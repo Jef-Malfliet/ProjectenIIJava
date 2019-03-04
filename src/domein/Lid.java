@@ -193,7 +193,7 @@ public class Lid implements Serializable, Exportable, ILid {
         if (telefoon_vast == null || telefoon_vast.isEmpty()) {
             throw new IllegalArgumentException("Vaste telefoonnummer mag niet leeg zijn");
         }
-        if (!(telefoon_vast.matches("0\\d{8}") || telefoon_vast.matches("00\\d{11}"))) {
+        if (!telefoon_vast.equals("/") && !(telefoon_vast.matches("0\\d{8}") || telefoon_vast.matches("00\\d{11}"))) {
             throw new IllegalArgumentException("Telefoon_vast is niet van het juiste formaat");
         }
         this.telefoon_vast = telefoon_vast;

@@ -248,7 +248,7 @@ public class DetailPaneelController extends VBox {
             errorOn(lblM_Inschrijvingsdatum, null, "Gelieve een datum in te vullen");
         }
 
-        if (!(txtVasteTelefoon.getText().matches("") || txtVasteTelefoon.getText().matches("0\\d{8}") || txtVasteTelefoon.getText().matches("00\\d{10}"))) {
+        if (!(txtVasteTelefoon.getText().matches("") || txtVasteTelefoon.getText().matches("/") || txtVasteTelefoon.getText().matches("0\\d{8}") || txtVasteTelefoon.getText().matches("00\\d{10}"))) {
             errorOn(lblM_VasteTelefoon, txtVasteTelefoon, "Gelieve een geldig telefoonnr op te geven");
         }
         if (!(txtGsmnummer.getText().matches("0\\d{9}") || txtGsmnummer.getText().matches("00\\d{11}"))) {
@@ -260,13 +260,16 @@ public class DetailPaneelController extends VBox {
         if (!txtEmail.getText().matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$")) {
             errorOn(lblM_Email, txtEmail, "Geen geldig emailadres");
         }
+        if (!(txtEmail_ouders.getText().matches("") || txtEmail_ouders.getText().matches("/") ||txtEmail_ouders.getText().matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$"))) {
+            errorOn(lblM_Emailouder, txtEmail_ouders, "Geen geldig emailadres");
+        }
         if (!txtHuisnummer.getText().matches("[0-9]*[a-zA-Z]*")) {
             errorOn(lblM_Huisnummer, txtHuisnummer, "Geen geldig huisnummer");
         }
     }
 
     private void maaknieuwlid() {
-        current_lid = new Lid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
+        current_lid = new Lid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
                 txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText().isEmpty() ? "/" : txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
                 txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
                 cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());
@@ -277,7 +280,7 @@ public class DetailPaneelController extends VBox {
     }
 
     private void wijziglid() {
-        dc.wijzigLid(current_lid.getId(),txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
+        dc.wijzigLid(current_lid.getId(),txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
                 txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText().isEmpty() ? "/" : txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
                 txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
                 cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());

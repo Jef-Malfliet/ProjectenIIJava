@@ -64,4 +64,4 @@ public interface ILid extends Serializable, Exportable {
 
     SimpleStringProperty getTypeProperty();
 
-}
+    }
