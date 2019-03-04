@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -53,9 +54,9 @@ public class OverzichtOpvraagSceneController extends HBox {
     private TableColumn<Overzicht, String> datumCol;
     @FXML
     private TextField txtBesNaam;
-    
+
     private String path = "";
-    private double sceneWidth = FullScreenResolution.getWidth()/10*4.25;
+    private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
     private double sceneHeight = FullScreenResolution.getHeight();
     @FXML
     private Label lblOverzichtOpvragen;
@@ -67,6 +68,12 @@ public class OverzichtOpvraagSceneController extends HBox {
     private Label lblNaam;
     @FXML
     private Label lblDatum;
+    @FXML
+    private Label lblOverzicht;
+    @FXML
+    private Label lblBesNaam;
+    @FXML
+    private DatePicker datDatePicker;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -83,7 +90,10 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     @FXML
     private void maakOverzicht(ActionEvent event) {
-        dc.maakOverzicht(cboType.getSelectionModel().getSelectedItem(), path);
+        String naam = txfNaamLid.getText();
+        //String date = datDatePicker.getEditor().getText();
+        String besNaam = txtBesNaam.getText();
+        dc.maakOverzicht(cboType.getSelectionModel().getSelectedItem(), besNaam, path);
     }
 
     @FXML
@@ -96,23 +106,21 @@ public class OverzichtOpvraagSceneController extends HBox {
         } else {
             path = selectedDir.getPath();
         }
-         
-         //dit is een lijst van alle leden
-         //naam afhankelijk van de lijst later
-         String besNaam = txtBesNaam.getText();
-         if(besNaam == null || besNaam.isEmpty()){
-             Alert alert = new Alert(Alert.AlertType.WARNING);
-             alert.setTitle("Error");
-             alert.setContentText("Geen naam gevonden voor het bestand.");
-             alert.showAndWait();
-         }else {
-             path += "/" + besNaam + ".xls" + "/";
-         }
-         
-         //ExportFiles.toExcel(dc.getLeden(), 25, 20, path);
-        
+
+        //dit is een lijst van alle leden
+        //naam afhankelijk van de lijst later
+        String besNaam = txtBesNaam.getText();
+        if (besNaam == null || besNaam.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setContentText("Geen naam gevonden voor het bestand.");
+            alert.showAndWait();
+        } else {
+            path += "/" + besNaam + ".xls" + "/";
+        }
+
+        //ExportFiles.toExcel(dc.getLeden(), 25, 20, path);
     }
-    
 
     private void buildGui() {
         cboType.setItems(FXCollections.observableArrayList(Arrays.asList(OverzichtType.values())));
@@ -124,9 +132,10 @@ public class OverzichtOpvraagSceneController extends HBox {
         tblOverzicht.setItems(FXCollections.unmodifiableObservableList(FXCollections.observableArrayList(dc.getOverzicht())));
         setMaxScreen();
     }
+
     private void setMaxScreen() {
-       lblOverzichtOpvragen.setPrefWidth(sceneWidth);
-       lblOverzichtRaadplegen.setPrefWidth(sceneWidth);
+        lblOverzichtOpvragen.setPrefWidth(sceneWidth);
+        lblOverzichtRaadplegen.setPrefWidth(sceneWidth);
         tblOverzicht.setPrefWidth(sceneWidth);
         tblOverzicht.setPrefHeight(sceneHeight);
         // 3 kolommen, dus 1/3 van de tableview.
@@ -134,7 +143,14 @@ public class OverzichtOpvraagSceneController extends HBox {
         typeCol.prefWidthProperty().bind(tblOverzicht.widthProperty().divide(3));
         datumCol.prefWidthProperty().bind(tblOverzicht.widthProperty().divide(3));
 
-        
+        cboType.setPrefWidth(sceneWidth);
+        lblOverzicht.setPrefWidth(sceneWidth);
+
+        lblBesNaam.setPrefWidth(sceneWidth);
+        txtBesNaam.setPrefWidth(sceneWidth);
+
+        btnSlaOp.setPrefWidth(sceneWidth);
+        btnSearch.setPrefWidth(sceneWidth);
     }
 
 }

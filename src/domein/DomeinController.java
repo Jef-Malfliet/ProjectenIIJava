@@ -92,8 +92,8 @@ public class DomeinController {
 
     }
 
-    public void maakOverzicht(OverzichtType type, String path) {
-        dojo.maakOverzicht(type, path);
+    public void maakOverzicht(OverzichtType type, String besNaam, String path) {
+        dojo.maakOverzicht(type, besNaam,path);
     }
 
     public List<Overzicht> getOverzicht() {

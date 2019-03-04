@@ -1,8 +1,7 @@
 package domein;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
@@ -63,14 +62,16 @@ public class Lid implements Serializable, Exportable, ILid {
 
     public Lid() {
     }
-    public Lid(ILid lid){
-       this(lid.getVoornaam(),lid.getFamilienaam(),lid.getWachtwoord(),lid.getGsm(),lid.getTelefoon_vast(),lid.getStraatnaam(),lid.getHuisnummer(),lid.getBusnummer(),lid.getPostcode(),lid.getStad(),
-               lid.getLand(),lid.getEmail(),lid.getEmail_ouders(),lid.getGeboortedatum(),lid.getInschrijvingsdatum(),lid.getAanwezigheden(),lid.getGeslacht(),lid.getGraad(),lid.getType());
-        
+
+    public Lid(ILid lid) {
+        this(lid.getVoornaam(), lid.getFamilienaam(), lid.getWachtwoord(), lid.getGsm(), lid.getTelefoon_vast(), lid.getStraatnaam(), lid.getHuisnummer(), lid.getBusnummer(), lid.getPostcode(), lid.getStad(),
+                lid.getLand(), lid.getEmail(), lid.getEmail_ouders(), lid.getGeboortedatum(), lid.getInschrijvingsdatum(), lid.getAanwezigheden(), lid.getGeslacht(), lid.getGraad(), lid.getType());
+
     }
+
     public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
         wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type);
-        
+
     }
 
     public final void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
@@ -93,7 +94,7 @@ public class Lid implements Serializable, Exportable, ILid {
         setGeslacht(geslacht);
         setGraad(graad);
         setType(type);
-       // fillSimpleProperties();
+        // fillSimpleProperties();
     }
 
     public void fillSimpleProperties() {
@@ -411,6 +412,20 @@ public class Lid implements Serializable, Exportable, ILid {
             throw new IllegalArgumentException("Busnummer mag niet leeg zijn. Indien het lid geen busnummer heeft, vul dan / in");
         }
         this.busnummer = busnummer;
+    }
+
+    private String generateWachtwoord() {
+        SecureRandom r = new SecureRandom();
+        StringBuilder initials = new StringBuilder();
+        initials.append(voornaam.charAt(0));
+        String[] famNaamSplit = familienaam.split(" ");
+        for (String deel : famNaamSplit) {
+            initials.append(deel.charAt(0));
+        }
+        for (int i = 0; i < 5; i++) {
+            initials.append(r.nextInt(10));
+        }
+        return initials.toString();
     }
 
 }

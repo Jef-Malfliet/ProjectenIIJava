@@ -11,23 +11,16 @@ import domein.Oefening;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.concurrent.Worker;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -38,6 +31,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
+import util.FullScreenResolution;
 
 /**
  * FXML Controller class
@@ -45,6 +39,9 @@ import javax.imageio.ImageIO;
  * @author IndyV
  */
 public class LesmateriaalBeheerSceneController extends VBox {
+
+    private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
+    private double sceneHeight = FullScreenResolution.getHeight();
 
     private DomeinController dc;
     private File imageFile;
@@ -84,6 +81,7 @@ public class LesmateriaalBeheerSceneController extends VBox {
 
     private void buildGui() {
         cbMinimumgraad.setItems(FXCollections.observableArrayList(Graad.values()));
+        setMaxScreen();
     }
 
     @FXML
@@ -146,4 +144,7 @@ public class LesmateriaalBeheerSceneController extends VBox {
 
     }
 
+    private void setMaxScreen() {
+
+    }
 }

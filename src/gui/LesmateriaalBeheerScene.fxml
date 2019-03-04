@@ -87,9 +87,9 @@
                         <Font name="Quicksand-Regular" size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnFoto" mnemonicParsing="false" onAction="#kiesFoto" text="Kies foto">
+                  <Button fx:id="btnFoto" alignment="CENTER" mnemonicParsing="false" onAction="#kiesFoto" prefWidth="200.0" text="Kies foto">
                      <HBox.margin>
-                        <Insets top="5.0" />
+                        <Insets top="10.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -109,13 +109,16 @@
             </HBox>
             <HBox>
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets />
                </VBox.margin>
                <children>
-                  <Button fx:id="btnMaakOefening" mnemonicParsing="false" onAction="#maakOefening" text="Maak oefening" />
-                  <Label fx:id="lblWarning" prefHeight="17.0" prefWidth="387.0" textFill="#b90000">
+                  <Button fx:id="btnMaakOefening" mnemonicParsing="false" onAction="#maakOefening" prefWidth="200.0" text="Maak oefening">
                      <HBox.margin>
-                        <Insets left="100.0" />
+                        <Insets bottom="5.0" left="225.0" top="10.0" />
+                     </HBox.margin></Button>
+                  <Label fx:id="lblWarning" textFill="#b90000">
+                     <HBox.margin>
+                        <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
                </children>
@@ -125,7 +128,10 @@
             <Insets />
          </VBox.margin>
       </VBox>
-      <Button fx:id="btnHaalOp" mnemonicParsing="false" onAction="#haalImageOp" prefHeight="25.0" prefWidth="251.0" text="Haal image op" />
+      <Button fx:id="btnHaalOp" mnemonicParsing="false" onAction="#haalImageOp" prefWidth="200.0" text="Haal image op">
+         <VBox.margin>
+            <Insets bottom="10.0" left="225.0" top="5.0" />
+         </VBox.margin></Button>
       <ImageView fx:id="ivPhoto" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
       <WebView fx:id="wvYoutube" prefHeight="200.0" prefWidth="600.0" />
    </children>
