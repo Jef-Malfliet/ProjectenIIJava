@@ -8,10 +8,12 @@ package gui;
 import domein.DomeinController;
 import domein.Geslacht;
 import domein.Graad;
+import domein.ILid;
 import domein.Lid;
 import domein.RolType;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -56,7 +58,7 @@ public class DetailPaneelController extends VBox {
     private TextField txtGemeente;
     @FXML
     private TextField txtEmail;
-    private Lid current_lid;
+    private ILid current_lid;
     @FXML
     private Label errorMessage;
     @FXML
@@ -157,33 +159,40 @@ public class DetailPaneelController extends VBox {
         niet_verplicht.add(txtVasteTelefoon);
         niet_verplicht.add(txtEmail_ouders);
         niet_verplicht.add(txtBusnummer);
+        dpGeboorte.setEditable(false);
+        dpInschrijving.setEditable(false);
     }
 
-    public void fillLid(Lid lid) {
+    private void opvullen(ILid lid) {
+        
+        lblDetail.setText("Lid wijzigen");
+        current_lid = lid;
+        txtVoornaam.setText(lid.getVoornaam());
+        txtAchternaam.setText(lid.getFamilienaam());
+        txtWachtwoord.setText(lid.getWachtwoord());
+        txtGsmnummer.setText(lid.getGsm());
+        txtVasteTelefoon.setText(lid.getTelefoon_vast());
+        txtStraat.setText(lid.getStraatnaam());
+        txtHuisnummer.setText(lid.getHuisnummer());
+        txtBusnummer.setText(lid.getBusnummer());
+        txtGemeente.setText(lid.getStad());
+        txtPostCode.setText(lid.getPostcode());
+        txtLand.setText(lid.getLand());
+        txtEmail.setText(lid.getEmail());
+        dpGeboorte.setValue(lid.getGeboortedatum());
+        dpInschrijving.setValue(lid.getInschrijvingsdatum());
+        txtEmail_ouders.setText(lid.getEmail_ouders());
+        cboGraad.getSelectionModel().select(lid.getGraad());
+        cboType.getSelectionModel().select(lid.getType());
+        cboGeslacht.getSelectionModel().select(lid.getGeslacht());
+        nieuwlid = false;
+    }
+
+    public void fillLid(ILid lid) {
 
         if (clearTextFields()) {
             errorMessage.setVisible(false);
-            lblDetail.setText("Lid wijzigen");
-            current_lid = lid;
-            txtVoornaam.setText(lid.getVoornaam());
-            txtAchternaam.setText(lid.getFamilienaam());
-            txtWachtwoord.setText(lid.getWachtwoord());
-            txtGsmnummer.setText(lid.getGsm());
-            txtVasteTelefoon.setText(lid.getTelefoon_vast());
-            txtStraat.setText(lid.getStraatnaam());
-            txtHuisnummer.setText(lid.getHuisnummer());
-            txtBusnummer.setText(lid.getBusnummer());
-            txtGemeente.setText(lid.getStad());
-            txtPostCode.setText(lid.getPostcode());
-            txtLand.setText(lid.getLand());
-            txtEmail.setText(lid.getEmail());
-            dpGeboorte.setValue(lid.getGeboortedatum());
-            dpInschrijving.setValue(lid.getInschrijvingsdatum());
-            txtEmail_ouders.setText(lid.getEmail_ouders());
-            cboGraad.getSelectionModel().select(lid.getGraad());
-            cboType.getSelectionModel().select(lid.getType());
-            cboGeslacht.getSelectionModel().select(lid.getGeslacht());
-            nieuwlid = false;
+            opvullen(lid);
         }
 
     }
@@ -199,19 +208,37 @@ public class DetailPaneelController extends VBox {
     }
 
     @FXML
-    private void bevestigWijziging(ActionEvent event) { 
+    private void bevestigWijziging(ActionEvent event) {
         makeElementsWhiteLabelsInvisible();
+        veldenCompleet = true;
+        valideerVelden();
+        if (veldenCompleet) {
+            if (nieuwlid) {
+                maaknieuwlid();
+            } else {
+                if (isgewijzigd()) {
+                    wijziglid();
+                } else {
+                    errorMessage.setText("Er zijn geen wijzigingen");
+                    errorMessage.setVisible(true);
+                }
+
+            }
+        } else {
+            errorMessage.setText("Niet alle velden zijn correct");
+            errorMessage.setVisible(true);
+        }
+    }
+
+    private void valideerVelden() {
         TextField[] textfields = geefTextfields();
         Label[] errormessages = geefLabels();
-        veldenCompleet = true;
 
         errorMessage.setVisible(false);
         for (int i = 0; i < textfields.length; i++) {
             if (moetIngevuldzijn(textfields[i])) {
                 errorOn(errormessages[i], textfields[i], "Gelieve in te vullen");
-
             }
-
         }
         if (dpGeboorte.getValue() == null) {
             errorOn(lblM_Geboortedatum, null, "Gelieve een datum in te vullen");
@@ -236,27 +263,29 @@ public class DetailPaneelController extends VBox {
         if (!txtHuisnummer.getText().matches("[0-9]*[a-zA-Z]*")) {
             errorOn(lblM_Huisnummer, txtHuisnummer, "Geen geldig huisnummer");
         }
-        if (veldenCompleet) {
-            if (nieuwlid) {
-                current_lid = new Lid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
-                        txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
-                        txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
-                        cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());
-                dc.voegLidToe(current_lid);
-                errorMessage.setText("Lid werd toegevoegd");
-                errorMessage.setVisible(true);
-            } else {
-                current_lid.wijzigLid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
-                        txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
-                        txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
-                        cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());
-                dc.wijzigLid(current_lid);
-                errorMessage.setText("Wijzigingen zijn opgeslagen");
-                errorMessage.setVisible(true);
+    }
 
-            }
+    private void maaknieuwlid() {
+        current_lid = new Lid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
+                txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText().isEmpty() ? "/" : txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
+                txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
+                cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());
+        dc.voegLidToe(current_lid);
+        errorMessage.setText("Lid werd toegevoegd");
+        errorMessage.setVisible(true);
 
-        }
+    }
+
+    private void wijziglid() {
+        dc.wijzigLid(current_lid.getId(),txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText(),
+                txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText().isEmpty() ? "/" : txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
+                txtLand.getText(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
+                cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem());
+        
+       
+        errorMessage.setText("Wijzigingen zijn opgeslagen");
+        errorMessage.setVisible(true);
+        opvullen(current_lid);
 
     }
 
@@ -290,27 +319,19 @@ public class DetailPaneelController extends VBox {
         return false;
     }
 
-    public boolean clearTextFields() {
+    private boolean clearTextFields() {
         boolean save = false;
         if (current_lid == null ? true : !(save = alertNaWijzigen())) {
             makeElementsWhiteLabelsInvisible();
-            
             TextField[] textfields
                     = geefTextfields();
-            Arrays
-                    .stream(textfields
-                    ).forEach(txt
-                            -> {
-                        txt
-                                .clear();
-
-                    });
-            cboType
-                    .getSelectionModel().selectFirst();
-            cboGraad
-                    .getSelectionModel().selectFirst();
+            Arrays.stream(textfields).forEach(txt -> {
+                txt.clear();
+            });
+            cboType.getSelectionModel().selectFirst();
+            cboGraad.getSelectionModel().selectFirst();
             cboGeslacht.getSelectionModel().selectFirst();
-            dpGeboorte.setValue(null);
+            dpGeboorte.setValue(LocalDate.of(2000, Month.JANUARY, 1));
             dpInschrijving.setValue(LocalDate.now());
             return true;
 
@@ -332,11 +353,9 @@ public class DetailPaneelController extends VBox {
         Arrays.stream(textfields).forEach(txt -> {
             txt.setStyle(whitestyle);
         });
-        Arrays.stream(errormessages).forEach(
-                label -> {
-                    label.setVisible(false);
-
-                });
+        Arrays.stream(errormessages).forEach(label -> {
+            label.setVisible(false);
+        });
 
         cboType.setStyle(whitestyle);
         cboGraad.setStyle(whitestyle);
@@ -391,9 +410,10 @@ public class DetailPaneelController extends VBox {
 
     public void clearNaVerwijderen() {
         current_lid = null;
-        clearTextFields();
-        errorMessage.setText("Lid werd verwijderd");
-        errorMessage.setVisible(true);
+        if (clearTextFields()) {
+            errorMessage.setText("Lid werd verwijderd");
+            errorMessage.setVisible(true);
+        }
     }
 
     private void errorOn(Label lbl, TextField txt, String errormessage) {

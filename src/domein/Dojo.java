@@ -3,7 +3,7 @@ package domein;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -14,21 +14,19 @@ import javafx.collections.transformation.SortedList;
 import persistentie.ExportFiles;
 //import persistentie.IPersistentieController;
 import persistentie.LidDao;
-import java.util.*;
 import persistentie.GenericDaoJpa;
 import persistentie.OefeningDao;
-import persistentie.OefeningDaoJpa;
 
 public class Dojo {
 
     private final RolType type;
-    private final ObservableList<Lid> leden;
-    private final Comparator<Lid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
-    private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
-    private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
-    private final Comparator<Lid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
-    private final FilteredList<Lid> filtered;
-    private final SortedList<Lid> sorted;
+    private final ObservableList<ILid> leden;
+    private final Comparator<ILid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
+    private final Comparator<ILid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
+    private final Comparator<ILid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
+    private final Comparator<ILid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
+    private final FilteredList<ILid> filtered;
+    private final SortedList<ILid> sorted;
     private PropertyChangeSupport subject;
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
@@ -53,8 +51,8 @@ public class Dojo {
      *
      * @param lid
      */
-    public boolean verwijderLid(Lid lid) {
-
+    public boolean verwijderLid(long id) {
+        Lid lid = lidRepo.get(id);
         this.lidRepo.delete(lid);
         return this.leden.remove(lid);
     }
@@ -63,9 +61,11 @@ public class Dojo {
      *
      * @param lid
      */
-    public boolean wijzigLid(Lid lid) {
-
-        Lid temp = lidRepo.update(lid);
+    public boolean wijzigLid(long id, String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
+        Lid temp = lidRepo.get(id);
+        temp.wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type);
+        //ILid temp = lidRepo.update(lid);
+        lidRepo.update(temp);
         subject.firePropertyChange("lijstleden", null, leden);
         if (temp == null) {
             return false;
@@ -77,7 +77,7 @@ public class Dojo {
      *
      * @param lid
      */
-    public Lid toonLid(long id) {
+    public ILid toonLid(long id) {
         return leden.stream().filter(l -> l.getId() == id).findFirst().orElse(null);
     }
 
@@ -100,7 +100,7 @@ public class Dojo {
         return false;
     }
 
-    public List<Lid> getLijstLeden() {
+    public List<ILid> getLijstLeden() {
         return leden;
     }
 
@@ -108,7 +108,7 @@ public class Dojo {
         return type;
     }
 
-    public ObservableList<Lid> getSortedLeden() {
+    public ObservableList<ILid> getSortedLeden() {
         fillSimplePropertiesForGui();
         return sorted;
     }
@@ -118,7 +118,7 @@ public class Dojo {
     }
 
     private void fillSimplePropertiesForGui() {
-        leden.forEach(lid -> lid.fillSimpleProperties());
+        leden.forEach(lid -> ((Lid) lid).fillSimpleProperties());
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pc1) {
@@ -173,8 +173,8 @@ public class Dojo {
     public List<Oefening> getOefeningen() {
         return oefeningen;
     }
-    
-    public Oefening getOefeningById(Long id){
+
+    public Oefening getOefeningById(Long id) {
         return oefeningRepo.get(id);
     }
 
@@ -184,15 +184,16 @@ public class Dojo {
 
     public void lidInschrijven(long activiteitId, long lidId) {
         Activiteit tempAct = activiteiten.stream().filter(a -> a.getId() == activiteitId).findFirst().orElse(null);
-        Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
-        tempAct.lidInschrijven(tempLid);
+        ILid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
+        tempAct.lidInschrijven((Lid) tempLid);
     }
 
     public void lidUitschrijven(long activiteitId, long lidId) {
         Activiteit tempAct = activiteiten.stream().filter(a -> a.getId() == activiteitId).findFirst().orElse(null);
-        Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
-        tempAct.lidUitschrijven(tempLid);
+        ILid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
+        tempAct.lidUitschrijven((Lid) tempLid);
     }
+
     /**
      *
      * @param oefening
@@ -203,20 +204,18 @@ public class Dojo {
         oefeningRepo.insert(oefening);
         GenericDaoJpa.commitTransaction();
     }
-    
-    
 
     private void setOefeningRepo(OefeningDao oefeningRepo) {
-        this.oefeningRepo=oefeningRepo;
+        this.oefeningRepo = oefeningRepo;
     }
 
-	/**
-	 * 
-	 * @param lidRepo
-	 */
-	public Dojo(LidDao lidRepo) {
-		// TODO - implement Dojo.Dojo
-		throw new UnsupportedOperationException();
-	}
+    /**
+     *
+     * @param lidRepo
+     */
+    public Dojo(LidDao lidRepo) {
+        // TODO - implement Dojo.Dojo
+        throw new UnsupportedOperationException();
+    }
 
 }

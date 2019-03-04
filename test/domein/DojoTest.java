@@ -59,7 +59,7 @@ public class DojoTest {
     public void testVerwijderLid() {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
         beheerder = new Dojo(lidDaoDummy,oefeningDaoDummy);
-        beheerder.verwijderLid(lid1);
+        beheerder.verwijderLid(lid1.getId());
         System.out.println(beheerder.getLijstLeden());
         Assert.assertEquals(2, beheerder.getLijstLeden().size());
         //Assert.assertFalse(beheerder.getLijstLeden().contains(lid1)); //assertionFailed
@@ -75,10 +75,11 @@ public class DojoTest {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
         Mockito.when(lidDaoDummy.update(lid1)).thenReturn(lid1b);
         beheerder = new Dojo(lidDaoDummy,oefeningDaoDummy);
-        lid1.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", "België", "nante.vermeulen@student.hogent.be",
+//        lid1.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", "België", "nante.vermeulen@student.hogent.be",
+//                "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.WIT, RolType.BEHEERDER);
+        boolean succes = beheerder.wijzigLid(lid1.getId(),"Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", "België", "nante.vermeulen@student.hogent.be",
                 "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.WIT, RolType.BEHEERDER);
-        boolean succes = beheerder.wijzigLid(lid1);
-        Lid gewijzigdLid = beheerder.toonLid(lid1.getId());
+        ILid gewijzigdLid = beheerder.toonLid(lid1.getId());
         Assert.assertTrue(succes);
         Assert.assertEquals(lid1.getVoornaam(), gewijzigdLid.getVoornaam());
         Assert.assertEquals(lid1.getGraad(), gewijzigdLid.getGraad());
@@ -93,7 +94,7 @@ public class DojoTest {
     public void testToonLid() {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
         beheerder = new Dojo(lidDaoDummy,oefeningDaoDummy);
-        Lid toonLid = beheerder.toonLid(lid1.getId());
+        ILid toonLid = beheerder.toonLid(lid1.getId());
         Assert.assertEquals(lid1, toonLid);
         Mockito.verify(lidDaoDummy).findAll();
     }

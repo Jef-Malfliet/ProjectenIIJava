@@ -18,7 +18,7 @@ import javax.persistence.*;
     @javax.persistence.NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e"),
     @javax.persistence.NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
 })
-public class Lid implements Serializable, Exportable {
+public class Lid implements Serializable, Exportable, ILid {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,31 +63,17 @@ public class Lid implements Serializable, Exportable {
 
     public Lid() {
     }
-
+    public Lid(ILid lid){
+       this(lid.getVoornaam(),lid.getFamilienaam(),lid.getWachtwoord(),lid.getGsm(),lid.getTelefoon_vast(),lid.getStraatnaam(),lid.getHuisnummer(),lid.getBusnummer(),lid.getPostcode(),lid.getStad(),
+               lid.getLand(),lid.getEmail(),lid.getEmail_ouders(),lid.getGeboortedatum(),lid.getInschrijvingsdatum(),lid.getAanwezigheden(),lid.getGeslacht(),lid.getGraad(),lid.getType());
+        
+    }
     public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
-        setVoornaam(voornaam);
-        setFamilienaam(familienaam);
-        setWachtwoord(wachtwoord);
-        setGsm(gsm);
-        setTelefoon_vast(telefoon_vast);
-        setStraatnaam(straatnaam);
-        setHuisnummer(huisnummer);
-        setBusnummer(busnummer);
-        setPostcode(postcode);
-        setStad(stad);
-        setLand(land);
-        setEmail(email);
-        setEmail_ouders(email_ouders);
-        setGeboortedatum(geboortedatum);
-        setInschrijvingsdatum(inschrijvingsdatum);
-        setAanwezigheden(aanwezigheden);
-        setGeslacht(geslacht);
-        setGraad(graad);
-        setType(type);
-        fillSimpleProperties();
+        wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type);
+        
     }
 
-    public void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
+    public final void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type) {
         setVoornaam(voornaam);
         setFamilienaam(familienaam);
         setWachtwoord(wachtwoord);
@@ -107,7 +93,7 @@ public class Lid implements Serializable, Exportable {
         setGeslacht(geslacht);
         setGraad(graad);
         setType(type);
-        fillSimpleProperties();
+       // fillSimpleProperties();
     }
 
     public void fillSimpleProperties() {
@@ -174,6 +160,7 @@ public class Lid implements Serializable, Exportable {
         return true;
     }
 
+    @Override
     public String getVoornaam() {
         return voornaam;
     }
@@ -185,6 +172,7 @@ public class Lid implements Serializable, Exportable {
         this.voornaam = voornaam;
     }
 
+    @Override
     public String getFamilienaam() {
         return familienaam;
     }
@@ -196,6 +184,7 @@ public class Lid implements Serializable, Exportable {
         this.familienaam = familienaam;
     }
 
+    @Override
     public String getTelefoon_vast() {
         return telefoon_vast;
     }
@@ -210,6 +199,7 @@ public class Lid implements Serializable, Exportable {
         this.telefoon_vast = telefoon_vast;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
@@ -224,6 +214,7 @@ public class Lid implements Serializable, Exportable {
         this.email = email;
     }
 
+    @Override
     public String getStraatnaam() {
         return straatnaam;
     }
@@ -235,6 +226,7 @@ public class Lid implements Serializable, Exportable {
         this.straatnaam = straatnaam;
     }
 
+    @Override
     public String getPostcode() {
         return postcode;
     }
@@ -249,6 +241,7 @@ public class Lid implements Serializable, Exportable {
         this.postcode = postcode;
     }
 
+    @Override
     public String getStad() {
         return stad;
     }
@@ -260,6 +253,7 @@ public class Lid implements Serializable, Exportable {
         this.stad = stad;
     }
 
+    @Override
     public Graad getGraad() {
         return graad;
     }
@@ -271,6 +265,7 @@ public class Lid implements Serializable, Exportable {
         this.graad = graad;
     }
 
+    @Override
     public long getId() {
         return id;
     }
@@ -279,10 +274,12 @@ public class Lid implements Serializable, Exportable {
         this.type = type;
     }
 
+    @Override
     public RolType getType() {
         return type;
     }
 
+    @Override
     public javafx.beans.property.SimpleStringProperty getTypeProperty() {
         return typeProperty;
     }
@@ -291,10 +288,11 @@ public class Lid implements Serializable, Exportable {
         this.typeProperty = typeProperty;
     }
 
-    public void voegAanwezigheidToe(LocalDate date) {
+    private void voegAanwezigheidToe(LocalDate date) {
         aanwezigheden.add(date);
     }
 
+    @Override
     public String getHuisnummer() {
         return huisnummer;
     }
@@ -306,6 +304,7 @@ public class Lid implements Serializable, Exportable {
         this.huisnummer = huisnummer;
     }
 
+    @Override
     public String getLand() {
         return land;
     }
@@ -317,20 +316,22 @@ public class Lid implements Serializable, Exportable {
         this.land = land;
     }
 
+    @Override
     public String getEmail_ouders() {
         return email_ouders;
     }
 
     public void setEmail_ouders(String email_ouders) {
         if (email_ouders == null || email_ouders.isEmpty()) {
-            throw new IllegalArgumentException("Het email adres van de ouders mag niet leeg zijn");
+            throw new IllegalArgumentException("Het email adres van de ouders mag niet leeg zijn. Indien geen ouderemailadres, vul / in");
         }
-        if (!email_ouders.matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$")) {
+        if (!email_ouders.equals("/") && !email_ouders.matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$")) {
             throw new IllegalArgumentException("E-mail voldoet niet aan het juiste patroon(voorbeeld@voorbeeld.iets");
         }
         this.email_ouders = email_ouders;
     }
 
+    @Override
     public LocalDate getGeboortedatum() {
         return geboortedatum;
     }
@@ -339,6 +340,7 @@ public class Lid implements Serializable, Exportable {
         this.geboortedatum = geboortedatum;
     }
 
+    @Override
     public LocalDate getInschrijvingsdatum() {
         return inschrijvingsdatum;
     }
@@ -347,6 +349,7 @@ public class Lid implements Serializable, Exportable {
         this.inschrijvingsdatum = inschrijvingsdatum;
     }
 
+    @Override
     public List<LocalDate> getAanwezigheden() {
         return aanwezigheden;
     }
@@ -371,17 +374,19 @@ public class Lid implements Serializable, Exportable {
         this.familienaamProperty = familienaamProperty;
     }
 
+    @Override
     public String getWachtwoord() {
         return wachtwoord;
     }
 
-    private void setWachtwoord(String wachtwoord) {
+    public void setWachtwoord(String wachtwoord) {
         if (wachtwoord == null || wachtwoord.isEmpty()) {
             throw new IllegalArgumentException("Het lid moet een wachtwoord hebben.");
         }
         this.wachtwoord = wachtwoord;
     }
 
+    @Override
     public String getGsm() {
         return gsm;
     }
@@ -396,13 +401,14 @@ public class Lid implements Serializable, Exportable {
         this.gsm = gsm;
     }
 
+    @Override
     public String getBusnummer() {
         return busnummer;
     }
 
     public void setBusnummer(String busnummer) {
         if (busnummer == null || busnummer.isEmpty()) {
-            throw new IllegalArgumentException("Busnummer mag niet leeg zijn. Indien het lid geen busnummer heeft, vul dan \\ in");
+            throw new IllegalArgumentException("Busnummer mag niet leeg zijn. Indien het lid geen busnummer heeft, vul dan / in");
         }
         this.busnummer = busnummer;
     }

@@ -6,23 +6,19 @@
 package gui;
 
 import domein.DomeinController;
-import domein.Lid;
+import domein.ILid;
 import domein.SorteerType;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import javafx.collections.FXCollections;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import util.FullScreenResolution;
@@ -40,19 +36,19 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private double sceneHeight = FullScreenResolution.getHeight();
     
     @FXML
-    private TableView<Lid> tableOverview = new TableView<>();
+    private TableView<ILid> tableOverview = new TableView<>();
     @FXML
-    private TableColumn<Lid, String> colBand = new TableColumn<>();
+    private TableColumn<ILid, String> colBand = new TableColumn<>();
     @FXML
-    private TableColumn<Lid, String> colType = new TableColumn<>();
+    private TableColumn<ILid, String> colType = new TableColumn<>();
 
     private final DetailPaneelController dpc;
     @FXML
     private Label lblLedenBeheren;
     @FXML
-    private TableColumn<Lid, String> colVoorNaam = new TableColumn<>();
+    private TableColumn<ILid, String> colVoorNaam = new TableColumn<>();
     @FXML
-    private TableColumn<Lid, String> colAchterNaam = new TableColumn<>();
+    private TableColumn<ILid, String> colAchterNaam = new TableColumn<>();
     @FXML
     private TextField txfVnFilter;
     @FXML
@@ -127,11 +123,11 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     }
 
     public void verwijdergeselecteerdLid() {
-        Lid lid = tableOverview.getSelectionModel().selectedItemProperty().get();
+        ILid lid = tableOverview.getSelectionModel().selectedItemProperty().get();
         tableOverview.getSelectionModel().clearSelection();
         dpc.clearNaVerwijderen();
         if (lid != null) {
-            dc.verwijderLid(lid);
+            dc.verwijderLid(lid.getId());
             update();
         }
 
