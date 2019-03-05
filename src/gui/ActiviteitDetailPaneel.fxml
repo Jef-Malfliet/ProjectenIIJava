@@ -8,11 +8,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="703.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ActiviteitDetailPaneelController">
+<fx:root maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #00B4AB;">
          <children>
@@ -31,6 +32,27 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <children>
+            <HBox layoutX="40.0" layoutY="15.0" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
+               <children>
+                  <Label fx:id="lblNaam" prefHeight="28.0" prefWidth="115.0" text="Naam*">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="tfNaam" prefHeight="25.0" prefWidth="232.0" />
+                  <Label fx:id="lblNaamFout" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Gelieve een naam in te vullen" textAlignment="CENTER" textFill="#f26943">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="25.0" />
+               </VBox.margin>
+            </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
                   <Label fx:id="lblStartdatum" prefHeight="28.0" prefWidth="115.0" text="Startdatum*">
@@ -136,7 +158,7 @@
             </VBox>
          </children>
          <VBox.margin>
-            <Insets left="30.0" />
+            <Insets left="10.0" right="20.0" />
          </VBox.margin>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -180,4 +202,4 @@
          </VBox.margin>
       </HBox>
    </children>
-</VBox>
+</fx:root>

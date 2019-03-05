@@ -50,7 +50,9 @@ public class MainPanel extends BorderPane {
         opsc.setPrefSize(overzichtOpvraagWidth, height);
         LesmateriaalBeheerSceneController lmbs = new LesmateriaalBeheerSceneController(dc);
         lmbs.setPrefSize(beheerMateriaalWidth, height);
-        BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, opsc,lmbs);
+        ActiviteitDetailPaneelController adpc = new ActiviteitDetailPaneelController(dc);
+        ActiviteitOverzichtSceneController aosc = new ActiviteitOverzichtSceneController(dc, adpc);
+        BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, opsc, lmbs, aosc, adpc);
         bcc.setPrefSize(beheerderControlWidth, height);
 
         this.setCenter(osc);

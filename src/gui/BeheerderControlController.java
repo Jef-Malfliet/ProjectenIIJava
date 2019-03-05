@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -22,8 +22,6 @@ import util.FullScreenResolution;
  *
  * @author IndyV
  */
-
-
 public class BeheerderControlController extends VBox {
 
     private double sceneWidth = FullScreenResolution.getWidth() / 10 * 1.5;
@@ -44,6 +42,8 @@ public class BeheerderControlController extends VBox {
     private OverzichtSceneController osc;
     private OverzichtOpvraagSceneController opsc;
     private LesmateriaalBeheerSceneController lmbs;
+    private ActiviteitDetailPaneelController adpc;
+    private final ActiviteitOverzichtSceneController aosc;
 
     @FXML
     private Label lblLedenBeheren;
@@ -63,7 +63,7 @@ public class BeheerderControlController extends VBox {
      *
      * Initialiseert de GUI en zijn nodige dependencies.
      */
-    public BeheerderControlController(DomeinController dc, OverzichtSceneController osc, MainPanel mp, OverzichtOpvraagSceneController opsc, LesmateriaalBeheerSceneController lmbs) {
+    public BeheerderControlController(DomeinController dc, OverzichtSceneController osc, MainPanel mp, OverzichtOpvraagSceneController opsc, LesmateriaalBeheerSceneController lmbs, ActiviteitOverzichtSceneController aosc, ActiviteitDetailPaneelController adpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BeheerderControl.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -77,6 +77,8 @@ public class BeheerderControlController extends VBox {
         this.mp = mp;
         this.opsc = opsc;
         this.lmbs = lmbs;
+        this.adpc = adpc;
+        this.aosc = aosc;
 
         buildGui();
     }
@@ -89,7 +91,7 @@ public class BeheerderControlController extends VBox {
         //Adding click events for buttons.
         Image logo = new Image("/images/TaijitanLogo.png");
         imgLogo.setImage(logo);
-        
+
         changeBackgroundToRed(btnLedenBeheren);
         btnOverzichtenRaadplegen.setOnMouseClicked(e -> {
             overzichtRaadplegen();
@@ -112,6 +114,8 @@ public class BeheerderControlController extends VBox {
 
         btnStateActiviteitBeheren.setOnMouseClicked(e -> {
             activiteitenBeheren();
+            mp.setCenter(aosc);
+            mp.setRight(adpc);
         });
         setMaxScreen();
 

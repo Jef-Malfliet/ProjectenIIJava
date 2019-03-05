@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import persistentie.ActiviteitDao;
 import persistentie.ExportFiles;
 //import persistentie.IPersistentieController;
 import persistentie.LidDao;
@@ -21,6 +22,7 @@ public class Dojo {
 
     private final RolType type;
     private final ObservableList<ILid> leden;
+    private final ObservableList<IActiviteit> activiteiten;
     private final Comparator<ILid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
     private final Comparator<ILid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
     private final Comparator<ILid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
@@ -30,16 +32,18 @@ public class Dojo {
     private PropertyChangeSupport subject;
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
+    private ActiviteitDao activiteitRepo;
     private final List<Overzicht> overzichtList;
     private List<Kampioenschap> kampioenschappen;
-    private List<Activiteit> activiteiten;
     private List<Oefening> oefeningen;
 
-    public Dojo(LidDao lidRepo, OefeningDao oefeningRepo) {
+    public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo) {
         setLidRepo(lidRepo);
         setOefeningRepo(oefeningRepo);
+        setActiviteitDao(actRepo);
         this.type = RolType.BEHEERDER;
         leden = FXCollections.observableArrayList(this.lidRepo.findAll());
+        activiteiten = FXCollections.observableArrayList(this.activiteitRepo.findAll());
         filtered = new FilteredList<>(leden, (p) -> true);
         sorted = new SortedList<>(filtered, sortOrder);
         subject = new PropertyChangeSupport(this);
@@ -61,9 +65,9 @@ public class Dojo {
      *
      * @param lid
      */
-    public boolean wijzigLid(long id, String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land,String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type,LesType lessen) {
+    public boolean wijzigLid(long id, String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
         Lid temp = lidRepo.get(id);
-        temp.wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land,rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type,lessen);
+        temp.wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type, lessen);
         //ILid temp = lidRepo.update(lid);
         lidRepo.update(temp);
         subject.firePropertyChange("lijstleden", null, leden);
@@ -109,7 +113,7 @@ public class Dojo {
     }
 
     public ObservableList<ILid> getSortedLeden() {
-        fillSimplePropertiesForGui();
+        fillSimplePropertiesLidForGui();
         return sorted;
     }
 
@@ -117,8 +121,12 @@ public class Dojo {
         return filtered;
     }
 
-    private void fillSimplePropertiesForGui() {
+    private void fillSimplePropertiesLidForGui() {
         leden.forEach(lid -> ((Lid) lid).fillSimpleProperties());
+    }
+
+    private void fillSimplePropertiesActiviteitForGui() {
+        activiteiten.forEach(act -> ((Activiteit) act).fillSimpleProperties());
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pc1) {
@@ -152,18 +160,19 @@ public class Dojo {
         return oefeningRepo.get(id);
     }
 
-    public List<Activiteit> getActiviteitenList() {
+    public ObservableList<IActiviteit> getActiviteitenList() {
+        fillSimplePropertiesActiviteitForGui();
         return activiteiten;
     }
 
     public void lidInschrijven(long activiteitId, long lidId) {
-        Activiteit tempAct = activiteiten.stream().filter(a -> a.getId() == activiteitId).findFirst().orElse(null);
+        Activiteit tempAct = activiteitRepo.get(lidId);
         ILid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
         tempAct.lidInschrijven((Lid) tempLid);
     }
 
     public void lidUitschrijven(long activiteitId, long lidId) {
-        Activiteit tempAct = activiteiten.stream().filter(a -> a.getId() == activiteitId).findFirst().orElse(null);
+        Activiteit tempAct = activiteitRepo.get(lidId);
         ILid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
         tempAct.lidUitschrijven((Lid) tempLid);
     }
@@ -283,5 +292,9 @@ public class Dojo {
                         && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase()) && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
             }
         });
+    }
+
+    private void setActiviteitDao(ActiviteitDao actRepo) {
+        this.activiteitRepo = actRepo;
     }
 }

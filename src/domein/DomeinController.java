@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
+import persistentie.ActiviteitDao;
+import persistentie.ActiviteitDaoJpa;
 import persistentie.GenericDaoJpa;
 import persistentie.LidDao;
 import persistentie.LidDaoJpa;
@@ -16,11 +18,13 @@ public class DomeinController {
     private Dojo dojo;
     private LidDao lidRepository;
     private OefeningDao oefeningRepository;
+    private ActiviteitDao activiteitRepository;
 
     public DomeinController() {
         setLidRepository(new LidDaoJpa());
         setOefeningRepository(new OefeningDaoJpa());
-        dojo = new Dojo(this.lidRepository, oefeningRepository);
+        setActiviteitRepository(new ActiviteitDaoJpa());
+        dojo = new Dojo(lidRepository, oefeningRepository, activiteitRepository);
     }
 
     public List<String> toonLeden() {
@@ -50,13 +54,13 @@ public class DomeinController {
     }
 
     public boolean wijzigLid(long id, String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer,
-            String postcode, String stad, String land,String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden,
-            Geslacht geslacht, Graad graad, RolType type,LesType lessen) {
+            String postcode, String stad, String land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden,
+            Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
 
         GenericDaoJpa.startTransaction();
 
-        boolean lid1 = dojo.wijzigLid(id, voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land,rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum,
-                aanwezigheden, geslacht, graad, type,lessen);
+        boolean lid1 = dojo.wijzigLid(id, voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum,
+                aanwezigheden, geslacht, graad, type, lessen);
 
         GenericDaoJpa.commitTransaction();
         return lid1;
@@ -93,7 +97,7 @@ public class DomeinController {
     }
 
     public void maakOverzicht(OverzichtType type, String besNaam, String path) {
-        dojo.maakOverzicht(type, besNaam,path);
+        dojo.maakOverzicht(type, besNaam, path);
     }
 
     public List<Overzicht> getOverzicht() {
@@ -122,5 +126,13 @@ public class DomeinController {
 
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
         dojo.filter(voornaamFilter, familienaamFilter, graadFilter, typeFilter);
+    }
+
+    public ObservableList<IActiviteit> getActiviteiten() {
+        return dojo.getActiviteitenList();
+    }
+
+    private void setActiviteitRepository(ActiviteitDaoJpa activiteitDaoJpa) {
+        this.activiteitRepository = activiteitDaoJpa;
     }
 }

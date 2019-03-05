@@ -5,25 +5,30 @@
  */
 package gui;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import domein.DomeinController;
+import domein.IActiviteit;
+import domein.ILid;
+import java.io.IOException;
+import java.time.ZoneId;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
  *
  * @author Jef
  */
-public class ActiviteitDetailPaneelController implements Initializable {
-
+public class ActiviteitDetailPaneelController extends VBox {
+    
     @FXML
     private Label lblTitel;
     @FXML
@@ -45,13 +50,13 @@ public class ActiviteitDetailPaneelController implements Initializable {
     @FXML
     private Label lblAlleLeden;
     @FXML
-    private TableView<?> tvAlleLeden;
+    private TableView<ILid> tvAlleLeden;
     @FXML
-    private TableColumn<?, ?> tcVoornaamL;
+    private TableColumn<ILid, String> tcVoornaamL;
     @FXML
-    private TableColumn<?, ?> tcAchternaamL;
+    private TableColumn<ILid, String> tcAchternaamL;
     @FXML
-    private TableColumn<?, ?> tcGraadL;
+    private TableColumn<ILid, String> tcGraadL;
     @FXML
     private Button btnInschrijven;
     @FXML
@@ -59,40 +64,69 @@ public class ActiviteitDetailPaneelController implements Initializable {
     @FXML
     private Label lblIngeschreven;
     @FXML
-    private TableView<?> tvIngeschreven;
+    private TableView<ILid> tvIngeschreven;
     @FXML
-    private TableColumn<?, ?> tcVoonaamI;
+    private TableColumn<ILid, String> tcVoonaamI;
     @FXML
-    private TableColumn<?, ?> tcAchternaamI;
+    private TableColumn<ILid, String> tcAchternaamI;
     @FXML
-    private TableColumn<?, ?> tcGraadI;
+    private TableColumn<ILid, String> tcGraadI;
     @FXML
     private Button btnNieuweActiviteit;
     @FXML
     private Button btnVerwijderActiviteit;
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-
+    
+    private final DomeinController dc;
+    @FXML
+    private Label lblNaam;
+    @FXML
+    private Label lblNaamFout;
+    @FXML
+    private TextField tfNaam;
+    
+    public ActiviteitDetailPaneelController(DomeinController dc) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ActiviteitDetailPaneel.fxml"));
+        loader.setController(this);
+        loader.setRoot(this);
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        this.dc = dc;
+        buildGui();
+    }
+    
     @FXML
     private void bevestigWijziging(ActionEvent event) {
     }
-
+    
     @FXML
     private void annuleerwijziging(ActionEvent event) {
     }
-
+    
     @FXML
     private void schrijfIn(ActionEvent event) {
     }
-
+    
     @FXML
     private void schrijfUit(ActionEvent event) {
+    }
+    
+    private void buildGui() {
+        
+    }
+    
+    public void fillActiviteit(IActiviteit activiteit) {
+        tfNaam.clear();
+        dpStartdatum.getEditor().clear();
+        dpEinddatum.getEditor().clear();
+        cbStage.setSelected(false);
+        
+        tfNaam.setText(activiteit.getNaam());
+        dpStartdatum.setValue(activiteit.getStartDatum().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        dpEinddatum.setValue(activiteit.getEindDatum().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        cbStage.setSelected(activiteit.isStage());
     }
     
 }
