@@ -479,9 +479,9 @@ public class Lid implements Serializable, Exportable, ILid {
             ex.printStackTrace();
         }
 
-        if (getal % 97 != controle) {
-            throw new IllegalArgumentException("Controle voldoet niet");
-        }
+//        if (getal % 97 != controle) {
+//            throw new IllegalArgumentException("Controle voldoet niet");
+//        }
         this.rijksregisternummer = rijksregisternummer;
     }
 

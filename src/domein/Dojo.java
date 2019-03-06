@@ -104,6 +104,21 @@ public class Dojo {
         return false;
     }
 
+    public boolean voegActiviteitToe(Activiteit activiteit) {
+
+        if (!activiteiten.contains(activiteit)) {
+            if (activiteitRepo.get(activiteit.getId()) == null) {
+
+                activiteitRepo.insert(activiteit);
+
+                activiteiten.add(activiteit);
+                subject.firePropertyChange("lijstactiviteiten", null, activiteiten);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<ILid> getLijstLeden() {
         return leden;
     }
@@ -165,10 +180,8 @@ public class Dojo {
         return activiteiten;
     }
 
-    public void lidInschrijven(long activiteitId, long lidId) {
-        Activiteit tempAct = activiteitRepo.get(lidId);
-        ILid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
-        tempAct.lidInschrijven((Lid) tempLid);
+    public void lidInschrijven(Activiteit activiteit, Lid lid) {
+        activiteit.lidInschrijven(lid);
     }
 
     public void lidUitschrijven(long activiteitId, long lidId) {
@@ -296,5 +309,9 @@ public class Dojo {
 
     private void setActiviteitDao(ActiviteitDao actRepo) {
         this.activiteitRepo = actRepo;
+    }
+
+    Activiteit getActiviteit(long id) {
+        return activiteitRepo.get(id);
     }
 }

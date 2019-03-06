@@ -2,6 +2,7 @@ package domein;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
@@ -134,5 +135,30 @@ public class DomeinController {
 
     private void setActiviteitRepository(ActiviteitDaoJpa activiteitDaoJpa) {
         this.activiteitRepository = activiteitDaoJpa;
+    }
+
+    public boolean voegActiviteitToe(IActiviteit act1) {
+        GenericDaoJpa.startTransaction();
+        boolean act = dojo.voegActiviteitToe(new Activiteit(act1));
+        GenericDaoJpa.commitTransaction();
+        return act;
+    }
+
+    public List<ILid> geefIngeschrevenLeden(long activiteitId) {
+        List<ILid> iLeden = new ArrayList<>();
+        activiteitRepository.get(activiteitId).getAanwezigen().stream().forEach(l -> {
+            iLeden.add(l);
+        });
+        return iLeden;
+    }
+
+    public void schrijfLidIn(Activiteit activiteit, Lid lid) {
+        GenericDaoJpa.startTransaction();
+        dojo.lidInschrijven(activiteit, lid);
+        GenericDaoJpa.commitTransaction();
+    }
+
+    public Activiteit getActiviteit(long id) {
+        return dojo.getActiviteit(id);
     }
 }

@@ -6,6 +6,7 @@
 package domein;
 
 import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
@@ -20,5 +21,13 @@ public interface IActiviteit {
     
     Date getEindDatum();
     
-    boolean isStage(); 
+    boolean isStage();
+    
+    SimpleStringProperty getNaamProperty();
+    
+    SimpleStringProperty getBeginDatumProperty();
+    
+    SimpleStringProperty getEindDatumProperty();
+    
+    SimpleStringProperty getStageProperty();
 }
