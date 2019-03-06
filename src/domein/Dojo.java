@@ -23,6 +23,7 @@ public class Dojo {
     private final RolType type;
     private final ObservableList<ILid> leden;
     private final ObservableList<IActiviteit> activiteiten;
+    private final ObservableList<IOefening> oefeningen;
     private final Comparator<ILid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
     private final Comparator<ILid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
     private final Comparator<ILid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
@@ -35,7 +36,6 @@ public class Dojo {
     private ActiviteitDao activiteitRepo;
     private final List<Overzicht> overzichtList;
     private List<Kampioenschap> kampioenschappen;
-    private List<Oefening> oefeningen;
 
     public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo) {
         setLidRepo(lidRepo);
@@ -48,7 +48,7 @@ public class Dojo {
         sorted = new SortedList<>(filtered, sortOrder);
         subject = new PropertyChangeSupport(this);
         overzichtList = new ArrayList();
-        oefeningen = oefeningRepo.findAll();
+        oefeningen = FXCollections.observableArrayList(oefeningRepo.findAll());
     }
 
     /**
@@ -129,9 +129,10 @@ public class Dojo {
         activiteiten.forEach(act -> ((Activiteit) act).fillSimpleProperties());
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener pc1) {
-        subject.addPropertyChangeListener(pc1);
-        pc1.propertyChange(new PropertyChangeEvent(pc1, "lijstleden", null, leden));
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        subject.addPropertyChangeListener(pcl);
+        pcl.propertyChange(new PropertyChangeEvent(pcl, "lijstleden", null, leden));
+        pcl.propertyChange(new PropertyChangeEvent(pcl, "lijstOefeningen", null, oefeningen));
 
     }
 
@@ -152,7 +153,8 @@ public class Dojo {
         return overzichtList;
     }
 
-    public List<Oefening> getOefeningen() {
+    public ObservableList<IOefening> getOefeningen() {
+        oefeningen.forEach(oef -> ((Oefening) oef).fillSimpleString());
         return oefeningen;
     }
 
@@ -182,10 +184,18 @@ public class Dojo {
      * @param oefening
      */
     public void addOefening(Oefening oefening) {
-        this.oefeningen.add(oefening);
-        GenericDaoJpa.startTransaction();
-        oefeningRepo.insert(oefening);
-        GenericDaoJpa.commitTransaction();
+        if (!oefeningen.contains(oefening)) {
+            if (oefeningRepo.get(oefening.getId()) == null) {
+                this.oefeningen.add(oefening);
+                oefeningRepo.insert(oefening);
+                subject.firePropertyChange("lijstOefeningen", null, leden);
+            }
+        }
+    }
+
+    public void wijzigOefening(Oefening oefening) {
+        oefeningRepo.update(oefening);
+        subject.firePropertyChange("lijstOefeningen", null, leden);
     }
 
     private void setOefeningRepo(OefeningDao oefeningRepo) {
@@ -296,5 +306,10 @@ public class Dojo {
 
     private void setActiviteitDao(ActiviteitDao actRepo) {
         this.activiteitRepo = actRepo;
+    }
+
+    public void verwijderLesMateriaal(long id) {
+        Oefening oef = oefeningRepo.get(id);
+        this.oefeningRepo.delete(oef);
     }
 }
