@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -67,16 +69,16 @@ public class Lid implements Serializable, Exportable, ILid {
 
     public Lid(ILid lid) {
         this(lid.getVoornaam(), lid.getFamilienaam(), lid.getWachtwoord(), lid.getGsm(), lid.getTelefoon_vast(), lid.getStraatnaam(), lid.getHuisnummer(), lid.getBusnummer(), lid.getPostcode(), lid.getStad(),
-                lid.getLand(),lid.getRijksregisternummer(), lid.getEmail(), lid.getEmail_ouders(), lid.getGeboortedatum(), lid.getInschrijvingsdatum(), lid.getAanwezigheden(), lid.getGeslacht(), lid.getGraad(), lid.getType(),lid.getLessen());
+                lid.getLand(), lid.getRijksregisternummer(), lid.getEmail(), lid.getEmail_ouders(), lid.getGeboortedatum(), lid.getInschrijvingsdatum(), lid.getAanwezigheden(), lid.getGeslacht(), lid.getGraad(), lid.getType(), lid.getLessen());
 
     }
 
-    public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land,String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type,LesType lessen) {
-        wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land,rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type,lessen);
+    public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
+        wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type, lessen);
 
     }
 
-    public final void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land,String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type,LesType lessen) {
+    public final void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
         setVoornaam(voornaam);
         setFamilienaam(familienaam);
         setWachtwoord(wachtwoord);
@@ -431,6 +433,7 @@ public class Lid implements Serializable, Exportable, ILid {
         }
         return initials.toString();
     }
+
     @Override
     public LesType getLessen() {
         return lessen;
@@ -446,10 +449,40 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setRijksregisternummer(String rijksregisternummer) {
+        if (rijksregisternummer == null || rijksregisternummer.isEmpty()) {
+            throw new IllegalArgumentException("Rijksregisternummer mag niet leeg zijn");
+        }
+        
+        String pattern = "^([0-9]{2}).(0[1-9]|1[0-2]).((0[1-9])|(1[0-9])|(2[0-9]|3[0-1]))-([0-9]{3}).([0-9]{2})$";
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(rijksregisternummer);
+//        if (!rijksregisternummer.matches("^[0-9]{2}.(0[1-9]|1[0-2]).((0[1-9])|(1[0-9])|(2[0-9]|3[0-1]))-[0-9]{3}.[0-9]{2}$")) {
+//            throw new IllegalArgumentException("Rijksregisternummer voldoet niet aan het juiste formaat");
+//        }
+        if (!m.matches()) {
+            throw new IllegalArgumentException("Rijksregisternummer voldoet niet aan het juiste formaat");
+        }
+
+        int controle = 0;
+        int getal = 0;
+        StringBuilder sb = new StringBuilder();
+        sb.append(m.group(1)).append(m.group(2)).append(m.group(3)).append(m.group(7));
+        
+        try {
+//            m.group(1);//jaar
+//            m.group(2);//maand
+//            m.group(3);//dag
+//            m.group(7);//3 nummers
+            getal = Integer.parseInt(sb.toString());
+            controle = Integer.parseInt(m.group(8));//controle cijfer
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+        }
+
+        if (getal % 97 != controle) {
+            throw new IllegalArgumentException("Controle voldoet niet");
+        }
         this.rijksregisternummer = rijksregisternummer;
     }
-    
-    
-    
 
 }
