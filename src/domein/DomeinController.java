@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import persistentie.ActiviteitDao;
 import persistentie.ActiviteitDaoJpa;
@@ -104,8 +105,8 @@ public class DomeinController {
         return dojo.getOverzichtList();
     }
 
-    public List<Oefening> getLesmateriaal() {
-        return dojo.getOefeningen();
+    public ObservableList<IOefening> getLesmateriaal() {
+        return FXCollections.unmodifiableObservableList(dojo.getOefeningen());
     }
 
     /**
@@ -113,7 +114,22 @@ public class DomeinController {
      * @param oefening
      */
     public void addLesMateriaal(Oefening oefening) {
+        GenericDaoJpa.startTransaction();
         dojo.addOefening(oefening);
+        GenericDaoJpa.commitTransaction();
+    }
+
+    public void wijzigLesMateriaal(Oefening oefening) {
+        GenericDaoJpa.startTransaction();
+        dojo.wijzigOefening(oefening);
+        GenericDaoJpa.commitTransaction();
+
+    }
+
+    public void verwijderLesMateriaal(long id) {
+        GenericDaoJpa.startTransaction();
+        dojo.verwijderLesMateriaal(id);
+        GenericDaoJpa.commitTransaction();
     }
 
     public Oefening getOefening(Long id) {

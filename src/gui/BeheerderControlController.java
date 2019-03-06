@@ -41,10 +41,10 @@ public class BeheerderControlController extends VBox {
     private MainPanel mp;
     private OverzichtSceneController osc;
     private OverzichtOpvraagSceneController opsc;
-    private LesmateriaalBeheerSceneController lmbs;
+    private LesmateriaalDetailPaneelController ldpc;
     private ActiviteitDetailPaneelController adpc;
     private final ActiviteitOverzichtSceneController aosc;
-
+    private final LesmateriaalOverzichtSceneController losc;
     @FXML
     private Label lblLedenBeheren;
     @FXML
@@ -63,7 +63,12 @@ public class BeheerderControlController extends VBox {
      *
      * Initialiseert de GUI en zijn nodige dependencies.
      */
-    public BeheerderControlController(DomeinController dc, OverzichtSceneController osc, MainPanel mp, OverzichtOpvraagSceneController opsc, LesmateriaalBeheerSceneController lmbs, ActiviteitOverzichtSceneController aosc, ActiviteitDetailPaneelController adpc) {
+    public BeheerderControlController(DomeinController dc, OverzichtSceneController osc, MainPanel mp,
+            OverzichtOpvraagSceneController opsc, 
+            LesmateriaalDetailPaneelController ldpc,
+            ActiviteitOverzichtSceneController aosc, 
+            ActiviteitDetailPaneelController adpc,
+            LesmateriaalOverzichtSceneController losc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BeheerderControl.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -76,10 +81,10 @@ public class BeheerderControlController extends VBox {
         this.dc = dc;
         this.mp = mp;
         this.opsc = opsc;
-        this.lmbs = lmbs;
+        this.ldpc = ldpc;
         this.adpc = adpc;
         this.aosc = aosc;
-
+        this.losc = losc;
         buildGui();
     }
 
@@ -107,8 +112,8 @@ public class BeheerderControlController extends VBox {
 
         btnLesmateriaalBeheren.setOnMouseClicked(e -> {
             lesmateriaalBeheren();
-            mp.setCenter(lmbs);
-            mp.setRight(null);
+            mp.setCenter(losc);
+            mp.setRight(ldpc);
 
         });
 
