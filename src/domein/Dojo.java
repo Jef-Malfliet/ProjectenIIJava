@@ -144,7 +144,7 @@ public class Dojo {
         lidRepo = mock;
     }
 
-    public void maakOverzicht(OverzichtType type, String besNaam, String path) {
+    public void maakOverzicht(OverzichtType type, String besNaam, String path, List<Object> extraParameters) {
         ExportFiles.toExcel(leden, 25, 20, path);
     }
 
