@@ -64,6 +64,12 @@ public class Lid implements Serializable, Exportable, ILid {
     @Transient
     private SimpleStringProperty familienaamProperty = new SimpleStringProperty();
 
+    @Transient
+    private SimpleStringProperty lessenProperty = new SimpleStringProperty();
+
+    @Transient
+    private SimpleStringProperty inschrijvingsDatumProperty = new SimpleStringProperty();
+
     public Lid() {
     }
 
@@ -108,6 +114,8 @@ public class Lid implements Serializable, Exportable, ILid {
         this.setVoornaamProperty(new SimpleStringProperty(this.getVoornaam()));
         this.setTypeProperty(new SimpleStringProperty(this.getType().toString()));
         this.setFamilienaamProperty(new SimpleStringProperty(this.getFamilienaam()));
+        this.setLessenProperty(new SimpleStringProperty(this.getLessen().toString()));
+        this.setInschrijvingsDatumProperty(new SimpleStringProperty(this.getInschrijvingsdatum().toString()));
     }
 
     @Override
@@ -476,6 +484,24 @@ public class Lid implements Serializable, Exportable, ILid {
         }
 
         this.rijksregisternummer = rijksregisternummer;
+    }
+
+    @Override
+    public SimpleStringProperty getLessenProperty() {
+        return lessenProperty;
+    }
+
+    private void setLessenProperty(SimpleStringProperty simpleStringProperty) {
+        this.lessenProperty = simpleStringProperty;
+    }
+
+    @Override
+    public SimpleStringProperty getInschrijvingsDatumProperty() {
+        return inschrijvingsDatumProperty;
+    }
+
+    private void setInschrijvingsDatumProperty(SimpleStringProperty simpleStringProperty) {
+        this.inschrijvingsDatumProperty = simpleStringProperty;
     }
 
 }
