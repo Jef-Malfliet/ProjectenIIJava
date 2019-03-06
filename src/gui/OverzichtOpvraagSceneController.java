@@ -6,6 +6,7 @@
 package gui;
 
 import domein.DomeinController;
+import domein.FicheType;
 import domein.LesType;
 import domein.Overzicht;
 import domein.OverzichtType;
@@ -76,6 +77,8 @@ public class OverzichtOpvraagSceneController extends HBox {
     private Label lblBesNaam;
 
     private List<Object> extraParameters;
+    @FXML
+    private Label lblExtraParameters;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -150,49 +153,54 @@ public class OverzichtOpvraagSceneController extends HBox {
         typeCol.prefWidthProperty().bind(tblOverzicht.widthProperty().divide(3));
         datumCol.prefWidthProperty().bind(tblOverzicht.widthProperty().divide(3));
 
-        cboType.setPrefWidth(sceneWidth);
-        lblOverzicht.setPrefWidth(sceneWidth);
+        cboType.setPrefWidth(sceneWidth/4.5);
+        lblOverzicht.setPrefWidth(sceneWidth/4.5);
 
-        lblBesNaam.setPrefWidth(sceneWidth);
-        txtBesNaam.setPrefWidth(sceneWidth);
+        lblBesNaam.setPrefWidth(sceneWidth/4.5);
+        txtBesNaam.setPrefWidth(sceneWidth/4.5);
 
-        btnSlaOp.setPrefWidth(sceneWidth);
-        btnSearch.setPrefWidth(sceneWidth);
+        btnSlaOp.setPrefWidth(sceneWidth/4.5);
+        btnSearch.setPrefWidth(sceneWidth/4.5);
+        
+        lblExtraParameters.setPrefWidth(sceneWidth/2);
     }
 
     private void makeExtraParamScreen(OverzichtType type) {
+
+        Label lblDatum = new Label("Op datum");
+        DatePicker datePicker = new DatePicker();
+        lblDatum.setPrefWidth((sceneWidth / 2) / 2.1);
+        datePicker.setPrefWidth((sceneWidth / 2) / 2.1);
+        VBox vBoxDatum = new VBox();
+        VBox.setMargin(vBoxDatum, new Insets(10));
+        vBoxDatum.getChildren().addAll(lblDatum, datePicker);
+
+        Label lblLidNaam = new Label("Op lid");
+        TextField txfLidNaam = new TextField();
+        lblLidNaam.setPrefWidth((sceneWidth / 2) / 2.1);
+        txfLidNaam.setPrefWidth((sceneWidth / 2) / 2.1);
+        VBox vBoxLid = new VBox();
+        VBox.setMargin(vBoxLid, new Insets(10));
+        vBoxLid.getChildren().addAll(lblLidNaam, txfLidNaam);
+
+        Label lblFormule = new Label("Op formule");
+        ComboBox cboFormule = new ComboBox();
+        lblFormule.setPrefWidth(((sceneWidth / 2) / 2.1));
+        cboFormule.setPrefWidth((sceneWidth / 2) / 2.1);
+        cboFormule.setPromptText("Kies een formule");
+        cboFormule.setItems(FXCollections.observableArrayList(Arrays.asList(LesType.values())));
+        VBox vBoxFormule = new VBox();
+        VBox.setMargin(vBoxFormule, new Insets(10));
+        vBoxFormule.getChildren().addAll(lblFormule, cboFormule);
+
+        Label lblLidFiche = new Label("Genereer een extra fiche per lid");
+        lblLidFiche.setPrefWidth((sceneWidth / 2) / 2.1);
+        CheckBox cb = new CheckBox();
+
         switch (type) {
             case AANWEZIGHEID:
                 hBoxContainer.getChildren().clear();
                 extraParameters.clear();
-
-                Label lblDatum = new Label("Op datum");
-                DatePicker datePicker = new DatePicker();
-                lblDatum.setPrefWidth((sceneWidth / 2) / 2);
-                datePicker.setPrefWidth((sceneWidth / 2) / 2);
-                VBox vBoxDatum = new VBox();
-                VBox.setMargin(vBoxDatum, new Insets(10));
-                vBoxDatum.getChildren().addAll(lblDatum, datePicker);
-
-                Label lblLidNaam = new Label("Op lid");
-                TextField txfLidNaam = new TextField();
-                lblLidNaam.setPrefWidth((sceneWidth / 2) / 2);
-                txfLidNaam.setPrefWidth((sceneWidth / 2) / 2);
-                VBox vBoxLid = new VBox();
-                VBox.setMargin(vBoxLid, new Insets(10));
-                vBoxLid.getChildren().addAll(lblLidNaam, txfLidNaam);
-
-                Label lblFormule = new Label("op formule");
-                ComboBox cboFormule = new ComboBox();
-                //cboFormule.getItems().addAll(LesType.values());
-                lblFormule.setPrefWidth(((sceneWidth / 2) / 2));
-                cboFormule.setPrefWidth((sceneWidth / 2) / 2);
-                cboFormule.setPromptText("Kies een formule");
-                cboFormule.setItems(FXCollections.observableArrayList(Arrays.asList(LesType.values())));
-                VBox vBoxFormule = new VBox();
-                VBox.setMargin(vBoxFormule, new Insets(10));
-                vBoxFormule.getChildren().addAll(lblFormule, cboFormule);
-
                 extraParameters.addAll(Arrays.asList(datePicker, txfLidNaam, cboFormule));
                 hBoxContainer.getChildren().addAll(vBoxLid, vBoxDatum, vBoxFormule);
                 break;
@@ -200,14 +208,12 @@ public class OverzichtOpvraagSceneController extends HBox {
                 hBoxContainer.getChildren().clear();
                 extraParameters.clear();
 
-                Label lblLidFische = new Label("Genereer een extra fische");
-                CheckBox cb = new CheckBox();
-                HBox hBoxFische = new HBox();
-                hBoxFische.getChildren().addAll(cb, lblLidFische);
-                HBox.setMargin(hBoxFische, new Insets(10));
+                HBox hBoxFiche = new HBox();
+                HBox.setMargin(hBoxFiche, new Insets(10));
+                hBoxFiche.getChildren().addAll(cb, lblLidFiche);
 
                 extraParameters.addAll(Arrays.asList(cb));
-                hBoxContainer.getChildren().addAll(hBoxFische);
+                hBoxContainer.getChildren().addAll(hBoxFiche);
                 break;
             case CLUBKAMPIOENSCHAP:
                 hBoxContainer.getChildren().clear();
@@ -216,6 +222,22 @@ public class OverzichtOpvraagSceneController extends HBox {
             case INSCHRIJVING:
                 hBoxContainer.getChildren().clear();
                 extraParameters.clear();
+
+                ComboBox cboFicheType = new ComboBox();
+                cboFicheType.setPromptText("Genereer een fiche");
+                cboFicheType.setItems(FXCollections.observableArrayList(Arrays.asList(FicheType.values())));
+                cboFicheType.setPrefWidth((sceneWidth / 2) / 2.1);
+
+                HBox hBoxIFiche = new HBox();
+                HBox.setMargin(hBoxIFiche, new Insets(5));
+                hBoxIFiche.getChildren().addAll(cb, cboFicheType);
+
+                VBox vBoxIFiche = new VBox();
+                VBox.setMargin(vBoxIFiche, new Insets(10));
+                vBoxIFiche.getChildren().addAll(lblLidFiche, hBoxIFiche);
+
+                extraParameters.addAll(Arrays.asList(datePicker, txfLidNaam, cboFormule, cboFicheType));
+                hBoxContainer.getChildren().addAll(vBoxLid, vBoxDatum, vBoxFormule, vBoxIFiche);
                 break;
             case LESMATERIAAL:
                 hBoxContainer.getChildren().clear();
