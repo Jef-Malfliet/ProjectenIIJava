@@ -12,5 +12,6 @@ package domein;
 public enum FicheType {
     TRY,
     VIJF,
-    BEIDE
+    BEIDE,
+    GEEN
 }
