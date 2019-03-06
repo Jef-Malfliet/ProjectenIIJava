@@ -67,5 +67,9 @@ public interface ILid extends Serializable, Exportable {
     SimpleStringProperty getGraadProperty();
 
     SimpleStringProperty getTypeProperty();
+    
+    SimpleStringProperty getLessenProperty();
+    
+    SimpleStringProperty getInschrijvingsDatumProperty();
 
 }

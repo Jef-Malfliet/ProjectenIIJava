@@ -11,6 +11,7 @@ import domein.Geslacht;
 import domein.Graad;
 import domein.LesType;
 import domein.Lid;
+import domein.Oefening;
 import domein.RolType;
 import gui.MainPanel;
 import java.time.LocalDate;
@@ -67,6 +68,14 @@ public class StartUp extends Application {
         dc.schrijfLidIn(act2, lid1);
         dc.schrijfLidIn(act2, lid2);
 
+        Oefening oef1 = new Oefening(Graad.GROEN, "Test1");
+        Oefening oef2 = new Oefening(Graad.DAN11, "Test2");
+        Oefening oef3 = new Oefening(Graad.BLAUW, "Test3");
+
+        dc.addLesMateriaal(oef3);
+        dc.addLesMateriaal(oef2);
+        dc.addLesMateriaal(oef1);
+        
         MainPanel root = new MainPanel(dc);
 
         Scene scene = new Scene(root);

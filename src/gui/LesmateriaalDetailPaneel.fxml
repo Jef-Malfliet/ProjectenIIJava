@@ -6,11 +6,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.web.WebView?>
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -25,7 +23,7 @@
       </HBox>
       <HBox prefHeight="49.0" prefWidth="600.0">
          <children>
-            <Label alignment="CENTER" prefHeight="58.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;" text="Maak een nieuwe oefening aan" textFill="#00b4ab">
+            <Label fx:id="lblTitel" alignment="CENTER" prefHeight="58.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;" text="Maak een nieuwe oefening aan" textFill="#00b4ab">
                <font>
                   <Font name="Quicksand-Regular" size="17.0" />
                </font>
@@ -94,6 +92,19 @@
                   </Button>
                </children>
             </HBox>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="205.0" text="Fotos" textAlignment="JUSTIFY">
+                     <font>
+                        <Font name="Quicksand-Regular" size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <VBox fx:id="vbImages" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+               </children>
+            </HBox>
             <HBox>
                <children>
                   <Label prefHeight="17.0" prefWidth="205.0" text="Geef URL Video" textAlignment="JUSTIFY">
@@ -112,15 +123,19 @@
                   <Insets />
                </VBox.margin>
                <children>
-                  <Button fx:id="btnMaakOefening" mnemonicParsing="false" onAction="#maakOefening" prefWidth="200.0" text="Maak oefening">
+                  <Button fx:id="btnMaakOefening" mnemonicParsing="false" onAction="#maakOefening" text="Nieuwe Oefening">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="225.0" top="10.0" />
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </HBox.margin></Button>
-                  <Label fx:id="lblWarning" textFill="#b90000">
+                  <Button fx:id="btnverwijderOefening" mnemonicParsing="false" onAction="#verwijderOefening" text="Verwijder Oefening">
                      <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="btnBevestig" mnemonicParsing="false" onAction="#bevestig" text="Bevestig">
+                     <HBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </HBox.margin>
-                  </Label>
+                  </Button>
                </children>
             </HBox>
          </children>
@@ -128,11 +143,5 @@
             <Insets />
          </VBox.margin>
       </VBox>
-      <Button fx:id="btnHaalOp" mnemonicParsing="false" onAction="#haalImageOp" prefWidth="200.0" text="Haal image op">
-         <VBox.margin>
-            <Insets bottom="10.0" left="225.0" top="5.0" />
-         </VBox.margin></Button>
-      <ImageView fx:id="ivPhoto" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-      <WebView fx:id="wvYoutube" prefHeight="200.0" prefWidth="600.0" />
    </children>
 </fx:root>

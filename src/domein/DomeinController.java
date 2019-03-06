@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import persistentie.ActiviteitDao;
 import persistentie.ActiviteitDaoJpa;
@@ -97,16 +98,16 @@ public class DomeinController {
 
     }
 
-    public void maakOverzicht(OverzichtType type, String besNaam, String path) {
-        dojo.maakOverzicht(type, besNaam, path);
+    public void maakOverzicht(OverzichtType type, String besNaam, String path, List<Object> extraParameters) {
+        dojo.maakOverzicht(type, besNaam, path, extraParameters);
     }
 
     public List<Overzicht> getOverzicht() {
         return dojo.getOverzichtList();
     }
 
-    public List<Oefening> getLesmateriaal() {
-        return dojo.getOefeningen();
+    public ObservableList<IOefening> getLesmateriaal() {
+        return FXCollections.unmodifiableObservableList(dojo.getOefeningen());
     }
 
     /**
@@ -114,7 +115,22 @@ public class DomeinController {
      * @param oefening
      */
     public void addLesMateriaal(Oefening oefening) {
+        GenericDaoJpa.startTransaction();
         dojo.addOefening(oefening);
+        GenericDaoJpa.commitTransaction();
+    }
+
+    public void wijzigLesMateriaal(Oefening oefening) {
+        GenericDaoJpa.startTransaction();
+        dojo.wijzigOefening(oefening);
+        GenericDaoJpa.commitTransaction();
+
+    }
+
+    public void verwijderLesMateriaal(long id) {
+        GenericDaoJpa.startTransaction();
+        dojo.verwijderLesMateriaal(id);
+        GenericDaoJpa.commitTransaction();
     }
 
     public Oefening getOefening(Long id) {

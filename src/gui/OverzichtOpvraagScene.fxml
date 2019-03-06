@@ -3,10 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -18,33 +15,37 @@
          <children>
             <HBox>
                <children>
-                  <Label fx:id="lblOverzichtOpvragen" alignment="CENTER" minHeight="82.0" prefHeight="82.0" style="-fx-background-color: #00B4AB;" text="Overzicht opvragen" textAlignment="CENTER" textFill="#e6e6e6">
+                  <Label fx:id="lblOverzichtOpvragen" alignment="CENTER" minHeight="82.0" prefHeight="82.0" style="-fx-background-color: #00B4AB;" text="Overzicht opstellen" textAlignment="CENTER" textFill="#e6e6e6">
                      <font>
                         <Font name="Quicksand-Bold" size="31.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <HBox prefHeight="80.0">
+            <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="112.0" prefWidth="144.0">
+                  <VBox>
                      <children>
-                        <Label fx:id="lblOverzicht" prefHeight="25.0" text="Overzichtstype:">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <ComboBox fx:id="cboType" promptText="kies een type">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </ComboBox>
+                        <VBox prefHeight="80.0">
+                           <children>
+                              <Label fx:id="lblOverzicht" prefHeight="27.0" text="Overzichtstype:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ComboBox fx:id="cboType" prefHeight="25.0" promptText="kies een type">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                           </children>
+                        </VBox>
                      </children>
                   </VBox>
-                  <VBox prefHeight="112.0" prefWidth="144.0">
+                  <VBox prefHeight="80.0">
                      <children>
                         <Label fx:id="lblBesNaam" prefHeight="25.0" text="Bestandsnaam:">
                            <font>
@@ -54,68 +55,53 @@
                               <Insets left="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="txtBesNaam" prefHeight="25.0">
+                        <TextField fx:id="txtBesNaam">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </TextField>
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="144.0">
+                  <VBox prefHeight="80.0">
                      <children>
                         <Button fx:id="btnSlaOp" mnemonicParsing="false" onAction="#openDirectoryChooser" prefHeight="25.0" text="Kies locatie">
                            <VBox.margin>
-                              <Insets bottom="12.0" left="12.0" right="12.0" top="20.0" />
-                           </VBox.margin>
-                        </Button>
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="144.0">
-                     <children>
-                        <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#maakOverzicht" prefHeight="25.0" text="Maak">
-                           <VBox.margin>
-                              <Insets bottom="12.0" left="12.0" right="12.0" top="20.0" />
+                              <Insets bottom="12.0" left="12.0" right="12.0" top="35.0" />
                            </VBox.margin>
                         </Button>
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <HBox maxHeight="50.0" minHeight="50.0">
+            <Label fx:id="lblExtraParameters" alignment="CENTER" maxHeight="27.0" text="Extra parameters">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <VBox fx:id="vBoxContainer" alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" prefHeight="61.0" prefWidth="602.0" text="Extra parametes">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
+                  <HBox fx:id="hBoxTopRow" spacing="10.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                     </VBox.margin></HBox>
+                  <HBox fx:id="hBoxUnderRow" alignment="CENTER_LEFT" spacing="10.0">
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                     </VBox.margin></HBox>
                </children>
-            </HBox>
-            <HBox fx:id="hBoxContainer">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin></VBox>
+            <HBox>
                <children>
-                  <VBox>
-                     <children>
-                        <Label fx:id="lblNaam" text="Naam lid" />
-                        <TextField fx:id="txfNaamLid" />
-                     </children>
+                  <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#maakOverzicht" prefHeight="25.0" text="Maak">
                      <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets bottom="5.0" left="10.0" />
                      </HBox.margin>
-                  </VBox>
-                  <VBox>
-                     <children>
-                        <Label fx:id="lblDatum" text="Datum" />
-                        <DatePicker fx:id="datDatePicker" />
-                     </children>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </VBox>
+                  </Button>
                </children>
             </HBox>
          </children>
@@ -124,23 +110,14 @@
          <children>
             <HBox prefWidth="600.0">
                <children>
-                  <Label fx:id="lblOverzichtRaadplegen" alignment="CENTER" minHeight="82.0" prefHeight="82.0" style="-fx-background-color: #00B4AB;" text="Overzicht raadplegen" textAlignment="CENTER" textFill="#e6e6e6">
+                  <Label fx:id="lblOverzichtRaadplegen" alignment="CENTER" minHeight="82.0" prefHeight="82.0" style="-fx-background-color: #00B4AB;" text="Overzicht preview" textAlignment="CENTER" textFill="#e6e6e6">
                      <font>
                         <Font name="Quicksand-Bold" size="31.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <TableView fx:id="tblOverzicht">
-              <columns>
-                <TableColumn fx:id="overzichtCol" prefWidth="75.0" text="Overzicht" />
-                <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
-                  <TableColumn fx:id="datumCol" prefWidth="75.0" text="Datum" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
+            <HBox fx:id="hBoxTableContainer" />
          </children>
       </VBox>
    </children>

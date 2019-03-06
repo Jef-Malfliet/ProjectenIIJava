@@ -252,7 +252,7 @@ public class DetailPaneelController extends VBox {
             errorOn(lblM_Inschrijvingsdatum, null, "Gelieve een datum in te vullen");
         }
 
-        if (!txtRijksregisternummer.getText().matches("//d{2}\\.//d{2}\\.//d{2}\\-//d{3}\\.//d{2}")) {
+        if (!txtRijksregisternummer.getText().matches("^([0-9]{2}).(0[1-9]|1[0-2]).((0[1-9])|(1[0-9])|(2[0-9]|3[0-1]))-([0-9]{3}).([0-9]{2})$")) {
             errorOn(lblM_Rijkregisternummer, txtRijksregisternummer, "Geen geldig rijkregisternummer");
         }
         if (!(txtVasteTelefoon.getText().matches("") || txtVasteTelefoon.getText().matches("/") || txtVasteTelefoon.getText().matches("0\\d{8}") || txtVasteTelefoon.getText().matches("00\\d{10}"))) {

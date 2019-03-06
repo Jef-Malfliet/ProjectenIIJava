@@ -64,6 +64,12 @@ public class Lid implements Serializable, Exportable, ILid {
     @Transient
     private SimpleStringProperty familienaamProperty = new SimpleStringProperty();
 
+    @Transient
+    private SimpleStringProperty lessenProperty = new SimpleStringProperty();
+
+    @Transient
+    private SimpleStringProperty inschrijvingsDatumProperty = new SimpleStringProperty();
+
     public Lid() {
     }
 
@@ -108,6 +114,8 @@ public class Lid implements Serializable, Exportable, ILid {
         this.setVoornaamProperty(new SimpleStringProperty(this.getVoornaam()));
         this.setTypeProperty(new SimpleStringProperty(this.getType().toString()));
         this.setFamilienaamProperty(new SimpleStringProperty(this.getFamilienaam()));
+        this.setLessenProperty(new SimpleStringProperty(this.getLessen().toString()));
+        this.setInschrijvingsDatumProperty(new SimpleStringProperty(this.getInschrijvingsdatum().toString()));
     }
 
     @Override
@@ -452,13 +460,10 @@ public class Lid implements Serializable, Exportable, ILid {
         if (rijksregisternummer == null || rijksregisternummer.isEmpty()) {
             throw new IllegalArgumentException("Rijksregisternummer mag niet leeg zijn");
         }
-        
+
         String pattern = "^([0-9]{2}).(0[1-9]|1[0-2]).((0[1-9])|(1[0-9])|(2[0-9]|3[0-1]))-([0-9]{3}).([0-9]{2})$";
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(rijksregisternummer);
-//        if (!rijksregisternummer.matches("^[0-9]{2}.(0[1-9]|1[0-2]).((0[1-9])|(1[0-9])|(2[0-9]|3[0-1]))-[0-9]{3}.[0-9]{2}$")) {
-//            throw new IllegalArgumentException("Rijksregisternummer voldoet niet aan het juiste formaat");
-//        }
         if (!m.matches()) {
             throw new IllegalArgumentException("Rijksregisternummer voldoet niet aan het juiste formaat");
         }
@@ -467,22 +472,36 @@ public class Lid implements Serializable, Exportable, ILid {
         int getal = 0;
         StringBuilder sb = new StringBuilder();
         sb.append(m.group(1)).append(m.group(2)).append(m.group(3)).append(m.group(7));
-        
         try {
-//            m.group(1);//jaar
-//            m.group(2);//maand
-//            m.group(3);//dag
-//            m.group(7);//3 nummers
             getal = Integer.parseInt(sb.toString());
             controle = Integer.parseInt(m.group(8));//controle cijfer
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
         }
+        int modulo = getal % 97;
+        if (97 - modulo != controle) {
+            throw new IllegalArgumentException("Controlegetal klopt niet");
+        }
 
-//        if (getal % 97 != controle) {
-//            throw new IllegalArgumentException("Controle voldoet niet");
-//        }
         this.rijksregisternummer = rijksregisternummer;
+    }
+
+    @Override
+    public SimpleStringProperty getLessenProperty() {
+        return lessenProperty;
+    }
+
+    private void setLessenProperty(SimpleStringProperty simpleStringProperty) {
+        this.lessenProperty = simpleStringProperty;
+    }
+
+    @Override
+    public SimpleStringProperty getInschrijvingsDatumProperty() {
+        return inschrijvingsDatumProperty;
+    }
+
+    private void setInschrijvingsDatumProperty(SimpleStringProperty simpleStringProperty) {
+        this.inschrijvingsDatumProperty = simpleStringProperty;
     }
 
 }
