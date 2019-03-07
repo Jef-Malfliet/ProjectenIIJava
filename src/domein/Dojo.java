@@ -13,9 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import persistentie.ActiviteitDao;
 import persistentie.ExportFiles;
-//import persistentie.IPersistentieController;
 import persistentie.LidDao;
-import persistentie.GenericDaoJpa;
 import persistentie.OefeningDao;
 
 public class Dojo {
@@ -160,8 +158,8 @@ public class Dojo {
         lidRepo = mock;
     }
 
-    public void maakOverzicht(OverzichtType type, String besNaam, String path, List<Object> extraParameters) {
-        ExportFiles.toExcel(leden, 25, 20, path);
+    public void maakOverzicht(List<String> overzicht, String headers, String path) {
+        ExportFiles.toExcel(overzicht, headers, 25, 20, path);
     }
 
     public List<Overzicht> getOverzichtList() {
@@ -207,10 +205,10 @@ public class Dojo {
     }
 
     public void wijzigOefening(Oefening nieuweWaarden, long id) {
-
         Oefening origin = oefeningRepo.getOefeningById(id);
         origin.mergeOefening(nieuweWaarden);
         oefeningRepo.update(origin);
+
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 
@@ -326,11 +324,11 @@ public class Dojo {
 
     public void verwijderLesMateriaal(long id) {
         Oefening oef = oefeningRepo.get(id);
-        System.out.println(id+"GAT VERWIJDEREN");
-        System.out.println(oef.getId() + " - "+id);
+        System.out.println(id + "GAT VERWIJDEREN");
+        System.out.println(oef.getId() + " - " + id);
         this.oefeningRepo.delete(oef);
         this.oefeningen.remove(oef);
-        System.out.println(id+"DELETED");
+        System.out.println(id + "DELETED");
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 

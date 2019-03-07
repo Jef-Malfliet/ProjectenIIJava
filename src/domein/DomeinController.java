@@ -98,8 +98,8 @@ public class DomeinController {
 
     }
 
-    public void maakOverzicht(OverzichtType type, String besNaam, String path, List<Object> extraParameters) {
-        dojo.maakOverzicht(type, besNaam, path, extraParameters);
+    public void maakOverzicht(List<String> overzicht, String headers, String path) {
+        dojo.maakOverzicht(overzicht, headers, path);
     }
 
     public List<Overzicht> getOverzicht() {
@@ -122,6 +122,7 @@ public class DomeinController {
 
     public void wijzigLesMateriaal(Oefening oefening, long id) {
         GenericDaoJpa.startTransaction();
+        System.out.println(id + "DOMEINCONTROLLER");
         dojo.wijzigOefening(oefening, id);
         GenericDaoJpa.commitTransaction();
 
@@ -176,5 +177,13 @@ public class DomeinController {
 
     public Activiteit getActiviteit(long id) {
         return dojo.getActiviteit(id);
+    }
+
+    public List<String> maakOverzichtList(List<Object> extraParameters) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String maakHeaders() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
