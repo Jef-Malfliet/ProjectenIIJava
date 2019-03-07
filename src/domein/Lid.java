@@ -508,4 +508,6 @@ public class Lid implements Serializable, Exportable, ILid {
         this.inschrijvingsDatumProperty = simpleStringProperty;
     }
 
+    
+    
 }

@@ -13,21 +13,22 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import persistentie.ActiviteitDao;
 import persistentie.ExportFiles;
+import persistentie.GenericDaoJpa;
 import persistentie.LidDao;
 import persistentie.OefeningDao;
 
 public class Dojo {
 
     private final RolType type;
-    private final ObservableList<ILid> leden;
-    private final ObservableList<IActiviteit> activiteiten;
-    private final ObservableList<IOefening> oefeningen;
-    private final Comparator<ILid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
-    private final Comparator<ILid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
-    private final Comparator<ILid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
-    private final Comparator<ILid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
-    private final FilteredList<ILid> filtered;
-    private final SortedList<ILid> sorted;
+    private final ObservableList<Lid> leden;
+    private final ObservableList<Activiteit> activiteiten;
+    private final ObservableList<Oefening> oefeningen;
+    private final Comparator<Lid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
+    private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
+    private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
+    private final Comparator<Lid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
+    private final FilteredList<Lid> filtered;
+    private final SortedList<Lid> sorted;
     private PropertyChangeSupport subject;
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
@@ -54,8 +55,10 @@ public class Dojo {
      * @param lid
      */
     public boolean verwijderLid(long id) {
+        GenericDaoJpa.startTransaction();
         Lid lid = lidRepo.get(id);
         this.lidRepo.delete(lid);
+        GenericDaoJpa.commitTransaction();
         return this.leden.remove(lid);
     }
 
@@ -64,10 +67,13 @@ public class Dojo {
      * @param lid
      */
     public boolean wijzigLid(long id, String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
+        GenericDaoJpa.startTransaction();
         Lid temp = lidRepo.get(id);
         temp.wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type, lessen);
         //ILid temp = lidRepo.update(lid);
         lidRepo.update(temp);
+        
+        GenericDaoJpa.commitTransaction();
         subject.firePropertyChange("lijstleden", null, leden);
         if (temp == null) {
             return false;
@@ -91,8 +97,9 @@ public class Dojo {
 
         if (!leden.contains(lid)) {
             if (lidRepo.get(lid.getId()) == null) {
-
+                GenericDaoJpa.startTransaction();
                 lidRepo.insert(lid);
+                GenericDaoJpa.commitTransaction();
 
                 leden.add(lid);
                 subject.firePropertyChange("lijstleden", null, leden);
@@ -106,8 +113,10 @@ public class Dojo {
 
         if (!activiteiten.contains(activiteit)) {
             if (activiteitRepo.get(activiteit.getId()) == null) {
-
+                GenericDaoJpa.startTransaction();
                 activiteitRepo.insert(activiteit);
+
+                GenericDaoJpa.commitTransaction();
 
                 activiteiten.add(activiteit);
                 subject.firePropertyChange("lijstactiviteiten", null, activiteiten);
@@ -117,7 +126,7 @@ public class Dojo {
         return false;
     }
 
-    public List<ILid> getLijstLeden() {
+    public List<Lid> getLijstLeden() {
         return leden;
     }
 
@@ -125,7 +134,7 @@ public class Dojo {
         return type;
     }
 
-    public ObservableList<ILid> getSortedLeden() {
+    public ObservableList<Lid> getSortedLeden() {
         fillSimplePropertiesLidForGui();
         return sorted;
     }
@@ -135,11 +144,11 @@ public class Dojo {
     }
 
     private void fillSimplePropertiesLidForGui() {
-        leden.forEach(lid -> ((Lid) lid).fillSimpleProperties());
+        leden.forEach(Lid::fillSimpleProperties);
     }
 
     private void fillSimplePropertiesActiviteitForGui() {
-        activiteiten.forEach(act -> ((Activiteit) act).fillSimpleProperties());
+        activiteiten.forEach(Activiteit::fillSimpleProperties);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -166,8 +175,8 @@ public class Dojo {
         return overzichtList;
     }
 
-    public ObservableList<IOefening> getOefeningen() {
-        oefeningen.forEach(oef -> ((Oefening) oef).fillSimpleString());
+    public ObservableList<Oefening> getOefeningen() {
+        oefeningen.forEach(oef -> oef.fillSimpleString());
         return oefeningen;
     }
 
@@ -175,20 +184,23 @@ public class Dojo {
         return oefeningRepo.get(id);
     }
 
-    public ObservableList<IActiviteit> getActiviteitenList() {
+    public ObservableList<Activiteit> getActiviteitenList() {
         fillSimplePropertiesActiviteitForGui();
         return activiteiten;
     }
 
     public void lidInschrijven(Activiteit activiteit, Lid lid) {
+        GenericDaoJpa.startTransaction();
         activiteit.lidInschrijven(lid);
         activiteitRepo.update(activiteit);
+        GenericDaoJpa.commitTransaction();
+
     }
 
     public void lidUitschrijven(long activiteitId, long lidId) {
         Activiteit tempAct = activiteitRepo.get(lidId);
-        ILid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
-        tempAct.lidUitschrijven((Lid) tempLid);
+        Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
+        tempAct.lidUitschrijven(tempLid);
     }
 
     /**
@@ -198,17 +210,21 @@ public class Dojo {
     public void addOefening(Oefening oefening) {
         if (!oefeningen.contains(oefening)) {
             if (oefeningRepo.get(oefening.getId()) == null) {
+                GenericDaoJpa.startTransaction();
                 this.oefeningen.add(oefening);
                 oefeningRepo.insert(oefening);
+                GenericDaoJpa.commitTransaction();
                 subject.firePropertyChange("lijstOefeningen", null, oefeningen);
             }
         }
     }
 
     public void wijzigOefening(Oefening nieuweWaarden, long id) {
+        GenericDaoJpa.startTransaction();
         Oefening origin = oefeningRepo.getOefeningById(id);
         origin.mergeOefening(nieuweWaarden);
         oefeningRepo.update(origin);
+        GenericDaoJpa.commitTransaction();
 
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
@@ -324,6 +340,7 @@ public class Dojo {
     }
 
     public void verwijderLesMateriaal(long id) {
+        GenericDaoJpa.startTransaction();
         Oefening oef = oefeningRepo.get(id);
         System.out.println(id + "GAT VERWIJDEREN");
         System.out.println(oef.getId() + " - " + id);
@@ -331,6 +348,7 @@ public class Dojo {
         this.oefeningen.remove(oef);
         System.out.println(id + "DELETED");
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
+        GenericDaoJpa.commitTransaction();
     }
 
     Activiteit getActiviteit(long id) {
