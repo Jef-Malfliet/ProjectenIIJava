@@ -7,6 +7,7 @@ package persistentie;
 
 import domein.Oefening;
 import java.util.List;
+import javafx.scene.image.Image;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 
@@ -31,5 +32,8 @@ public class OefeningDaoJpa extends GenericDaoJpa<Oefening> implements OefeningD
             throw new EntityNotFoundException();
         }
     }
+
+    
+    
     
 }

@@ -206,15 +206,12 @@ public class Dojo {
         }
     }
 
-    public void wijzigOefening(Oefening oefening, long id) {
-        System.out.println(id+"DOJO");
-        Oefening temp = oefeningRepo.getOefeningById(id);
-        System.out.println(temp.getId()+"TEMP ZIJN ID");
-        System.out.println("temp ontvangen");
-        temp.wijzigOefening(oefening);
-        System.out.println("temp.wijzigoef");
-        oefeningRepo.update(temp);
-        System.out.println("gemerged");
+    public void wijzigOefening(Oefening nieuweWaarden, long id) {
+
+        Oefening origin = oefeningRepo.getOefeningById(id);
+        //static method, geen methode opgeroepen op een object, want je gaat ze mergen.
+        origin.mergeOefening(nieuweWaarden);
+        oefeningRepo.update(origin);
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 

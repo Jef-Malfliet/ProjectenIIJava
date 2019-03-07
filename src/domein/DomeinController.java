@@ -122,7 +122,6 @@ public class DomeinController {
 
     public void wijzigLesMateriaal(Oefening oefening, long id) {
         GenericDaoJpa.startTransaction();
-        System.out.println(id+"DOMEINCONTROLLER");
         dojo.wijzigOefening(oefening, id);
         GenericDaoJpa.commitTransaction();
 

@@ -252,11 +252,11 @@ public class OverzichtOpvraagSceneController extends HBox {
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
 
                 break;
-            case LESMATERIAAL:
-                vBoxContainer.getChildren().clear();
-                extraParameters.clear();
-                hBoxTableContainer.getChildren().clear();
-                break;
+//            case LESMATERIAAL:
+//                vBoxContainer.getChildren().clear();
+//                extraParameters.clear();
+//                hBoxTableContainer.getChildren().clear();
+//                break;
         }
     }
 
@@ -328,8 +328,8 @@ public class OverzichtOpvraagSceneController extends HBox {
                 tblLidInschrijvingen.getColumns().addAll(colNaam, colDatum, colFormule);
                 hBoxTableContainer.getChildren().addAll(tblLidInschrijvingen);
                 break;
-            case LESMATERIAAL:
-                break;
+//            case LESMATERIAAL:
+//                break;
         }
     }
 
