@@ -5,12 +5,12 @@
  */
 package gui;
 
+import domein.DTOLid;
 import domein.DomeinController;
 import domein.Geslacht;
 import domein.Graad;
 import domein.ILid;
 import domein.LesType;
-import domein.Lid;
 import domein.RolType;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -145,30 +145,38 @@ public class DetailPaneelController extends VBox {
     }
 
     private void buildGui() {
-        cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
-        cboType.setItems(FXCollections.observableArrayList(Arrays.asList(RolType.values())));
-        cboGeslacht.setItems(FXCollections.observableArrayList(Arrays.asList(Geslacht.values())));
-        cboLesType.setItems(FXCollections.observableArrayList(Arrays.asList(LesType.values())));
-
-        nieuwLid();
+        vulComboboxen();
+        nieuwLidPaneel();
         btnNieuwLid.setOnMouseClicked(e -> {
-            nieuwLid();
+            nieuwLidPaneel();
         });
 
         btnVerwijderLid.setOnMouseClicked(e -> {
             osc.verwijdergeselecteerdLid();
         });
-        niet_verplicht.add(txtVasteTelefoon);
-        niet_verplicht.add(txtEmail_ouders);
-        niet_verplicht.add(txtBusnummer);
+        voegNietVerplichteVeldenToe();
         dpGeboorte.setEditable(false);
         dpInschrijving.setEditable(false);
     }
 
-    private void opvullen(ILid lid) {
+    private void vulComboboxen() {
+        cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
+        cboType.setItems(FXCollections.observableArrayList(Arrays.asList(RolType.values())));
+        cboGeslacht.setItems(FXCollections.observableArrayList(Arrays.asList(Geslacht.values())));
+        cboLesType.setItems(FXCollections.observableArrayList(Arrays.asList(LesType.values())));
+    }
+
+    private void voegNietVerplichteVeldenToe() {
+        niet_verplicht.add(txtVasteTelefoon);
+        niet_verplicht.add(txtEmail_ouders);
+        niet_verplicht.add(txtBusnummer);
+    }
+
+    private void opvullenVanFields(ILid lid) {
 
         lblDetail.setText("Lid wijzigen");
         current_lid = lid;
+        
         txtVoornaam.setText(lid.getVoornaam());
         txtAchternaam.setText(lid.getFamilienaam());
         txtWachtwoord.setText(lid.getWachtwoord());
@@ -196,7 +204,7 @@ public class DetailPaneelController extends VBox {
 
         if (clearTextFields()) {
             errorMessage.setVisible(false);
-            opvullen(lid);
+            opvullenVanFields(lid);
         }
 
     }
@@ -276,10 +284,11 @@ public class DetailPaneelController extends VBox {
     }
 
     private void maaknieuwlid() {
-        current_lid = new Lid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
+        current_lid = new DTOLid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
                 txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText().isEmpty() ? "/" : txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
                 txtLand.getText(), txtRijksregisternummer.getText(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
                 cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem(), cboLesType.getSelectionModel().getSelectedItem());
+
         dc.voegLidToe(current_lid);
         errorMessage.setText("Lid werd toegevoegd");
         errorMessage.setVisible(true);
@@ -294,16 +303,15 @@ public class DetailPaneelController extends VBox {
 
         errorMessage.setText("Wijzigingen zijn opgeslagen");
         errorMessage.setVisible(true);
-        opvullen(current_lid);
+        opvullenVanFields(current_lid);
 
     }
 
     @FXML
-    private void annuleerwijziging(ActionEvent event
-    ) {
+    private void annuleerwijziging(ActionEvent event) {
         if (clearTextFields()) {
             current_lid = null;
-            nieuwLid();
+            nieuwLidPaneel();
         }
 
     }
@@ -374,7 +382,7 @@ public class DetailPaneelController extends VBox {
 
     }
 
-    public void nieuwLid() {
+    public void nieuwLidPaneel() {
         if (clearTextFields()) {
             nieuwlid = true;
             lblDetail.setText("Nieuw Lid toevoegen");
