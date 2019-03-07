@@ -337,14 +337,13 @@ public class OverzichtOpvraagSceneController extends HBox {
                 tblLidInschrijvingen.getColumns().addAll(colNaam, colDatum, colFormule);
                 hBoxTableContainer.getChildren().addAll(tblLidInschrijvingen);
                 break;
-//            case LESMATERIAAL:
-//                break;
         }
     }
 
     @FXML
     private void maakDocument(MouseEvent event) {
-        List<String> overzicht = dc.maakOverzichtList(extraParameters);
+        OverzichtType type = cboType.getSelectionModel().getSelectedItem();
+        List<String> overzicht = dc.maakOverzichtList(type, extraParameters);
         String headers = dc.maakHeaders();
         dc.maakOverzicht(overzicht, headers, path);
     }

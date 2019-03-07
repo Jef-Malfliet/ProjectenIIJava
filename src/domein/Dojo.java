@@ -335,4 +335,14 @@ public class Dojo {
     Activiteit getActiviteit(long id) {
         return activiteitRepo.get(id);
     }
+
+    public List<String> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
+        switch (type) {
+            case AANWEZIGHEID:
+            case ACTIVITEIT:
+            case INSCHRIJVING:
+            case CLUBKAMPIOENSCHAP:
+        }
+        return null;
+    }
 }
