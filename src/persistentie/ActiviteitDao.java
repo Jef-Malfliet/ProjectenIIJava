@@ -11,6 +11,8 @@ import domein.Activiteit;
  *
  * @author Jef
  */
-public interface ActiviteitDao extends GenericDao<Activiteit>{
-    
+public interface ActiviteitDao extends GenericDao<Activiteit> {
+
+    public void lidInschrijven(Activiteit activiteit);
+
 }

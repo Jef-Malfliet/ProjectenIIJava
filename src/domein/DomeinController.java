@@ -122,7 +122,7 @@ public class DomeinController {
 
     public void wijzigLesMateriaal(Oefening oefening, long id) {
         GenericDaoJpa.startTransaction();
-        System.out.println(id+"DOMEINCONTROLLER");
+        System.out.println(id + "DOMEINCONTROLLER");
         dojo.wijzigOefening(oefening, id);
         GenericDaoJpa.commitTransaction();
 
@@ -163,6 +163,8 @@ public class DomeinController {
 
     public List<ILid> geefIngeschrevenLeden(long activiteitId) {
         List<ILid> iLeden = new ArrayList<>();
+        System.out.println(activiteitRepository.get(activiteitId));
+        System.out.println(activiteitRepository.get(activiteitId).getAanwezigen());
         activiteitRepository.get(activiteitId).getAanwezigen().stream().forEach(l -> {
             iLeden.add(l);
         });

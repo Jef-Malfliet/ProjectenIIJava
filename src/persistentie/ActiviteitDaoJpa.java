@@ -12,9 +12,14 @@ import domein.Activiteit;
  * @author Jef
  */
 public class ActiviteitDaoJpa extends GenericDaoJpa<Activiteit> implements ActiviteitDao {
-
+    
     public ActiviteitDaoJpa() {
         super(Activiteit.class);
     }
-
+    
+    @Override
+    public void lidInschrijven(Activiteit activiteit) {
+        insert(activiteit);
+    }
+    
 }
