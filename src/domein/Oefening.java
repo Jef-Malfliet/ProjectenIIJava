@@ -30,7 +30,7 @@ import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name="Oefening.GetOefeningByName", query="SELECT e FROM Oefening e WHERE e.naam = :oefNaam")
+        @NamedQuery(name="Oefening.GetOefeningById", query="SELECT e FROM Oefening e WHERE e.id = :oefId")
 })
 public class Oefening implements Serializable, IOefening {
 

@@ -21,10 +21,12 @@ public class OefeningDaoJpa extends GenericDaoJpa<Oefening> implements OefeningD
     }
     
      @Override
-    public Oefening getOefeningByName(String name) throws EntityNotFoundException {
+    public Oefening getOefeningById(long id) throws EntityNotFoundException {
+         System.out.println(id);
         try{
-            return em.createNamedQuery("Oefening.GetOefeningByName", Oefening.class)
-                    .setParameter("oefNaam", name).getSingleResult();
+            return em.createNamedQuery("Oefening.GetOefeningById", Oefening.class)
+                    .setParameter("oefId", id).getSingleResult();
+            
         }catch(NoResultException ex){
             throw new EntityNotFoundException();
         }

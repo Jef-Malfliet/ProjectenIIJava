@@ -120,9 +120,10 @@ public class DomeinController {
         GenericDaoJpa.commitTransaction();
     }
 
-    public void wijzigLesMateriaal(Oefening oefening) {
+    public void wijzigLesMateriaal(Oefening oefening, long id) {
         GenericDaoJpa.startTransaction();
-        dojo.wijzigOefening(oefening);
+        System.out.println(id+"DOMEINCONTROLLER");
+        dojo.wijzigOefening(oefening, id);
         GenericDaoJpa.commitTransaction();
 
     }

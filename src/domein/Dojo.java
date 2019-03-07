@@ -206,10 +206,15 @@ public class Dojo {
         }
     }
 
-    public void wijzigOefening(Oefening oefening) {
-        Oefening temp = oefeningRepo.getOefeningByName(oefening.getNaam());
+    public void wijzigOefening(Oefening oefening, long id) {
+        System.out.println(id+"DOJO");
+        Oefening temp = oefeningRepo.getOefeningById(id);
+        System.out.println(temp.getId()+"TEMP ZIJN ID");
+        System.out.println("temp ontvangen");
         temp.wijzigOefening(oefening);
-        oefeningRepo.update(oefening);
+        System.out.println("temp.wijzigoef");
+        oefeningRepo.update(temp);
+        System.out.println("gemerged");
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 

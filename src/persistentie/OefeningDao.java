@@ -13,5 +13,5 @@ import java.util.List;
  * @author IndyV
  */
 public interface OefeningDao extends GenericDao<Oefening>{
-    Oefening getOefeningByName(String name);
+    Oefening getOefeningById(long id);
 }

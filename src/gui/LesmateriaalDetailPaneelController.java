@@ -73,6 +73,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
     private boolean nieuweOefening;
     private LesmateriaalOverzichtSceneController losc;
     boolean geldig = false;
+    private IOefening current_oefening=null;
 
     public LesmateriaalDetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalDetailPaneel.fxml"));
@@ -86,6 +87,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
         this.dc = dc;
         imageFiles = new ArrayList<>();
         buildGui();
+        clearAll();
     }
 
     private void buildGui() {
@@ -96,7 +98,6 @@ public class LesmateriaalDetailPaneelController extends VBox {
     private void maakOefening(ActionEvent event) {
         clearAll();
         nieuweOefening = true;
-        lblTitel.setText("Maak een nieuwe oefening");
     }
 
     private boolean validate() {
@@ -161,11 +162,13 @@ public class LesmateriaalDetailPaneelController extends VBox {
     }
 
     public void clearAll() {
+        this.current_oefening=null;
         cbMinimumgraad.setValue(null);
         txfNaam.clear();
         txaUitleg.clear();
         txfVideoURL.clear();
         vbImages.getChildren().clear();
+        lblTitel.setText("Maak een nieuwe oefening aan.");
     }
 
     @FXML
@@ -195,7 +198,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
         } catch (IllegalArgumentException e) {
             validate();
         }
-        if (geldig) {
+        if (geldig&&temp!=null) {
             if (uitleg != null) {
                 temp.addUitleg(uitleg);
             }
@@ -208,17 +211,22 @@ public class LesmateriaalDetailPaneelController extends VBox {
                 }
             }
 
-            if (nieuweOefening) {
+            if (current_oefening==null) {
                 System.out.println("ADDED");
                 dc.addLesMateriaal(temp);
                 
             } else {
                 System.out.println("CHANGED");
-                dc.wijzigLesMateriaal(temp);
+                System.out.println(current_oefening.getId()+"DETAILPANEEL");
+                dc.wijzigLesMateriaal(temp,current_oefening.getId());
             }
         }
         
         clearAll();
 
+    }
+    
+    public void setCurrentOefening(IOefening oefening){
+        this.current_oefening=oefening;
     }
 }
