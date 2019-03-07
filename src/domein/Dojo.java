@@ -330,7 +330,11 @@ public class Dojo {
 
     public void verwijderLesMateriaal(long id) {
         Oefening oef = oefeningRepo.get(id);
+        System.out.println(id+"GAT VERWIJDEREN");
+        System.out.println(oef.getId() + " - "+id);
         this.oefeningRepo.delete(oef);
+        this.oefeningen.remove(oef);
+        System.out.println(id+"DELETED");
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 
