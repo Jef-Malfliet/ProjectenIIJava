@@ -196,20 +196,27 @@ public class OverzichtOpvraagSceneController extends HBox {
                 vBoxContainer.getChildren().clear();
                 extraParameters.clear();
 
+                hBoxTopRow.getChildren().clear();
+                hBoxTopRow.getChildren().addAll(vBoxLid, vBoxDatum);
+
+                hBoxUnderRow.getChildren().clear();
+                hBoxUnderRow.getChildren().addAll(vBoxFormule);
+
                 extraParameters.addAll(Arrays.asList(datePicker, txfLidNaam, cboFormule));
-                vBoxContainer.getChildren().addAll(vBoxLid, vBoxDatum, vBoxFormule);
+                //vBoxContainer.getChildren().addAll(vBoxLid, vBoxDatum, vBoxFormule);
+                vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
                 hBoxTableContainer.getChildren().clear();
                 break;
             case ACTIVITEIT:
                 vBoxContainer.getChildren().clear();
                 extraParameters.clear();
 
-                HBox hBoxFiche = new HBox();
-                HBox.setMargin(hBoxFiche, new Insets(10));
-                hBoxFiche.getChildren().addAll(cb, lblLidFiche);
+                hBoxTopRow.getChildren().clear();
+                hBoxTopRow.getChildren().addAll(cb, lblLidFiche);
 
                 extraParameters.addAll(Arrays.asList(cb));
-                vBoxContainer.getChildren().addAll(hBoxFiche);
+                //vBoxContainer.getChildren().addAll(hBoxFiche);
+                vBoxContainer.getChildren().addAll(hBoxTopRow);
                 hBoxTableContainer.getChildren().clear();
                 break;
             case CLUBKAMPIOENSCHAP:
