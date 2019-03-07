@@ -209,7 +209,6 @@ public class Dojo {
     public void wijzigOefening(Oefening nieuweWaarden, long id) {
 
         Oefening origin = oefeningRepo.getOefeningById(id);
-        //static method, geen methode opgeroepen op een object, want je gaat ze mergen.
         origin.mergeOefening(nieuweWaarden);
         oefeningRepo.update(origin);
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
