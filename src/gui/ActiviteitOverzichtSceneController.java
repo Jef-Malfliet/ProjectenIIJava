@@ -34,9 +34,9 @@ public class ActiviteitOverzichtSceneController extends VBox {
     @FXML
     private TableColumn<IActiviteit, String> tcNaam;
     @FXML
-    private TableColumn<IActiviteit, Date> tcStartdatum;
+    private TableColumn<IActiviteit, String> tcStartdatum;
     @FXML
-    private TableColumn<IActiviteit, Date> tcEinddatum;
+    private TableColumn<IActiviteit, String> tcEinddatum;
     @FXML
     private TableColumn<IActiviteit, String> tcStage;
 
@@ -60,11 +60,15 @@ public class ActiviteitOverzichtSceneController extends VBox {
     private void buildGui() {
         tvActiviteiten.getSelectionModel().selectedItemProperty().addListener((observable, oldAct, newAct) -> {
             if (newAct != null) {
-                adpc.fillActiviteit(newAct);
+                adpc.fillActiviteit(dc.getActiviteit(newAct.getId()));
             }
         });
-
+        setMaxScreen();
         tvActiviteiten.setItems(dc.getActiviteiten());
+        tcNaam.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
+        tcStartdatum.setCellValueFactory(cellData -> cellData.getValue().getBeginDatumProperty());
+        tcEinddatum.setCellValueFactory(cellData -> cellData.getValue().getEindDatumProperty());
+        tcStage.setCellValueFactory(cellData -> cellData.getValue().getStageProperty());
     }
 
     private void setMaxScreen() {

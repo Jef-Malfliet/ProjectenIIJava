@@ -20,7 +20,7 @@
       </HBox>
       <HBox prefHeight="441.0" prefWidth="697.0">
          <children>
-            <TableView fx:id="tvActiviteiten" prefHeight="441.0" prefWidth="302.0">
+            <TableView fx:id="tvActiviteiten" prefHeight="471.0" prefWidth="302.0">
               <columns>
                 <TableColumn fx:id="tcNaam" prefWidth="75.0" text="Naam" />
                 <TableColumn fx:id="tcStartdatum" prefWidth="75.0" text="Startdatum" />

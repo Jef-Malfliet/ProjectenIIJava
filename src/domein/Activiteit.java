@@ -12,13 +12,12 @@ public class Activiteit implements Serializable, IActiviteit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Transient
     private String naam;
-    @Transient
+
     private Date startDatum;
-    @Transient
+
     private Date eindDatum;
-    @Transient
+
     private boolean stage;
 
     @OneToMany()
@@ -28,7 +27,7 @@ public class Activiteit implements Serializable, IActiviteit {
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
 
     @Transient
-    private SimpleStringProperty startDatumProperty = new SimpleStringProperty();
+    private SimpleStringProperty beginDatumProperty = new SimpleStringProperty();
 
     @Transient
     private SimpleStringProperty eindDatumProperty = new SimpleStringProperty();
@@ -39,11 +38,16 @@ public class Activiteit implements Serializable, IActiviteit {
     public Activiteit() {
     }
 
+    public Activiteit(IActiviteit act) {
+        this(act.getNaam(), act.getStartDatum(), act.getEindDatum(), act.isStage());
+    }
+
     public Activiteit(String naam, Date startDatum, Date eindDatum, boolean stage) {
         this.naam = naam;
         this.startDatum = startDatum;
         this.eindDatum = eindDatum;
         this.stage = stage;
+        this.aanwezigen = new ArrayList<>();
     }
 
     public List<Lid> getAanwezigen() {
@@ -107,6 +111,7 @@ public class Activiteit implements Serializable, IActiviteit {
         return naam;
     }
 
+    @Override
     public SimpleStringProperty getNaamProperty() {
         return naamProperty;
     }
@@ -115,14 +120,16 @@ public class Activiteit implements Serializable, IActiviteit {
         this.naamProperty = naamProperty;
     }
 
-    public SimpleStringProperty getStartDatumProperty() {
-        return startDatumProperty;
+    @Override
+    public SimpleStringProperty getBeginDatumProperty() {
+        return beginDatumProperty;
     }
 
-    public void setStartDatumProperty(SimpleStringProperty startDatumProperty) {
-        this.startDatumProperty = startDatumProperty;
+    public void setBeginDatumProperty(SimpleStringProperty startDatumProperty) {
+        this.beginDatumProperty = startDatumProperty;
     }
 
+    @Override
     public SimpleStringProperty getEindDatumProperty() {
         return eindDatumProperty;
     }
@@ -131,6 +138,7 @@ public class Activiteit implements Serializable, IActiviteit {
         this.eindDatumProperty = eindDatumProperty;
     }
 
+    @Override
     public SimpleStringProperty getStageProperty() {
         return stageProperty;
     }
@@ -148,8 +156,8 @@ public class Activiteit implements Serializable, IActiviteit {
 
     public void fillSimpleProperties() {
         this.setNaamProperty(new SimpleStringProperty(this.getNaam()));
-        this.setStartDatumProperty(new SimpleStringProperty(this.getStartDatum().toString()));
+        this.setBeginDatumProperty(new SimpleStringProperty(this.getStartDatum().toString()));
         this.setEindDatumProperty(new SimpleStringProperty(this.getEindDatum().toString()));
-        this.setStageProperty(new SimpleStringProperty(this.isStage() ? "stage" : ""));
+        this.setStageProperty(new SimpleStringProperty(this.isStage() ? "stage" : "geen stage"));
     }
 }

@@ -5,6 +5,7 @@
  */
 package main;
 
+import domein.Activiteit;
 import domein.DomeinController;
 import domein.Geslacht;
 import domein.Graad;
@@ -15,6 +16,8 @@ import domein.RolType;
 import gui.MainPanel;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -53,6 +56,17 @@ public class StartUp extends Application {
         dc.voegLidToe(lid1);
         dc.voegLidToe(lid2);
         dc.voegLidToe(lid3);
+
+        Activiteit act1 = new Activiteit("Uitstap", new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), false);
+        Activiteit act2 = new Activiteit("Weekend", new GregorianCalendar(2019, Calendar.MARCH, 5).getTime(), new GregorianCalendar(2019, Calendar.MARCH, 7).getTime(), true);
+
+        dc.voegActiviteitToe(act1);
+        dc.voegActiviteitToe(act2);
+
+        dc.schrijfLidIn(act1, lid3);
+
+        dc.schrijfLidIn(act2, lid1);
+        dc.schrijfLidIn(act2, lid2);
 
         Oefening oef1 = new Oefening(Graad.GROEN, "Test1");
         Oefening oef2 = new Oefening(Graad.DAN11, "Test2");

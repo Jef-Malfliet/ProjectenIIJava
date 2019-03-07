@@ -130,7 +130,6 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private void update() {
         tableOverview.setItems(dc.getLeden());
         tableOverview.refresh();
-
     }
 
     public DetailPaneelController getDpc() {
