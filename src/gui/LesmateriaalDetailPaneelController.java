@@ -188,31 +188,33 @@ public class LesmateriaalDetailPaneelController extends VBox {
         String naam = txfNaam.getText();
         String uitleg = txaUitleg.getText();
         String urlVideo = txfVideoURL.getText();
-        Oefening oefening = null;
+        Oefening temp = null;
         try {
-            oefening = new Oefening(graad, naam);
+            temp = new Oefening(graad, naam);
             geldig = true;
         } catch (IllegalArgumentException e) {
             validate();
         }
         if (geldig) {
             if (uitleg != null) {
-                oefening.addUitleg(uitleg);
+                temp.addUitleg(uitleg);
             }
             if (urlVideo != null) {
-                oefening.addVideo(urlVideo);
+                temp.addVideo(urlVideo);
             }
             if (imageFiles != null && !imageFiles.isEmpty()) {
                 for (File file : imageFiles) {
-                    oefening.addImage(file);
+                    temp.addImage(file);
                 }
             }
 
             if (nieuweOefening) {
-                dc.addLesMateriaal(oefening);
+                System.out.println("ADDED");
+                dc.addLesMateriaal(temp);
                 
             } else {
-                dc.wijzigLesMateriaal(oefening);
+                System.out.println("CHANGED");
+                dc.wijzigLesMateriaal(temp);
             }
         }
         

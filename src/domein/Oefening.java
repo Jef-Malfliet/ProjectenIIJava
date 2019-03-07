@@ -24,9 +24,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name="Oefening.GetOefeningByName", query="SELECT e FROM Oefening e WHERE e.naam = :oefNaam")
+})
 public class Oefening implements Serializable, IOefening {
 
     @Id
@@ -119,7 +124,11 @@ public class Oefening implements Serializable, IOefening {
             Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+      @Override
+    public List<byte[]> getBytesImages(){
+        return this.images;
+    }
+    
     @Override
     public List<Image> getImages() {
         List<Image> returnImages = new ArrayList<>();
@@ -177,4 +186,14 @@ public class Oefening implements Serializable, IOefening {
         return graadProperty;
     }
 
+    public void wijzigOefening(Oefening oefening){
+        setGraad(oefening.getGraad());
+        setNaam(oefening.getNaam());
+        this.graadProperty=oefening.getGraadProperty();
+        this.images=oefening.getBytesImages();
+        this.naamProperty=oefening.getNaamProperty();
+        this.uitleg=oefening.getUitleg();
+        this.video=oefening.getVideo();
+        this.videoProperty=oefening.getVideoProperty();
+    }
 }

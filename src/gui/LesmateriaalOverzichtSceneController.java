@@ -96,7 +96,6 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
         ldpc.clearAll();
         if (oef != null) {
             dc.verwijderLesMateriaal(oef.getId());
-            update();
         }
     }
     

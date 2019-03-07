@@ -34,5 +34,9 @@ public interface IOefening extends Serializable {
     
     long getId();
     
+    List<byte[]> getBytesImages();
+
+ 
+    
 
 }

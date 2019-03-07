@@ -188,14 +188,16 @@ public class Dojo {
             if (oefeningRepo.get(oefening.getId()) == null) {
                 this.oefeningen.add(oefening);
                 oefeningRepo.insert(oefening);
-                subject.firePropertyChange("lijstOefeningen", null, leden);
+                subject.firePropertyChange("lijstOefeningen", null, oefeningen);
             }
         }
     }
 
     public void wijzigOefening(Oefening oefening) {
+        Oefening temp = oefeningRepo.getOefeningByName(oefening.getNaam());
+        temp.wijzigOefening(oefening);
         oefeningRepo.update(oefening);
-        subject.firePropertyChange("lijstOefeningen", null, leden);
+        subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 
     private void setOefeningRepo(OefeningDao oefeningRepo) {
@@ -311,5 +313,6 @@ public class Dojo {
     public void verwijderLesMateriaal(long id) {
         Oefening oef = oefeningRepo.get(id);
         this.oefeningRepo.delete(oef);
+        subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 }

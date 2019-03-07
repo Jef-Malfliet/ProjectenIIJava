@@ -6,11 +6,12 @@
 package persistentie;
 
 import domein.Oefening;
+import java.util.List;
 
 /**
  *
  * @author IndyV
  */
 public interface OefeningDao extends GenericDao<Oefening>{
-    
+    Oefening getOefeningByName(String name);
 }
