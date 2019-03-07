@@ -179,11 +179,11 @@ public class DomeinController {
         return dojo.getActiviteit(id);
     }
 
-    public List<String> maakOverzichtList(List<Object> extraParameters) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<String> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
+         return dojo.maakOverzichtList(type, extraParameters);
     }
 
     public String maakHeaders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 }
