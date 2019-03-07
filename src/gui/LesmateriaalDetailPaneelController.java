@@ -49,6 +49,11 @@ public class LesmateriaalDetailPaneelController extends VBox {
 
     private DomeinController dc;
     private List<File> imageFiles;
+    private boolean nieuweOefening;
+    private LesmateriaalOverzichtSceneController losc;
+    boolean geldig = false;
+    private IOefening current_oefening = null;
+
     @FXML
     private ComboBox<Graad> cbMinimumgraad;
     @FXML
@@ -70,10 +75,6 @@ public class LesmateriaalDetailPaneelController extends VBox {
     private Button btnverwijderOefening;
     @FXML
     private Button btnBevestig;
-    private boolean nieuweOefening;
-    private LesmateriaalOverzichtSceneController losc;
-    boolean geldig = false;
-    private IOefening current_oefening=null;
 
     public LesmateriaalDetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalDetailPaneel.fxml"));
@@ -162,8 +163,9 @@ public class LesmateriaalDetailPaneelController extends VBox {
     }
 
     public void clearAll() {
-        this.current_oefening=null;
+        this.current_oefening = null;
         cbMinimumgraad.setValue(null);
+        imageFiles.clear();
         txfNaam.clear();
         txaUitleg.clear();
         txfVideoURL.clear();
@@ -198,35 +200,36 @@ public class LesmateriaalDetailPaneelController extends VBox {
         } catch (IllegalArgumentException e) {
             validate();
         }
-        if (geldig&&temp!=null) {
+
+        if (geldig) {
             if (uitleg != null) {
                 temp.addUitleg(uitleg);
             }
             if (urlVideo != null) {
                 temp.addVideo(urlVideo);
             }
-            if (imageFiles != null && !imageFiles.isEmpty()) {
+            if (!imageFiles.isEmpty()) {
                 for (File file : imageFiles) {
-                    temp.addImage(file);
+                    if (file != null) {
+                        temp.addImageFile(file);
+                    }
                 }
             }
 
-            if (current_oefening==null) {
-                System.out.println("ADDED");
+            if (current_oefening == null) {
                 dc.addLesMateriaal(temp);
-                
+                clearAll();
+
             } else {
-                System.out.println("CHANGED");
-                System.out.println(current_oefening.getId()+"DETAILPANEEL");
-                dc.wijzigLesMateriaal(temp,current_oefening.getId());
+                System.out.println("REACHED HERE");
+                dc.wijzigLesMateriaal(temp, current_oefening.getId());
+                clearAll();
             }
         }
-        
-        clearAll();
 
     }
-    
-    public void setCurrentOefening(IOefening oefening){
-        this.current_oefening=oefening;
+
+    public void setCurrentOefening(IOefening oefening) {
+        this.current_oefening = oefening;
     }
 }

@@ -98,8 +98,8 @@ public class DomeinController {
 
     }
 
-    public void maakOverzicht(OverzichtType type, String besNaam, String path, List<Object> extraParameters) {
-        dojo.maakOverzicht(type, besNaam, path, extraParameters);
+    public void maakOverzicht(List<String> overzicht, String headers, String path) {
+        dojo.maakOverzicht(overzicht, headers, path);
     }
 
     public List<Overzicht> getOverzicht() {
@@ -179,5 +179,13 @@ public class DomeinController {
 
     public Activiteit getActiviteit(long id) {
         return dojo.getActiviteit(id);
+    }
+
+    public List<String> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
+         return dojo.maakOverzichtList(type, extraParameters);
+    }
+
+    public String maakHeaders() {
+        return null;
     }
 }

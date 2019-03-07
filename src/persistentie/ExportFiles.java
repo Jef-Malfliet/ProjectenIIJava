@@ -29,17 +29,14 @@ import org.apache.poi.ss.util.CellRangeAddress;
  */
 public class ExportFiles {
 
-    public static <T extends Exportable> void toExcel(List<T> lijst, int kolombreedte, float rijhoogte, String locatie) {
-
-        List<String> stringLijst = lijst.stream().map(T::excelFormat).collect(Collectors.toList());
-        String headers = lijst.get(0).excelheaders();
+    public static void toExcel(List<String> stringLijst, String headers, int kolombreedte, float rijhoogte, String locatie) {
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("overzicht");
         //shadeAlt(sheet); // is voor kleurtje van elke rij
         sheet.setDefaultColumnWidth(kolombreedte);
         sheet.setDefaultRowHeightInPoints(rijhoogte);
-        Row[] rows = new Row[lijst.size() + 1];
+        Row[] rows = new Row[stringLijst.size() + 1];
         //header
         stringLijst.add(0, headers);
         //rest
@@ -69,6 +66,14 @@ public class ExportFiles {
         } catch (IOException ex) {
             throw new IllegalArgumentException("Er is een fout opgetreden");
         }
+    }
+
+    public static <T extends Exportable> void toExcel(List<T> lijst, int kolombreedte, float rijhoogte, String locatie) {
+
+        List<String> stringLijst = lijst.stream().map(T::excelFormat).collect(Collectors.toList());
+        String headers = lijst.get(0).excelheaders();
+
+        toExcel(stringLijst, headers, kolombreedte, rijhoogte, locatie);
 
     }
 //werkt nog niet
@@ -90,7 +95,6 @@ public class ExportFiles {
 //        get.getCells().setText("hoi");
 //
 //        workbook.save(pdfNaam, SaveFileFormat.Pdf);
-
     }
 
 //nog niet gebruikt

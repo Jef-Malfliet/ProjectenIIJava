@@ -13,9 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import persistentie.ActiviteitDao;
 import persistentie.ExportFiles;
-//import persistentie.IPersistentieController;
 import persistentie.LidDao;
-import persistentie.GenericDaoJpa;
 import persistentie.OefeningDao;
 
 public class Dojo {
@@ -160,8 +158,8 @@ public class Dojo {
         lidRepo = mock;
     }
 
-    public void maakOverzicht(OverzichtType type, String besNaam, String path, List<Object> extraParameters) {
-        ExportFiles.toExcel(leden, 25, 20, path);
+    public void maakOverzicht(List<String> overzicht, String headers, String path) {
+        ExportFiles.toExcel(overzicht, headers, 25, 20, path);
     }
 
     public List<Overzicht> getOverzichtList() {
@@ -207,15 +205,11 @@ public class Dojo {
         }
     }
 
-    public void wijzigOefening(Oefening oefening, long id) {
-        System.out.println(id + "DOJO");
-        Oefening temp = oefeningRepo.getOefeningById(id);
-        System.out.println(temp.getId() + "TEMP ZIJN ID");
-        System.out.println("temp ontvangen");
-        temp.wijzigOefening(oefening);
-        System.out.println("temp.wijzigoef");
-        oefeningRepo.update(temp);
-        System.out.println("gemerged");
+    public void wijzigOefening(Oefening nieuweWaarden, long id) {
+        Oefening origin = oefeningRepo.getOefeningById(id);
+        origin.mergeOefening(nieuweWaarden);
+        oefeningRepo.update(origin);
+
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 
@@ -341,5 +335,15 @@ public class Dojo {
 
     Activiteit getActiviteit(long id) {
         return activiteitRepo.get(id);
+    }
+
+    public List<String> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
+        switch (type) {
+            case AANWEZIGHEID:
+            case ACTIVITEIT:
+            case INSCHRIJVING:
+            case CLUBKAMPIOENSCHAP:
+        }
+        return null;
     }
 }

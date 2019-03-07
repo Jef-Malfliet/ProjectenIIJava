@@ -64,12 +64,24 @@
                   </VBox>
                   <VBox prefHeight="80.0">
                      <children>
-                        <Button fx:id="btnSlaOp" mnemonicParsing="false" onAction="#openDirectoryChooser" prefHeight="25.0" text="Kies locatie">
+                        <Button fx:id="btnLocation" mnemonicParsing="false" onAction="#openDirectoryChooser" prefHeight="25.0" text="Kies locatie">
                            <VBox.margin>
-                              <Insets bottom="12.0" left="12.0" right="12.0" top="35.0" />
+                              <Insets top="35.0" />
                            </VBox.margin>
                         </Button>
                      </children>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Button fx:id="btnMaak" mnemonicParsing="false" onMouseClicked="#maakDocument" text="Maak">
+                           <VBox.margin>
+                              <Insets top="35.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
                   </VBox>
                </children>
             </HBox>
@@ -81,7 +93,7 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <VBox fx:id="vBoxContainer" alignment="CENTER">
+            <VBox fx:id="vBoxContainer" alignment="CENTER" prefHeight="150.0">
                <children>
                   <HBox fx:id="hBoxTopRow" spacing="10.0">
                      <VBox.margin>
@@ -97,7 +109,7 @@
                </VBox.margin></VBox>
             <HBox>
                <children>
-                  <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#maakOverzicht" prefHeight="25.0" text="Maak">
+                  <Button fx:id="btnPreview" mnemonicParsing="false" onAction="#maakOverzicht" prefHeight="25.0" text="Preview">
                      <HBox.margin>
                         <Insets bottom="5.0" left="10.0" />
                      </HBox.margin>

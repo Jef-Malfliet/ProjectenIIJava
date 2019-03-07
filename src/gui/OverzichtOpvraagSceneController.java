@@ -35,6 +35,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -51,10 +52,6 @@ public class OverzichtOpvraagSceneController extends HBox {
     private ComboBox<OverzichtType> cboType;
 
     private final DomeinController dc;
-    @FXML
-    private Button btnSearch;
-    @FXML
-    private Button btnSlaOp;
     @FXML
     private TextField txtBesNaam;
 
@@ -81,6 +78,12 @@ public class OverzichtOpvraagSceneController extends HBox {
     private HBox hBoxTopRow;
     @FXML
     private HBox hBoxUnderRow;
+    @FXML
+    private Button btnMaak;
+    @FXML
+    private Button btnLocation;
+    @FXML
+    private Button btnPreview;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -105,9 +108,14 @@ public class OverzichtOpvraagSceneController extends HBox {
     @FXML
     private void maakOverzicht(ActionEvent event) {
         OverzichtType type = cboType.getSelectionModel().getSelectedItem();
-//        String besNaam = txtBesNaam.getText();
-//        dc.maakOverzicht(type, besNaam, path, extraParameters);
-        placeTable(type);
+        if (type == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error: geen overzichtstype");
+            alert.setContentText("Geen overzichtstype gekozen");
+            alert.showAndWait();
+        } else {
+            placeTable(type);
+        }
     }
 
     @FXML
@@ -146,14 +154,15 @@ public class OverzichtOpvraagSceneController extends HBox {
         lblOverzichtOpvragen.setMinWidth(sceneWidth);
         lblOverzichtRaadplegen.setMinWidth(sceneWidth);
 
-        cboType.setPrefWidth(sceneWidth / 4.5);
-        lblOverzicht.setPrefWidth(sceneWidth / 4.5);
+        cboType.setPrefWidth(sceneWidth / 5);
+        lblOverzicht.setPrefWidth(sceneWidth / 5);
 
-        lblBesNaam.setPrefWidth(sceneWidth / 4.5);
-        txtBesNaam.setPrefWidth(sceneWidth / 4.5);
+        lblBesNaam.setPrefWidth(sceneWidth / 5);
+        txtBesNaam.setPrefWidth(sceneWidth / 5);
 
-        btnSlaOp.setPrefWidth(sceneWidth / 4.5);
-        btnSearch.setPrefWidth(sceneWidth / 4.5);
+        btnLocation.setPrefWidth(sceneWidth / 5);
+        btnPreview.setPrefWidth(sceneWidth / 5);
+        btnMaak.setPrefWidth(sceneWidth / 5);
 
         lblExtraParameters.setPrefWidth(sceneWidth / 2);
     }
@@ -252,11 +261,11 @@ public class OverzichtOpvraagSceneController extends HBox {
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
 
                 break;
-            case LESMATERIAAL:
-                vBoxContainer.getChildren().clear();
-                extraParameters.clear();
-                hBoxTableContainer.getChildren().clear();
-                break;
+//            case LESMATERIAAL:
+//                vBoxContainer.getChildren().clear();
+//                extraParameters.clear();
+//                hBoxTableContainer.getChildren().clear();
+//                break;
         }
     }
 
@@ -328,9 +337,15 @@ public class OverzichtOpvraagSceneController extends HBox {
                 tblLidInschrijvingen.getColumns().addAll(colNaam, colDatum, colFormule);
                 hBoxTableContainer.getChildren().addAll(tblLidInschrijvingen);
                 break;
-            case LESMATERIAAL:
-                break;
         }
+    }
+
+    @FXML
+    private void maakDocument(MouseEvent event) {
+        OverzichtType type = cboType.getSelectionModel().getSelectedItem();
+        List<String> overzicht = dc.maakOverzichtList(type, extraParameters);
+        String headers = dc.maakHeaders();
+        dc.maakOverzicht(overzicht, headers, path);
     }
 
 }

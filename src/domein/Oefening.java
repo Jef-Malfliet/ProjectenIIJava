@@ -30,7 +30,7 @@ import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name="Oefening.GetOefeningById", query="SELECT e FROM Oefening e WHERE e.id = :oefId")
+    @NamedQuery(name = "Oefening.GetOefeningById", query = "SELECT e FROM Oefening e WHERE e.id = :oefId")
 })
 public class Oefening implements Serializable, IOefening {
 
@@ -67,21 +67,21 @@ public class Oefening implements Serializable, IOefening {
     public Oefening() {
     }
 
-    public void setGraad(Graad graad) {
-        if(graad!=null)
-            this.graad = graad;
-        else
-            throw new IllegalArgumentException("Graad mag niet leeg zijn.");
+    public void mergeOefening(Oefening nieuweWaarden) {
+        setGraad(nieuweWaarden.getGraad());
+        setNaam(nieuweWaarden.getNaam());
+        setGraadProperty(nieuweWaarden.getGraadProperty());
+        setNaamProperty(nieuweWaarden.getNaamProperty());
+        setUitleg(nieuweWaarden.getUitleg());
+        setVideo(nieuweWaarden.getVideo()); 
+        setVideoProperty(nieuweWaarden.getVideoProperty());
+        deleteImages();
+        addImages(nieuweWaarden.getBytesImages());
     }
 
-    public void setNaam(String naam) {
-        if(naam!=null && naam!="")
-            this.naam = naam;
-        else
-            throw new IllegalArgumentException("Naam mag niet leeg zijn.");
+    public void deleteImages() {
+        this.images.clear();
     }
-    
-    
 
     /**
      *
@@ -89,6 +89,114 @@ public class Oefening implements Serializable, IOefening {
      */
     public void addUitleg(String uitleg) {
         this.uitleg = uitleg;
+    }
+
+    /**
+     *
+     * @param image
+     */
+    public void addImageFile(File image) {
+        try {
+            BufferedImage imagebufferd = ImageIO.read(image);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(imagebufferd, "jpg", outputStream);
+            this.images.add(outputStream.toByteArray());
+        } catch (IOException ex) {
+            Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void addBytesImages(byte[] image) {
+        this.images.add(image);
+    }
+
+    public void addVideo(String url) {
+        this.video = url;
+    }
+
+    public void addImages(List<byte[]> images) {
+        images.forEach(bytes -> this.addBytesImages(bytes));
+    }
+
+    public void setGraad(Graad graad) {
+        if (graad != null) {
+            this.graad = graad;
+        } else {
+            throw new IllegalArgumentException("Graad mag niet leeg zijn.");
+        }
+    }
+
+    public void setUitleg(String uitleg) {
+        this.uitleg = uitleg;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public void setNaamProperty(SimpleStringProperty naamProperty) {
+        this.naamProperty = naamProperty;
+    }
+
+    public void setVideoProperty(SimpleStringProperty videoProperty) {
+        this.videoProperty = videoProperty;
+    }
+
+    
+    public void setNaam(String naam) {
+        if (naam != null && !naam.isEmpty()) {
+            this.naam = naam;
+        } else {
+            throw new IllegalArgumentException("Naam mag niet leeg zijn.");
+        }
+    }
+
+    @Override
+    public List<byte[]> getBytesImages() {
+        return this.images;
+    }
+
+    @Override
+    public List<Image> getImages() {
+        List<Image> returnImages = new ArrayList<>();
+        for (byte[] bytes : this.images) {
+            InputStream input = new ByteArrayInputStream(bytes);
+            BufferedImage bufferedImage = null;
+
+            try {
+                bufferedImage = ImageIO.read(input);
+            } catch (IOException ex) {
+                Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            returnImages.add(image);
+        }
+
+        if (images.isEmpty() || images == null) {
+            return null;
+        } else {
+            return returnImages;
+        }
+    }
+
+    @Override
+    public String getVideo() {
+        return this.video;
+    }
+
+    @Override
+    public SimpleStringProperty getNaamProperty() {
+        return naamProperty;
+    }
+
+    @Override
+    public SimpleStringProperty getVideoProperty() {
+        return videoProperty;
+    }
+
+    @Override
+    public SimpleStringProperty getGraadProperty() {
+        return graadProperty;
     }
 
     @Override
@@ -107,62 +215,8 @@ public class Oefening implements Serializable, IOefening {
     }
 
     @Override
-    public long getId(){
+    public long getId() {
         return id;
-    }
-    /**
-     *
-     * @param image
-     */
-    public void addImage(File image) {
-        try {
-            BufferedImage imagebufferd = ImageIO.read(image);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(imagebufferd, "jpg", outputStream);
-            this.images.add(outputStream.toByteArray());
-        } catch (IOException ex) {
-            Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-      @Override
-    public List<byte[]> getBytesImages(){
-        return this.images;
-    }
-    
-    @Override
-    public List<Image> getImages() {
-        List<Image> returnImages = new ArrayList<>();
-        for (byte[] bytes : this.images) {
-            InputStream input = new ByteArrayInputStream(bytes);
-            BufferedImage bufferedImage = null;
-
-            try {
-                bufferedImage = ImageIO.read(input);
-            } catch (IOException ex) {
-                Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-                returnImages.add(image);
-        }
-        
-        if(images.isEmpty()||images == null){
-            return null;
-        }else{
-            return returnImages;
-        }
-    }
-
-    /**
-     *
-     * @param url
-     */
-    public void addVideo(String url) {
-        this.video = url;
-    }
-
-    @Override
-    public String getVideo() {
-        return this.video;
     }
 
     public void fillSimpleString() {
@@ -171,29 +225,8 @@ public class Oefening implements Serializable, IOefening {
         this.videoProperty.set(this.video);
     }
 
-    @Override
-    public SimpleStringProperty getNaamProperty() {
-        return naamProperty;
-    }
 
-    @Override
-    public SimpleStringProperty getVideoProperty() {
-        return videoProperty;
-    }
-
-    @Override
-    public SimpleStringProperty getGraadProperty() {
-        return graadProperty;
-    }
-
-    public void wijzigOefening(Oefening oefening){
-        setGraad(oefening.getGraad());
-        setNaam(oefening.getNaam());
-        this.graadProperty=oefening.getGraadProperty();
-        this.images=oefening.getBytesImages();
-        this.naamProperty=oefening.getNaamProperty();
-        this.uitleg=oefening.getUitleg();
-        this.video=oefening.getVideo();
-        this.videoProperty=oefening.getVideoProperty();
+    private void setGraadProperty(SimpleStringProperty graadProperty) {
+        this.graadProperty=graadProperty;
     }
 }
