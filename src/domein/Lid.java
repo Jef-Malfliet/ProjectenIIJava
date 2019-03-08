@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
 import javax.persistence.*;
+import util.Validatie;
 
 /**
  *
@@ -110,7 +111,7 @@ public class Lid implements Serializable, Exportable, ILid {
         setGraad(graad);
         setType(type);
         setLessen(lessen);
-        // fillSimpleProperties();
+        fillSimpleProperties();
     }
 
     public void fillSimpleProperties() {
@@ -460,35 +461,16 @@ public class Lid implements Serializable, Exportable, ILid {
         return rijksregisternummer;
     }
 
-    public void setRijksregisternummer(String rijksregisternummer) {
-        if (rijksregisternummer == null || rijksregisternummer.isEmpty()) {
+     public void setRijksregisternummer(String rijksregisternummer) {
+        if (Validatie.isNullOrEmpty(rijksregisternummer)) {
             throw new IllegalArgumentException("Rijksregisternummer mag niet leeg zijn");
         }
-
-        String pattern = "^([0-9]{2}).(0[1-9]|1[0-2]).((0[1-9])|(1[0-9])|(2[0-9]|3[0-1]))-([0-9]{3}).([0-9]{2})$";
-        Pattern p = Pattern.compile(pattern);
-        Matcher m = p.matcher(rijksregisternummer);
-        if (!m.matches()) {
+        if(!Validatie.rijksregisternummerIsCorrect(rijksregisternummer)){
             throw new IllegalArgumentException("Rijksregisternummer voldoet niet aan het juiste formaat");
         }
-
-        int controle = 0;
-        int getal = 0;
-        StringBuilder sb = new StringBuilder();
-        sb.append(m.group(1)).append(m.group(2)).append(m.group(3)).append(m.group(7));
-        try {
-            getal = Integer.parseInt(sb.toString());
-            controle = Integer.parseInt(m.group(8));//controle cijfer
-        } catch (NumberFormatException ex) {
-            ex.printStackTrace();
-        }
-        int modulo = getal % 97;
-        if (97 - modulo != controle) {
-            throw new IllegalArgumentException("Controlegetal klopt niet");
-        }
-
         this.rijksregisternummer = rijksregisternummer;
     }
+
 
     @Override
     public SimpleStringProperty getLessenProperty() {

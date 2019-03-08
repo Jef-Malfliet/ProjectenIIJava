@@ -10,15 +10,12 @@ import domein.FicheType;
 import domein.IActiviteit;
 import domein.ILid;
 import domein.LesType;
-import domein.Overzicht;
 import domein.OverzichtType;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.SortedList;
@@ -344,7 +341,8 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     @FXML
     private void maakDocument(MouseEvent event) {
-        List<String> overzicht = dc.maakOverzichtList(extraParameters);
+        OverzichtType type = cboType.getSelectionModel().getSelectedItem();
+        List<String> overzicht = dc.maakOverzichtList(type, extraParameters);
         String headers = dc.maakHeaders();
         dc.maakOverzicht(overzicht, headers, path);
     }

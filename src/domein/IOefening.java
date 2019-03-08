@@ -8,7 +8,6 @@ package domein;
 import java.io.Serializable;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.image.Image;
 
 /**
  *
