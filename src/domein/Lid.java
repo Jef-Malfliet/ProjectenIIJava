@@ -9,7 +9,8 @@ import java.util.regex.Pattern;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
 import javax.persistence.*;
-import util.Validatie;
+import static util.Validatie.*;
+
 
 /**
  *
@@ -186,7 +187,7 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setVoornaam(String voornaam) {
-        if (voornaam == null || voornaam.isEmpty()) {
+        if (isNullOrEmpty(voornaam)) {
             throw new IllegalArgumentException("Voornaam mag niet leeg zijn.");
         }
         this.voornaam = voornaam;
@@ -198,7 +199,7 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setFamilienaam(String familienaam) {
-        if (familienaam == null || familienaam.isEmpty()) {
+        if (isNullOrEmpty(familienaam)) {
             throw new IllegalArgumentException("familienaam mag niet leeg zijn.");
         }
         this.familienaam = familienaam;
@@ -210,10 +211,12 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setTelefoon_vast(String telefoon_vast) {
-        if (telefoon_vast == null || telefoon_vast.isEmpty()) {
+        
+        if (isNullOrEmpty(telefoon_vast)) {
             throw new IllegalArgumentException("Vaste telefoonnummer mag niet leeg zijn");
         }
-        if (!telefoon_vast.equals("/") && !(telefoon_vast.matches("0\\d{8}") || telefoon_vast.matches("00\\d{11}"))) {
+        
+        if (!(isValidLeeg(telefoon_vast) || isVasteTelefoonNummer(telefoon_vast))) {
             throw new IllegalArgumentException("Telefoon_vast is niet van het juiste formaat");
         }
         this.telefoon_vast = telefoon_vast;
@@ -225,10 +228,10 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setEmail(String email) {
-        if (email == null || email.isEmpty()) {
+        if (isNullOrEmpty(email)) {
             throw new IllegalArgumentException("E-mail mag niet leeg zijn.");
         }
-        if (!email.matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$")) {
+        if (!isGeldigEmailAdres(email)) {
             throw new IllegalArgumentException("E-mail voldoet niet aan het juiste patroon(voorbeeld@voorbeeld.iets");
         }
         this.email = email;
@@ -240,7 +243,7 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setStraatnaam(String straatnaam) {
-        if (straatnaam == null || straatnaam.isEmpty()) {
+        if (isNullOrEmpty(straatnaam)) {
             throw new IllegalArgumentException("Straatnaam mag niet leeg zijn.");
         }
         this.straatnaam = straatnaam;
@@ -252,10 +255,10 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setPostcode(String postcode) {
-        if (postcode == null || postcode.isEmpty()) {
+        if (isNullOrEmpty(postcode)) {
             throw new IllegalArgumentException("Postcode mag niet leeg zijn");
         }
-        if (!(postcode.matches("[1-9][0-9]{3}"))) {
+        if (!isPostcode(postcode)) {
             throw new IllegalArgumentException("postcode ongeldig");
         }
         this.postcode = postcode;
@@ -267,7 +270,7 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setStad(String stad) {
-        if (stad == null || stad.isEmpty()) {
+        if (isNullOrEmpty(stad)) {
             throw new IllegalArgumentException("stad mag niet leeg zijn.");
         }
         this.stad = stad;
@@ -318,7 +321,7 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setHuisnummer(String huisnummer) {
-        if (huisnummer == null || huisnummer.isEmpty()) {
+        if (isNullOrEmpty(huisnummer)) {
             throw new IllegalArgumentException("Huisnummer mag niet leeg zijn");
         }
         this.huisnummer = huisnummer;
@@ -330,7 +333,7 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setLand(String land) {
-        if (land == null || land.isEmpty()) {
+        if (isNullOrEmpty(land)) {
             throw new IllegalArgumentException("Land mag niet leeg zijn");
         }
         this.land = land;
@@ -342,10 +345,10 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setEmail_ouders(String email_ouders) {
-        if (email_ouders == null || email_ouders.isEmpty()) {
+        if (isNullOrEmpty(email_ouders)) {
             throw new IllegalArgumentException("Het email adres van de ouders mag niet leeg zijn. Indien geen ouderemailadres, vul / in");
         }
-        if (!email_ouders.equals("/") && !email_ouders.matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$")) {
+        if (!(isValidLeeg(email_ouders) || isGeldigEmailAdres(email_ouders))) {
             throw new IllegalArgumentException("E-mail voldoet niet aan het juiste patroon(voorbeeld@voorbeeld.iets");
         }
         this.email_ouders = email_ouders;
@@ -400,7 +403,7 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setWachtwoord(String wachtwoord) {
-        if (wachtwoord == null || wachtwoord.isEmpty()) {
+        if (isNullOrEmpty(wachtwoord)) {
             throw new IllegalArgumentException("Het lid moet een wachtwoord hebben.");
         }
         this.wachtwoord = wachtwoord;
@@ -412,10 +415,10 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setGsm(String gsm) {
-        if (gsm == null || gsm.isEmpty()) {
+        if (isNullOrEmpty(gsm)) {
             throw new IllegalArgumentException("Gsm mag niet leeg zijn.");
         }
-        if (!(gsm.matches("0\\d{9}") || gsm.matches("00\\d{11}"))) {
+        if (!isGsmNummer(gsm)) {
             throw new IllegalArgumentException("Gsm is niet van het juiste formaat");
         }
         this.gsm = gsm;
@@ -427,7 +430,7 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setBusnummer(String busnummer) {
-        if (busnummer == null || busnummer.isEmpty()) {
+        if (isNullOrEmpty(busnummer)) {
             throw new IllegalArgumentException("Busnummer mag niet leeg zijn. Indien het lid geen busnummer heeft, vul dan / in");
         }
         this.busnummer = busnummer;
@@ -462,10 +465,10 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
      public void setRijksregisternummer(String rijksregisternummer) {
-        if (Validatie.isNullOrEmpty(rijksregisternummer)) {
+        if (isNullOrEmpty(rijksregisternummer)) {
             throw new IllegalArgumentException("Rijksregisternummer mag niet leeg zijn");
         }
-        if(!Validatie.rijksregisternummerIsCorrect(rijksregisternummer)){
+        if(!rijksregisternummerIsCorrect(rijksregisternummer)){
             throw new IllegalArgumentException("Rijksregisternummer voldoet niet aan het juiste formaat");
         }
         this.rijksregisternummer = rijksregisternummer;

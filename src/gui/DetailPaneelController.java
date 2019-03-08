@@ -32,7 +32,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import util.Validatie;
+import static util.Validatie.*;
 
 /**
  * FXML Controller class
@@ -251,33 +251,33 @@ public class DetailPaneelController extends VBox {
                 errorOn(errormessages[i], textfields[i], "Gelieve in te vullen");
             }
         }
-        if (dpGeboorte.getValue() == null) {
+        if (isNull(dpGeboorte.getValue())) {
             errorOn(lblM_Geboortedatum, null, "Gelieve een datum in te vullen");
 
         }
-        if (dpInschrijving.getValue() == null) {
+        if (isNull(dpInschrijving.getValue())) {
             errorOn(lblM_Inschrijvingsdatum, null, "Gelieve een datum in te vullen");
         }
 
-        if (!Validatie.rijksregisternummerIsCorrect(txtRijksregisternummer.getText())) {
+        if (!rijksregisternummerIsCorrect(txtRijksregisternummer.getText())) {
             errorOn(lblM_Rijkregisternummer, txtRijksregisternummer, "Geen geldig rijkregisternummer");
         }
-        if (!(txtVasteTelefoon.getText().matches("") || txtVasteTelefoon.getText().matches("/") || txtVasteTelefoon.getText().matches("0\\d{8}") || txtVasteTelefoon.getText().matches("00\\d{10}"))) {
+        if (!(isLeeg(txtVasteTelefoon.getText()) || isValidLeeg(txtVasteTelefoon.getText()) || isVasteTelefoonNummer(txtVasteTelefoon.getText()))) {
             errorOn(lblM_VasteTelefoon, txtVasteTelefoon, "Gelieve een geldig telefoonnr op te geven");
         }
-        if (!(txtGsmnummer.getText().matches("0\\d{9}") || txtGsmnummer.getText().matches("00\\d{11}"))) {
+        if (!(isGsmNummer(txtGsmnummer.getText()))) {
             errorOn(lblM_Gsmnummer, txtGsmnummer, "Gelieve een geldig telefoonnr op te geven");
         }
-        if (!txtPostCode.getText().matches("[1-9][0-9]{3}")) {
+        if (!isPostcode(txtPostCode.getText())) {
             errorOn(lblM_Postcode, txtPostCode, "Gelieve een geldige postcode op te geven");
         }
-        if (!txtEmail.getText().matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$")) {
+        if (!isGeldigEmailAdres(txtEmail.getText())) {
             errorOn(lblM_Email, txtEmail, "Geen geldig emailadres");
         }
-        if (!(txtEmail_ouders.getText().matches("") || txtEmail_ouders.getText().matches("/") || txtEmail_ouders.getText().matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$"))) {
+        if (!(isLeeg(txtEmail_ouders.getText()) || isValidLeeg(txtEmail_ouders.getText())|| isGeldigEmailAdres(txtEmail_ouders.getText()))) {
             errorOn(lblM_Emailouder, txtEmail_ouders, "Geen geldig emailadres");
         }
-        if (!txtHuisnummer.getText().matches("[0-9]*[a-zA-Z]*")) {
+        if (!isHuisnummer(txtHuisnummer.getText())) {
             errorOn(lblM_Huisnummer, txtHuisnummer, "Geen geldig huisnummer");
         }
     }

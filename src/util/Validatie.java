@@ -46,4 +46,34 @@ public class Validatie {
 
     }
 
+    public static boolean isGsmNummer(String nummer) {
+        return nummer.matches("0\\d{9}") || nummer.matches("00\\d{11}");
+    }
+
+    public static boolean isVasteTelefoonNummer(String nummer) {
+        return nummer.matches("0\\d{8}") || nummer.matches("00\\d{10}");
+    }
+
+    public static boolean isGeldigEmailAdres(String email) {
+        return email.matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$");
+    }
+
+    public static boolean isValidLeeg(String parameter) {
+
+        return parameter.equals("/");
+    }
+
+    public static boolean isPostcode(String postcode) {
+        return postcode.matches("[1-9][0-9]{3}");
+    }
+    public static boolean isNull(Object parameter){
+        return parameter == null;
+    }
+    public static boolean isLeeg(String parameter){
+        return parameter.isEmpty();
+    }
+    public static boolean isHuisnummer(String huisnummer){
+        return huisnummer.matches("[0-9]*[a-zA-Z]*");
+    }
+
 }
