@@ -54,7 +54,6 @@ public class DetailPaneelController extends VBox {
     private TextField txtGemeente;
     @FXML
     private TextField txtEmail;
-    private ILid current_lid;
     @FXML
     private Label errorMessage;
     @FXML
@@ -173,10 +172,7 @@ public class DetailPaneelController extends VBox {
     }
 
     private void opvullenVanFields(ILid lid) {
-
         lblDetail.setText("Lid wijzigen");
-        current_lid = lid;
-        
         txtVoornaam.setText(lid.getVoornaam());
         txtAchternaam.setText(lid.getFamilienaam());
         txtWachtwoord.setText(lid.getWachtwoord());
@@ -284,36 +280,35 @@ public class DetailPaneelController extends VBox {
     }
 
     private void maaknieuwlid() {
-        current_lid = new DTOLid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
+        DTOLid dto = new DTOLid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
                 txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText().isEmpty() ? "/" : txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
                 txtLand.getText(), txtRijksregisternummer.getText(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
                 cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem(), cboLesType.getSelectionModel().getSelectedItem());
 
-        dc.voegLidToe(current_lid);
+        dc.voegLidToe(dto);
         errorMessage.setText("Lid werd toegevoegd");
         errorMessage.setVisible(true);
 
     }
 
     private void wijziglid() {
-        dc.wijzigLid(current_lid.getId(), txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
+        dc.wijzigLid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
                 txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText().isEmpty() ? "/" : txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
                 txtLand.getText(), txtRijksregisternummer.getText(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
                 cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem(), cboLesType.getSelectionModel().getSelectedItem());
 
         errorMessage.setText("Wijzigingen zijn opgeslagen");
         errorMessage.setVisible(true);
-        opvullenVanFields(current_lid);
+        opvullenVanFields(dc.getCurrentLid());
 
     }
 
     @FXML
     private void annuleerwijziging(ActionEvent event) {
         if (clearTextFields()) {
-            current_lid = null;
+            dc.verwijderSelectieLid();
             nieuwLidPaneel();
         }
-
     }
 
     private boolean alertNaWijzigen() {
@@ -338,7 +333,7 @@ public class DetailPaneelController extends VBox {
 
     private boolean clearTextFields() {
         boolean save = false;
-        if (current_lid == null ? true : !(save = alertNaWijzigen())) {
+        if (dc.geenLidGeslecteerd()? true : !(save = alertNaWijzigen())) {
             makeElementsWhiteLabelsInvisible();
             TextField[] textfields
                     = geefTextfields();
@@ -362,7 +357,7 @@ public class DetailPaneelController extends VBox {
 
     }
 
-    private void makeElementsWhiteLabelsInvisible() {
+     private void makeElementsWhiteLabelsInvisible() {
         TextField[] textfields = geefTextfields();
         Label[] errormessages = geefLabels();
         String whitestyle = "-fx-background-color:#ffffff";
@@ -409,7 +404,8 @@ public class DetailPaneelController extends VBox {
     }
 
     private boolean isgewijzigd() {
-        if (current_lid == null) {
+        ILid current_lid = dc.getCurrentLid();
+        if (dc.geenLidGeslecteerd()) {
             return false;
         }
 
@@ -428,10 +424,11 @@ public class DetailPaneelController extends VBox {
     }
 
     public void clearNaVerwijderen() {
-        current_lid = null;
+        dc.verwijderSelectieLid();
         if (clearTextFields()) {
             errorMessage.setText("Lid werd verwijderd");
             errorMessage.setVisible(true);
+            nieuwLidPaneel();
         }
     }
 
