@@ -1,21 +1,9 @@
 package domein;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-import javax.imageio.ImageIO;
-import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,7 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
@@ -41,9 +28,8 @@ public class Oefening implements Serializable, IOefening {
     @Enumerated(EnumType.STRING)
     private Graad graad;
     private String uitleg;
-    @Lob
     @ElementCollection
-    private List<byte[]> images;
+    private List<String> images;
     private String video;
     private String naam;
     @Transient
@@ -75,13 +61,13 @@ public class Oefening implements Serializable, IOefening {
         setUitleg(nieuweWaarden.getUitleg());
         setVideo(nieuweWaarden.getVideo()); 
         setVideoProperty(nieuweWaarden.getVideoProperty());
-        deleteImages();
-        addImages(nieuweWaarden.getBytesImages());
+        setImages(nieuweWaarden.getImagePaths());
     }
 
-    public void deleteImages() {
-        this.images.clear();
+    public void setImages(List<String> images) {
+        this.images = images;
     }
+
 
     /**
      *
@@ -91,31 +77,9 @@ public class Oefening implements Serializable, IOefening {
         this.uitleg = uitleg;
     }
 
-    /**
-     *
-     * @param image
-     */
-    public void addImageFile(File image) {
-        try {
-            BufferedImage imagebufferd = ImageIO.read(image);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(imagebufferd, "jpg", outputStream);
-            this.images.add(outputStream.toByteArray());
-        } catch (IOException ex) {
-            Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void addBytesImages(byte[] image) {
-        this.images.add(image);
-    }
 
     public void addVideo(String url) {
         this.video = url;
-    }
-
-    public void addImages(List<byte[]> images) {
-        images.forEach(bytes -> this.addBytesImages(bytes));
     }
 
     public void setGraad(Graad graad) {
@@ -148,34 +112,6 @@ public class Oefening implements Serializable, IOefening {
             this.naam = naam;
         } else {
             throw new IllegalArgumentException("Naam mag niet leeg zijn.");
-        }
-    }
-
-    @Override
-    public List<byte[]> getBytesImages() {
-        return this.images;
-    }
-
-    @Override
-    public List<Image> getImages() {
-        List<Image> returnImages = new ArrayList<>();
-        for (byte[] bytes : this.images) {
-            InputStream input = new ByteArrayInputStream(bytes);
-            BufferedImage bufferedImage = null;
-
-            try {
-                bufferedImage = ImageIO.read(input);
-            } catch (IOException ex) {
-                Logger.getLogger(Oefening.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-            returnImages.add(image);
-        }
-
-        if (images.isEmpty() || images == null) {
-            return null;
-        } else {
-            return returnImages;
         }
     }
 
@@ -228,5 +164,14 @@ public class Oefening implements Serializable, IOefening {
 
     private void setGraadProperty(SimpleStringProperty graadProperty) {
         this.graadProperty=graadProperty;
+    }
+
+    public void addImagePath(String path){
+        this.images.add(path);
+    }
+
+    @Override
+    public List<String> getImagePaths() {
+        return this.images;
     }
 }

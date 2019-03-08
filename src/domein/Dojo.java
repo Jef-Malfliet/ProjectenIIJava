@@ -205,11 +205,9 @@ public class Dojo {
         }
     }
 
-    public void wijzigOefening(Oefening nieuweWaarden, long id) {
-        Oefening origin = oefeningRepo.getOefeningById(id);
-        origin.mergeOefening(nieuweWaarden);
-        oefeningRepo.update(origin);
-
+    public void wijzigOefening(Oefening newValue, Oefening oldValue) {
+        Oefening origin = oldValue;
+        origin.mergeOefening(newValue);
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 
@@ -335,15 +333,5 @@ public class Dojo {
 
     Activiteit getActiviteit(long id) {
         return activiteitRepo.get(id);
-    }
-
-    public List<String> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
-        switch (type) {
-            case AANWEZIGHEID:
-            case ACTIVITEIT:
-            case INSCHRIJVING:
-            case CLUBKAMPIOENSCHAP:
-        }
-        return null;
     }
 }

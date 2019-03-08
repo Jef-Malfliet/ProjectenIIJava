@@ -75,7 +75,7 @@ public class StartUp extends Application {
         dc.addLesMateriaal(oef3);
         dc.addLesMateriaal(oef2);
         dc.addLesMateriaal(oef1);
-
+        
         MainPanel root = new MainPanel(dc);
 
         Scene scene = new Scene(root);

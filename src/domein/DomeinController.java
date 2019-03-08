@@ -120,10 +120,10 @@ public class DomeinController {
         GenericDaoJpa.commitTransaction();
     }
 
-    public void wijzigLesMateriaal(Oefening oefening, long id) {
+    public void wijzigLesMateriaal(Oefening newValue, IOefening oldValue) {
         GenericDaoJpa.startTransaction();
-        System.out.println(id + "DOMEINCONTROLLER");
-        dojo.wijzigOefening(oefening, id);
+        System.out.println(oldValue.getId() + "DOMEINCONTROLLER");
+        dojo.wijzigOefening(newValue, (Oefening) oldValue);
         GenericDaoJpa.commitTransaction();
 
     }
@@ -163,8 +163,6 @@ public class DomeinController {
 
     public List<ILid> geefIngeschrevenLeden(long activiteitId) {
         List<ILid> iLeden = new ArrayList<>();
-        System.out.println(activiteitRepository.get(activiteitId));
-        System.out.println(activiteitRepository.get(activiteitId).getAanwezigen());
         activiteitRepository.get(activiteitId).getAanwezigen().stream().forEach(l -> {
             iLeden.add(l);
         });
@@ -181,11 +179,11 @@ public class DomeinController {
         return dojo.getActiviteit(id);
     }
 
-    public List<String> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
-         return dojo.maakOverzichtList(type, extraParameters);
+    public List<String> maakOverzichtList(List<Object> extraParameters) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String maakHeaders() {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

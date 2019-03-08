@@ -23,9 +23,7 @@ public interface IOefening extends Serializable {
     SimpleStringProperty getGraadProperty();
     
     String getUitleg();
-    
-    List<Image>getImages();
-    
+        
     String getVideo();
     
     Graad getGraad();
@@ -34,8 +32,7 @@ public interface IOefening extends Serializable {
     
     long getId();
     
-    List<byte[]> getBytesImages();
-
+    List<String> getImagePaths();
  
     
 

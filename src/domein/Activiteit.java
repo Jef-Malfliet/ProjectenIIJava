@@ -20,7 +20,7 @@ public class Activiteit implements Serializable, IActiviteit {
 
     private boolean stage;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany()
     private List<Lid> aanwezigen;
 
     @Transient

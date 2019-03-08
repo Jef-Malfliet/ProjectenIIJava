@@ -93,7 +93,7 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <VBox fx:id="vBoxContainer" alignment="CENTER" prefHeight="150.0">
+            <VBox fx:id="vBoxContainer" alignment="CENTER">
                <children>
                   <HBox fx:id="hBoxTopRow" spacing="10.0">
                      <VBox.margin>
