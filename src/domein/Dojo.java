@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -187,13 +188,13 @@ public class Dojo {
         return activiteiten;
     }
 
-    public void lidInschrijven(String activiteitNaam, String lidEmail){
+    public void lidInschrijven(String activiteitNaam, String lidEmail) {
         Activiteit actTemp = activiteitRepo.getByName(activiteitNaam);
         Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
         actTemp.lidInschrijven(lidTemp);
         activiteitRepo.update(actTemp);
     }
-    
+
     public void lidUitschrijven(long activiteitId, long lidId) {
         Activiteit tempAct = activiteitRepo.get(lidId);
         Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
@@ -238,11 +239,11 @@ public class Dojo {
     }
 
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
-        Predicate<ILid> result = lid -> true;
-        Predicate<ILid> voornaam = lid -> lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0;
-        Predicate<ILid> familienaam = lid -> lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0;
-        Predicate<ILid> graad = lid -> lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
-        Predicate<ILid> type = lid -> lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
+        Predicate<Lid> result = lid -> true;
+        Predicate<Lid> voornaam = lid -> lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0;
+        Predicate<Lid> familienaam = lid -> lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0;
+        Predicate<Lid> graad = lid -> lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
+        Predicate<Lid> lidType = lid -> lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
 
         if (notEmpty(voornaamFilter)) {
             result = result.and(voornaam);
@@ -257,7 +258,7 @@ public class Dojo {
         }
 
         if (notEmpty(typeFilter)) {
-            result = result.and(type);
+            result = result.and(lidType);
         }
 
         filtered.setPredicate(result);
@@ -285,13 +286,40 @@ public class Dojo {
     }
 
     public List<String> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
+        FilteredList<Lid> ledenOverzicht = new FilteredList<>(leden, (p) -> true);
         switch (type) {
             case AANWEZIGHEID:
-            case ACTIVITEIT:
             case INSCHRIJVING:
+                LocalDate inschrijvingdatum = (LocalDate) extraParameters.get(0);
+                String voornaam = extraParameters.get(1).toString();
+                LesType formule = (LesType) extraParameters.get(2);
+                Predicate<Lid> InschResult = lid -> true;
+                Predicate<Lid> onDate = lid -> lid.getInschrijvingsdatum().equals(inschrijvingdatum);
+                Predicate<Lid> onName = lid -> lid.getVoornaam().compareToIgnoreCase(voornaam) >= 0;
+                Predicate<Lid> onFormule = lid -> lid.getLessen().equals(formule);
+
+                if (inschrijvingdatum != null) {
+                    InschResult = InschResult.and(onDate);
+                }
+
+                if (notEmpty(voornaam)) {
+                    InschResult = InschResult.and(onName);
+                }
+
+                if (formule != null) {
+                    InschResult = InschResult.and(onFormule);
+                }
+                ledenOverzicht.setPredicate(InschResult);
+                return ledenOverzicht.stream().map(Lid::toString).collect(Collectors.toList());
+            case ACTIVITEIT:
+                return activiteiten.stream().map(Activiteit::toString).collect(Collectors.toList());
             case CLUBKAMPIOENSCHAP:
+                return kampioenschappen.stream().map(Kampioenschap::toString).collect(Collectors.toList());
+            case LESMATERIAAL:
+                return null;
+            default:
+                return null;
         }
-        return null;
     }
 
     public void setCurrentLid(ILid lid) {

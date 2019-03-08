@@ -151,14 +151,14 @@ public class OverzichtOpvraagSceneController extends HBox {
         lblOverzichtOpvragen.setMinWidth(sceneWidth);
         lblOverzichtRaadplegen.setMinWidth(sceneWidth);
 
-        cboType.setPrefWidth(sceneWidth / 5);
+        cboType.setPrefWidth(sceneWidth / 4.5);
         lblOverzicht.setPrefWidth(sceneWidth / 5);
 
         lblBesNaam.setPrefWidth(sceneWidth / 5);
         txtBesNaam.setPrefWidth(sceneWidth / 5);
 
         btnLocation.setPrefWidth(sceneWidth / 5);
-        btnPreview.setPrefWidth(sceneWidth / 5);
+        btnPreview.setPrefWidth(sceneWidth / 4.5);
         btnMaak.setPrefWidth(sceneWidth / 5);
 
         lblExtraParameters.setPrefWidth(sceneWidth / 2);
@@ -197,6 +197,8 @@ public class OverzichtOpvraagSceneController extends HBox {
         lblLidFiche.setPrefWidth(sceneWidth / 4.5);
         CheckBox cb = new CheckBox();
 
+        Label lblNoExtra = new Label("Geen extra parameters");
+
         switch (type) {
             case AANWEZIGHEID:
                 vBoxContainer.getChildren().clear();
@@ -209,7 +211,6 @@ public class OverzichtOpvraagSceneController extends HBox {
                 hBoxUnderRow.getChildren().addAll(vBoxFormule);
 
                 extraParameters.addAll(Arrays.asList(datePicker, txfLidNaam, cboFormule));
-                //vBoxContainer.getChildren().addAll(vBoxLid, vBoxDatum, vBoxFormule);
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
                 hBoxTableContainer.getChildren().clear();
                 break;
@@ -218,51 +219,45 @@ public class OverzichtOpvraagSceneController extends HBox {
                 extraParameters.clear();
 
                 hBoxTopRow.getChildren().clear();
-                hBoxTopRow.getChildren().addAll(cb, lblLidFiche);
+                hBoxTopRow.getChildren().addAll(lblNoExtra);
 
-                extraParameters.addAll(Arrays.asList(cb));
-                //vBoxContainer.getChildren().addAll(hBoxFiche);
                 vBoxContainer.getChildren().addAll(hBoxTopRow);
                 hBoxTableContainer.getChildren().clear();
                 break;
             case CLUBKAMPIOENSCHAP:
                 vBoxContainer.getChildren().clear();
                 extraParameters.clear();
+
+                hBoxTopRow.getChildren().clear();
+                hBoxTopRow.getChildren().addAll(lblNoExtra);
+
+                vBoxContainer.getChildren().addAll(hBoxTopRow);
                 hBoxTableContainer.getChildren().clear();
                 break;
             case INSCHRIJVING:
                 vBoxContainer.getChildren().clear();
                 extraParameters.clear();
 
-                ComboBox cboFicheType = new ComboBox();
-                cboFicheType.setPromptText("Genereer een fiche");
-                cboFicheType.setItems(FXCollections.observableArrayList(Arrays.asList(FicheType.values())));
-                cboFicheType.setPrefWidth((sceneWidth / 2) / 2.1);
-
-                HBox hBoxIFiche = new HBox();
-                HBox.setMargin(hBoxIFiche, new Insets(5));
-                hBoxIFiche.getChildren().addAll(cboFicheType);
-
-                VBox vBoxIFiche = new VBox();
-                VBox.setMargin(vBoxIFiche, new Insets(10));
-                vBoxIFiche.getChildren().addAll(lblLidFiche, hBoxIFiche);
-
                 hBoxTopRow.getChildren().clear();
                 hBoxTopRow.getChildren().addAll(vBoxLid, vBoxDatum);
 
                 hBoxUnderRow.getChildren().clear();
-                hBoxUnderRow.getChildren().addAll(vBoxFormule, vBoxIFiche);
+                hBoxUnderRow.getChildren().addAll(vBoxFormule);
 
-                extraParameters.addAll(Arrays.asList(datePicker, txfLidNaam, cboFormule, cboFicheType));
-                //vBoxContainer.getChildren().addAll(vBoxLid, vBoxDatum, vBoxFormule, vBoxIFiche);
+                extraParameters.addAll(Arrays.asList(datePicker, txfLidNaam, cboFormule.getSelectionModel().getSelectedItem()));
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
-
+                hBoxTableContainer.getChildren().clear();
                 break;
-//            case LESMATERIAAL:
-//                vBoxContainer.getChildren().clear();
-//                extraParameters.clear();
-//                hBoxTableContainer.getChildren().clear();
-//                break;
+            case LESMATERIAAL:
+                vBoxContainer.getChildren().clear();
+                extraParameters.clear();
+
+                hBoxTopRow.getChildren().clear();
+                hBoxTopRow.getChildren().addAll(lblNoExtra);
+
+                vBoxContainer.getChildren().addAll(hBoxTopRow);
+                hBoxTableContainer.getChildren().clear();
+                break;
         }
     }
 
@@ -334,8 +329,8 @@ public class OverzichtOpvraagSceneController extends HBox {
                 tblLidInschrijvingen.getColumns().addAll(colNaam, colDatum, colFormule);
                 hBoxTableContainer.getChildren().addAll(tblLidInschrijvingen);
                 break;
-//            case LESMATERIAAL:
-//                break;
+            case LESMATERIAAL:
+                break;
         }
     }
 
