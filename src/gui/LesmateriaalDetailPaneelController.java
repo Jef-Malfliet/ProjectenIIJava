@@ -9,15 +9,14 @@ import domein.DomeinController;
 import domein.Graad;
 import domein.IOefening;
 import domein.Oefening;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,11 +29,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javax.imageio.ImageIO;
 import util.FullScreenResolution;
 
 /**
@@ -48,7 +45,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
     private double sceneHeight = FullScreenResolution.getHeight();
 
     private DomeinController dc;
-    private List<File> imageFiles;
+    private List<String> imagePaths;
     private boolean nieuweOefening;
     private LesmateriaalOverzichtSceneController losc;
     boolean geldig = false;
@@ -86,7 +83,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
             throw new RuntimeException(ex);
         }
         this.dc = dc;
-        imageFiles = new ArrayList<>();
+        imagePaths = new ArrayList<>();
         buildGui();
         clearAll();
     }
@@ -124,21 +121,25 @@ public class LesmateriaalDetailPaneelController extends VBox {
     @FXML
     private void kiesFoto(ActionEvent event) {
 
-        //Image van de gebruiker nemen.
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Kies foto");
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
         File selectedFile = fileChooser.showOpenDialog(this.getScene().getWindow());
-        imageFiles.add(selectedFile);
-        BufferedImage bi = null;
+        String imagepath = null;
         try {
-            bi = ImageIO.read(selectedFile);
-        } catch (IOException ex) {
+            imagepath = selectedFile.toURI().toURL().toString();
+        } catch (MalformedURLException ex) {
             Logger.getLogger(LesmateriaalDetailPaneelController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Image image = SwingFXUtils.toFXImage(bi, null);
-        fillImageInVBImages(image);
+        if (imagepath != null) {
+            Image image = new Image(imagepath);
+            this.imagePaths.add(imagepath);
+            fillImageInVBImages(imagepath);
+        } else {
+            System.out.println("Geen foto gekozen!");
+        }
+
     }
 
     public void fillOefening(IOefening newOef) {
@@ -149,14 +150,15 @@ public class LesmateriaalDetailPaneelController extends VBox {
         txfNaam.setText(newOef.getNaam());
         txaUitleg.setText(newOef.getUitleg());
         txfVideoURL.setText(newOef.getVideo());
-        if (newOef.getImages() != null) {
-            for (Image image : newOef.getImages()) {
-                fillImageInVBImages(image);
+        if (newOef.getImagePaths() != null) {
+            for (String imagePath : newOef.getImagePaths()) {
+                fillImageInVBImages(imagePath);
             }
         }
     }
 
-    private void fillImageInVBImages(Image image) {
+    private void fillImageInVBImages(String imagePath) {
+        Image image = new Image(imagePath);
         ImageView imageView = new ImageView();
         imageView.setImage(image);
         vbImages.getChildren().add(imageView);
@@ -165,7 +167,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
     public void clearAll() {
         this.current_oefening = null;
         cbMinimumgraad.setValue(null);
-        imageFiles.clear();
+        imagePaths.clear();
         txfNaam.clear();
         txaUitleg.clear();
         txfVideoURL.clear();
@@ -208,10 +210,10 @@ public class LesmateriaalDetailPaneelController extends VBox {
             if (urlVideo != null) {
                 temp.addVideo(urlVideo);
             }
-            if (!imageFiles.isEmpty()) {
-                for (File file : imageFiles) {
-                    if (file != null) {
-                        temp.addImageFile(file);
+            if (!imagePaths.isEmpty()) {
+                for (String path : imagePaths) {
+                    if (path != null) {
+                        temp.addImagePath(path);
                     }
                 }
             }
