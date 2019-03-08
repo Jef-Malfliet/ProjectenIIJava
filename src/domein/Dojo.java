@@ -119,7 +119,7 @@ public class Dojo {
                 activiteitRepo.insert(activiteit);
                 GenericDaoJpa.commitTransaction();
                 activiteiten.add(activiteit);
-               // subject.firePropertyChange("lijstactiviteiten", null, activiteiten);
+                subject.firePropertyChange("lijstactiviteiten", null, activiteiten);
                 return true;
             }
         }
@@ -153,7 +153,7 @@ public class Dojo {
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         subject.addPropertyChangeListener(pcl);
-       // pcl.propertyChange(new PropertyChangeEvent(pcl, "lijstOefeningen", null, oefeningen));
+        pcl.propertyChange(new PropertyChangeEvent(pcl, "lijstOefeningen", null, oefeningen));
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pc1) {
@@ -207,7 +207,7 @@ public class Dojo {
             if (oefeningRepo.get(oefening.getId()) == null) {
                 this.oefeningen.add(oefening);
                 oefeningRepo.insert(oefening);
-              //  subject.firePropertyChange("lijstOefeningen", null, oefeningen);
+                subject.firePropertyChange("lijstOefeningen", null, oefeningen);
             }
         }
         GenericDaoJpa.commitTransaction();
@@ -218,7 +218,7 @@ public class Dojo {
         GenericDaoJpa.startTransaction();
         origin.mergeOefening(newValue);
         GenericDaoJpa.commitTransaction();
-       // subject.firePropertyChange("lijstOefeningen", null, oefeningen);
+        subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 
     private void setOefeningRepo(OefeningDao oefeningRepo) {
@@ -270,7 +270,7 @@ public class Dojo {
         this.oefeningRepo.delete(oef);
         this.oefeningen.remove(oef);
         GenericDaoJpa.commitTransaction();
-      //  subject.firePropertyChange("lijstOefeningen", null, oefeningen);
+        subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 
     Activiteit getActiviteit(long id) {
