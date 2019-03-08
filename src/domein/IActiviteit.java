@@ -17,11 +17,13 @@ public interface IActiviteit {
     
     String getNaam();
     
-    LocalDate getStartDatum();
+    LocalDate getBeginDatum();
     
     LocalDate getEindDatum();
     
     boolean isStage();
+    
+    int getMaxAanwezigen();
     
     SimpleStringProperty getNaamProperty();
     

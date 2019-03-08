@@ -15,11 +15,13 @@ public class Activiteit implements Serializable, IActiviteit {
 
     private String naam;
 
-    private LocalDate startDatum;
+    private LocalDate beginDatum;
 
     private LocalDate eindDatum;
 
     private boolean stage;
+    
+    private int maxAanwezigen;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Lid> aanwezigen;
@@ -40,14 +42,15 @@ public class Activiteit implements Serializable, IActiviteit {
     }
 
     public Activiteit(IActiviteit act) {
-        this(act.getNaam(), act.getStartDatum(), act.getEindDatum(), act.isStage());
+        this(act.getNaam(), act.getBeginDatum(), act.getEindDatum(), act.isStage(), act.getMaxAanwezigen());
     }
 
-    public Activiteit(String naam, LocalDate startDatum, LocalDate eindDatum, boolean stage) {
-        this.naam = naam;
-        this.startDatum = startDatum;
+    public Activiteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean stage, int maxAanwezigen) {
+        setNaam(naam);
+        setBeginDatum(beginDatum);
         this.eindDatum = eindDatum;
         this.stage = stage;
+        this.maxAanwezigen = maxAanwezigen;
         this.aanwezigen = new ArrayList<>();
     }
 
@@ -72,12 +75,12 @@ public class Activiteit implements Serializable, IActiviteit {
     }
 
     @Override
-    public LocalDate getStartDatum() {
-        return startDatum;
+    public LocalDate getBeginDatum() {
+        return beginDatum;
     }
 
-    private void setStartDatum(LocalDate startDatum) {
-        this.startDatum = startDatum;
+    private void setBeginDatum(LocalDate startDatum) {
+        this.beginDatum = startDatum;
     }
 
     @Override
@@ -148,16 +151,24 @@ public class Activiteit implements Serializable, IActiviteit {
         this.stageProperty = stageProperty;
     }
 
+    public int getMaxAanwezigen() {
+        return maxAanwezigen;
+    }
+
+    public void setMaxAanwezigen(int maxAanwezigen) {
+        this.maxAanwezigen = maxAanwezigen;
+    }
+
     public void updateActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean stage) {
         setNaam(naam);
-        setStartDatum(beginDatum);
+        setBeginDatum(beginDatum);
         setEindDatum(eindDatum);
         setStage(stage);
     }
 
     public void fillSimpleProperties() {
         this.setNaamProperty(new SimpleStringProperty(this.getNaam()));
-        this.setBeginDatumProperty(new SimpleStringProperty(this.getStartDatum().toString()));
+        this.setBeginDatumProperty(new SimpleStringProperty(this.getBeginDatum().toString()));
         this.setEindDatumProperty(new SimpleStringProperty(this.getEindDatum().toString()));
         this.setStageProperty(new SimpleStringProperty(this.isStage() ? "stage" : "geen stage"));
     }
