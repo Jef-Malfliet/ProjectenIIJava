@@ -195,37 +195,36 @@ public class LesmateriaalDetailPaneelController extends VBox {
         String naam = txfNaam.getText();
         String uitleg = txaUitleg.getText();
         String urlVideo = txfVideoURL.getText();
-        Oefening temp = null;
+        Oefening nieuweWaardes = null;
+        
         try {
-            temp = new Oefening(graad, naam);
+            nieuweWaardes = new Oefening(graad, naam);
             geldig = true;
         } catch (IllegalArgumentException e) {
             validate();
         }
-
         if (geldig) {
             if (uitleg != null) {
-                temp.addUitleg(uitleg);
+                nieuweWaardes.addUitleg(uitleg);
             }
             if (urlVideo != null) {
-                temp.addVideo(urlVideo);
+                nieuweWaardes.addVideo(urlVideo);
             }
             if (!imagePaths.isEmpty()) {
                 for (String path : imagePaths) {
                     if (path != null) {
-                        temp.addImagePath(path);
+                        nieuweWaardes.addImagePath(path);
                     }
                 }
             }
 
             if (current_oefening == null) {
-                dc.addLesMateriaal(temp);
+                dc.addLesMateriaal(nieuweWaardes);
                 clearAll();
 
             } else {
-                System.out.println("REACHED HERE");
                 //current is de oude waarde! temp si de nieuwe.
-                dc.wijzigLesMateriaal(temp, current_oefening);
+                dc.wijzigLesMateriaal(nieuweWaardes, current_oefening);
                 clearAll();
             }
         }
