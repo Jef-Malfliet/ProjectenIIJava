@@ -162,9 +162,9 @@ public class DomeinController {
         return iLeden;
     }
 
-    public void schrijfLidIn(Activiteit activiteit, Lid lid) {
+    public void schrijfLidIn(String activiteitNaam, String lidEmail) {
         GenericDaoJpa.startTransaction();
-        dojo.lidInschrijven(activiteit, lid);
+        dojo.lidInschrijven(activiteitNaam, lidEmail);
         GenericDaoJpa.commitTransaction();
     }
 

@@ -181,12 +181,13 @@ public class Dojo {
         return activiteiten;
     }
 
-    public void lidInschrijven(Activiteit activiteit, Lid lid) {
-        Activiteit a = activiteitRepo.update(activiteit);
-        a.lidInschrijven(lid);
-
+    public void lidInschrijven(String activiteitNaam, String lidEmail){
+        Activiteit actTemp = activiteitRepo.getByName(activiteitNaam);
+        Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
+        actTemp.lidInschrijven(lidTemp);
+        activiteitRepo.update(actTemp);
     }
-
+    
     public void lidUitschrijven(long activiteitId, long lidId) {
         Activiteit tempAct = activiteitRepo.get(lidId);
         ILid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
