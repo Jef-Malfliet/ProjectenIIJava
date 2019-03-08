@@ -1,6 +1,7 @@
 package domein;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.*;
@@ -14,13 +15,13 @@ public class Activiteit implements Serializable, IActiviteit {
 
     private String naam;
 
-    private Date startDatum;
+    private LocalDate startDatum;
 
-    private Date eindDatum;
+    private LocalDate eindDatum;
 
     private boolean stage;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Lid> aanwezigen;
 
     @Transient
@@ -42,7 +43,7 @@ public class Activiteit implements Serializable, IActiviteit {
         this(act.getNaam(), act.getStartDatum(), act.getEindDatum(), act.isStage());
     }
 
-    public Activiteit(String naam, Date startDatum, Date eindDatum, boolean stage) {
+    public Activiteit(String naam, LocalDate startDatum, LocalDate eindDatum, boolean stage) {
         this.naam = naam;
         this.startDatum = startDatum;
         this.eindDatum = eindDatum;
@@ -71,20 +72,20 @@ public class Activiteit implements Serializable, IActiviteit {
     }
 
     @Override
-    public Date getStartDatum() {
+    public LocalDate getStartDatum() {
         return startDatum;
     }
 
-    private void setStartDatum(Date startDatum) {
+    private void setStartDatum(LocalDate startDatum) {
         this.startDatum = startDatum;
     }
 
     @Override
-    public Date getEindDatum() {
+    public LocalDate getEindDatum() {
         return eindDatum;
     }
 
-    private void setEindDatum(Date eindDatum) {
+    private void setEindDatum(LocalDate eindDatum) {
         this.eindDatum = eindDatum;
     }
 
@@ -147,9 +148,9 @@ public class Activiteit implements Serializable, IActiviteit {
         this.stageProperty = stageProperty;
     }
 
-    public void updateActiviteit(String naam, Date beginDatum, Date eindDatum, boolean stage) {
+    public void updateActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean stage) {
         setNaam(naam);
-        setStartDatum(startDatum);
+        setStartDatum(beginDatum);
         setEindDatum(eindDatum);
         setStage(stage);
     }

@@ -12,5 +12,7 @@ import domein.Activiteit;
  * @author Jef
  */
 public interface ActiviteitDao extends GenericDao<Activiteit>{
+
+    public Activiteit getByName(String activiteitNaam);
     
 }

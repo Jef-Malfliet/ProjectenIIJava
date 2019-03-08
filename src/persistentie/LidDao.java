@@ -15,5 +15,8 @@ import javax.persistence.EntityNotFoundException;
  */
 public interface LidDao extends GenericDao<Lid> {
 //voor extra sql operaties, als er geen extra nodig zijn mag deze klasse weg
+
     List<Lid> getLedenByName(String name) throws EntityNotFoundException;
+
+    public Lid getLidByEmail(String email);
 }

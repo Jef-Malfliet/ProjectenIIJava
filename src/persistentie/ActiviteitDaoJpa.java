@@ -17,8 +17,8 @@ public class ActiviteitDaoJpa extends GenericDaoJpa<Activiteit> implements Activ
         super(Activiteit.class);
     }
     
-    public void lidInschrijven(Activiteit activiteit) {
-        update(activiteit);
+    public Activiteit getByName(String activiteitNaam){
+        return findAll().stream().filter(a -> a.getNaam() == activiteitNaam).findFirst().orElse(null);
     }
     
 }

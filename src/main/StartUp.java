@@ -15,6 +15,7 @@ import domein.Oefening;
 import domein.RolType;
 import gui.MainPanel;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -57,16 +58,17 @@ public class StartUp extends Application {
         dc.voegLidToe(lid2);
         dc.voegLidToe(lid3);
 
-        Activiteit act1 = new Activiteit("Uitstap", new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), false);
-        Activiteit act2 = new Activiteit("Weekend", new GregorianCalendar(2019, Calendar.MARCH, 5).getTime(), new GregorianCalendar(2019, Calendar.MARCH, 7).getTime(), true);
+        Activiteit act1 = new Activiteit("Uitstap", LocalDate.of(2014, Month.FEBRUARY, 11), LocalDate.of(2014, Month.FEBRUARY, 11), false);
+        Activiteit act2 = new Activiteit("Weekend", LocalDate.of(2019, Month.MARCH, 5), LocalDate.of(2019, Month.MARCH, 7), true);
 
         dc.voegActiviteitToe(act1);
         dc.voegActiviteitToe(act2);
 
-        dc.schrijfLidIn(act1, lid3);
+        
+        dc.schrijfLidIn(act1.getNaam(), lid3.getEmail());
 
-        dc.schrijfLidIn(act2, lid1);
-        dc.schrijfLidIn(act2, lid2);
+        dc.schrijfLidIn(act2.getNaam(), lid1.getEmail());
+        dc.schrijfLidIn(act2.getNaam(), lid2.getEmail());
 
         Oefening oef1 = new Oefening(Graad.GROEN, "Test1");
         Oefening oef2 = new Oefening(Graad.DAN11, "Test2");
@@ -75,7 +77,7 @@ public class StartUp extends Application {
         dc.addLesMateriaal(oef3);
         dc.addLesMateriaal(oef2);
         dc.addLesMateriaal(oef1);
-        
+
         MainPanel root = new MainPanel(dc);
 
         Scene scene = new Scene(root);

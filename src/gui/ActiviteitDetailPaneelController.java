@@ -132,8 +132,8 @@ public class ActiviteitDetailPaneelController extends VBox {
         cbStage.setSelected(false);
 
         tfNaam.setText(activiteit.getNaam());
-        dpStartdatum.setValue(activiteit.getStartDatum().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        dpEinddatum.setValue(activiteit.getEindDatum().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        dpStartdatum.setValue(activiteit.getStartDatum());
+        dpEinddatum.setValue(activiteit.getEindDatum());
         cbStage.setSelected(activiteit.isStage());
 
         System.out.println(dc.geefIngeschrevenLeden(activiteit.getId()));

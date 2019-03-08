@@ -5,7 +5,7 @@
  */
 package domein;
 
-import java.util.Date;
+import java.time.LocalDate;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -17,9 +17,9 @@ public interface IActiviteit {
     
     String getNaam();
     
-    Date getStartDatum();
+    LocalDate getStartDatum();
     
-    Date getEindDatum();
+    LocalDate getEindDatum();
     
     boolean isStage();
     
