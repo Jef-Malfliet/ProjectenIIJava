@@ -51,10 +51,10 @@ public class DomeinController {
         
     }
 
-    public boolean wijzigLid(long id, String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer,
+    public boolean wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer,
             String postcode, String stad, String land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden,
             Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
-        boolean lid1 = dojo.wijzigLid(id, voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum,
+        boolean lid1 = dojo.wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum,
                 aanwezigheden, geslacht, graad, type, lessen);
         return lid1;
 
@@ -64,8 +64,8 @@ public class DomeinController {
      *
      * @param lid
      */
-    public boolean verwijderLid(long id) {
-        return dojo.verwijderLid(id);
+    public boolean verwijderCurrentLid() {
+        return dojo.verwijderCurrentLid();
         
     }
 
@@ -168,4 +168,18 @@ public class DomeinController {
     public String maakHeaders() {
         return null;
     }
+
+    public void setCurrentLid(ILid lid) {
+        dojo.setCurrentLid(lid);
+    }
+    public ILid getCurrentLid() {
+        return dojo.getCurrentLid();
+    }
+    public boolean geenLidGeslecteerd(){
+        return getCurrentLid() == null;
+    }
+    public void verwijderSelectieLid(){
+        setCurrentLid(null);
+    }
+    
 }

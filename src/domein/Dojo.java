@@ -36,6 +36,8 @@ public class Dojo {
     private final List<Overzicht> overzichtList;
     private List<Kampioenschap> kampioenschappen;
 
+    private int current_Lid = -1;
+
     public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo) {
         setLidRepo(lidRepo);
         setOefeningRepo(oefeningRepo);
@@ -54,30 +56,32 @@ public class Dojo {
      *
      * @param lid
      */
-    public boolean verwijderLid(long id) {
+    public boolean verwijderCurrentLid() {
+        Lid currentLid = current_Lid != -1?leden.get(current_Lid):null;
         GenericDaoJpa.startTransaction();
-        Lid lid = lidRepo.get(id);
-        this.lidRepo.delete(lid);
+        this.lidRepo.delete(currentLid);
         GenericDaoJpa.commitTransaction();
-        return this.leden.remove(lid);
+        return this.leden.remove(currentLid);
     }
 
     /**
      *
      * @param lid
      */
-    public boolean wijzigLid(long id, String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
+    public boolean wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
         GenericDaoJpa.startTransaction();
-        Lid temp = lidRepo.get(id);
-        temp.wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type, lessen);
-        //ILid temp = lidRepo.update(lid);
-        lidRepo.update(temp);
-        
+        //Lid temp = lidRepo.get(id);
+        Lid currentLid = current_Lid != -1?leden.get(current_Lid):null;
+
+        currentLid.wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type, lessen);
+        leden.set(current_Lid, currentLid);
+//ILid temp = lidRepo.update(lid);
+        lidRepo.update(currentLid);
         GenericDaoJpa.commitTransaction();
-        subject.firePropertyChange("lijstleden", null, leden);
-        if (temp == null) {
-            return false;
-        }
+        // subject.firePropertyChange("lijstleden", null, leden);
+//        if (temp == null) {
+//            return false;
+//        }
         return true;
     }
 
@@ -100,9 +104,7 @@ public class Dojo {
                 GenericDaoJpa.startTransaction();
                 lidRepo.insert(lid);
                 GenericDaoJpa.commitTransaction();
-
                 leden.add(lid);
-                subject.firePropertyChange("lijstleden", null, leden);
                 return true;
             }
         }
@@ -153,7 +155,6 @@ public class Dojo {
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         subject.addPropertyChangeListener(pcl);
-        pcl.propertyChange(new PropertyChangeEvent(pcl, "lijstleden", null, leden));
         pcl.propertyChange(new PropertyChangeEvent(pcl, "lijstOefeningen", null, oefeningen));
 
     }
@@ -362,6 +363,18 @@ public class Dojo {
             case INSCHRIJVING:
             case CLUBKAMPIOENSCHAP:
         }
+        return null;
+    }
+
+    public void setCurrentLid(ILid lid) {
+       
+        current_Lid = leden.indexOf(lid);
+        
+    }
+
+    public ILid getCurrentLid() {
+        if(current_Lid != -1)
+            return leden.get(current_Lid);
         return null;
     }
 }

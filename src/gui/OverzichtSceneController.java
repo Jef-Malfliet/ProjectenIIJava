@@ -88,7 +88,10 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
                 addListener((observableValue, oldLid, newLid)
                         -> {
                     if (newLid != null) {
-                        dpc.fillLid(newLid);
+
+                        if (dpc.fillLid(newLid)) {
+                            dc.setCurrentLid(newLid);
+                        }
                     }
                 });
 
@@ -139,11 +142,12 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     public void verwijdergeselecteerdLid() {
         ILid lid = tableOverview.getSelectionModel().selectedItemProperty().get();
         tableOverview.getSelectionModel().clearSelection();
-        dpc.clearNaVerwijderen();
+
         if (lid != null) {
-            dc.verwijderLid(lid.getId());
+            dc.verwijderCurrentLid();
             update();
         }
+        dpc.clearNaVerwijderen();
 
     }
 
@@ -166,3 +170,4 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         dc.filter("", "", "", "");
     }
 }
+

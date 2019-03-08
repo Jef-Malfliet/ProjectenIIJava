@@ -110,7 +110,7 @@ public class Lid implements Serializable, Exportable, ILid {
         setGraad(graad);
         setType(type);
         setLessen(lessen);
-        // fillSimpleProperties();
+        fillSimpleProperties();
     }
 
     public void fillSimpleProperties() {
