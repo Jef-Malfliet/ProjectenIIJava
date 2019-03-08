@@ -204,11 +204,9 @@ public class Dojo {
         }
     }
 
-    public void wijzigOefening(Oefening nieuweWaarden, long id) {
-        Oefening origin = oefeningRepo.getOefeningById(id);
-        origin.mergeOefening(nieuweWaarden);
-        oefeningRepo.update(origin);
-
+    public void wijzigOefening(Oefening newValue, Oefening oldValue) {
+        Oefening origin = oldValue;
+        origin.mergeOefening(newValue);
         subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 

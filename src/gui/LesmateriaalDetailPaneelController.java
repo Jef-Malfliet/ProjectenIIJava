@@ -222,7 +222,8 @@ public class LesmateriaalDetailPaneelController extends VBox {
 
             } else {
                 System.out.println("REACHED HERE");
-                dc.wijzigLesMateriaal(temp, current_oefening.getId());
+                //current is de oude waarde! temp si de nieuwe.
+                dc.wijzigLesMateriaal(temp, current_oefening);
                 clearAll();
             }
         }
