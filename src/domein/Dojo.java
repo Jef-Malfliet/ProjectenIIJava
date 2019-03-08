@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -224,96 +225,29 @@ public class Dojo {
     }
 
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
-        filtered.setPredicate(lid -> {
-            //4 van de 4 null
-            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
-                    && (graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
-                return true;
-            }
+        Predicate<ILid> result = lid -> true;
+        Predicate<ILid> voornaam = lid -> lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0;
+        Predicate<ILid> familienaam = lid -> lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0;
+        Predicate<ILid> graad = lid -> lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
+        Predicate<ILid> type = lid -> lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
 
-            //1 van de 1, rest null
-            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
-                    && (graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0;
-            }
+        if (notEmpty(voornaamFilter)) {
+            result = result.and(voornaam);
+        }
 
-            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
-                    && (graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0;
-            }
+        if(notEmpty(familienaamFilter)){
+            result = result.and(familienaam);
+        }
+        
+        if(notEmpty(graadFilter)){
+            result = result.and(graad);
+        }
+        
+        if(notEmpty(typeFilter)){
+            result = result.and(type);
+        }
 
-            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
-                    && !(graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
-                //return lid.getGraad().toString().compareToIgnoreCase(graadFilter) >= 0;
-                return lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
-            }
-
-            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
-                    && (graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
-                //return lid.getType().toString().compareToIgnoreCase(typeFilter) >= 0;
-                return lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
-            }
-
-            //2 van de 4, de rest null
-            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
-                    && (graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0;
-            }
-
-            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
-                    && !(graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
-            }
-
-            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
-                    && (graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
-            }
-
-            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
-                    && !(graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0 && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
-            }
-
-            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
-                    && (graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0 && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
-            }
-
-            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
-                    && !(graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase()) && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
-            }
-
-            //3 van de 4, de rest null
-            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
-                    && !(graadFilter == null || graadFilter.isEmpty()) && (typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0
-                        && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
-            }
-
-            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
-                    && (graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0
-                        && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
-            }
-
-            if (!(voornaamFilter == null || voornaamFilter.isEmpty()) && (familienaamFilter == null || familienaamFilter.isEmpty())
-                    && !(graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase())
-                        && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
-            }
-
-            if ((voornaamFilter == null || voornaamFilter.isEmpty()) && !(familienaamFilter == null || familienaamFilter.isEmpty())
-                    && !(graadFilter == null || graadFilter.isEmpty()) && !(typeFilter == null || typeFilter.isEmpty())) {
-                return lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0 && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase())
-                        && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
-            } //allemaal
-            else {
-                return lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0 && lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0
-                        && lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase()) && lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
-            }
-        });
+        filtered.setPredicate(result);
     }
 
     private void setActiviteitDao(ActiviteitDao actRepo) {
@@ -332,5 +266,9 @@ public class Dojo {
 
     Activiteit getActiviteit(long id) {
         return activiteitRepo.get(id);
+    }
+
+    private boolean notEmpty(String value) {
+        return value != null || !value.isEmpty();
     }
 }
