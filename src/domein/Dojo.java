@@ -181,8 +181,8 @@ public class Dojo {
     }
 
     public void lidInschrijven(Activiteit activiteit, Lid lid) {
-        activiteit.lidInschrijven(lid);
-        activiteitRepo.update(activiteit);
+        Activiteit a = activiteitRepo.update(activiteit);
+        a.lidInschrijven(lid);
     }
 
     public void lidUitschrijven(long activiteitId, long lidId) {

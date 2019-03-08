@@ -19,7 +19,7 @@ public class ActiviteitDaoJpa extends GenericDaoJpa<Activiteit> implements Activ
     
     @Override
     public void lidInschrijven(Activiteit activiteit) {
-        insert(activiteit);
+        update(activiteit);
     }
     
 }
