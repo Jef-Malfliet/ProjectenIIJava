@@ -184,7 +184,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         vBoxLid.getChildren().addAll(lblLidNaam, txfLidNaam);
 
         Label lblFormule = new Label("Op formule");
-        ComboBox cboFormule = new ComboBox();
+        ComboBox<LesType> cboFormule = new ComboBox();
         lblFormule.setPrefWidth(sceneWidth / 4.5);
         cboFormule.setPrefWidth(sceneWidth / 4.5);
         cboFormule.setPromptText("Kies een formule");
