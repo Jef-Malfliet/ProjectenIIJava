@@ -196,12 +196,14 @@ public class DetailPaneelController extends VBox {
         nieuwlid = false;
     }
 
-    public void fillLid(ILid lid) {
+    public boolean fillLid(ILid lid) {
 
         if (clearTextFields()) {
             errorMessage.setVisible(false);
             opvullenVanFields(lid);
+            return true;
         }
+        return false;
 
     }
 

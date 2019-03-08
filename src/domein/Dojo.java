@@ -115,9 +115,9 @@ public class Dojo {
 
         if (!activiteiten.contains(activiteit)) {
             if (activiteitRepo.get(activiteit.getId()) == null) {
-
+                GenericDaoJpa.startTransaction();
                 activiteitRepo.insert(activiteit);
-
+                GenericDaoJpa.commitTransaction();
                 activiteiten.add(activiteit);
                 subject.firePropertyChange("lijstactiviteiten", null, activiteiten);
                 return true;
@@ -144,11 +144,11 @@ public class Dojo {
     }
 
     private void fillSimplePropertiesLidForGui() {
-        leden.forEach(lid -> ((Lid) lid).fillSimpleProperties());
+        leden.forEach(Lid::fillSimpleProperties);
     }
 
     private void fillSimplePropertiesActiviteitForGui() {
-        activiteiten.forEach(act -> ((Activiteit) act).fillSimpleProperties());
+        activiteiten.forEach(Activiteit::fillSimpleProperties);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -174,7 +174,7 @@ public class Dojo {
     }
 
     public ObservableList<Oefening> getOefeningen() {
-        oefeningen.forEach(oef -> ((Oefening) oef).fillSimpleString());
+        oefeningen.forEach(Oefening::fillSimpleString);
         return oefeningen;
     }
 
@@ -193,8 +193,8 @@ public class Dojo {
 
     public void lidUitschrijven(long activiteitId, long lidId) {
         Activiteit tempAct = activiteitRepo.get(lidId);
-        ILid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
-        tempAct.lidUitschrijven((Lid) tempLid);
+        Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
+        tempAct.lidUitschrijven(tempLid);
     }
 
     /**

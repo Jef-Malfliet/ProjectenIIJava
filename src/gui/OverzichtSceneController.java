@@ -88,7 +88,9 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
                 addListener((observableValue, oldLid, newLid)
                         -> {
                     if (newLid != null) {
-                        dpc.fillLid(newLid);
+                       if (dpc.fillLid(newLid)) {
+                            dc.setCurrentLid(newLid);
+                        }   
                     }
                 });
 
