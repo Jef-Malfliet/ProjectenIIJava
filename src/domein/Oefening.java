@@ -61,7 +61,7 @@ public class Oefening implements Serializable, IOefening {
         setUitleg(nieuweWaarden.getUitleg());
         setVideo(nieuweWaarden.getVideo()); 
         setVideoProperty(nieuweWaarden.getVideoProperty());
-        setImages(nieuweWaarden.getImagePaths());
+        nieuweWaarden.getImagePaths().forEach(path->addImagePath(path));
     }
 
     public void setImages(List<String> images) {

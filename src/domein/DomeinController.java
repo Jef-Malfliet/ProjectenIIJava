@@ -115,23 +115,16 @@ public class DomeinController {
      * @param oefening
      */
     public void addLesMateriaal(Oefening oefening) {
-        GenericDaoJpa.startTransaction();
-        dojo.addOefening(oefening);
-        GenericDaoJpa.commitTransaction();
+        dojo.addLesmateriaal(oefening);
     }
 
     public void wijzigLesMateriaal(Oefening newValue, IOefening oldValue) {
-        GenericDaoJpa.startTransaction();
-        System.out.println(oldValue.getId() + "DOMEINCONTROLLER");
-        dojo.wijzigOefening(newValue, (Oefening) oldValue);
-        GenericDaoJpa.commitTransaction();
+        dojo.wijzigLesmateriaal(newValue, (Oefening) oldValue);
 
     }
 
     public void verwijderLesMateriaal(long id) {
-        GenericDaoJpa.startTransaction();
         dojo.verwijderLesMateriaal(id);
-        GenericDaoJpa.commitTransaction();
     }
 
     public Oefening getOefening(Long id) {
