@@ -65,7 +65,7 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
         
         tvOverzichtLesmateriaal.getSelectionModel().selectedItemProperty().addListener((observable, oldOef, newOef) -> {
             if (newOef != null) {
-                ldpc.fillOefening(newOef);
+                ldpc.fillDetailsMetGeselecteerdeOefening(newOef);
                 ldpc.setCurrentOefening(newOef);
             }
         });

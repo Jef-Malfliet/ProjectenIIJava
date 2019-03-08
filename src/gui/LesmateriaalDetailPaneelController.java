@@ -40,10 +40,7 @@ import util.FullScreenResolution;
  * @author IndyV
  */
 public class LesmateriaalDetailPaneelController extends VBox {
-
-    private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
-    private double sceneHeight = FullScreenResolution.getHeight();
-
+    
     private DomeinController dc;
     private List<String> imagePaths;
     private boolean nieuweOefening;
@@ -63,7 +60,6 @@ public class LesmateriaalDetailPaneelController extends VBox {
     private TextField txfVideoURL;
     @FXML
     private Button btnMaakOefening;
-    private WebView wvYoutube;
     @FXML
     private VBox vbImages;
     @FXML
@@ -133,16 +129,19 @@ public class LesmateriaalDetailPaneelController extends VBox {
             Logger.getLogger(LesmateriaalDetailPaneelController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (imagepath != null) {
-            Image image = new Image(imagepath);
-            this.imagePaths.add(imagepath);
-            fillImageInVBImages(imagepath);
+            toonGeselecteerdeFoto(imagepath);
         } else {
             System.out.println("Geen foto gekozen!");
         }
-
     }
 
-    public void fillOefening(IOefening newOef) {
+    private void toonGeselecteerdeFoto(String imagepath) {
+        Image image = new Image(imagepath);
+        this.imagePaths.add(imagepath);
+        fillImageInVBImages(imagepath);
+    }
+
+    public void fillDetailsMetGeselecteerdeOefening(IOefening newOef) {
         clearAll();
         nieuweOefening = false;
         lblTitel.setText("Wijzig oefening");
@@ -205,10 +204,10 @@ public class LesmateriaalDetailPaneelController extends VBox {
         }
         if (geldig) {
             if (uitleg != null) {
-                nieuweWaardes.addUitleg(uitleg);
+                nieuweWaardes.setUitleg(uitleg);
             }
             if (urlVideo != null) {
-                nieuweWaardes.addVideo(urlVideo);
+                nieuweWaardes.setVideo(urlVideo);
             }
             if (!imagePaths.isEmpty()) {
                 for (String path : imagePaths) {
@@ -219,16 +218,23 @@ public class LesmateriaalDetailPaneelController extends VBox {
             }
 
             if (current_oefening == null) {
-                dc.addLesMateriaal(nieuweWaardes);
-                clearAll();
+                addNieuwLesmateriaal(nieuweWaardes);
 
             } else {
-                //current is de oude waarde! temp si de nieuwe.
-                dc.wijzigLesMateriaal(nieuweWaardes, current_oefening);
-                clearAll();
+                wijzigLesmateriaal(nieuweWaardes);
             }
         }
 
+    }
+
+    private void addNieuwLesmateriaal(Oefening nieuweWaardes) {
+        dc.addLesMateriaal(nieuweWaardes);
+        clearAll();
+    }
+
+    private void wijzigLesmateriaal(Oefening nieuweWaardes) {
+        dc.wijzigLesMateriaal(nieuweWaardes, current_oefening);
+        clearAll();
     }
 
     public void setCurrentOefening(IOefening oefening) {

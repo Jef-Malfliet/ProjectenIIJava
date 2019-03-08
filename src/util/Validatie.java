@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
  * @author Nante
  */
 public class Validatie {
-    
-    public static boolean rijksregisternummerIsCorrect(String rijksregisternummer){
-        
+
+    public static boolean rijksregisternummerIsCorrect(String rijksregisternummer) {
+
         String pattern = "^([0-9]{2}).(0[1-9]|1[0-2]).((0[1-9])|(1[0-9])|(2[0-9]|3[0-1]))-([0-9]{3}).([0-9]{2})$";
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(rijksregisternummer);
@@ -38,12 +38,12 @@ public class Validatie {
             return false;
         }
         return true;
-        
-    }
-    public static boolean isNullOrEmpty(String parameter){
-        return parameter == null || parameter.isEmpty();
-            
-        }
 
-    
+    }
+
+    public static boolean isNullOrEmpty(String parameter) {
+        return parameter == null || parameter.isEmpty();
+
+    }
+
 }

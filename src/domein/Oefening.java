@@ -3,6 +3,8 @@ package domein;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -16,9 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "Oefening.GetOefeningById", query = "SELECT e FROM Oefening e WHERE e.id = :oefId")
-})
 public class Oefening implements Serializable, IOefening {
 
     @Id
@@ -59,27 +58,13 @@ public class Oefening implements Serializable, IOefening {
         setGraadProperty(nieuweWaarden.getGraadProperty());
         setNaamProperty(nieuweWaarden.getNaamProperty());
         setUitleg(nieuweWaarden.getUitleg());
-        setVideo(nieuweWaarden.getVideo()); 
+        setVideo(nieuweWaarden.getVideo());
         setVideoProperty(nieuweWaarden.getVideoProperty());
-        nieuweWaarden.getImagePaths().forEach(path->addImagePath(path));
+        nieuweWaarden.getImagePaths().forEach(path -> addImagePath(path));
     }
 
     public void setImages(List<String> images) {
         this.images = images;
-    }
-
-
-    /**
-     *
-     * @param uitleg
-     */
-    public void addUitleg(String uitleg) {
-        this.uitleg = uitleg;
-    }
-
-
-    public void addVideo(String url) {
-        this.video = url;
     }
 
     public void setGraad(Graad graad) {
@@ -94,8 +79,25 @@ public class Oefening implements Serializable, IOefening {
         this.uitleg = uitleg;
     }
 
-    public void setVideo(String video) {
-        this.video = video;
+    public void setVideo(String url) {
+        String ID = getYoutubeId(url);
+        System.out.println(ID);
+        String URL = "https://www.youtube.com/embed?v=" + ID;
+        this.video = URL;
+    }
+
+    public String getYoutubeId(String url) {
+        String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
+
+        Pattern compiledPattern = Pattern.compile(pattern,
+                Pattern.CASE_INSENSITIVE);
+        Matcher matcher = compiledPattern.matcher(url);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }//from   w  w w . jav a 2s. c o m
+        else{
+            throw new IllegalArgumentException("Foutieve Youtube URL");
+        }
     }
 
     public void setNaamProperty(SimpleStringProperty naamProperty) {
@@ -106,7 +108,6 @@ public class Oefening implements Serializable, IOefening {
         this.videoProperty = videoProperty;
     }
 
-    
     public void setNaam(String naam) {
         if (naam != null && !naam.isEmpty()) {
             this.naam = naam;
@@ -161,12 +162,11 @@ public class Oefening implements Serializable, IOefening {
         this.videoProperty.set(this.video);
     }
 
-
     private void setGraadProperty(SimpleStringProperty graadProperty) {
-        this.graadProperty=graadProperty;
+        this.graadProperty = graadProperty;
     }
 
-    public void addImagePath(String path){
+    public void addImagePath(String path) {
         this.images.add(path);
     }
 

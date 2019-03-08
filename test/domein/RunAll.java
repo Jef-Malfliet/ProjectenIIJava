@@ -14,6 +14,6 @@ import org.junit.runners.Suite;
  * @author Mout
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({domein.DojoTest.class, domein.FoutiveWaredenLidConstructorTest.class, domein.LidTest.class})
+@Suite.SuiteClasses({domein.DojoTest.class, domein.FoutiveWaredenLidConstructorTest.class, domein.LidTest.class, domein.OefeningTest.class, domein.OefeningTestParameterized.class})
 public class RunAll {    
 }
