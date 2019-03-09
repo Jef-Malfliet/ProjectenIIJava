@@ -168,7 +168,7 @@ public class DetailPaneelController extends VBox {
         });
         voegNietVerplichteVeldenToe();
         dpGeboorte.setEditable(false);
-        dpInschrijving.setEditable(false);
+        dpInschrijving.setEditable(false); 
         cboGemeentes.setOnAction(e -> {
             changeGemeenteTextField();
         });
@@ -231,6 +231,7 @@ public class DetailPaneelController extends VBox {
                 }
             }
         } else {
+            errorOf(lblM_Postcode, txtPostCode);
             if (hbox.getChildren().contains(cboGemeentes)) {
                 hbox.getChildren().remove(cboGemeentes);
                 hbox.getChildren().add(1, txtGemeente);
@@ -293,6 +294,7 @@ public class DetailPaneelController extends VBox {
     private void bevestigWijziging(ActionEvent event) {
         makeElementsWhiteLabelsInvisible();
         veldenCompleet = true;
+        controleerOpgemeentes();
         valideerVelden();
         if (veldenCompleet) {
             if (nieuwlid) {
