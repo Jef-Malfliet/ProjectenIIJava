@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import util.FullScreenResolution;
 
 /**
@@ -27,10 +28,10 @@ import util.FullScreenResolution;
  * @author IndyV
  */
 public class LesmateriaalOverzichtSceneController extends VBox implements PropertyChangeListener {
-    
+
     private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
     private double sceneHeight = FullScreenResolution.getHeight();
-    
+
     private LesmateriaalDetailPaneelController ldpc;
     private DomeinController dc;
     @FXML
@@ -41,7 +42,9 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
     private TableColumn<IOefening, String> tcGraad;
     @FXML
     private TableColumn<IOefening, String> tcURL;
-    
+    @FXML
+    private WebView youtube;
+
     public LesmateriaalOverzichtSceneController(DomeinController dc, LesmateriaalDetailPaneelController ldpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalOverzichtScene.fxml"));
         loader.setController(this);
@@ -52,27 +55,27 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
             throw new RuntimeException(ex);
         }
         this.dc = dc;
-        this.ldpc=ldpc;
+        this.ldpc = ldpc;
         buildGui();
     }
-    
+
     private void buildGui() {
         setMaxScreen();
         tvOverzichtLesmateriaal.setItems(dc.getLesmateriaal());
         tcNaam.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
         tcGraad.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
         tcURL.setCellValueFactory(cellData -> cellData.getValue().getVideoProperty());
-        
+
         tvOverzichtLesmateriaal.getSelectionModel().selectedItemProperty().addListener((observable, oldOef, newOef) -> {
             if (newOef != null) {
                 ldpc.fillDetailsMetGeselecteerdeOefening(newOef);
                 ldpc.setCurrentOefening(newOef);
+                youtube.getEngine().load(newOef.getVideo());
             }
         });
 
-        
     }
-    
+
     private void setMaxScreen() {
         tvOverzichtLesmateriaal.setPrefSize(sceneWidth, sceneHeight);
         tcNaam.setPrefWidth(sceneWidth / 3);
@@ -99,5 +102,9 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
             dc.verwijderLesMateriaal(oef.getId());
         }
     }
-    
+
+    public void clearYoutube() {
+        youtube.getEngine().loadContent("");
+    }
+
 }

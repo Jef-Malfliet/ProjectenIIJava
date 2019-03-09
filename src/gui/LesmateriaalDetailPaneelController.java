@@ -24,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -40,13 +41,14 @@ import util.FullScreenResolution;
  * @author IndyV
  */
 public class LesmateriaalDetailPaneelController extends VBox {
-    
+
     private DomeinController dc;
     private List<String> imagePaths;
     private boolean nieuweOefening;
     private LesmateriaalOverzichtSceneController losc;
     boolean geldig = false;
     private IOefening current_oefening = null;
+    VBox box = new VBox();
 
     @FXML
     private ComboBox<Graad> cbMinimumgraad;
@@ -61,7 +63,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
     @FXML
     private Button btnMaakOefening;
     @FXML
-    private VBox vbImages;
+    private ScrollPane vbImages;
     @FXML
     private Label lblTitel;
     @FXML
@@ -86,6 +88,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
 
     private void buildGui() {
         cbMinimumgraad.setItems(FXCollections.observableArrayList(Graad.values()));
+        box = new VBox();
     }
 
     @FXML
@@ -127,6 +130,11 @@ public class LesmateriaalDetailPaneelController extends VBox {
             imagepath = selectedFile.toURI().toURL().toString();
         } catch (MalformedURLException ex) {
             Logger.getLogger(LesmateriaalDetailPaneelController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fout");
+            alert.setContentText("Geen foto gekozen.");
+            alert.showAndWait();
         }
         if (imagepath != null) {
             toonGeselecteerdeFoto(imagepath);
@@ -138,7 +146,8 @@ public class LesmateriaalDetailPaneelController extends VBox {
     private void toonGeselecteerdeFoto(String imagepath) {
         Image image = new Image(imagepath);
         this.imagePaths.add(imagepath);
-        fillImageInVBImages(imagepath);
+        fillBoxWithImages(box, imagepath);
+        vbImages.setContent(box);
     }
 
     public void fillDetailsMetGeselecteerdeOefening(IOefening newOef) {
@@ -151,16 +160,17 @@ public class LesmateriaalDetailPaneelController extends VBox {
         txfVideoURL.setText(newOef.getVideo());
         if (newOef.getImagePaths() != null) {
             for (String imagePath : newOef.getImagePaths()) {
-                fillImageInVBImages(imagePath);
+                fillBoxWithImages(box, imagePath);
             }
+            vbImages.setContent(box);
         }
     }
 
-    private void fillImageInVBImages(String imagePath) {
+    private void fillBoxWithImages(VBox box, String imagePath) {
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView();
         imageView.setImage(image);
-        vbImages.getChildren().add(imageView);
+        box.getChildren().add(imageView);
     }
 
     public void clearAll() {
@@ -170,7 +180,11 @@ public class LesmateriaalDetailPaneelController extends VBox {
         txfNaam.clear();
         txaUitleg.clear();
         txfVideoURL.clear();
-        vbImages.getChildren().clear();
+        box.getChildren().clear();
+        vbImages.setContent(null);
+        if (losc != null) {
+            losc.clearYoutube();
+        }
         lblTitel.setText("Maak een nieuwe oefening aan.");
     }
 
@@ -195,19 +209,26 @@ public class LesmateriaalDetailPaneelController extends VBox {
         String uitleg = txaUitleg.getText();
         String urlVideo = txfVideoURL.getText();
         Oefening nieuweWaardes = null;
-        
+
         try {
             nieuweWaardes = new Oefening(graad, naam);
             geldig = true;
         } catch (IllegalArgumentException e) {
             validate();
         }
-        if (geldig) {
+        if (geldig && nieuweWaardes != null) {
             if (uitleg != null) {
                 nieuweWaardes.setUitleg(uitleg);
             }
-            if (urlVideo != null) {
-                nieuweWaardes.setVideo(urlVideo);
+            if (urlVideo != null && !urlVideo.isEmpty()) {
+                try {
+                    nieuweWaardes.setVideo(urlVideo);
+                } catch (IllegalArgumentException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Fout");
+                    alert.setContentText(e.getMessage());
+                    alert.showAndWait();
+                }
             }
             if (!imagePaths.isEmpty()) {
                 for (String path : imagePaths) {

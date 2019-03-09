@@ -66,14 +66,29 @@ public class Validatie {
     public static boolean isPostcode(String postcode) {
         return postcode.matches("[1-9][0-9]{3}");
     }
-    public static boolean isNull(Object parameter){
+
+    public static boolean isNull(Object parameter) {
         return parameter == null;
     }
-    public static boolean isLeeg(String parameter){
+
+    public static boolean isLeeg(String parameter) {
         return parameter.isEmpty();
     }
-    public static boolean isHuisnummer(String huisnummer){
+
+    public static boolean isHuisnummer(String huisnummer) {
         return huisnummer.matches("[0-9]*[a-zA-Z]*");
+    }
+
+    public static String getYoutubeId(String url) {
+        String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
+        Pattern compiledPattern = Pattern.compile(pattern,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = compiledPattern.matcher(url);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }//from   w  w w . jav a 2s. c o m
+        else {
+            throw new IllegalArgumentException("Foutieve Youtube URL");
+        }
     }
 
 }

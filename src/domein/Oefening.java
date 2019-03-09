@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
+import util.Validatie;
 
 @Entity
 public class Oefening implements Serializable, IOefening {
@@ -80,23 +81,11 @@ public class Oefening implements Serializable, IOefening {
     }
 
     public void setVideo(String url) {
-        String ID = getYoutubeId(url);
+        if(url!=null){
+        String ID = Validatie.getYoutubeId(url);
         System.out.println(ID);
-        String URL = "https://www.youtube.com/embed?v=" + ID;
+        String URL = "https://www.youtube.com/embed/" + ID;
         this.video = URL;
-    }
-
-    public String getYoutubeId(String url) {
-        String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
-
-        Pattern compiledPattern = Pattern.compile(pattern,
-                Pattern.CASE_INSENSITIVE);
-        Matcher matcher = compiledPattern.matcher(url);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }//from   w  w w . jav a 2s. c o m
-        else{
-            throw new IllegalArgumentException("Foutieve Youtube URL");
         }
     }
 
