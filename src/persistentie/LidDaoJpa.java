@@ -31,6 +31,7 @@ public class LidDaoJpa extends GenericDaoJpa<Lid> implements LidDao{
         }
     }
     
+    @Override
     public Lid getLidByEmail(String email){
         return findAll().stream().filter(l -> l.getEmail().equals(email)).findFirst().orElse(null);
     }

@@ -34,167 +34,185 @@
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <VBox prefHeight="122.0" prefWidth="570.0">
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
+                        <HBox maxWidth="1.7976931348623157E308">
                            <children>
-                              <HBox layoutX="40.0" layoutY="15.0" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
+                              <Button fx:id="btnVerwijderActiviteit" alignment="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="135.0" text="Verwijder activiteit">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="40.0" top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="btnNieuweActiviteit" mnemonicParsing="false" prefHeight="30.0" prefWidth="135.0" text="Nieuwe activiteit">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label fx:id="lblMessage" textFill="#00b4ab">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" top="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="122.0" prefWidth="570.0">
+                                 <padding>
+                                    <Insets bottom="5.0" right="5.0" top="5.0" />
+                                 </padding>
                                  <children>
-                                    <Label fx:id="lblNaam" prefHeight="28.0" prefWidth="115.0" text="Naam*">
-                                       <HBox.margin>
-                                          <Insets left="20.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="tfNaam" prefHeight="25.0" prefWidth="232.0" />
+                                    <HBox layoutX="40.0" layoutY="15.0" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
+                                       <children>
+                                          <Label fx:id="lblNaam" prefHeight="17.0" prefWidth="154.0" text="Naam*">
+                                             <HBox.margin>
+                                                <Insets right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tfNaam" prefHeight="25.0" prefWidth="232.0" />
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <VBox.margin>
+                                          <Insets left="40.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
+                                       <children>
+                                          <Label fx:id="lblBegindatum" prefHeight="17.0" prefWidth="154.0" text="Begindatum*">
+                                             <HBox.margin>
+                                                <Insets right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <DatePicker fx:id="dpBegindatum" prefHeight="25.0" prefWidth="231.0" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="40.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
+                                       <children>
+                                          <Label fx:id="lblEinddatum" prefHeight="17.0" prefWidth="154.0" text="Einddatum*">
+                                             <HBox.margin>
+                                                <Insets right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <DatePicker fx:id="dpEinddatum" prefHeight="25.0" prefWidth="231.0" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="40.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox layoutX="40.0" layoutY="15.0" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
+                                       <children>
+                                          <Label fx:id="lblMaxAanwezigen" text="Maximum aantal aanwezigen">
+                                             <HBox.margin>
+                                                <Insets right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tfMaxAanwezigen" prefHeight="25.0" prefWidth="53.0" />
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <VBox.margin>
+                                          <Insets left="40.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
+                                       <children>
+                                          <Label fx:id="lblStage" prefHeight="27.0" prefWidth="154.0" text="Stage">
+                                             <HBox.margin>
+                                                <Insets right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
+                                          </Label>
+                                          <CheckBox fx:id="cbStage" mnemonicParsing="false" prefHeight="7.0" prefWidth="17.0">
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </CheckBox>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="40.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="17.0" prefWidth="816.0">
+                                       <children>
+                                          <Label text="Verplicht*">
+                                             <HBox.margin>
+                                                <Insets right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="40.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="214.0" prefWidth="518.0">
+                                 <children>
                                     <Label fx:id="lblNaamFout" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Gelieve een naam in te vullen" textAlignment="CENTER" textFill="#f26943">
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
                                        </cursor>
                                     </Label>
-                                 </children>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <VBox.margin>
-                                    <Insets left="25.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="10.0" />
-                                 </padding>
-                              </HBox>
-                              <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
-                                 <children>
-                                    <Label fx:id="lblStartdatum" prefHeight="28.0" prefWidth="115.0" text="Startdatum*">
-                                       <HBox.margin>
-                                          <Insets left="20.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <DatePicker fx:id="dpStartdatum" prefHeight="25.0" prefWidth="231.0" />
-                                    <Label fx:id="lblStartdatumFout" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Gelieve een startdatum in te vullen" textAlignment="CENTER" textFill="#f26943">
+                                    <Label fx:id="lblBegindatumFout" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Gelieve een begindatum in te vullen" textAlignment="CENTER" textFill="#f26943">
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
                                        </cursor>
                                     </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="25.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="10.0" />
-                                 </padding>
-                              </HBox>
-                              <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
-                                 <children>
-                                    <Label fx:id="lblEinddatum" prefHeight="28.0" prefWidth="115.0" text="Einddatum*">
-                                       <HBox.margin>
-                                          <Insets left="20.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <DatePicker fx:id="dpEinddatum" prefHeight="25.0" prefWidth="231.0" />
                                     <Label fx:id="lblEinddatumFout" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Gelieve een einddatum in te vullen" textAlignment="CENTER" textFill="#f26943">
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
                                        </cursor>
                                     </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="25.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="10.0" />
-                                 </padding>
-                              </HBox>
-                              <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
-                                 <children>
-                                    <Label fx:id="lblStage" prefHeight="23.0" prefWidth="66.0" text="Stage">
-                                       <HBox.margin>
-                                          <Insets left="20.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                       <padding>
-                                          <Insets bottom="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <CheckBox fx:id="cbStage" mnemonicParsing="false" prefHeight="7.0" prefWidth="17.0">
-                                       <padding>
-                                          <Insets top="5.0" />
-                                       </padding>
-                                    </CheckBox>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="25.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="10.0" />
-                                 </padding>
-                              </HBox>
-                              <HBox layoutX="40.0" layoutY="15.0" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
-                                 <children>
-                                    <Label fx:id="lblMaxAanwezigen" prefHeight="20.0" prefWidth="164.0" text="Maximum aantal aanwezigen">
-                                       <HBox.margin>
-                                          <Insets left="20.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="tfNaam1" prefHeight="25.0" prefWidth="181.0" />
-                                    <Label fx:id="lblMaxAanwezigenFout" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="245.0" text="Gelieve een naam in te vullen" textAlignment="CENTER" textFill="#f26943">
+                                    <Label fx:id="lblMaxAanwezigenFout" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Gelieve een getal in te vullen" textAlignment="CENTER" textFill="#f26943">
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
                                        </cursor>
                                     </Label>
                                  </children>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <VBox.margin>
-                                    <Insets left="25.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="10.0" />
-                                 </padding>
-                              </HBox>
+                              </VBox>
                            </children>
-                        </VBox>
-                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308">
-                           <children>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#bevestigWijziging" prefHeight="38.0" prefWidth="292.0" text="Bevestig" />
-                              <Button mnemonicParsing="false" onAction="#annuleerwijziging" prefHeight="38.0" prefWidth="292.0" text="Annuleer" />
-                           </children>
-                           <padding>
-                              <Insets top="10.0" />
-                           </padding>
                         </HBox>
-                        <HBox maxWidth="1.7976931348623157E308">
+                        <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
                            <children>
-                              <HBox>
-                                 <children>
-                                    <Button fx:id="btnNieuweActiviteit" mnemonicParsing="false" prefHeight="30.0" prefWidth="135.0" text="Nieuwe activiteit">
-                                       <HBox.margin>
-                                          <Insets bottom="20.0" left="70.0" right="20.0" top="20.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Button fx:id="btnVerwijderActiviteit" alignment="CENTER" mnemonicParsing="false" prefWidth="150.0" text="Verwijder activiteit">
-                                       <HBox.margin>
-                                          <Insets bottom="20.0" left="70.0" right="20.0" top="20.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                 </children>
-                              </HBox>
+                              <Button fx:id="btnBevestigWijziging" alignment="CENTER" mnemonicParsing="false" onAction="#bevestigWijziging" prefHeight="37.0" prefWidth="79.0" text="Bevestig">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="40.0" right="10.0" top="10.0" />
+                                 </HBox.margin></Button>
+                              <Button fx:id="btnAnnuleerWijziging" mnemonicParsing="false" prefHeight="37.0" prefWidth="79.0" text="Annuleer">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin></Button>
                            </children>
                            <VBox.margin>
-                              <Insets left="80.0" />
+                              <Insets />
                            </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Verplicht*">
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin></Label>
-                           </children>
                         </HBox>
                      </children>
                   </VBox>
@@ -204,27 +222,32 @@
                <content>
                   <VBox prefHeight="704.0" prefWidth="816.0">
                      <children>
-                        <HBox prefHeight="825.0" prefWidth="816.0">
+                        <HBox alignment="TOP_CENTER" prefHeight="867.0" prefWidth="816.0">
                            <children>
-                              <VBox alignment="TOP_CENTER">
+                              <VBox alignment="TOP_CENTER" prefHeight="805.0" prefWidth="349.0">
                                  <children>
                                     <Label fx:id="lblAllePersonen" text="Alle Personen in het systeem" textFill="#00b4ab">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
                                     </Label>
-                                    <TableView fx:id="tblAlleLeden" editable="true" prefHeight="788.0" prefWidth="329.0">
+                                    <TableView fx:id="tblAlleLeden" editable="true">
                                       <columns>
                                         <TableColumn fx:id="tcVoornaamA" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="75.0" text="Voornaam" />
                                         <TableColumn fx:id="tcAchternaamA" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="75.0" text="Achternaam" />
                                           <TableColumn fx:id="tcGraadA" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="75.0" text="Graad" />
                                           <TableColumn fx:id="tcTypeA" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="102.0" text="Type" />
                                       </columns>
+                                       <VBox.margin>
+                                          <Insets right="10.0" />
+                                       </VBox.margin>
                                     </TableView>
+                                    <Button fx:id="btnInschrijven" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="43.0" prefWidth="154.0" text="Lid inschrijven" textAlignment="CENTER">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
                                  </children>
-                                 <padding>
-                                    <Insets left="10.0" right="10.0" />
-                                 </padding>
                               </VBox>
                               <VBox alignment="TOP_CENTER">
                                  <children>
@@ -233,37 +256,28 @@
                                           <Font size="17.0" />
                                        </font>
                                     </Label>
-                                    <TableView fx:id="tblIngeschreven" prefHeight="783.0" prefWidth="302.0">
+                                    <TableView fx:id="tblIngeschreven">
                                       <columns>
                                         <TableColumn fx:id="tcVoornaamI" prefWidth="75.0" text="Voornaam" />
                                         <TableColumn fx:id="tcAchternaamI" prefWidth="75.0" text="Achternaam" />
                                           <TableColumn fx:id="tcGraadI" prefWidth="75.0" text="Graad" />
                                           <TableColumn fx:id="tcTypeI" prefWidth="75.0" text="Type" />
                                       </columns>
+                                       <VBox.margin>
+                                          <Insets left="10.0" />
+                                       </VBox.margin>
                                     </TableView>
+                                    <Button fx:id="btnUitschrijven" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="43.0" prefWidth="154.0" text="Lid uitschrijven" textAlignment="CENTER">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
                                  </children>
-                                 <padding>
-                                    <Insets left="10.0" right="10.0" />
-                                 </padding>
                               </VBox>
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" top="10.0" />
                            </padding>
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <Button fx:id="btnUitschrijven" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="43.0" prefWidth="154.0" text="Lid uitschrijven" textAlignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button fx:id="btnInschrijven" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="43.0" prefWidth="154.0" text="Lid inschrijven" textAlignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </HBox.margin>
-                              </Button>
-                           </children>
                         </HBox>
                      </children>
                   </VBox>

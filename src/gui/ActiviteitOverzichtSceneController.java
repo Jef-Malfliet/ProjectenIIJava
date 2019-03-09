@@ -7,6 +7,8 @@ package gui;
 
 import domein.DomeinController;
 import domein.IActiviteit;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.Date;
 import javafx.fxml.FXML;
@@ -22,7 +24,7 @@ import util.FullScreenResolution;
  *
  * @author Jef
  */
-public class ActiviteitOverzichtSceneController extends VBox {
+public class ActiviteitOverzichtSceneController extends VBox implements PropertyChangeListener {
 
     private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
     private double sceneHeight = FullScreenResolution.getHeight();
@@ -60,7 +62,10 @@ public class ActiviteitOverzichtSceneController extends VBox {
     private void buildGui() {
         tvActiviteiten.getSelectionModel().selectedItemProperty().addListener((observable, oldAct, newAct) -> {
             if (newAct != null) {
-                adpc.fillActiviteit(dc.getActiviteit(newAct.getId()));
+                IActiviteit activiteit = dc.getActiviteitByName(newAct.getNaam());
+                if(adpc.fillActiviteit(activiteit)){
+                    dc.setCurrentActiviteit(activiteit);
+                }
             }
         });
         setMaxScreen();
@@ -80,6 +85,25 @@ public class ActiviteitOverzichtSceneController extends VBox {
         tcStartdatum.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
         tcEinddatum.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
         tcStage.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
-
     }
+
+    public void verwijderGeselecteerdeActiviteit() {
+        IActiviteit activiteit = tvActiviteiten.getSelectionModel().selectedItemProperty().get();
+        tvActiviteiten.getSelectionModel().clearSelection();
+        if(activiteit != null){
+            dc.verwijderCurrentActiviteit();
+        }
+        adpc.clearNaVerwijderen();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        update();
+    }
+
+    private void update() {
+        tvActiviteiten.setItems(dc.getActiviteiten());
+        tvActiviteiten.refresh();
+    }
+
 }

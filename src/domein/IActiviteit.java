@@ -32,4 +32,6 @@ public interface IActiviteit extends Exportable {
     SimpleStringProperty getEindDatumProperty();
     
     SimpleStringProperty getStageProperty();
+    
+    SimpleStringProperty getMaxAanwezigenProperty();
 }

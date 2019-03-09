@@ -139,8 +139,6 @@ public class DomeinController {
 
     public List<ILid> geefIngeschrevenLeden(long activiteitId) {
         List<ILid> iLeden = new ArrayList<>();
-        System.out.println(activiteitRepository.get(activiteitId));
-        System.out.println(activiteitRepository.get(activiteitId).getAanwezigen());
         activiteitRepository.get(activiteitId).getAanwezigen().stream().forEach(l -> {
             iLeden.add(l);
         });
@@ -178,5 +176,38 @@ public class DomeinController {
 
     public void verwijderSelectieLid() {
         setCurrentLid(null);
+    }
+
+    public boolean verwijderCurrentActiviteit() {
+        return dojo.verwijderCurrentActiviteit();
+    }
+
+    public void verwijderSelectieActiviteit() {
+        setCurrentActiviteit(null);
+    }
+
+    public void setCurrentActiviteit(IActiviteit activiteit) {
+            dojo.setCurrentActiviteit(activiteit);
+    }
+
+    public boolean geenActiviteitGeselecteerd() {
+        return getcurrentActiviteit() == null;
+    }
+
+    private IActiviteit getcurrentActiviteit() {
+        return dojo.getCurrentActiviteit();
+    }
+
+    public IActiviteit getCurrentActiviteit() {
+        return dojo.getCurrentActiviteit();
+    }
+
+    public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean isStage, int maxAanwezigen) {
+        boolean activiteit = dojo.wijzigActiviteit(naam,beginDatum,eindDatum,isStage,maxAanwezigen);
+        return activiteit;
+    }
+
+    public IActiviteit getActiviteitByName(String naam) {
+        return dojo.getActiviteitByName(naam);
     }
 }

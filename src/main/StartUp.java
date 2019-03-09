@@ -7,24 +7,20 @@ package main;
 
 import domein.Activiteit;
 import domein.DomeinController;
-import domein.Geslacht;
 import domein.Graad;
-import domein.Land;
-import domein.LesType;
 import domein.Lid;
 import domein.Oefening;
-import domein.RolType;
 import gui.MainPanel;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import persistentie.LedenMapper;
+
 import util.FullScreenResolution;
 
 /**
@@ -41,6 +37,34 @@ public class StartUp extends Application {
         FullScreenResolution.setWidth(waardenScreen.getWidth());
 
         DomeinController dc = new DomeinController();
+
+        List<Lid> ledenLijst = LedenMapper.getLeden();
+
+        for (Lid lid : ledenLijst) {
+            dc.voegLidToe(lid);
+        }
+
+        Activiteit act1 = new Activiteit("Uitstap", LocalDate.of(2014, Month.FEBRUARY, 11), LocalDate.of(2014, Month.FEBRUARY, 11), false, 50);
+        Activiteit act2 = new Activiteit("Weekend", LocalDate.of(2019, Month.MARCH, 5), LocalDate.of(2019, Month.MARCH, 7), true, 100);
+
+        dc.voegActiviteitToe(act1);
+        dc.voegActiviteitToe(act2);
+
+//        for (int i = 0; i < ledenLijst.size(); i++) {
+//            if (i % 2 == 0) {
+//                dc.schrijfLidIn(act1.getNaam(), ledenLijst.get(i).getEmail());
+//            } else {
+//                dc.schrijfLidIn(act2.getNaam(), ledenLijst.get(i).getEmail());
+//            }
+//        }
+
+        Oefening oef1 = new Oefening(Graad.GROEN, "Test1");
+        Oefening oef2 = new Oefening(Graad.DAN11, "Test2");
+        Oefening oef3 = new Oefening(Graad.BLAUW, "Test3");
+
+        dc.addLesMateriaal(oef3);
+        dc.addLesMateriaal(oef2);
+        dc.addLesMateriaal(oef1);
 
         MainPanel root = new MainPanel(dc);
 

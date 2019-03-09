@@ -40,6 +40,8 @@ public class Dojo {
 
     private List<String> headers = new ArrayList<>();
 
+    private int current_Activiteit = -1;
+
     public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo) {
         setLidRepo(lidRepo);
         setOefeningRepo(oefeningRepo);
@@ -241,8 +243,10 @@ public class Dojo {
 
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
         Predicate<Lid> result = lid -> true;
-        Predicate<Lid> voornaam = lid -> lid.getVoornaam().compareToIgnoreCase(voornaamFilter) >= 0;
+        Predicate<Lid> voornaam = lid -> lid.getVoornaam().compareToIgnoreCase(voornaamFilter) > 0;
+        //Predicate<Lid> voornaam = lid -> lid.getVoornaam().toLowerCase().startsWith(voornaamFilter.toLowerCase());
         Predicate<Lid> familienaam = lid -> lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0;
+        //Predicate<Lid> familienaam = lid -> lid.getFamilienaam().toLowerCase().startsWith(voornaamFilter.toLowerCase());
         Predicate<Lid> graad = lid -> lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
         Predicate<Lid> lidType = lid -> lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
 
@@ -328,9 +332,7 @@ public class Dojo {
     }
 
     public void setCurrentLid(ILid lid) {
-
         current_Lid = leden.indexOf(lid);
-
     }
 
     public ILid getCurrentLid() {
@@ -348,4 +350,36 @@ public class Dojo {
 //        sb.deleteCharAt(sb.length() - 1);
 //        return sb.toString();
 //    }
+    public void setCurrentActiviteit(IActiviteit activiteit) {
+        current_Activiteit = activiteiten.indexOf(activiteit);
+    }
+
+    public IActiviteit getCurrentActiviteit() {
+        if (current_Activiteit != -1) {
+            return activiteiten.get(current_Activiteit);
+        }
+        return null;
+    }
+
+    public boolean verwijderCurrentActiviteit() {
+        Activiteit currentActiviteit = current_Activiteit != -1 ? activiteiten.get(current_Activiteit) : null;
+        GenericDaoJpa.startTransaction();
+        this.activiteitRepo.delete(currentActiviteit);
+        GenericDaoJpa.commitTransaction();
+        return this.activiteiten.remove(currentActiviteit);
+    }
+
+    public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean isStage, int maxAanwezigen) {
+        GenericDaoJpa.startTransaction();
+        Activiteit currentActiviteit = current_Activiteit != -1 ? activiteiten.get(current_Activiteit) : null;
+        currentActiviteit.wijzigActiviteit(naam, beginDatum, eindDatum, isStage, maxAanwezigen);
+        this.activiteiten.set(current_Activiteit, currentActiviteit);
+        this.activiteitRepo.update(currentActiviteit);
+        GenericDaoJpa.commitTransaction();
+        return true;
+    }
+
+    public IActiviteit getActiviteitByName(String naam) {
+        return activiteitRepo.getByName(naam);
+    }
 }
