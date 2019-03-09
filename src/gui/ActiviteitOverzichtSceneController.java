@@ -62,10 +62,10 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
     private void buildGui() {
         tvActiviteiten.getSelectionModel().selectedItemProperty().addListener((observable, oldAct, newAct) -> {
             if (newAct != null) {
-                IActiviteit activiteit = dc.getActiviteit(newAct.getId());
+                IActiviteit activiteit = dc.getActiviteitByName(newAct.getNaam());
                 if(adpc.fillActiviteit(activiteit)){
                     dc.setCurrentActiviteit(activiteit);
-                };
+                }
             }
         });
         setMaxScreen();

@@ -188,7 +188,7 @@ public class DomeinController {
     }
 
     public void setCurrentActiviteit(IActiviteit activiteit) {
-        dojo.setCurrentActiviteit(activiteit);
+            dojo.setCurrentActiviteit(activiteit);
     }
 
     public boolean geenActiviteitGeselecteerd() {
@@ -206,5 +206,9 @@ public class DomeinController {
     public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean isStage, int maxAanwezigen) {
         boolean activiteit = dojo.wijzigActiviteit(naam,beginDatum,eindDatum,isStage,maxAanwezigen);
         return activiteit;
+    }
+
+    public IActiviteit getActiviteitByName(String naam) {
+        return dojo.getActiviteitByName(naam);
     }
 }

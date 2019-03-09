@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,10 +41,10 @@ import static util.Validatie.*;
  * @author Jef
  */
 public class ActiviteitDetailPaneelController extends VBox {
-    
+
     private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
     private double sceneHeight = FullScreenResolution.getHeight();
-    
+
     @FXML
     private Label lblTitel;
     @FXML
@@ -59,7 +61,7 @@ public class ActiviteitDetailPaneelController extends VBox {
     private Button btnNieuweActiviteit;
     @FXML
     private Button btnVerwijderActiviteit;
-    
+
     private final DomeinController dc;
     @FXML
     private Label lblNaam;
@@ -101,7 +103,7 @@ public class ActiviteitDetailPaneelController extends VBox {
     private TableColumn<ILid, String> tcGraadI;
     @FXML
     private TableColumn<ILid, String> tcTypeI;
-    
+
     private ActiviteitOverzichtSceneController aosc;
     @FXML
     private Label lblMessage;
@@ -113,9 +115,11 @@ public class ActiviteitDetailPaneelController extends VBox {
     private Label lblBegindatum;
     @FXML
     private Label lblBegindatumFout;
-    
+
     private boolean veldenCompleet;
+
     private boolean nieuwActiviteit;
+
     private List<TextField> niet_verplicht = new ArrayList<>();
     @FXML
     private Label lblMaxAanwezigenFout;
@@ -123,7 +127,7 @@ public class ActiviteitDetailPaneelController extends VBox {
     private Button btnAnnuleerWijziging;
     @FXML
     private Button btnBevestigWijziging;
-    
+
     public ActiviteitDetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ActiviteitDetailPaneel.fxml"));
         loader.setController(this);
@@ -136,35 +140,35 @@ public class ActiviteitDetailPaneelController extends VBox {
         this.dc = dc;
         buildGui();
     }
-    
+
     private void buildGui() {
         lblNaamFout.setVisible(false);
         lblBegindatumFout.setVisible(false);
         lblEinddatumFout.setVisible(false);
         lblMaxAanwezigenFout.setVisible(false);
-        
+
         lblTitel.setPrefWidth(sceneWidth);
-        
+
         tblAlleLeden.setPrefSize(sceneWidth / 2 - 30, sceneHeight);
         tblIngeschreven.setPrefSize(sceneWidth / 2 - 30, sceneHeight);
-        
+
         tcVoornaamA.prefWidthProperty().bind(tblAlleLeden.widthProperty().divide(4));
         tcAchternaamA.prefWidthProperty().bind(tblAlleLeden.widthProperty().divide(4));
         tcGraadA.prefWidthProperty().bind(tblAlleLeden.widthProperty().divide(4));
         tcTypeA.prefWidthProperty().bind(tblAlleLeden.widthProperty().divide(4));
-        
+
         tcVoornaamI.prefWidthProperty().bind(tblIngeschreven.widthProperty().divide(4));
         tcAchternaamI.prefWidthProperty().bind(tblIngeschreven.widthProperty().divide(4));
         tcGraadI.prefWidthProperty().bind(tblIngeschreven.widthProperty().divide(4));
         tcTypeI.prefWidthProperty().bind(tblIngeschreven.widthProperty().divide(4));
-        
+
         btnInschrijven.prefWidthProperty().bind(tblAlleLeden.widthProperty().divide(2));
         btnUitschrijven.prefWidthProperty().bind(tblIngeschreven.widthProperty().divide(2));
-        
+
         btnVerwijderActiviteit.setOnMouseClicked(e -> {
             aosc.verwijderGeselecteerdeActiviteit();
         });
-        
+
         btnNieuweActiviteit.setOnMouseClicked(e -> {
             nieuwActiviteitPaneel();
         });
@@ -174,30 +178,42 @@ public class ActiviteitDetailPaneelController extends VBox {
                 nieuwActiviteitPaneel();
             }
         });
+
+        voegNietVerplichteVeldenToe();
+
+        tInschrijven.setDisable(true);
     }
-    
+
     public boolean fillActiviteit(IActiviteit activiteit) {
         if (clearTextFields()) {
             tfNaam.clear();
             dpBegindatum.getEditor().clear();
             dpEinddatum.getEditor().clear();
             cbStage.setSelected(false);
-            
+
             tfNaam.setText(activiteit.getNaam());
             dpBegindatum.setValue(activiteit.getBeginDatum());
             dpEinddatum.setValue(activiteit.getEindDatum());
             cbStage.setSelected(activiteit.isStage());
             tfMaxAanwezigen.setText(String.format("%d", activiteit.getMaxAanwezigen()));
-            
+
+            tInschrijven.setDisable(false);
             tblIngeschreven.setItems(FXCollections.observableArrayList(dc.geefIngeschrevenLeden(activiteit.getId())));
             tcVoornaamI.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
             tcAchternaamI.setCellValueFactory(cellData -> cellData.getValue().getFamilienaamProperty());
             tcGraadI.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
+            tcTypeI.setCellValueFactory(celldata -> celldata.getValue().getTypeProperty());
+
+            tblAlleLeden.setItems(geefAlleLedenNietIngeschreven(activiteit));
+            tcVoornaamA.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
+            tcAchternaamA.setCellValueFactory(cellData -> cellData.getValue().getFamilienaamProperty());
+            tcGraadA.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
+            tcTypeA.setCellValueFactory(celldata -> celldata.getValue().getTypeProperty());
             return true;
         }
         return false;
     }
-    
+
     @FXML
     private void bevestigWijziging(ActionEvent event) {
         makeElementsWhiteLabelsInvisible();
@@ -219,12 +235,12 @@ public class ActiviteitDetailPaneelController extends VBox {
             lblMessage.setVisible(true);
         }
     }
-    
+
     public void setOverzichtSceneController(ActiviteitOverzichtSceneController aosc) {
         this.aosc = aosc;
-        
+
     }
-    
+
     public void clearNaVerwijderen() {
         dc.verwijderSelectieActiviteit();
         if (clearTextFields()) {
@@ -232,9 +248,9 @@ public class ActiviteitDetailPaneelController extends VBox {
             lblMessage.setVisible(true);
             nieuwActiviteitPaneel();
         }
-        
+
     }
-    
+
     private boolean clearTextFields() {
         boolean save = false;
         if (dc.geenActiviteitGeselecteerd() ? true : !(save = alertNaWijzigingen())) {
@@ -248,21 +264,21 @@ public class ActiviteitDetailPaneelController extends VBox {
             dpEinddatum.setValue(LocalDate.now());
             return true;
         }
-        
+
         if (save) {
             bevestigWijziging(new ActionEvent());
             return false;
         }
         return true;
     }
-    
+
     private void nieuwActiviteitPaneel() {
         if (clearTextFields()) {
             nieuwActiviteit = true;
             lblTitel.setText("Nieuwe Activiteit toevoegen");
         }
     }
-    
+
     private boolean alertNaWijzigingen() {
         if (isGewijzigd()) {
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
@@ -272,17 +288,17 @@ public class ActiviteitDetailPaneelController extends VBox {
             ButtonType tochOpslaan = new ButtonType("Toch Opslaan");
             ButtonType wijzigingenVerwijderen = new ButtonType("Wijzigingen Verwijderen");
             a.getButtonTypes().clear();
-            
+
             a.getButtonTypes().addAll(tochOpslaan, wijzigingenVerwijderen);
             Optional<ButtonType> showAndWait = a.showAndWait();
             if (showAndWait.isPresent()) {
                 return showAndWait.get() == tochOpslaan;
             }
-            
+
         }
         return false;
     }
-    
+
     private boolean isGewijzigd() {
         IActiviteit current_activiteit = dc.getCurrentActiviteit();
         if (dc.geenActiviteitGeselecteerd()) {
@@ -294,13 +310,13 @@ public class ActiviteitDetailPaneelController extends VBox {
         } catch (NumberFormatException ex) {
             maxAawezigentemp = 100;
         }
-        
+
         boolean wijzig = current_activiteit.getNaam().equals(tfNaam.getText()) && current_activiteit.getBeginDatum().equals(dpBegindatum.getValue())
                 && current_activiteit.getEindDatum().equals(dpEinddatum.getValue()) && current_activiteit.isStage() == cbStage.isSelected()
                 && current_activiteit.getMaxAanwezigen() == maxAawezigentemp;
         return !wijzig;
     }
-    
+
     private void makeElementsWhiteLabelsInvisible() {
         Label[] errormessages = geefLabels();
         lblMessage.setVisible(false);
@@ -308,28 +324,28 @@ public class ActiviteitDetailPaneelController extends VBox {
             label.setVisible(false);
         });
     }
-    
+
     private TextField[] geefTextfields() {
         TextField[] textfields = {tfNaam, tfMaxAanwezigen};
         return textfields;
     }
-    
+
     private Label[] geefLabels() {
         Label[] errormessages = {lblNaamFout, lblBegindatumFout, lblEinddatumFout};
         return errormessages;
     }
-    
+
     private void valideerVelden() {
         TextField[] textfields = geefTextfields();
         Label[] errormessages = geefLabels();
-        
+
         lblMessage.setVisible(false);
         for (int i = 0; i < textfields.length; i++) {
             if (moetIngevuldzijn(textfields[i])) {
                 errorOn(errormessages[i], textfields[i], "Gelieve in te vullen");
             }
         }
-        
+
         if (isNullOrEmpty(tfNaam.getText())) {
             errorOn(lblNaamFout, null, "Gelieve een naam in te vullen");
         }
@@ -355,30 +371,30 @@ public class ActiviteitDetailPaneelController extends VBox {
             errorOn(lblEinddatumFout, null, "Gelieve een datum die op of na de begindatum ligt te geven");
         }
     }
-    
+
     private void maakNieuweActiviteit() {
         DTOActiviteit dto = new DTOActiviteit(tfNaam.getText(), dpBegindatum.getValue(), dpEinddatum.getValue(), cbStage.isSelected(), Integer.parseInt(tfMaxAanwezigen.getText()));
         dc.voegActiviteitToe(dto);
         lblMessage.setText("Activiteit werd toegevoegd");
         lblMessage.setVisible(true);
     }
-    
+
     private void wijzigActiviteit() {
         dc.wijzigActiviteit(tfNaam.getText(), dpBegindatum.getValue(),
                 dpEinddatum.getValue(), cbStage.isSelected(), Integer.parseInt(tfMaxAanwezigen.getText()));
-        
+
         lblMessage.setText("Wijzigingen zijn opgeslagen");
         lblMessage.setVisible(true);
         opvullenVanFields(dc.getCurrentActiviteit());
     }
-    
+
     private boolean moetIngevuldzijn(TextField textfield) {
         if (niet_verplicht.contains(textfield)) {
             return false;
         }
         return textfield == null || textfield.getText().isEmpty();
     }
-    
+
     private void errorOn(Label lbl, TextField txt, String errormessage) {
         veldenCompleet = false;
         String errorstyle = "-fx-text-box-border: #f77d5b ;-fx-focus-color: #f77d5b;";
@@ -390,7 +406,7 @@ public class ActiviteitDetailPaneelController extends VBox {
             txt.setStyle(errorstyle);
         }
     }
-    
+
     private void opvullenVanFields(IActiviteit activiteit) {
         lblTitel.setText("Activiteit wijzigen");
         tfNaam.setText(activiteit.getNaam());
@@ -399,5 +415,22 @@ public class ActiviteitDetailPaneelController extends VBox {
         tfMaxAanwezigen.setText(String.format("%d", activiteit.getMaxAanwezigen()));
         cbStage.setSelected(activiteit.isStage());
         nieuwActiviteit = false;
+    }
+
+    private void voegNietVerplichteVeldenToe() {
+        niet_verplicht.add(tfMaxAanwezigen);
+    }
+
+    public void setAosc(ActiviteitOverzichtSceneController aosc) {
+        this.aosc = aosc;
+    }
+
+    private ObservableList<ILid> geefAlleLedenNietIngeschreven(IActiviteit activiteit) {
+        List<ILid> alleLeden = dc.getLeden();
+        List<ILid> ingeschrevenLeden = dc.geefIngeschrevenLeden(activiteit.getId());
+
+        return FXCollections.observableArrayList(alleLeden.stream().filter(l -> {
+            return !ingeschrevenLeden.contains((ILid) l);
+        }).collect(Collectors.toList()));
     }
 }

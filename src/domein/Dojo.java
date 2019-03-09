@@ -362,4 +362,8 @@ public class Dojo {
         GenericDaoJpa.commitTransaction();
         return true;
     }
+
+    public IActiviteit getActiviteitByName(String naam) {
+        return activiteitRepo.getByName(naam);
+    }
 }
