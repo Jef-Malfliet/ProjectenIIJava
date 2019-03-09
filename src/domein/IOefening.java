@@ -13,7 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author IndyV
  */
-public interface IOefening extends Serializable {
+public interface IOefening extends Serializable, Exportable {
 
     SimpleStringProperty getNaamProperty();
 

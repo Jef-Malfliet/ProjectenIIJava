@@ -151,6 +151,7 @@ public class Activiteit implements Serializable, IActiviteit {
         this.stageProperty = stageProperty;
     }
 
+    @Override
     public int getMaxAanwezigen() {
         return maxAanwezigen;
     }
@@ -171,5 +172,15 @@ public class Activiteit implements Serializable, IActiviteit {
         this.setBeginDatumProperty(new SimpleStringProperty(this.getBeginDatum().toString()));
         this.setEindDatumProperty(new SimpleStringProperty(this.getEindDatum().toString()));
         this.setStageProperty(new SimpleStringProperty(this.isStage() ? "stage" : "geen stage"));
+    }
+
+    @Override
+    public String excelFormat() {
+       return String.format("%s,%s,%s,%s", naam, beginDatum.toString(), eindDatum.toString(), stage ? "Ja" : "Nee");
+    }
+
+    @Override
+    public String excelheaders() {
+        return "Activiteitnaam,Start datum,Eind datum,Stage";
     }
 }

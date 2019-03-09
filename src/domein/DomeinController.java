@@ -84,11 +84,11 @@ public class DomeinController {
 
     }
 
-    public void maakOverzicht(List<String> overzicht, String headers, String path) {
-        dojo.maakOverzicht(overzicht, headers, path);
+    public <T extends Exportable> void maakOverzicht(List<T> overzicht, String path) {
+        dojo.maakOverzicht(overzicht, path);
     }
 
-    public List<Overzicht> getOverzicht() {
+    public List<Overzicht<Object>> getOverzicht() {
         return dojo.getOverzichtList();
     }
 
@@ -147,7 +147,6 @@ public class DomeinController {
         return iLeden;
     }
 
-
     public void schrijfLidIn(String activiteitNaam, String lidEmail) {
         GenericDaoJpa.startTransaction();
         dojo.lidInschrijven(activiteitNaam, lidEmail);
@@ -158,24 +157,26 @@ public class DomeinController {
         return dojo.getActiviteit(id);
     }
 
-    public List<String> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
+    public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
         return dojo.maakOverzichtList(type, extraParameters);
     }
 
-    public String maakHeaders() {
-        return null;
-    }
-    
-        public void setCurrentLid(ILid lid) {
+//    public String maakHeaders() {
+//        return dojo.maakHeaders();
+//    }
+    public void setCurrentLid(ILid lid) {
         dojo.setCurrentLid(lid);
     }
+
     public ILid getCurrentLid() {
         return dojo.getCurrentLid();
     }
-    public boolean geenLidGeslecteerd(){
+
+    public boolean geenLidGeslecteerd() {
         return getCurrentLid() == null;
     }
-    public void verwijderSelectieLid(){
+
+    public void verwijderSelectieLid() {
         setCurrentLid(null);
     }
 }

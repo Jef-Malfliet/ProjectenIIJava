@@ -29,8 +29,14 @@ import org.apache.poi.ss.util.CellRangeAddress;
  */
 public class ExportFiles {
 
-    public static void toExcel(List<String> stringLijst, String headers, int kolombreedte, float rijhoogte, String locatie) {
 
+    public static <T extends Exportable> void toExcel(List<T> lijst, int kolombreedte, float rijhoogte, String locatie) {
+
+        List<String> stringLijst = lijst.stream().map(T::excelFormat).collect(Collectors.toList());
+        String headers = lijst.get(0).excelheaders();
+
+        System.out.println(headers);
+        System.out.println(stringLijst);
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("overzicht");
         //shadeAlt(sheet); // is voor kleurtje van elke rij
@@ -43,7 +49,7 @@ public class ExportFiles {
         IntStream.range(0, stringLijst.size()).forEach(rownumber -> {
             rows[rownumber] = sheet.createRow(rownumber);
             String[] split = stringLijst.get(rownumber).split(",");
-            IntStream.range(0, split.length - 1).forEach(columnnumber -> {
+            IntStream.range(0, split.length ).forEach(columnnumber -> {
                 rows[rownumber].createCell(columnnumber).setCellValue(split[columnnumber]);
 
             });
@@ -66,14 +72,6 @@ public class ExportFiles {
         } catch (IOException ex) {
             throw new IllegalArgumentException("Er is een fout opgetreden");
         }
-    }
-
-    public static <T extends Exportable> void toExcel(List<T> lijst, int kolombreedte, float rijhoogte, String locatie) {
-
-        List<String> stringLijst = lijst.stream().map(T::excelFormat).collect(Collectors.toList());
-        String headers = lijst.get(0).excelheaders();
-
-        toExcel(stringLijst, headers, kolombreedte, rijhoogte, locatie);
 
     }
 //werkt nog niet

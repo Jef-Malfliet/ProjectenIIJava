@@ -6,6 +6,7 @@
 package gui;
 
 import domein.DomeinController;
+import domein.Exportable;
 import domein.FicheType;
 import domein.IActiviteit;
 import domein.ILid;
@@ -244,7 +245,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 hBoxUnderRow.getChildren().clear();
                 hBoxUnderRow.getChildren().addAll(vBoxFormule);
 
-                extraParameters.addAll(Arrays.asList(datePicker, txfLidNaam, cboFormule.getSelectionModel().getSelectedItem()));
+                extraParameters.addAll(Arrays.asList(datePicker.getValue(), txfLidNaam.getText(), cboFormule.getSelectionModel().getSelectedItem()));
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
                 hBoxTableContainer.getChildren().clear();
                 break;
@@ -263,8 +264,6 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     private void placeTable(OverzichtType type) {
         switch (type) {
-            case AANWEZIGHEID:
-                break;
             case ACTIVITEIT:
                 hBoxTableContainer.getChildren().clear();
                 TableView<IActiviteit> tblActiviteiten = new TableView<>();
@@ -272,16 +271,21 @@ public class OverzichtOpvraagSceneController extends HBox {
 
                 TableColumn<IActiviteit, String> aNaamcol = new TableColumn<>();
                 aNaamcol.setText("Activiteitnaam");
-//                aNaamcol.setCellValueFactory(cellData
-//                        -> cellData.getValue());
+                aNaamcol.setCellValueFactory(cellData
+                        -> cellData.getValue().getNaamProperty());
                 TableColumn<IActiviteit, String> aStartCol = new TableColumn<>();
                 aStartCol.setText("Start datum");
-//                aStartCol.setCellValueFactory(cellData
-//                        -> cellData.getValue());
+                aStartCol.setCellValueFactory(cellData
+                        -> cellData.getValue().getBeginDatumProperty());
                 TableColumn<IActiviteit, String> aEndCol = new TableColumn<>();
-                aEndCol.setText("EindDatum");
-//                aEndCol.setCellValueFactory(cellData
-//                        -> cellData.getValue());
+                aEndCol.setText("Eind datum");
+                aEndCol.setCellValueFactory(cellData
+                        -> cellData.getValue().getEindDatumProperty());
+
+                TableColumn<IActiviteit, String> StageCol = new TableColumn<>();
+                StageCol.setText("Stage");
+                StageCol.setCellValueFactory(cellData
+                        -> cellData.getValue().getStageProperty());
 
                 tblActiviteiten.setPrefWidth(sceneWidth);
                 tblActiviteiten.setPrefHeight(sceneHeight);
@@ -296,6 +300,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 break;
             case CLUBKAMPIOENSCHAP:
                 break;
+            case AANWEZIGHEID:
             case INSCHRIJVING:
 
                 hBoxTableContainer.getChildren().clear();
@@ -335,11 +340,11 @@ public class OverzichtOpvraagSceneController extends HBox {
     }
 
     @FXML
-    private void maakDocument(MouseEvent event) {
+    private <T extends Exportable> void maakDocument(MouseEvent event) {
         OverzichtType type = cboType.getSelectionModel().getSelectedItem();
-        List<String> overzicht = dc.maakOverzichtList(type, extraParameters);
-        String headers = dc.maakHeaders();
-        dc.maakOverzicht(overzicht, headers, path);
+        List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
+        //String headers = dc.maakHeaders();
+        dc.maakOverzicht(overzicht, path);
     }
 
 }

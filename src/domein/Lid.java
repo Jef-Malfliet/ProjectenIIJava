@@ -131,13 +131,13 @@ public class Lid implements Serializable, Exportable, ILid {
 
     @Override
     public String excelFormat() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s%n", voornaam, familienaam, graad.toString(), telefoon_vast, email, straatnaam, postcode, stad);
+        return String.format("%s %s,%s,%s%n", voornaam, familienaam, inschrijvingsdatum.toString(), lessen.toString());
 
     }
 
     @Override
     public String excelheaders() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s%n", "Voornaam", "familienaam", "Graad", "Telefoon_vast", "Email", "Straatnaam", "Postcode", "stad");
+        return String.format("%s,%s,%s%n", "Naam", "Inschrijfdatum", "Formule");
     }
 
     public SimpleStringProperty getVoornaamProperty() {

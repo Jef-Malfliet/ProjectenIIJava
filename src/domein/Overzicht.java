@@ -22,7 +22,7 @@ import javax.persistence.Transient;
  * @author Mout
  */
 @Entity
-public class Overzicht implements Serializable {
+public class Overzicht<E> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

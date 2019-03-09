@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -35,9 +34,11 @@ public class Dojo {
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
     private ActiviteitDao activiteitRepo;
-    private final List<Overzicht> overzichtList;
+    private final List<Overzicht<Object>> overzichtList;
     private List<Kampioenschap> kampioenschappen;
     private int current_Lid = -1;
+
+    private List<String> headers = new ArrayList<>();
 
     public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo) {
         setLidRepo(lidRepo);
@@ -166,11 +167,11 @@ public class Dojo {
         lidRepo = mock;
     }
 
-    public void maakOverzicht(List<String> overzicht, String headers, String path) {
-        ExportFiles.toExcel(overzicht, headers, 25, 20, path);
+    public <T extends Exportable> void maakOverzicht(List<T> overzicht, String path) {
+        ExportFiles.toExcel(overzicht, 25, 20, path);
     }
 
-    public List<Overzicht> getOverzichtList() {
+    public List<Overzicht<Object>> getOverzichtList() {
         return overzichtList;
     }
 
@@ -285,11 +286,13 @@ public class Dojo {
         return value != null || !value.isEmpty();
     }
 
-    public List<String> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
-        FilteredList<Lid> ledenOverzicht = new FilteredList<>(leden, (p) -> true);
+    public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
+        FilteredList overzicht;
+
         switch (type) {
             case AANWEZIGHEID:
             case INSCHRIJVING:
+                overzicht = new FilteredList<>(leden, (p) -> true);
                 LocalDate inschrijvingdatum = (LocalDate) extraParameters.get(0);
                 String voornaam = extraParameters.get(1).toString();
                 LesType formule = (LesType) extraParameters.get(2);
@@ -309,12 +312,14 @@ public class Dojo {
                 if (formule != null) {
                     InschResult = InschResult.and(onFormule);
                 }
-                ledenOverzicht.setPredicate(InschResult);
-                return ledenOverzicht.stream().map(Lid::toString).collect(Collectors.toList());
+                overzicht.setPredicate(InschResult);
+                return overzicht;
             case ACTIVITEIT:
-                return activiteiten.stream().map(Activiteit::toString).collect(Collectors.toList());
+                overzicht = new FilteredList(activiteiten, p -> true);
+                return overzicht;
             case CLUBKAMPIOENSCHAP:
-                return kampioenschappen.stream().map(Kampioenschap::toString).collect(Collectors.toList());
+                overzicht = new FilteredList(FXCollections.observableArrayList(kampioenschappen), p -> true);
+                return overzicht;
             case LESMATERIAAL:
                 return null;
             default:
@@ -334,4 +339,13 @@ public class Dojo {
         }
         return null;
     }
+
+//    public String maakHeaders() {
+//        StringBuilder sb = new StringBuilder();
+//        for (String h : headers) {
+//            sb.append(h).append(",");
+//        }
+//        sb.deleteCharAt(sb.length() - 1);
+//        return sb.toString();
+//    }
 }

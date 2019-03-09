@@ -81,11 +81,11 @@ public class Oefening implements Serializable, IOefening {
     }
 
     public void setVideo(String url) {
-        if(url!=null){
-        String ID = Validatie.getYoutubeId(url);
-        System.out.println(ID);
-        String URL = "https://www.youtube.com/embed/" + ID;
-        this.video = URL;
+        if (url != null) {
+            String ID = Validatie.getYoutubeId(url);
+            System.out.println(ID);
+            String URL = "https://www.youtube.com/embed/" + ID;
+            this.video = URL;
         }
     }
 
@@ -162,5 +162,15 @@ public class Oefening implements Serializable, IOefening {
     @Override
     public List<String> getImagePaths() {
         return this.images;
+    }
+
+    @Override
+    public String excelFormat() {
+        return String.format("%s,%s,%s%n", naam, graad.toString());
+    }
+
+    @Override
+    public String excelheaders() {
+        return "Naam,Graad,Pad";
     }
 }
