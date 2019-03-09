@@ -40,16 +40,16 @@ public class DojoTest {
         oefeningDaoDummy = Mockito.mock(OefeningDao.class);
         activiteitDaoDummy = Mockito.mock(ActiviteitDao.class);
         testLid = Mockito.mock(Lid.class);
-        lid1 = new Lid("Nante", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", "België", "98.10.19-333.61", "nante.vermeulen@student.hogent.be",
+        lid1 = new Lid("Nante", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "98.10.19-333.61", "nante.vermeulen@student.hogent.be",
                 "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.GROEN, RolType.BEHEERDER, LesType.DI_ZA);
 
-        lid2 = new Lid("Indy", "Van Canegem", "ivc12345", "0479154978", "053698442", "Straat", "13", "88", "9520", "Zele", "België", "98.10.19-333.61", "indy.vancanegem@student.hogent.be",
+        lid2 = new Lid("Indy", "Van Canegem", "ivc12345", "0479154978", "053698442", "Straat", "13", "88", "9520", "Zele", Land.België, "98.10.19-333.61", "indy.vancanegem@student.hogent.be",
                 "ouders.indy@skynet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.ANDERS, Graad.GROEN, RolType.LID, LesType.WO_ZA);
 
-        lid3 = new Lid("Jef", "Malfliet", "jm12345", "0234567890", "053698420", "Straat", "1", "2.9", "9220", "Hamme", "België", "98.10.19-333.61", "jef.malfliet@student.hogent.be",
+        lid3 = new Lid("Jef", "Malfliet", "jm12345", "0234567890", "053698420", "Straat", "1", "2.9", "9220", "Hamme", Land.België, "98.10.19-333.61", "jef.malfliet@student.hogent.be",
                 "ouders.jef@proxymus.be", LocalDate.of(1999, 10, 24), LocalDate.of(2016, 8, 31), new ArrayList<>(), Geslacht.VROUW, Graad.WIT, RolType.LESGEVER, LesType.WO_ZA);
 
-        lid1b = new Lid("Mout", "Pessemier", "mp12345", "0234567890", "053248216", "Bertha De Dekenlaan", "14", "8", "9320", "Erembodegen", "België", "98.10.19-333.61", "mout.pessemier@student.hogent.be",
+        lid1b = new Lid("Mout", "Pessemier", "mp12345", "0234567890", "053248216", "Bertha De Dekenlaan", "14", "8", "9320", "Erembodegen", Land.België, "98.10.19-333.61", "mout.pessemier@student.hogent.be",
                 "ouders.mout@telenet.be", LocalDate.of(1999, 6, 14), LocalDate.of(2007, 11, 8), new ArrayList<>(), Geslacht.MAN, Graad.DAN12, RolType.BEHEERDER, LesType.WO_ZA);
 
         ledenLijst.addAll(Arrays.asList(lid1, lid2, lid3));
@@ -79,9 +79,9 @@ public class DojoTest {
         Mockito.when(lidDaoDummy.update(lid1)).thenReturn(lid1b);
         
         beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy);
-//        lid1.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", "België", "nante.vermeulen@student.hogent.be",
+//        lid1.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "nante.vermeulen@student.hogent.be",
 //                "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.WIT, RolType.BEHEERDER);
-        boolean succes = beheerder.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", "België", "98.10.19.333-61", "nante.vermeulen@student.hogent.be",
+        boolean succes = beheerder.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "98.10.19.333-61", "nante.vermeulen@student.hogent.be",
                 "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.WIT, RolType.BEHEERDER, LesType.DI_ZA);
         ILid gewijzigdLid = beheerder.toonLid(lid1.getId());
         Assert.assertTrue(succes);

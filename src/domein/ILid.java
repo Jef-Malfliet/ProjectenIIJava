@@ -38,7 +38,7 @@ public interface ILid extends Serializable, Exportable {
 
     String getStad();
 
-    String getLand();
+    Land getLand();
 
     String getEmail();
 

@@ -27,7 +27,7 @@ public class DTOLid implements ILid{
     private String busnummer;
     private String postcode;
     private String stad;
-    private String land;
+    private Land land;
     private String rijksregisternummer;
     private String email;
     private String email_ouders;
@@ -39,7 +39,7 @@ public class DTOLid implements ILid{
     private Graad graad;
     private RolType type;
 
-    public DTOLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, String land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
+    public DTOLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, Land land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
         setVoornaam(voornaam);
         setFamilienaam(familienaam);
         setWachtwoord(wachtwoord);
@@ -109,7 +109,7 @@ public class DTOLid implements ILid{
         this.stad = stad;
     }
 
-    public void setLand(String land) {
+    public void setLand(Land land) {
         this.land = land;
     }
 
@@ -197,7 +197,7 @@ public class DTOLid implements ILid{
         return stad;
     }
 
-    public String getLand() {
+    public Land getLand() {
         return land;
     }
 
