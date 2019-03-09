@@ -5,6 +5,8 @@
  */
 package util;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,7 +83,7 @@ public class Validatie {
 
     public static String getYoutubeId(String url) {
         String pattern = "https?:\\/\\/(?:[0-9A-Z-]+\\.)?(?:youtu\\.be\\/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|<\\/a>))[?=&+%\\w]*";
-        Pattern compiledPattern = Pattern.compile(pattern,Pattern.CASE_INSENSITIVE);
+        Pattern compiledPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
         Matcher matcher = compiledPattern.matcher(url);
         if (matcher.find()) {
             return matcher.group(1);
@@ -89,6 +91,23 @@ public class Validatie {
         else {
             throw new IllegalArgumentException("Foutieve Youtube URL");
         }
+    }
+
+    public static boolean isANumber(String number) {
+        try {
+            Integer.parseInt(number);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    public static boolean isInFuture(LocalDate date) {
+        if (date.getYear() < LocalDate.now().getYear() || date.getMonth().compareTo(LocalDate.now().getMonth()) < 0
+                || date.getDayOfMonth() < LocalDate.now().getDayOfMonth()) {
+            return false;
+        }
+        return true;
     }
 
 }

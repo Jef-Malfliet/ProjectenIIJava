@@ -38,6 +38,7 @@ public class Dojo {
     private final List<Overzicht> overzichtList;
     private List<Kampioenschap> kampioenschappen;
     private int current_Lid = -1;
+    private int current_Activiteit = -1;
 
     public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo) {
         setLidRepo(lidRepo);
@@ -323,9 +324,7 @@ public class Dojo {
     }
 
     public void setCurrentLid(ILid lid) {
-
         current_Lid = leden.indexOf(lid);
-
     }
 
     public ILid getCurrentLid() {
@@ -333,5 +332,34 @@ public class Dojo {
             return leden.get(current_Lid);
         }
         return null;
+    }
+
+    public void setCurrentActiviteit(IActiviteit activiteit) {
+        current_Activiteit = activiteiten.indexOf(activiteit);
+    }
+
+    public IActiviteit getCurrentActiviteit() {
+        if (current_Activiteit != -1) {
+            return activiteiten.get(current_Activiteit);
+        }
+        return null;
+    }
+
+    public boolean verwijderCurrentActiviteit() {
+        Activiteit currentActiviteit = current_Activiteit != -1 ? activiteiten.get(current_Activiteit) : null;
+        GenericDaoJpa.startTransaction();
+        this.activiteitRepo.delete(currentActiviteit);
+        GenericDaoJpa.commitTransaction();
+        return this.activiteiten.remove(currentActiviteit);
+    }
+
+    public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean isStage, int maxAanwezigen) {
+        GenericDaoJpa.startTransaction();
+        Activiteit currentActiviteit = current_Activiteit != -1 ? activiteiten.get(current_Activiteit) : null;
+        currentActiviteit.wijzigActiviteit(naam, beginDatum, eindDatum, isStage, maxAanwezigen);
+        this.activiteiten.set(current_Activiteit, currentActiviteit);
+        this.activiteitRepo.update(currentActiviteit);
+        GenericDaoJpa.commitTransaction();
+        return true;
     }
 }

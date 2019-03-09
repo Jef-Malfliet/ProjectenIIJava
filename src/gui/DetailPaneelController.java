@@ -286,10 +286,7 @@ public class DetailPaneelController extends VBox {
         if (niet_verplicht.contains(textfield)) {
             return false;
         }
-        if (textfield == null || textfield.getText().isEmpty()) {
-            return true;
-        }
-        return false;
+        return textfield == null || textfield.getText().isEmpty();
     }
 
     @FXML
@@ -365,7 +362,6 @@ public class DetailPaneelController extends VBox {
         dc.voegLidToe(dto);
         errorMessage.setText("Lid werd toegevoegd");
         errorMessage.setVisible(true);
-
     }
 
     private void wijziglid() {

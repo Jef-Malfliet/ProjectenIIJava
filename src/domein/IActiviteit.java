@@ -32,4 +32,6 @@ public interface IActiviteit {
     SimpleStringProperty getEindDatumProperty();
     
     SimpleStringProperty getStageProperty();
+    
+    SimpleStringProperty getMaxAanwezigenProperty();
 }

@@ -20,10 +20,10 @@ public class Activiteit implements Serializable, IActiviteit {
     private LocalDate eindDatum;
 
     private boolean stage;
-    
+
     private int maxAanwezigen;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Lid> aanwezigen;
 
     @Transient
@@ -37,6 +37,9 @@ public class Activiteit implements Serializable, IActiviteit {
 
     @Transient
     private SimpleStringProperty stageProperty = new SimpleStringProperty();
+
+    @Transient
+    private SimpleStringProperty maxAanwezigenProperty = new SimpleStringProperty();
 
     public Activiteit() {
     }
@@ -151,6 +154,7 @@ public class Activiteit implements Serializable, IActiviteit {
         this.stageProperty = stageProperty;
     }
 
+    @Override
     public int getMaxAanwezigen() {
         return maxAanwezigen;
     }
@@ -159,17 +163,29 @@ public class Activiteit implements Serializable, IActiviteit {
         this.maxAanwezigen = maxAanwezigen;
     }
 
-    public void updateActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean stage) {
-        setNaam(naam);
-        setBeginDatum(beginDatum);
-        setEindDatum(eindDatum);
-        setStage(stage);
-    }
-
     public void fillSimpleProperties() {
         this.setNaamProperty(new SimpleStringProperty(this.getNaam()));
         this.setBeginDatumProperty(new SimpleStringProperty(this.getBeginDatum().toString()));
         this.setEindDatumProperty(new SimpleStringProperty(this.getEindDatum().toString()));
         this.setStageProperty(new SimpleStringProperty(this.isStage() ? "stage" : "geen stage"));
+        this.setMaxAanwezigenProperty(new SimpleStringProperty(String.format("%d", this.maxAanwezigen)));
+    }
+
+    @Override
+    public SimpleStringProperty getMaxAanwezigenProperty() {
+        return maxAanwezigenProperty;
+    }
+
+    public void setMaxAanwezigenProperty(SimpleStringProperty maxAanwezigenProperty) {
+        this.maxAanwezigenProperty = maxAanwezigenProperty;
+    }
+
+    public final void wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean stage, int maxAanwezigen) {
+        setNaam(naam);
+        setBeginDatum(eindDatum);
+        setEindDatum(eindDatum);
+        setStage(stage);
+        setMaxAanwezigen(maxAanwezigen);
+        fillSimpleProperties();
     }
 }
