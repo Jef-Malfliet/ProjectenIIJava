@@ -243,10 +243,8 @@ public class Dojo {
 
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
         Predicate<Lid> result = lid -> true;
-        Predicate<Lid> voornaam = lid -> lid.getVoornaam().compareToIgnoreCase(voornaamFilter) > 0;
-        //Predicate<Lid> voornaam = lid -> lid.getVoornaam().toLowerCase().startsWith(voornaamFilter.toLowerCase());
-        Predicate<Lid> familienaam = lid -> lid.getFamilienaam().compareToIgnoreCase(familienaamFilter) >= 0;
-        //Predicate<Lid> familienaam = lid -> lid.getFamilienaam().toLowerCase().startsWith(voornaamFilter.toLowerCase());
+        Predicate<Lid> voornaam = lid -> lid.getVoornaam().toLowerCase().startsWith(voornaamFilter.toLowerCase());
+        Predicate<Lid> familienaam = lid -> lid.getFamilienaam().toLowerCase().startsWith(familienaamFilter.toLowerCase());
         Predicate<Lid> graad = lid -> lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
         Predicate<Lid> lidType = lid -> lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
 
@@ -302,7 +300,7 @@ public class Dojo {
                 LesType formule = (LesType) extraParameters.get(2);
                 Predicate<Lid> InschResult = lid -> true;
                 Predicate<Lid> onDate = lid -> lid.getInschrijvingsdatum().equals(inschrijvingdatum);
-                Predicate<Lid> onName = lid -> lid.getVoornaam().compareToIgnoreCase(voornaam) >= 0;
+                Predicate<Lid> onName = lid -> lid.getVoornaam().toLowerCase().startsWith(voornaam.toLowerCase());
                 Predicate<Lid> onFormule = lid -> lid.getLessen().equals(formule);
 
                 if (inschrijvingdatum != null) {

@@ -37,7 +37,7 @@ public class LedenMapper {
 
             while (input.hasNext()) {
                 String[] split = input.nextLine().split(";");
-                lijst.add(new Lid(split[0], split[1], split[2], split[3], split[4], split[5], split[6], split[7], split[8], split[9], Land.valueOf(split[10]),
+                lijst.add(new Lid(split[0], split[1], split[2], "0" + split[3], "0" + split[4], split[5], split[6], split[7], split[8], split[9], Land.valueOf(split[10]),
                         split[11], split[12], split[13], LocalDate.of(Integer.parseInt(split[14]), Integer.parseInt(split[15]), Integer.parseInt(split[16])),
                         LocalDate.of(Integer.parseInt(split[17]), Integer.parseInt(split[18]), Integer.parseInt(split[19])),
                         new ArrayList<>(), randomGeslacht(), randomGraad(), randomType(), randomFormule()));
@@ -60,7 +60,13 @@ public class LedenMapper {
 
     private static RolType randomType() {
         SecureRandom r = new SecureRandom();
-        return RolType.values()[r.nextInt(3)];
+        double kans = r.nextDouble();
+        if(kans <= 0.9){
+            return RolType.LID;
+        }else {
+            return RolType.LESGEVER;
+        }
+        
     }
 
     private static LesType randomFormule() {

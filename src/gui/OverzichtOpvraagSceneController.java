@@ -19,11 +19,13 @@ import java.util.Arrays;
 import java.util.List;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -83,6 +85,10 @@ public class OverzichtOpvraagSceneController extends HBox {
     @FXML
     private Button btnPreview;
 
+    private ComboBox<LesType> cboFormule;
+    private TextField txfLidNaam;
+    DatePicker datePicker;
+
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
         loader.setController(this);
@@ -94,17 +100,16 @@ public class OverzichtOpvraagSceneController extends HBox {
         }
         this.dc = dc;
         buildGui();
-
+        extraParameters = new ArrayList<>();
         cboType.valueProperty().addListener((ObservableValue<? extends OverzichtType> observable, OverzichtType oldValue, OverzichtType newValue) -> {
             System.out.println(newValue);
             makeExtraParamScreen(newValue);
         });
 
-        extraParameters = new ArrayList<>();
     }
 
     @FXML
-    private void maakOverzicht(ActionEvent event) {
+    private <T extends Exportable> void maakOverzicht(ActionEvent event) {
         OverzichtType type = cboType.getSelectionModel().getSelectedItem();
         if (type == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -112,8 +117,14 @@ public class OverzichtOpvraagSceneController extends HBox {
             alert.setContentText("Geen overzichtstype gekozen");
             alert.showAndWait();
         } else {
-            placeTable(type);
+            fillParameters(type);
+            List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
+            placeTable(type, FXCollections.observableArrayList(overzicht));
         }
+    }
+
+    private void maakOverzicht(OverzichtType type, ObservableList list) {
+        placeTable(type, list);
     }
 
     @FXML
@@ -138,14 +149,15 @@ public class OverzichtOpvraagSceneController extends HBox {
         } else {
             path += "/" + besNaam + ".xls" + "/";
         }
-
-        //ExportFiles.toExcel(dc.getLeden(), 25, 20, path);
     }
 
     private void buildGui() {
         cboType.setItems(FXCollections.observableArrayList(Arrays.asList(OverzichtType.values())));
-
         setMaxScreen();
+
+        datePicker = new DatePicker();
+        txfLidNaam = new TextField();
+        cboFormule = new ComboBox();
     }
 
     private void setMaxScreen() {
@@ -168,7 +180,6 @@ public class OverzichtOpvraagSceneController extends HBox {
     private void makeExtraParamScreen(OverzichtType type) {
 
         Label lblDatum = new Label("Op datum");
-        DatePicker datePicker = new DatePicker();
         lblDatum.setPrefWidth(sceneWidth / 4.5);
         datePicker.setPrefWidth(sceneWidth / 4.2);
         VBox vBoxDatum = new VBox();
@@ -176,7 +187,6 @@ public class OverzichtOpvraagSceneController extends HBox {
         vBoxDatum.getChildren().addAll(lblDatum, datePicker);
 
         Label lblLidNaam = new Label("Op lid");
-        TextField txfLidNaam = new TextField();
         lblLidNaam.setPrefWidth(sceneWidth / 4.5);
         //txfLidNaam.setPrefWidth((sceneWidth / 2) / 2.1);
         txfLidNaam.setMaxWidth(195);
@@ -185,7 +195,6 @@ public class OverzichtOpvraagSceneController extends HBox {
         vBoxLid.getChildren().addAll(lblLidNaam, txfLidNaam);
 
         Label lblFormule = new Label("Op formule");
-        ComboBox<LesType> cboFormule = new ComboBox();
         lblFormule.setPrefWidth(sceneWidth / 4.5);
         cboFormule.setPrefWidth(sceneWidth / 4.5);
         cboFormule.setPromptText("Kies een formule");
@@ -196,7 +205,7 @@ public class OverzichtOpvraagSceneController extends HBox {
 
         Label lblLidFiche = new Label("Genereer een extra fiche per lid");
         lblLidFiche.setPrefWidth(sceneWidth / 4.5);
-        CheckBox cb = new CheckBox();
+        //CheckBox cb = new CheckBox();
 
         Label lblNoExtra = new Label("Geen extra parameters");
 
@@ -211,7 +220,6 @@ public class OverzichtOpvraagSceneController extends HBox {
                 hBoxUnderRow.getChildren().clear();
                 hBoxUnderRow.getChildren().addAll(vBoxFormule);
 
-                extraParameters.addAll(Arrays.asList(datePicker, txfLidNaam, cboFormule));
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
                 hBoxTableContainer.getChildren().clear();
                 break;
@@ -262,7 +270,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         }
     }
 
-    private void placeTable(OverzichtType type) {
+    private void placeTable(OverzichtType type, ObservableList list) {
         switch (type) {
             case ACTIVITEIT:
                 hBoxTableContainer.getChildren().clear();
@@ -305,7 +313,7 @@ public class OverzichtOpvraagSceneController extends HBox {
 
                 hBoxTableContainer.getChildren().clear();
                 TableView<ILid> tblLidInschrijvingen = new TableView<>();
-                tblLidInschrijvingen.setItems(dc.getLeden());
+                tblLidInschrijvingen.setItems(list);
                 ((SortedList) dc.getLeden()).comparatorProperty().bind(tblLidInschrijvingen.comparatorProperty());
 
                 TableColumn<ILid, String> colNaam = new TableColumn<>();
@@ -342,9 +350,26 @@ public class OverzichtOpvraagSceneController extends HBox {
     @FXML
     private <T extends Exportable> void maakDocument(MouseEvent event) {
         OverzichtType type = cboType.getSelectionModel().getSelectedItem();
+        fillParameters(type);
         List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
-        //String headers = dc.maakHeaders();
         dc.maakOverzicht(overzicht, path);
+        maakOverzicht(type, FXCollections.observableArrayList(overzicht));
+    }
+
+    private void fillParameters(OverzichtType type) {
+        extraParameters.clear();
+        switch (type) {
+            case AANWEZIGHEID:
+            case INSCHRIJVING:
+                extraParameters.addAll(Arrays.asList(datePicker.getValue(), txfLidNaam.getText(), cboFormule.getSelectionModel().getSelectedItem()));
+                break;
+            case ACTIVITEIT:
+                break;
+            case CLUBKAMPIOENSCHAP:
+                break;
+            case LESMATERIAAL:
+                break;
+        }
     }
 
 }
