@@ -424,6 +424,9 @@ public class DetailPaneelController extends VBox {
             dpInschrijving.setValue(LocalDate.now());
             comboGemeentes = false;
             controleerOpgemeentes();
+            cboGemeentes.getSelectionModel().clearSelection();
+            cboGemeentes.setPrefWidth(231);
+            cboGemeentes.setPrefHeight(28);
             comboGemeentes = true;
             return true;
 
