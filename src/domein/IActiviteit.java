@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author Jef
  */
-public interface IActiviteit extends Exportable {
+public interface IActiviteit{
     long getId();
     
     String getNaam();

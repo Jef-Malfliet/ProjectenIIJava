@@ -3,8 +3,6 @@ package domein;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -13,8 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 import util.Validatie;
 
@@ -162,15 +158,5 @@ public class Oefening implements Serializable, IOefening {
     @Override
     public List<String> getImagePaths() {
         return this.images;
-    }
-
-    @Override
-    public String excelFormat() {
-        return String.format("%s,%s,%s%n", naam, graad.toString());
-    }
-
-    @Override
-    public String excelheaders() {
-        return "Naam,Graad,Pad";
     }
 }

@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.*;
 
 @Entity
-public class Activiteit implements Serializable, IActiviteit {
+public class Activiteit implements Serializable, IActiviteit, Exportable<Activiteit> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +40,8 @@ public class Activiteit implements Serializable, IActiviteit {
 
     @Transient
     private SimpleStringProperty maxAanwezigenProperty = new SimpleStringProperty();
+
+    private static Exportable<Activiteit> exportable;
 
     public Activiteit() {
     }
@@ -189,13 +191,22 @@ public class Activiteit implements Serializable, IActiviteit {
         fillSimpleProperties();
     }
 
+    public static Exportable<Activiteit> getExportable() {
+        return exportable;
+    }
+
+    public static void setExportable(Exportable<Activiteit> exportable) {
+        Activiteit.exportable = exportable;
+    }
+
     @Override
-    public String excelFormat() {
-       return String.format("%s,%s,%s,%s", naam, beginDatum.toString(), eindDatum.toString(), stage ? "Ja" : "Nee");
+    public String excelFormat(Activiteit object) {
+        return exportable.excelFormat(this);
     }
 
     @Override
     public String excelheaders() {
-        return "Activiteitnaam,Start datum,Eind datum,Stage";
+        return exportable.excelheaders();
     }
+
 }

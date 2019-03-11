@@ -14,7 +14,7 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author Nante
  */
-public interface ILid extends Serializable, Exportable {
+public interface ILid extends Serializable {
 
     long getId();
 

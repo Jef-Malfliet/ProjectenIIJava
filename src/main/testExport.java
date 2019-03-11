@@ -11,16 +11,9 @@ import domein.Graad;
 import domein.Land;
 import domein.LesType;
 import domein.Lid;
-import domein.Postcode;
 import domein.RolType;
-import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
 import persistentie.ExportFiles;
 
 /**
@@ -60,8 +53,8 @@ public class testExport {
         //ExportFiles.toExcel(dc.getLeden(), 25, 20, locatie);
         // ExportFiles.toPdf(locatie2, locatie2);
         //  ExportFiles.toPdf(locatie, locatie + ".pdf");
-        new ExportFiles().toExcel(dc.getLeden(), 25, 20, locatie);
-        new ExportFiles().toPdf(locatie, locatie2);
+//        new ExportFiles().toExcel(dc.getLeden(), 25, 20, locatie);
+//        new ExportFiles().toPdf(locatie, locatie2);
 
 //        Map<String, Postcode> postcodes = (new FileMapper()).getPostcodes();
 //        postcodes.entrySet().forEach(e -> System.out.printf("%s,%s", e.getKey(), e.getValue()));

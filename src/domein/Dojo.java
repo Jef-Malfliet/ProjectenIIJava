@@ -17,6 +17,7 @@ import persistentie.ExportFiles;
 import persistentie.GenericDaoJpa;
 import persistentie.LidDao;
 import persistentie.OefeningDao;
+import static util.Validatie.isNull;
 
 public class Dojo {
 
@@ -285,7 +286,7 @@ public class Dojo {
     }
 
     private boolean notEmpty(String value) {
-        return value != null || !value.isEmpty();
+        return !(value == null || value.isEmpty());
     }
 
     public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
@@ -293,31 +294,70 @@ public class Dojo {
 
         switch (type) {
             case AANWEZIGHEID:
+                overzicht = new FilteredList<>(leden, (p) -> true);
+                LocalDate aanwezigheidDatum = (LocalDate) extraParameters.get(0);
+                String lidVoornaam = extraParameters.get(1).toString();
+                LesType lidFormule = (LesType) extraParameters.get(2);
+                Predicate<Lid> aanwResult = lid -> true;
+                Predicate<Lid> onAanwezigheid = lid -> lid.getAanwezigheden().contains(aanwezigheidDatum);
+                Predicate<Lid> onNameA = lid -> lid.getVoornaam().toLowerCase().startsWith(lidVoornaam.toLowerCase());
+                Predicate<Lid> onFormuleA = lid -> lid.getLessen().equals(lidFormule);
+
+                if (aanwezigheidDatum != null) {
+                    aanwResult = aanwResult.and(onAanwezigheid);
+                }
+
+                if (notEmpty(lidVoornaam)) {
+                    aanwResult = aanwResult.and(onNameA);
+                }
+
+                if (!isNull(onFormuleA)) {
+                    if (lidFormule != LesType.ALLES) {
+                        aanwResult = aanwResult.and(onFormuleA);
+                    }
+                }
+                overzicht.setPredicate(aanwResult);
+                return overzicht;
             case INSCHRIJVING:
                 overzicht = new FilteredList<>(leden, (p) -> true);
                 LocalDate inschrijvingdatum = (LocalDate) extraParameters.get(0);
                 String voornaam = extraParameters.get(1).toString();
                 LesType formule = (LesType) extraParameters.get(2);
-                Predicate<Lid> InschResult = lid -> true;
-                Predicate<Lid> onDate = lid -> lid.getInschrijvingsdatum().equals(inschrijvingdatum);
+                Predicate<Lid> inschResult = lid -> true;
+                Predicate<Lid> onInschrijving = lid -> lid.getInschrijvingsdatum().equals(inschrijvingdatum);
                 Predicate<Lid> onName = lid -> lid.getVoornaam().toLowerCase().startsWith(voornaam.toLowerCase());
                 Predicate<Lid> onFormule = lid -> lid.getLessen().equals(formule);
 
-                if (inschrijvingdatum != null) {
-                    InschResult = InschResult.and(onDate);
+                if (!isNull(inschrijvingdatum)) {
+                    inschResult = inschResult.and(onInschrijving);
                 }
 
                 if (notEmpty(voornaam)) {
-                    InschResult = InschResult.and(onName);
+                    inschResult = inschResult.and(onName);
                 }
 
-                if (formule != null) {
-                    InschResult = InschResult.and(onFormule);
+                if (!isNull(formule)) {
+                    if (formule != LesType.ALLES) {
+                        inschResult = inschResult.and(onFormule);
+                    }
                 }
-                overzicht.setPredicate(InschResult);
+                overzicht.setPredicate(inschResult);
                 return overzicht;
             case ACTIVITEIT:
                 overzicht = new FilteredList(activiteiten, p -> true);
+                boolean stage = (boolean) extraParameters.get(0);
+                String aNaam = extraParameters.get(1).toString();
+                Predicate<Activiteit> actResult = a -> true;
+                Predicate<Activiteit> isStage = a -> a.isStage();
+                Predicate<Activiteit> onAName = a -> a.getNaam().toLowerCase().startsWith(aNaam.toLowerCase());
+
+                if (stage) {
+                    actResult = actResult.and(isStage);
+                }
+                if (notEmpty(aNaam)) {
+                    actResult = actResult.and(onAName);
+                }
+                overzicht.setPredicate(actResult);
                 return overzicht;
             case CLUBKAMPIOENSCHAP:
                 overzicht = new FilteredList(FXCollections.observableArrayList(kampioenschappen), p -> true);
@@ -340,14 +380,6 @@ public class Dojo {
         return null;
     }
 
-//    public String maakHeaders() {
-//        StringBuilder sb = new StringBuilder();
-//        for (String h : headers) {
-//            sb.append(h).append(",");
-//        }
-//        sb.deleteCharAt(sb.length() - 1);
-//        return sb.toString();
-//    }
     public void setCurrentActiviteit(IActiviteit activiteit) {
         current_Activiteit = activiteiten.indexOf(activiteit);
     }

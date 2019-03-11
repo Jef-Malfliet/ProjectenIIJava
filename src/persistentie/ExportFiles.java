@@ -15,12 +15,16 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.ConditionalFormattingRule;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.PatternFormatting;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.SheetConditionalFormatting;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
@@ -29,29 +33,36 @@ import org.apache.poi.ss.util.CellRangeAddress;
  */
 public class ExportFiles {
 
-
     public static <T extends Exportable> void toExcel(List<T> lijst, int kolombreedte, float rijhoogte, String locatie) {
 
-        List<String> stringLijst = lijst.stream().map(T::excelFormat).collect(Collectors.toList());
+        List<String> stringLijst = lijst.stream().map(t -> t.excelFormat(t)).collect(Collectors.toList());
+
         String headers = lijst.get(0).excelheaders();
 
         System.out.println(headers);
         System.out.println(stringLijst);
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("overzicht");
-        //shadeAlt(sheet); // is voor kleurtje van elke rij
+        shadeAlt(sheet, makeLetter(headers.split(",").length), String.valueOf(lijst.size()));
         sheet.setDefaultColumnWidth(kolombreedte);
-        sheet.setDefaultRowHeightInPoints(rijhoogte);
+        // sheet.setDefaultRowHeightInPoints(rijhoogte);
         Row[] rows = new Row[stringLijst.size() + 1];
         //header
         stringLijst.add(0, headers);
         //rest
+        CellStyle cs = workbook.createCellStyle();
+        cs.setWrapText(true);
+        cs.setAlignment(HorizontalAlignment.CENTER);
+        cs.setVerticalAlignment(VerticalAlignment.CENTER);
         IntStream.range(0, stringLijst.size()).forEach(rownumber -> {
             rows[rownumber] = sheet.createRow(rownumber);
             String[] split = stringLijst.get(rownumber).split(",");
-            IntStream.range(0, split.length ).forEach(columnnumber -> {
-                rows[rownumber].createCell(columnnumber).setCellValue(split[columnnumber]);
 
+            IntStream.range(0, split.length).forEach(columnnumber -> {
+                Cell cell = rows[rownumber].createCell(columnnumber);
+                cell.setCellValue(split[columnnumber]);
+
+                cell.setCellStyle(cs);
             });
 
         });
@@ -96,7 +107,7 @@ public class ExportFiles {
     }
 
 //nog niet gebruikt
-    public static void shadeAlt(Sheet sheet) {
+    public static void shadeAlt(Sheet sheet, String rij, String kolom) {
         SheetConditionalFormatting sheetCF = sheet.getSheetConditionalFormatting();
         ConditionalFormattingRule rule1 = sheetCF.createConditionalFormattingRule("MOD(ROW(),2)");
         PatternFormatting fill1 = rule1.createPatternFormatting();
@@ -105,11 +116,18 @@ public class ExportFiles {
 
         ConditionalFormattingRule rule2 = sheetCF.createConditionalFormattingRule("MOD(ROW()+ 1,2)");
         PatternFormatting fill2 = rule2.createPatternFormatting();
-        fill2.setFillBackgroundColor(IndexedColors.PALE_BLUE.index);
+        fill2.setFillBackgroundColor(IndexedColors.GREY_25_PERCENT.index);
         fill2.setFillPattern(PatternFormatting.SOLID_FOREGROUND);
 
-        CellRangeAddress[] regions = {CellRangeAddress.valueOf("A1:E9")};
+        CellRangeAddress[] regions = {CellRangeAddress.valueOf("A1:" + rij + kolom)};
         sheetCF.addConditionalFormatting(regions, rule2, rule1);
+    }
+
+    private static String makeLetter(int size) {
+        //int repeat = size / 26;
+        //int letter = size % 26;
+        String[] letters = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(" ");
+        return letters[size - 1];// + letters[letter];
     }
 
 }

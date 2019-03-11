@@ -5,18 +5,23 @@
  */
 package gui;
 
+import domein.Activiteit;
 import domein.DomeinController;
 import domein.Exportable;
-import domein.FicheType;
+import domein.ExportableActiviteit;
+import domein.ExportableLidAanwezigheden;
+import domein.ExportableLidInschrijvingen;
 import domein.IActiviteit;
 import domein.ILid;
 import domein.LesType;
+import domein.Lid;
 import domein.OverzichtType;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,13 +30,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -87,7 +92,9 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     private ComboBox<LesType> cboFormule;
     private TextField txfLidNaam;
-    DatePicker datePicker;
+    private DatePicker datePicker;
+    private TextField txfANaam;
+    private CheckBox cb;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -158,6 +165,8 @@ public class OverzichtOpvraagSceneController extends HBox {
         datePicker = new DatePicker();
         txfLidNaam = new TextField();
         cboFormule = new ComboBox();
+        txfANaam = new TextField();
+        cb = new CheckBox();
     }
 
     private void setMaxScreen() {
@@ -188,7 +197,6 @@ public class OverzichtOpvraagSceneController extends HBox {
 
         Label lblLidNaam = new Label("Op lid");
         lblLidNaam.setPrefWidth(sceneWidth / 4.5);
-        //txfLidNaam.setPrefWidth((sceneWidth / 2) / 2.1);
         txfLidNaam.setMaxWidth(195);
         VBox vBoxLid = new VBox();
         VBox.setMargin(vBoxLid, new Insets(10));
@@ -199,13 +207,10 @@ public class OverzichtOpvraagSceneController extends HBox {
         cboFormule.setPrefWidth(sceneWidth / 4.5);
         cboFormule.setPromptText("Kies een formule");
         cboFormule.setItems(FXCollections.observableArrayList(Arrays.asList(LesType.values())));
+        cboFormule.getSelectionModel().selectLast();
         VBox vBoxFormule = new VBox();
         VBox.setMargin(vBoxFormule, new Insets(10));
         vBoxFormule.getChildren().addAll(lblFormule, cboFormule);
-
-        Label lblLidFiche = new Label("Genereer een extra fiche per lid");
-        lblLidFiche.setPrefWidth(sceneWidth / 4.5);
-        //CheckBox cb = new CheckBox();
 
         Label lblNoExtra = new Label("Geen extra parameters");
 
@@ -228,7 +233,22 @@ public class OverzichtOpvraagSceneController extends HBox {
                 extraParameters.clear();
 
                 hBoxTopRow.getChildren().clear();
-                hBoxTopRow.getChildren().addAll(lblNoExtra);
+
+                Label lblANaam = new Label("Acitiviteitsnaam");
+                lblANaam.setPrefWidth(sceneWidth / 4.5);
+
+                txfANaam.setPrefWidth(sceneWidth / 4.5);
+                VBox vbANaam = new VBox();
+                VBox.setMargin(vbANaam, new Insets(10));
+                vbANaam.getChildren().addAll(lblANaam, txfANaam);
+
+                Label lblStage = new Label("");
+                cb.setText("Stage");
+                VBox vbStage = new VBox();
+                VBox.setMargin(vbStage, new Insets(10));
+                vbStage.getChildren().addAll(lblStage, cb);
+
+                hBoxTopRow.getChildren().addAll(vbANaam, vbStage);
 
                 vBoxContainer.getChildren().addAll(hBoxTopRow);
                 hBoxTableContainer.getChildren().clear();
@@ -253,7 +273,6 @@ public class OverzichtOpvraagSceneController extends HBox {
                 hBoxUnderRow.getChildren().clear();
                 hBoxUnderRow.getChildren().addAll(vBoxFormule);
 
-                extraParameters.addAll(Arrays.asList(datePicker.getValue(), txfLidNaam.getText(), cboFormule.getSelectionModel().getSelectedItem()));
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
                 hBoxTableContainer.getChildren().clear();
                 break;
@@ -275,7 +294,7 @@ public class OverzichtOpvraagSceneController extends HBox {
             case ACTIVITEIT:
                 hBoxTableContainer.getChildren().clear();
                 TableView<IActiviteit> tblActiviteiten = new TableView<>();
-                tblActiviteiten.setItems(dc.getActiviteiten());
+                tblActiviteiten.setItems(list);
 
                 TableColumn<IActiviteit, String> aNaamcol = new TableColumn<>();
                 aNaamcol.setText("Activiteitnaam");
@@ -296,21 +315,71 @@ public class OverzichtOpvraagSceneController extends HBox {
                         -> cellData.getValue().getStageProperty());
 
                 tblActiviteiten.setPrefWidth(sceneWidth);
-                tblActiviteiten.setPrefHeight(sceneHeight);
+                tblActiviteiten.setPrefHeight(sceneHeight - 10);
 
                 // 3 kolommen, dus 1/3 van de tableview.
-                aNaamcol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(3));
-                aStartCol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(3));
-                aEndCol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(3));
+                aNaamcol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(4));
+                aStartCol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(4));
+                aEndCol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(4));
+                StageCol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(4));
 
-                tblActiviteiten.getColumns().addAll(aNaamcol, aStartCol, aEndCol);
+                tblActiviteiten.getColumns().addAll(aNaamcol, aStartCol, aEndCol, StageCol);
                 hBoxTableContainer.getChildren().addAll(tblActiviteiten);
                 break;
             case CLUBKAMPIOENSCHAP:
                 break;
             case AANWEZIGHEID:
-            case INSCHRIJVING:
+                hBoxTableContainer.getChildren().clear();
+                TableView<ILid> tblActiviteit = new TableView<>();
+                tblActiviteit.setItems(list);
 
+                TableColumn<ILid, String> colANaam = new TableColumn<>();
+                colANaam.setText("Naam");
+                colANaam.setCellValueFactory(cellData
+                        -> cellData.getValue().getVoornaamProperty().concat(" ").concat(cellData.getValue().getFamilienaamProperty())
+                );
+
+                TableColumn<ILid, String> colAFormule = new TableColumn<>();
+                colAFormule.setText("Lesformule");
+                colAFormule.setCellValueFactory(cellData
+                        -> cellData.getValue().getLessenProperty()
+                );
+
+                tblActiviteit.setPrefWidth(sceneWidth * 2 / 3.1);
+                tblActiviteit.setPrefHeight(sceneHeight - 100);
+                tblActiviteit.setMaxHeight(sceneHeight - 100);
+
+                colANaam.prefWidthProperty().bind(tblActiviteit.widthProperty().divide(2));
+                colAFormule.prefWidthProperty().bind(tblActiviteit.widthProperty().divide(2));
+                tblActiviteit.getColumns().addAll(colANaam, colAFormule);
+
+                Label lblAanwezigheden = new Label("Aanwezigheden");
+                ListView<String> lstAanwezigheden = new ListView<>();
+                lstAanwezigheden.setPrefWidth(sceneWidth / 3);
+                lstAanwezigheden.setPrefHeight(sceneHeight - 100);
+                lstAanwezigheden.setMaxHeight(sceneHeight - 100);
+
+                tblActiviteit.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        System.out.println(newValue);
+                        List<String> aanwezighedenPerLid = newValue.getAanwezigheden().stream().map(d -> d.toString()).collect(Collectors.toList());
+                        lstAanwezigheden.setItems(FXCollections.observableArrayList(aanwezighedenPerLid));
+                    }
+                });
+
+                tblActiviteit.getSelectionModel().selectFirst();
+
+                VBox vbAanwezigheden = new VBox();
+                vbAanwezigheden.setSpacing(10);
+                vbAanwezigheden.getChildren().addAll(lblAanwezigheden, lstAanwezigheden);
+
+                HBox hbActiviteit = new HBox();
+                hbActiviteit.setSpacing(10);
+                hbActiviteit.getChildren().addAll(tblActiviteit, vbAanwezigheden);
+
+                hBoxTableContainer.getChildren().addAll(hbActiviteit);
+                break;
+            case INSCHRIJVING:
                 hBoxTableContainer.getChildren().clear();
                 TableView<ILid> tblLidInschrijvingen = new TableView<>();
                 tblLidInschrijvingen.setItems(list);
@@ -321,10 +390,12 @@ public class OverzichtOpvraagSceneController extends HBox {
                 colNaam.setCellValueFactory(cellData
                         -> cellData.getValue().getVoornaamProperty().concat(" ").concat(cellData.getValue().getFamilienaamProperty())
                 );
+
                 TableColumn<ILid, String> colDatum = new TableColumn<>();
                 colDatum.setText("Inschrijfdatum");
                 colDatum.setCellValueFactory(cellData
                         -> cellData.getValue().getInschrijvingsDatumProperty());
+
                 TableColumn<ILid, String> colFormule = new TableColumn<>();
                 colFormule.setText("Lesformule");
                 colFormule.setCellValueFactory(cellData
@@ -332,7 +403,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 );
 
                 tblLidInschrijvingen.setPrefWidth(sceneWidth);
-                tblLidInschrijvingen.setPrefHeight(sceneHeight);
+                tblLidInschrijvingen.setPrefHeight(sceneHeight - 10);
 
                 // 3 kolommen, dus 1/3 van de tableview.
                 colNaam.prefWidthProperty().bind(tblLidInschrijvingen.widthProperty().divide(3));
@@ -360,10 +431,16 @@ public class OverzichtOpvraagSceneController extends HBox {
         extraParameters.clear();
         switch (type) {
             case AANWEZIGHEID:
+                Lid.setExportable(new ExportableLidAanwezigheden());
+                extraParameters.addAll(Arrays.asList(datePicker.getValue(), txfLidNaam.getText(), cboFormule.getSelectionModel().getSelectedItem()));
+                break;
             case INSCHRIJVING:
+                Lid.setExportable(new ExportableLidInschrijvingen());
                 extraParameters.addAll(Arrays.asList(datePicker.getValue(), txfLidNaam.getText(), cboFormule.getSelectionModel().getSelectedItem()));
                 break;
             case ACTIVITEIT:
+                Activiteit.setExportable(new ExportableActiviteit());
+                extraParameters.addAll(Arrays.asList(cb.isSelected(), txfANaam.getText()));
                 break;
             case CLUBKAMPIOENSCHAP:
                 break;

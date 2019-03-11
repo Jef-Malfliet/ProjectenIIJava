@@ -50,13 +50,14 @@ public class StartUp extends Application {
         dc.voegActiviteitToe(act1);
         dc.voegActiviteitToe(act2);
 
-//        for (int i = 0; i < ledenLijst.size(); i++) {
-//            if (i % 2 == 0) {
-//                dc.schrijfLidIn(act1.getNaam(), ledenLijst.get(i).getEmail());
-//            } else {
-//                dc.schrijfLidIn(act2.getNaam(), ledenLijst.get(i).getEmail());
-//            }
-//        }
+        for (int i = 0; i < ledenLijst.size(); i++) {
+            if (i % 15 == 0) {
+                dc.schrijfLidIn(act1.getNaam(), ledenLijst.get(i).getEmail());
+            } 
+            if(i % 17 == 0 ){
+                dc.schrijfLidIn(act2.getNaam(), ledenLijst.get(i).getEmail());
+            }
+        }
 
         Oefening oef1 = new Oefening(Graad.GROEN, "Test1");
         Oefening oef2 = new Oefening(Graad.DAN11, "Test2");

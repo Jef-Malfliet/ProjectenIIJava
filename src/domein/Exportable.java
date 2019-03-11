@@ -9,7 +9,7 @@ package domein;
  *
  * @author Nante
  */
-public interface Exportable {
-     String excelFormat();
+public interface Exportable<T> {
+     String excelFormat(T object);
      String excelheaders();
 }

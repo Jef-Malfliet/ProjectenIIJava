@@ -134,16 +134,6 @@ public class DTOActiviteit implements IActiviteit {
         this.maxAanwezigenProperty = maxAanwezigenProperty;
     }
 
-    @Override
-    public String excelFormat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String excelheaders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     
     
 }

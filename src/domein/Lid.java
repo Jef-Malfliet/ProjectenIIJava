@@ -4,13 +4,10 @@ import java.io.Serializable;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
 import javax.persistence.*;
 import static util.Validatie.*;
-
 
 /**
  *
@@ -21,7 +18,7 @@ import static util.Validatie.*;
     @javax.persistence.NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e"),
     @javax.persistence.NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
 })
-public class Lid implements Serializable, Exportable, ILid {
+public class Lid implements Serializable, ILid, Exportable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +42,8 @@ public class Lid implements Serializable, Exportable, ILid {
     private LocalDate inschrijvingsdatum;
     private List<LocalDate> aanwezigheden;
     private LesType lessen;
+
+    private static Exportable<Lid> exportable;
 
     @Enumerated(EnumType.STRING)
     private Geslacht geslacht;
@@ -80,8 +79,9 @@ public class Lid implements Serializable, Exportable, ILid {
                 lid.getLand(), lid.getRijksregisternummer(), lid.getEmail(), lid.getEmail_ouders(), lid.getGeboortedatum(), lid.getInschrijvingsdatum(), lid.getAanwezigheden(), lid.getGeslacht(), lid.getGraad(), lid.getType(), lid.getLessen());
 
     }
-    public Lid(DTOLid lid){
-         this(lid.getVoornaam(), lid.getFamilienaam(), lid.getWachtwoord(), lid.getGsm(), lid.getTelefoon_vast(), lid.getStraatnaam(), lid.getHuisnummer(), lid.getBusnummer(), lid.getPostcode(), lid.getStad(),
+
+    public Lid(DTOLid lid) {
+        this(lid.getVoornaam(), lid.getFamilienaam(), lid.getWachtwoord(), lid.getGsm(), lid.getTelefoon_vast(), lid.getStraatnaam(), lid.getHuisnummer(), lid.getBusnummer(), lid.getPostcode(), lid.getStad(),
                 lid.getLand(), lid.getRijksregisternummer(), lid.getEmail(), lid.getEmail_ouders(), lid.getGeboortedatum(), lid.getInschrijvingsdatum(), lid.getAanwezigheden(), lid.getGeslacht(), lid.getGraad(), lid.getType(), lid.getLessen());
     }
 
@@ -127,17 +127,6 @@ public class Lid implements Serializable, Exportable, ILid {
     @Override
     public String toString() {
         return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %s in %s%n", voornaam, familienaam, graad.toString(), telefoon_vast, email, straatnaam, postcode, stad);
-    }
-
-    @Override
-    public String excelFormat() {
-        return String.format("%s %s,%s,%s%n", voornaam, familienaam, inschrijvingsdatum.toString(), lessen.toString());
-
-    }
-
-    @Override
-    public String excelheaders() {
-        return String.format("%s,%s,%s%n", "Naam", "Inschrijfdatum", "Formule");
     }
 
     public SimpleStringProperty getVoornaamProperty() {
@@ -211,11 +200,11 @@ public class Lid implements Serializable, Exportable, ILid {
     }
 
     public void setTelefoon_vast(String telefoon_vast) {
-        
+
         if (isNullOrEmpty(telefoon_vast)) {
             throw new IllegalArgumentException("Vaste telefoonnummer mag niet leeg zijn");
         }
-        
+
         if (!(isValidLeeg(telefoon_vast) || isVasteTelefoonNummer(telefoon_vast))) {
             throw new IllegalArgumentException("Telefoon_vast is niet van het juiste formaat");
         }
@@ -464,16 +453,15 @@ public class Lid implements Serializable, Exportable, ILid {
         return rijksregisternummer;
     }
 
-     public void setRijksregisternummer(String rijksregisternummer) {
+    public void setRijksregisternummer(String rijksregisternummer) {
         if (isNullOrEmpty(rijksregisternummer)) {
             throw new IllegalArgumentException("Rijksregisternummer mag niet leeg zijn");
         }
-        if(!rijksregisternummerIsCorrect(rijksregisternummer)){
+        if (!rijksregisternummerIsCorrect(rijksregisternummer)) {
             throw new IllegalArgumentException("Rijksregisternummer voldoet niet aan het juiste formaat");
         }
         this.rijksregisternummer = rijksregisternummer;
     }
-
 
     @Override
     public SimpleStringProperty getLessenProperty() {
@@ -491,6 +479,24 @@ public class Lid implements Serializable, Exportable, ILid {
 
     private void setInschrijvingsDatumProperty(SimpleStringProperty simpleStringProperty) {
         this.inschrijvingsDatumProperty = simpleStringProperty;
+    }
+
+    public static Exportable<Lid> getExportable() {
+        return exportable;
+    }
+
+    public static void setExportable(Exportable<Lid> exportable) {
+        Lid.exportable = exportable;
+    }
+
+    @Override
+    public String excelFormat(Object object) {
+        return exportable.excelFormat(this);
+    }
+
+    @Override
+    public String excelheaders() {
+        return exportable.excelheaders();
     }
 
 }
