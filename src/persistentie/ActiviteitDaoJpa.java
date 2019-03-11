@@ -16,9 +16,15 @@ public class ActiviteitDaoJpa extends GenericDaoJpa<Activiteit> implements Activ
     public ActiviteitDaoJpa() {
         super(Activiteit.class);
     }
-    
-    public Activiteit getByName(String activiteitNaam){
+
+    @Override
+    public Activiteit getByName(String activiteitNaam) {
         return findAll().stream().filter(a -> a.getNaam() == activiteitNaam).findFirst().orElse(null);
     }
-    
+
+    @Override
+    public void delete(Activiteit currentActiviteit) {
+        currentActiviteit.getAanwezigen().clear();
+        em.remove(currentActiviteit);
+    }
 }

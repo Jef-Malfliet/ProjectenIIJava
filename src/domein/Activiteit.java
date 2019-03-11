@@ -23,7 +23,7 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     private int maxAanwezigen;
 
-    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Lid> aanwezigen;
 
     @Transient

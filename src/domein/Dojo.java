@@ -199,9 +199,9 @@ public class Dojo {
         activiteitRepo.update(actTemp);
     }
 
-    public void lidUitschrijven(long activiteitId, long lidId) {
-        Activiteit tempAct = activiteitRepo.get(lidId);
-        Lid tempLid = leden.stream().filter(l -> l.getId() == lidId).findFirst().orElse(null);
+    public void lidUitschrijven(String activiteitNaam, String lidEmail) {
+        Activiteit tempAct = activiteitRepo.getByName(activiteitNaam);
+        Lid tempLid = lidRepo.getLidByEmail(lidEmail);
         tempAct.lidUitschrijven(tempLid);
     }
 

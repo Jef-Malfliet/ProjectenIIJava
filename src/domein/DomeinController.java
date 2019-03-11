@@ -210,4 +210,10 @@ public class DomeinController {
     public IActiviteit getActiviteitByName(String naam) {
         return dojo.getActiviteitByName(naam);
     }
+    
+    public void schrijfLidUit(String activiteitNaam, String lidEmail) {
+        GenericDaoJpa.startTransaction();
+        dojo.lidUitschrijven(activiteitNaam, lidEmail);
+        GenericDaoJpa.commitTransaction();
+    }
 }

@@ -15,4 +15,6 @@ public interface ActiviteitDao extends GenericDao<Activiteit>{
 
     public Activiteit getByName(String activiteitNaam);
     
+    @Override
+    public void delete(Activiteit currentActiviteit);
 }

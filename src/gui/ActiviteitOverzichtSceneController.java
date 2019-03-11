@@ -63,17 +63,14 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
         tvActiviteiten.getSelectionModel().selectedItemProperty().addListener((observable, oldAct, newAct) -> {
             if (newAct != null) {
                 IActiviteit activiteit = dc.getActiviteitByName(newAct.getNaam());
-                if(adpc.fillActiviteit(activiteit)){
+                if (adpc.fillActiviteit(activiteit)) {
                     dc.setCurrentActiviteit(activiteit);
+                    adpc.updateButtons();
                 }
             }
         });
         setMaxScreen();
-        tvActiviteiten.setItems(dc.getActiviteiten());
-        tcNaam.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
-        tcStartdatum.setCellValueFactory(cellData -> cellData.getValue().getBeginDatumProperty());
-        tcEinddatum.setCellValueFactory(cellData -> cellData.getValue().getEindDatumProperty());
-        tcStage.setCellValueFactory(cellData -> cellData.getValue().getStageProperty());
+        updateList();
     }
 
     private void setMaxScreen() {
@@ -90,7 +87,7 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
     public void verwijderGeselecteerdeActiviteit() {
         IActiviteit activiteit = tvActiviteiten.getSelectionModel().selectedItemProperty().get();
         tvActiviteiten.getSelectionModel().clearSelection();
-        if(activiteit != null){
+        if (activiteit != null) {
             dc.verwijderCurrentActiviteit();
         }
         adpc.clearNaVerwijderen();
@@ -98,12 +95,15 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        update();
+        updateList();
     }
 
-    private void update() {
+    public void updateList() {
         tvActiviteiten.setItems(dc.getActiviteiten());
-        tvActiviteiten.refresh();
+        tcNaam.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
+        tcStartdatum.setCellValueFactory(cellData -> cellData.getValue().getBeginDatumProperty());
+        tcEinddatum.setCellValueFactory(cellData -> cellData.getValue().getEindDatumProperty());
+        tcStage.setCellValueFactory(cellData -> cellData.getValue().getStageProperty());
     }
 
 }
