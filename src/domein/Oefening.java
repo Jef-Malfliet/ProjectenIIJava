@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 import util.Validatie;
 
 @Entity
-public class Oefening implements Serializable, IOefening {
+public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +34,7 @@ public class Oefening implements Serializable, IOefening {
     private SimpleStringProperty videoProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
+    private static Exportable<Oefening> exportable;
 
     /**
      *
@@ -158,5 +159,23 @@ public class Oefening implements Serializable, IOefening {
     @Override
     public List<String> getImagePaths() {
         return this.images;
+    }
+
+    public static Exportable<Oefening> getExportable() {
+        return exportable;
+    }
+
+    public static void setExportable(Exportable<Oefening> exportable) {
+        Oefening.exportable = exportable;
+    }
+
+    @Override
+    public String excelFormat(Oefening object) {
+        return exportable.excelFormat(this);
+    }
+
+    @Override
+    public String excelheaders() {
+        return exportable.excelheaders();
     }
 }

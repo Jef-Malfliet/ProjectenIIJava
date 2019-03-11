@@ -9,12 +9,16 @@ import domein.Activiteit;
 import domein.DomeinController;
 import domein.Exportable;
 import domein.ExportableActiviteit;
+import domein.ExportableKampioenschap;
 import domein.ExportableLidAanwezigheden;
 import domein.ExportableLidInschrijvingen;
+import domein.ExportableOefening;
 import domein.IActiviteit;
 import domein.ILid;
+import domein.Kampioenschap;
 import domein.LesType;
 import domein.Lid;
+import domein.Oefening;
 import domein.OverzichtType;
 import java.io.File;
 import java.io.IOException;
@@ -443,8 +447,10 @@ public class OverzichtOpvraagSceneController extends HBox {
                 extraParameters.addAll(Arrays.asList(cb.isSelected(), txfANaam.getText()));
                 break;
             case CLUBKAMPIOENSCHAP:
+                Kampioenschap.setExportable(new ExportableKampioenschap());
                 break;
             case LESMATERIAAL:
+                Oefening.setExportable(new ExportableOefening());
                 break;
         }
     }
