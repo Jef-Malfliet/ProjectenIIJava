@@ -39,7 +39,7 @@ public class StartUp extends Application {
         DomeinController dc = new DomeinController();
 
         List<Lid> ledenLijst = LedenMapper.getLeden();
-
+        List<Oefening> oefeningLijst = 
         ledenLijst.forEach((lid) -> {
             dc.voegLidToe(lid);
         });
