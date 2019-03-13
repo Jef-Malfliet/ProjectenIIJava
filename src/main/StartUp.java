@@ -70,41 +70,41 @@ public class StartUp extends Application {
             dc.addKampioenschap(kampioenschap);
         }
 
-        for (int i = 0; i < ledenLijst.size(); i++) {
-            if (i % 14 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 15 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 16 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 17 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 18 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 19 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 20 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 13 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 12 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 11 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-            if (i % 21 == 0) {
-                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
-            }
-        }
+//        for (int i = 0; i < ledenLijst.size(); i++) {
+//            if (i % 14 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 15 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 16 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 17 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 18 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 19 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 20 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 13 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 12 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 11 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//            if (i % 21 == 0) {
+//                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+//            }
+//        }
 
        
 

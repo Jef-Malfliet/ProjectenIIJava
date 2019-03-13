@@ -31,8 +31,11 @@ public class Dojo {
     private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
     private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
     private final Comparator<Lid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
+    private final Comparator<Oefening> opOefNaam = (oef1,oef2)->oef1.getNaam().compareToIgnoreCase(oef2.getNaam());
+    private final Comparator<Oefening> sortOefeningOrder = opOefNaam;
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
+    private final SortedList<Oefening> sortedOefeningen;
     private PropertyChangeSupport subject;
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
@@ -44,6 +47,7 @@ public class Dojo {
     private List<String> headers = new ArrayList<>();
 
     private int current_Activiteit = -1;
+    private final FilteredList<Oefening> filteredOefeningen;
 
     public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo, KampioenschapDao kampioenschapDao) {
         setLidRepo(lidRepo);
@@ -58,6 +62,8 @@ public class Dojo {
         subject = new PropertyChangeSupport(this);
         overzichtList = new ArrayList();
         oefeningen = FXCollections.observableArrayList(oefeningRepo.findAll());
+        filteredOefeningen = new FilteredList<>(oefeningen, (p)->true);
+        sortedOefeningen = new SortedList<>(filteredOefeningen, sortOefeningOrder);
         kampioenschappen = FXCollections.observableArrayList();
     }
 
@@ -199,9 +205,9 @@ public class Dojo {
         return overzichtList;
     }
 
-    public ObservableList<Oefening> getOefeningen() {
+    public ObservableList<Oefening> getSortedOefeningen() {
         oefeningen.forEach(Oefening::fillSimpleString);
-        return oefeningen;
+        return sortedOefeningen;
     }
 
     public Oefening getOefeningById(Long id) {
@@ -278,6 +284,21 @@ public class Dojo {
         }
 
         filtered.setPredicate(result);
+    }
+
+    public void filterOefening(String naamFilter, String graadFilter) {
+        Predicate<Oefening> result = oefening -> true;
+        Predicate<Oefening> naam = oefening -> oefening.getNaam().toLowerCase().startsWith(naamFilter.toLowerCase());
+        Predicate<Oefening> graad = oefening -> oefening.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
+        
+        if(notEmpty(naamFilter)){
+            result = result.and(naam);
+        }
+        if(notEmpty(graadFilter)){
+            result = result.and(graad);
+        }
+        
+        filteredOefeningen.setPredicate(result);
     }
 
     private void setActiviteitDao(ActiviteitDao actRepo) {

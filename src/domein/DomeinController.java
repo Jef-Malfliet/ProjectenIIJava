@@ -98,7 +98,7 @@ public class DomeinController {
     }
 
     public ObservableList<IOefening> getLesmateriaal() {
-        return FXCollections.unmodifiableObservableList((ObservableList<IOefening>) (Object) dojo.getOefeningen());
+        return FXCollections.unmodifiableObservableList((ObservableList<IOefening>) (Object) dojo.getSortedOefeningen());
     }
 
     /**
@@ -128,6 +128,10 @@ public class DomeinController {
 
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
         dojo.filter(voornaamFilter, familienaamFilter, graadFilter, typeFilter);
+    }
+    
+    public void filterOefening(String naam, String graad){
+        dojo.filterOefening(naam,graad);
     }
 
     public ObservableList<IActiviteit> getActiviteiten() {

@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="886.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="886.0" prefWidth="600.0" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: #00B4AB;">
          <children>
@@ -25,14 +25,14 @@
       </HBox>
       <HBox prefHeight="49.0" prefWidth="600.0">
          <children>
-            <Label fx:id="lblTitel" alignment="CENTER" prefHeight="80.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;" text="Maak een nieuwe oefening aan" textFill="#00b4ab">
+            <Label fx:id="lblTitel" alignment="CENTER" prefHeight="80.0" prefWidth="600.0" text="Maak een nieuwe oefening aan" textFill="#00b4ab">
                <font>
                   <Font name="Quicksand-Regular" size="17.0" />
                </font>
             </Label>
          </children>
       </HBox>
-      <VBox maxHeight="1.7976931348623157E308" prefHeight="758.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;">
+      <VBox maxHeight="1.7976931348623157E308" prefHeight="758.0" prefWidth="600.0">
          <children>
             <HBox>
                <children>
@@ -141,7 +141,11 @@
             </HBox>
             <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="278.0" prefWidth="600.0">
                <children>
-                  <WebView fx:id="youtube" prefHeight="278.0" prefWidth="633.0" />
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <WebView fx:id="youtube" prefHeight="278.0" prefWidth="633.0" />
+                     </children>
+                  </HBox>
                </children>
             </HBox>
          </children>

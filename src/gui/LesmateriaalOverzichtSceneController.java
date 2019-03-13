@@ -16,8 +16,10 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import util.FullScreenResolution;
@@ -42,6 +44,12 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
     private TableColumn<IOefening, String> tcGraad;
     @FXML
     private TableColumn<IOefening, String> tcURL;
+    @FXML
+    private TextField txfNaam;
+    @FXML
+    private TextField txfGraad;
+    @FXML
+    private Button btnFilter;
 
 
     public LesmateriaalOverzichtSceneController(DomeinController dc, LesmateriaalDetailPaneelController ldpc) {
