@@ -13,6 +13,7 @@ import domein.ExportableKampioenschap;
 import domein.ExportableLidAanwezigheden;
 import domein.ExportableLidInschrijvingen;
 import domein.ExportableOefening;
+import domein.Graad;
 import domein.IActiviteit;
 import domein.IKampioenschap;
 import domein.ILid;
@@ -101,6 +102,7 @@ public class OverzichtOpvraagSceneController extends HBox {
     private DatePicker datePicker;
     private TextField txfANaam;
     private CheckBox cb;
+    private ComboBox<Graad> cboGraad;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -173,6 +175,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         cboFormule = new ComboBox();
         txfANaam = new TextField();
         cb = new CheckBox();
+        cboGraad = new ComboBox();
     }
 
     private void setMaxScreen() {
@@ -287,7 +290,10 @@ public class OverzichtOpvraagSceneController extends HBox {
                 extraParameters.clear();
 
                 hBoxTopRow.getChildren().clear();
-                hBoxTopRow.getChildren().addAll(lblNoExtra);
+                Label lblGraad = new Label("Graad");
+                cboGraad.setPromptText("Kies een graad");
+                cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
+                hBoxTopRow.getChildren().addAll(lblGraad,cboGraad);
 
                 vBoxContainer.getChildren().addAll(hBoxTopRow);
                 hBoxTableContainer.getChildren().clear();
@@ -529,6 +535,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 break;
             case LESMATERIAAL:
                 Oefening.setExportable(new ExportableOefening());
+                extraParameters.addAll(Arrays.asList(cboGraad.getSelectionModel().getSelectedItem()));
                 break;
         }
     }

@@ -376,6 +376,14 @@ public class Dojo {
                 return overzicht;
             case LESMATERIAAL:
                 overzicht = new FilteredList(oefeningen, p -> true);
+                Graad graad = (Graad) extraParameters.get(0);
+                Predicate<Oefening> oefResult = o -> true;
+                Predicate<Oefening> onGraad = o -> o.getGraad().equals(graad);
+
+                if (graad != null) {
+                    oefResult = oefResult.and(onGraad);
+                }
+                overzicht.setPredicate(oefResult);
                 return overzicht;
             default:
                 return null;
