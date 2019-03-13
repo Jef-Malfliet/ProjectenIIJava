@@ -32,7 +32,8 @@ public class Dojo {
     private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
     private final Comparator<Lid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
     private final Comparator<Oefening> opOefNaam = (oef1,oef2)->oef1.getNaam().compareToIgnoreCase(oef2.getNaam());
-    private final Comparator<Oefening> sortOefeningOrder = opOefNaam;
+    private final Comparator<Oefening> opOefGraad = (oef1,oef2)->oef1.getGraad().compareTo(oef2.getGraad());
+    private final Comparator<Oefening> sortOefeningOrder = opOefNaam.thenComparing(opOefGraad);
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
     private final SortedList<Oefening> sortedOefeningen;

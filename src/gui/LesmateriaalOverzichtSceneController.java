@@ -13,6 +13,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -79,6 +80,7 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
                 ldpc.setCurrentOefening(newOef);
             }
         });
+        
 
     }
 
@@ -107,6 +109,13 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
         if (oef != null) {
             dc.verwijderLesMateriaal(oef.getId());
         }
+    }
+
+    @FXML
+    private void filter(ActionEvent event) {
+        String naam = txfNaam.getText();
+        String graad = txfGraad.getText();
+        dc.filterOefening(naam, graad);
     }
 
 }

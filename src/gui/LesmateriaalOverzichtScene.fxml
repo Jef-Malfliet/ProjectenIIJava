@@ -41,7 +41,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </VBox>
-            <Button fx:id="btnFilter" mnemonicParsing="false" text="Filter">
+            <Button fx:id="btnFilter" mnemonicParsing="false" onAction="#filter" text="Filter">
                <HBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>

@@ -44,6 +44,10 @@ public class StartUp extends Application {
 
         List<Lid> ledenLijst = LedenMapper.getLeden();
         
+        ledenLijst.forEach((lid)->{
+            dc.voegLidToe(lid);
+        });
+        
         OefeningMapper oefMapper = new OefeningMapper();
         for(int i=0;i<100;i++){
            Oefening oef = oefMapper.maakOefening();
