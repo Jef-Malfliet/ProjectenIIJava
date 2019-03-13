@@ -65,8 +65,9 @@ public class DojoTest {
     public void testVerwijderLid() {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
         beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
+        beheerder.setCurrentLid(lid1);
         beheerder.verwijderCurrentLid();
-        System.out.println(beheerder.getLijstLeden());
+        
         Assert.assertEquals(2, beheerder.getLijstLeden().size());
         //Assert.assertFalse(beheerder.getLijstLeden().contains(lid1)); //assertionFailed
         Mockito.verify(lidDaoDummy).findAll();
@@ -84,7 +85,8 @@ public class DojoTest {
         beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
 //        lid1.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "nante.vermeulen@student.hogent.be",
 //                "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.WIT, RolType.BEHEERDER);
-        boolean succes = beheerder.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "98.10.19.333-61", "nante.vermeulen@student.hogent.be",
+        beheerder.setCurrentLid(lid1);
+        boolean succes = beheerder.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "98.10.19-333.61", "nante.vermeulen@student.hogent.be",
                 "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.WIT, RolType.BEHEERDER, LesType.DI_ZA);
         ILid gewijzigdLid = beheerder.toonLid(lid1.getId());
         Assert.assertTrue(succes);
@@ -122,6 +124,6 @@ public class DojoTest {
 
     @Test
     public void testMaakOverzicht() {
-
+        
     }
 }

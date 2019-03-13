@@ -57,7 +57,7 @@ public class Validatie {
     }
 
     public static boolean isGeldigEmailAdres(String email) {
-        return email.matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.-éèàïëöüäîôûêâù]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$");
+        return email.matches("^([a-zA-Z0-9éèà]+[a-zA-Z0-9.\\-éèàïëöüäîôûêâù]*)@([a-zA-Z]+)[.]([a-z]+)([.][a-z]+)*$");
     }
 
     public static boolean isValidLeeg(String parameter) {

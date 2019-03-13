@@ -269,11 +269,12 @@ public class Lid implements Serializable, ILid, Exportable {
 
     @Override
     public Graad getGraad() {
+        
         return graad;
     }
 
     public void setGraad(Graad graad) {
-        if (graad == null) {
+        if (isNull(graad)) {
             throw new IllegalArgumentException("Graad mag niet null zijn");
         }
         this.graad = graad;
@@ -285,6 +286,9 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     public void setType(RolType type) {
+        if (isNull(type)) {
+            throw new IllegalArgumentException("Type mag niet null zijn");
+        }
         this.type = type;
     }
 
@@ -377,6 +381,9 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     public void setGeslacht(Geslacht geslacht) {
+        if (isNull(geslacht)) {
+            throw new IllegalArgumentException("Graad mag niet null zijn");
+        }
         this.geslacht = geslacht;
     }
 
