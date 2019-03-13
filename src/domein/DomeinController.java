@@ -158,7 +158,7 @@ public class DomeinController {
 
     public void schrijfLidInVoorActiviteit(String activiteitNaam, LocalDate date, String lidEmail) {
         GenericDaoJpa.startTransaction();
-        dojo.lidInschrijvenKlubkampioenschap(activiteitNaam, date, lidEmail);
+        dojo.lidInschrijvenClubkampioenschap(activiteitNaam, date, lidEmail);
         GenericDaoJpa.commitTransaction();
     }
 
