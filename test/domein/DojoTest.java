@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.Before;
 import org.mockito.Mockito;
 import persistentie.ActiviteitDao;
+import persistentie.KampioenschapDao;
 import persistentie.LidDao;
 import persistentie.OefeningDao;
 
@@ -26,6 +27,7 @@ public class DojoTest {
     private LidDao lidDaoDummy;
     private OefeningDao oefeningDaoDummy;
     private ActiviteitDao activiteitDaoDummy;
+    private KampioenschapDao kampioenschapDaoDummy;
     private Lid testLid;
     private Lid lid1;
     private Lid lid2;
@@ -39,6 +41,7 @@ public class DojoTest {
         lidDaoDummy = Mockito.mock(LidDao.class);
         oefeningDaoDummy = Mockito.mock(OefeningDao.class);
         activiteitDaoDummy = Mockito.mock(ActiviteitDao.class);
+        kampioenschapDaoDummy = Mockito.mock(KampioenschapDao.class);
         testLid = Mockito.mock(Lid.class);
         lid1 = new Lid("Nante", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "98.10.19-333.61", "nante.vermeulen@student.hogent.be",
                 "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.GROEN, RolType.BEHEERDER, LesType.DI_ZA);
@@ -61,7 +64,7 @@ public class DojoTest {
     @Test
     public void testVerwijderLid() {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
-        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy);
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
         beheerder.verwijderCurrentLid();
         System.out.println(beheerder.getLijstLeden());
         Assert.assertEquals(2, beheerder.getLijstLeden().size());
@@ -77,8 +80,8 @@ public class DojoTest {
     public void testWijzigLid() {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
         Mockito.when(lidDaoDummy.update(lid1)).thenReturn(lid1b);
-        
-        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy);
+
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
 //        lid1.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "nante.vermeulen@student.hogent.be",
 //                "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.WIT, RolType.BEHEERDER);
         boolean succes = beheerder.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "98.10.19.333-61", "nante.vermeulen@student.hogent.be",
@@ -97,7 +100,7 @@ public class DojoTest {
     @Test
     public void testToonLid() {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
-        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy);
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
         ILid toonLid = beheerder.toonLid(lid1.getId());
         Assert.assertEquals(lid1, toonLid);
         Mockito.verify(lidDaoDummy).findAll();
@@ -110,7 +113,7 @@ public class DojoTest {
     public void testVoegLidToe() {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
         Mockito.when(testLid.getId()).thenReturn(5l);
-        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy);
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
         beheerder.voegLidToe(testLid);
         Assert.assertEquals(4, beheerder.getLijstLeden().size());
         Assert.assertTrue(beheerder.getLijstLeden().contains(testLid));

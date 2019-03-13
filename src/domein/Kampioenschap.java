@@ -34,9 +34,10 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
     
     public Kampioenschap(String naam, LocalDate datum, String[] gewichtcategorie, String[] leeftijdscategorieën) {
-        this.datum = datum;
-        this.gewichtcategorie = gewichtcategorie;
-        this.leeftijdscategorieën = leeftijdscategorieën;
+        setNaam(naam);
+        setDatum(datum);
+        setGewichtcategorie(gewichtcategorie);
+        setLeeftijdscategorieën(leeftijdscategorieën);
         aanwezigen = new ArrayList<>();
         fillSimpleProperties();
     }
@@ -155,5 +156,11 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
     public void setNaam(String naam) {
         this.naam = naam;
     }
+
+    public void setLeeftijdscategorieën(String[] leeftijdscategorieën) {
+        this.leeftijdscategorieën = leeftijdscategorieën;
+    }
+ 
+    
     
 }

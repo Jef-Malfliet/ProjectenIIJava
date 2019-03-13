@@ -213,22 +213,15 @@ public class Dojo {
         return activiteiten;
     }
 
-    public void lidInschrijven(String activiteitNaam, String lidEmail) {
-        Activiteit actTemp = activiteitRepo.getByName(activiteitNaam);
+    public void lidInschrijven(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
+        Activiteit actTemp = activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
         Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
         actTemp.lidInschrijven(lidTemp);
         activiteitRepo.update(actTemp);
     }
 
-    public void lidInschrijvenKlubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
-        Kampioenschap kTemp = kampioenschapRepo.getByNaamAndDate(activiteitNaam, date);
-        Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
-        kTemp.lidInschrijven(lidTemp);
-        kampioenschapRepo.update(kTemp);
-    }
-
-    public void lidUitschrijven(String activiteitNaam, String lidEmail) {
-        Activiteit tempAct = activiteitRepo.getByName(activiteitNaam);
+    public void lidUitschrijven(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
+        Activiteit tempAct = activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
         Lid tempLid = lidRepo.getLidByEmail(lidEmail);
         tempAct.lidUitschrijven(tempLid);
     }
@@ -437,7 +430,21 @@ public class Dojo {
         return true;
     }
 
-    public IActiviteit getActiviteitByName(String naam) {
-        return activiteitRepo.getByName(naam);
+    public IActiviteit getActiviteitByNaamAndBeginAndEinddate(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum) {
+        return activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
     }
+
+    public void lidInschrijvenKlubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
+        Kampioenschap actKamp = kampioenschapRepo.getByNaamAndDate(activiteitNaam, date);
+        Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
+        actKamp.lidInschrijven(lidTemp);
+        kampioenschapRepo.update(actKamp);
+    }
+
+    public void lidUitschrijvenKlubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
+        Kampioenschap tempKamp = kampioenschapRepo.getByNaamAndDate(activiteitNaam, date);
+        Lid tempLid = lidRepo.getLidByEmail(lidEmail);
+        tempKamp.lidUitschrijven(tempLid);
+    }
+
 }
