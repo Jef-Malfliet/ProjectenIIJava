@@ -21,6 +21,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import persistentie.ActiviteitenMapper;
 import persistentie.KampioenschapMapper;
 import persistentie.LedenMapper;
 import persistentie.OefeningMapper;
@@ -43,36 +44,36 @@ public class StartUp extends Application {
         DomeinController dc = new DomeinController();
 
         List<Lid> ledenLijst = LedenMapper.getLeden();
-        
-        ledenLijst.forEach((lid)->{
+
+        ledenLijst.forEach((lid) -> {
             dc.voegLidToe(lid);
         });
-        
+
         OefeningMapper oefMapper = new OefeningMapper();
-        for(int i=0;i<100;i++){
-           Oefening oef = oefMapper.maakOefening();
-           dc.addLesMateriaal(oef);
+        for (int i = 0; i < 100; i++) {
+            Oefening oef = oefMapper.maakOefening();
+            dc.addLesMateriaal(oef);
         }
 
-        Activiteit act1 = new Activiteit("Uitstap", LocalDate.of(2014, Month.FEBRUARY, 11), LocalDate.of(2014, Month.FEBRUARY, 11), false, 50);
-        Activiteit act2 = new Activiteit("Weekend", LocalDate.of(2019, Month.MARCH, 5), LocalDate.of(2019, Month.MARCH, 7), true, 100);
-
-        dc.voegActiviteitToe(act1);
-        dc.voegActiviteitToe(act2);
-
+        List<Activiteit> activiteiten = ActiviteitenMapper.getActiviteiten();
+        activiteiten.forEach((activiteit) -> {
+            dc.voegActiviteitToe(activiteit);
+        });
         for (int i = 0; i < ledenLijst.size(); i++) {
-            if (i % 15 == 0) {
-                dc.schrijfLidIn(act1.getNaam(), act1.getBeginDatum(), act1.getEindDatum(), ledenLijst.get(i).getEmail());
+            Activiteit temp1 = activiteiten.get(i % 10);
+            Activiteit temp2 = activiteiten.get((i + 1) % 10);
+            if (i % 7 == 0) {
+                dc.schrijfLidIn(temp1.getNaam(), temp1.getBeginDatum(), temp1.getEindDatum(), ledenLijst.get(i).getEmail());
             }
-            if (i % 17 == 0) {
-                dc.schrijfLidIn(act2.getNaam(), act2.getBeginDatum(), act2.getEindDatum(), ledenLijst.get(i).getEmail());
+            if (i % 12 == 0) {
+                dc.schrijfLidIn(temp2.getNaam(), temp2.getBeginDatum(), temp2.getEindDatum(), ledenLijst.get(i).getEmail());
             }
         }
 
         List<Kampioenschap> kampioenschappen = KampioenschapMapper.getKampioenschappen();
-        for (Kampioenschap kampioenschap : kampioenschappen) {
+        kampioenschappen.forEach((kampioenschap) -> {
             dc.addKampioenschap(kampioenschap);
-        }
+        });
 
         for (int i = 0; i < ledenLijst.size(); i++) {
             Kampioenschap temp1 = kampioenschappen.get(i % 10);
@@ -84,8 +85,6 @@ public class StartUp extends Application {
                 dc.schrijfLidInVoorActiviteit(temp2.getNaam(), temp2.getDatum(), ledenLijst.get(i).getEmail());
             }
         }
-
-       
 
         MainPanel root = new MainPanel(dc);
 
