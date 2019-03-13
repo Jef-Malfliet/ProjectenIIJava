@@ -103,11 +103,11 @@ public class Validatie {
     }
 
     public static boolean isInFuture(LocalDate date) {
-        if (date.getYear() < LocalDate.now().getYear() || date.getMonth().compareTo(LocalDate.now().getMonth()) < 0
-                || date.getDayOfMonth() < LocalDate.now().getDayOfMonth()) {
-            return false;
+        LocalDate today = LocalDate.now();
+        if (date.getYear() >= today.getYear() && date.getDayOfYear() >= today.getDayOfYear()) {
+            return true;
         }
-        return true;
+        return false;
     }
 
 }

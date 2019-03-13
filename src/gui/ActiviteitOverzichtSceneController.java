@@ -64,12 +64,13 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
                 IActiviteit activiteit = dc.getActiviteitByNaamAndBeginAndEinddate(newAct.getNaam(), newAct.getBeginDatum(), newAct.getEindDatum());
                 if (adpc.fillActiviteit(activiteit)) {
                     dc.setCurrentActiviteit(activiteit);
-                    adpc.updateButtons();
+                    adpc.enableEdits();
                 }
             }
         });
         setMaxScreen();
         updateList();
+        tvActiviteiten.getSelectionModel().selectFirst();
     }
 
     private void setMaxScreen() {

@@ -175,10 +175,7 @@ public class ActiviteitDetailPaneelController extends VBox {
             btnAnnuleerWijziging.setDisable(false);
         });
         btnAnnuleerWijziging.setOnMouseClicked(e -> {
-            if (clearTextFields()) {
-                dc.verwijderSelectieActiviteit();
-                nieuwActiviteitPaneel();
-            }
+            fillActiviteit(dc.getCurrentActiviteit());
         });
 
         btnInschrijven.setOnMouseClicked(e -> {
@@ -213,11 +210,7 @@ public class ActiviteitDetailPaneelController extends VBox {
 
     public boolean fillActiviteit(IActiviteit activiteit) {
         if (clearTextFields()) {
-            tfNaam.clear();
-            dpBegindatum.getEditor().clear();
-            dpEinddatum.getEditor().clear();
             cbStage.setSelected(false);
-
             tfNaam.setText(activiteit.getNaam());
             dpBegindatum.setValue(activiteit.getBeginDatum());
             dpEinddatum.setValue(activiteit.getEindDatum());
@@ -281,9 +274,17 @@ public class ActiviteitDetailPaneelController extends VBox {
                     = geefTextfields();
             Arrays.stream(textfields).forEach(txt -> {
                 txt.clear();
+                txt.setDisable(false);
+                txt.setEditable(true);
+                txt.setEditable(true);
             });
-            dpBegindatum.setValue(LocalDate.now());
-            dpEinddatum.setValue(LocalDate.now());
+            dpBegindatum.getEditor().clear();
+            dpEinddatum.getEditor().clear();
+            dpBegindatum.setDisable(false);
+            dpEinddatum.setDisable(false);
+            dpBegindatum.setValue(null);
+            dpEinddatum.setValue(null);
+            cbStage.setDisable(false);
             return true;
         }
 
@@ -461,11 +462,6 @@ public class ActiviteitDetailPaneelController extends VBox {
         }).collect(Collectors.toList()));
     }
 
-    public void updateButtons() {
-        btnBevestigWijziging.setDisable(false);
-        btnAnnuleerWijziging.setDisable(false);
-    }
-
     private void updateInschrijvingen(IActiviteit activiteit) {
         tblIngeschreven.setItems(FXCollections.observableArrayList(dc.geefIngeschrevenLeden(activiteit.getId())));
         tcVoornaamI.setCellValueFactory(cellData -> cellData.getValue().getVoornaamProperty());
@@ -478,5 +474,31 @@ public class ActiviteitDetailPaneelController extends VBox {
         tcAchternaamA.setCellValueFactory(cellData -> cellData.getValue().getFamilienaamProperty());
         tcGraadA.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
         tcTypeA.setCellValueFactory(celldata -> celldata.getValue().getTypeProperty());
+    }
+
+    public void enableEdits() {
+        LocalDate tempDate = dc.getCurrentActiviteit().getBeginDatum();
+        LocalDate today = LocalDate.now();
+        if (tempDate.getYear() >= today.getYear() && tempDate.getDayOfYear() >= today.getDayOfYear()) {
+            tfNaam.setEditable(true);
+            dpBegindatum.setDisable(false);
+            dpEinddatum.setDisable(false);
+            tfMaxAanwezigen.setEditable(true);
+            cbStage.setDisable(false);
+            btnBevestigWijziging.setDisable(false);
+            btnAnnuleerWijziging.setDisable(false);
+            btnInschrijven.setDisable(false);
+            btnUitschrijven.setDisable(false);
+        } else {
+            tfNaam.setEditable(false);
+            dpBegindatum.setDisable(true);
+            dpEinddatum.setDisable(true);
+            tfMaxAanwezigen.setEditable(false);
+            cbStage.setDisable(true);
+            btnBevestigWijziging.setDisable(true);
+            btnAnnuleerWijziging.setDisable(true);
+            btnInschrijven.setDisable(true);
+            btnUitschrijven.setDisable(true);
+        }
     }
 }
