@@ -8,6 +8,7 @@ package main;
 import domein.Activiteit;
 import domein.DomeinController;
 import domein.Graad;
+import domein.IOefening;
 import domein.Kampioenschap;
 import domein.Lid;
 import domein.Oefening;
@@ -22,6 +23,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import persistentie.KampioenschapMapper;
 import persistentie.LedenMapper;
+import persistentie.OefeningMapper;
 
 import util.FullScreenResolution;
 
@@ -41,10 +43,12 @@ public class StartUp extends Application {
         DomeinController dc = new DomeinController();
 
         List<Lid> ledenLijst = LedenMapper.getLeden();
-        List<Oefening> oefeningLijst = 
-        ledenLijst.forEach((lid) -> {
-            dc.voegLidToe(lid);
-        });
+        
+        OefeningMapper oefMapper = new OefeningMapper();
+        for(int i=0;i<100;i++){
+           Oefening oef = oefMapper.maakOefening();
+           dc.addLesMateriaal(oef);
+        }
 
         Activiteit act1 = new Activiteit("Uitstap", LocalDate.of(2014, Month.FEBRUARY, 11), LocalDate.of(2014, Month.FEBRUARY, 11), false, 50);
         Activiteit act2 = new Activiteit("Weekend", LocalDate.of(2019, Month.MARCH, 5), LocalDate.of(2019, Month.MARCH, 7), true, 100);
@@ -66,13 +70,7 @@ public class StartUp extends Application {
 //            dc.addKampioenschap(kampioenschap);
 //        }
 
-        Oefening oef1 = new Oefening(Graad.GROEN, "Test1");
-        Oefening oef2 = new Oefening(Graad.DAN11, "Test2");
-        Oefening oef3 = new Oefening(Graad.BLAUW, "Test3");
-
-        dc.addLesMateriaal(oef3);
-        dc.addLesMateriaal(oef2);
-        dc.addLesMateriaal(oef1);
+       
 
         MainPanel root = new MainPanel(dc);
 

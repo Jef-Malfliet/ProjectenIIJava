@@ -83,7 +83,6 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
     public void setVideo(String url) {
         if (url != null) {
             String ID = Validatie.getYoutubeId(url);
-            System.out.println(ID);
             String URL = "https://www.youtube.com/embed/" + ID;
             this.video = URL;
         }

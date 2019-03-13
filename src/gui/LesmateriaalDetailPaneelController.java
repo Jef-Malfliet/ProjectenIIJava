@@ -61,13 +61,15 @@ public class LesmateriaalDetailPaneelController extends VBox {
     @FXML
     private TextField txfVideoURL;
     @FXML
-    private Button btnMaakOefening;
-    @FXML
     private ScrollPane vbImages;
     @FXML
     private Label lblTitel;
     @FXML
-    private Button btnverwijderOefening;
+    private WebView youtube;
+    @FXML
+    private Button btnVerwijderOef;
+    @FXML
+    private Button btnNieuweOefening;
     @FXML
     private Button btnBevestig;
 
@@ -89,6 +91,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
     private void buildGui() {
         cbMinimumgraad.setItems(FXCollections.observableArrayList(Graad.values()));
         box = new VBox();
+        youtube.setPrefSize(FullScreenResolution.getWidth()/10*4.25, FullScreenResolution.getHeight());
     }
 
     @FXML
@@ -158,12 +161,14 @@ public class LesmateriaalDetailPaneelController extends VBox {
         txfNaam.setText(newOef.getNaam());
         txaUitleg.setText(newOef.getUitleg());
         txfVideoURL.setText(newOef.getVideo());
+        youtube.getEngine().load(newOef.getVideo());
         if (newOef.getImagePaths() != null) {
             for (String imagePath : newOef.getImagePaths()) {
                 fillBoxWithImages(box, imagePath);
             }
             vbImages.setContent(box);
         }
+        
     }
 
     private void fillBoxWithImages(VBox box, String imagePath) {
@@ -182,9 +187,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
         txfVideoURL.clear();
         box.getChildren().clear();
         vbImages.setContent(null);
-        if (losc != null) {
-            losc.clearYoutube();
-        }
+        youtube.getEngine().loadContent("");
         lblTitel.setText("Maak een nieuwe oefening aan.");
     }
 

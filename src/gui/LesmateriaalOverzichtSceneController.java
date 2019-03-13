@@ -42,8 +42,7 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
     private TableColumn<IOefening, String> tcGraad;
     @FXML
     private TableColumn<IOefening, String> tcURL;
-    @FXML
-    private WebView youtube;
+
 
     public LesmateriaalOverzichtSceneController(DomeinController dc, LesmateriaalDetailPaneelController ldpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalOverzichtScene.fxml"));
@@ -70,7 +69,6 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
             if (newOef != null) {
                 ldpc.fillDetailsMetGeselecteerdeOefening(newOef);
                 ldpc.setCurrentOefening(newOef);
-                youtube.getEngine().load(newOef.getVideo());
             }
         });
 
@@ -101,10 +99,6 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
         if (oef != null) {
             dc.verwijderLesMateriaal(oef.getId());
         }
-    }
-
-    public void clearYoutube() {
-        youtube.getEngine().loadContent("");
     }
 
 }

@@ -30,7 +30,6 @@ public class LedenMapper {
     public static List<Lid> getLeden() {
         List<Lid> lijst = new ArrayList<>();
         try (Scanner input = new Scanner(new File("DataLeden.csv"))) {
-
             while (input.hasNext()) {
                 String[] split = input.nextLine().split(";");
                 lijst.add(new Lid(split[0], split[1], split[2], "0" + split[3], "0" + split[4], split[5], split[6], split[7], split[8], split[9], Land.valueOf(split[10]),
