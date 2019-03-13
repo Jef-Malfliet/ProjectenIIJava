@@ -37,6 +37,7 @@ public class Dojo {
     private ActiviteitDao activiteitRepo;
     private final List<Overzicht<Object>> overzichtList;
     private List<Kampioenschap> kampioenschappen;
+    private List<Oefening> lesmateriaal;
     private int current_Lid = -1;
 
     private List<String> headers = new ArrayList<>();
@@ -55,6 +56,8 @@ public class Dojo {
         subject = new PropertyChangeSupport(this);
         overzichtList = new ArrayList();
         oefeningen = FXCollections.observableArrayList(oefeningRepo.findAll());
+        kampioenschappen = new ArrayList<>();
+        lesmateriaal = new ArrayList<>();
     }
 
     /**
@@ -233,15 +236,6 @@ public class Dojo {
         this.oefeningRepo = oefeningRepo;
     }
 
-    /**
-     *
-     * @param lidRepo
-     */
-    public Dojo(LidDao lidRepo) {
-        // TODO - implement Dojo.Dojo
-        throw new UnsupportedOperationException();
-    }
-
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
         Predicate<Lid> result = lid -> true;
         Predicate<Lid> voornaam = lid -> lid.getVoornaam().toLowerCase().startsWith(voornaamFilter.toLowerCase());
@@ -363,7 +357,8 @@ public class Dojo {
                 overzicht = new FilteredList(FXCollections.observableArrayList(kampioenschappen), p -> true);
                 return overzicht;
             case LESMATERIAAL:
-                return null;
+                overzicht = new FilteredList(FXCollections.observableArrayList(lesmateriaal), p -> true);
+                return overzicht;
             default:
                 return null;
         }

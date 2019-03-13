@@ -129,6 +129,7 @@ public class Lid implements Serializable, ILid, Exportable {
         return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %s in %s%n", voornaam, familienaam, graad.toString(), telefoon_vast, email, straatnaam, postcode, stad);
     }
 
+    @Override
     public SimpleStringProperty getVoornaamProperty() {
         return this.voornaamProperty;
     }
@@ -137,6 +138,7 @@ public class Lid implements Serializable, ILid, Exportable {
         this.voornaamProperty = voornaamProperty;
     }
 
+    @Override
     public javafx.beans.property.SimpleStringProperty getGraadProperty() {
         return this.graadProperty;
     }
