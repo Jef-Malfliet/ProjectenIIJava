@@ -6,7 +6,6 @@
 package persistentie;
 
 import domein.Activiteit;
-import domein.Kampioenschap;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;

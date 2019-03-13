@@ -6,8 +6,6 @@
 package persistentie;
 
 import domein.Oefening;
-import java.util.List;
-import javafx.scene.image.Image;
 
 /**
  *

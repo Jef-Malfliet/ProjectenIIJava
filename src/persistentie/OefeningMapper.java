@@ -6,9 +6,6 @@
 package persistentie;
 
 import domein.Graad;
-import domein.ILid;
-import domein.IOefening;
-import domein.Lid;
 import domein.Oefening;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -17,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 
 /**
  *

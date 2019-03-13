@@ -7,18 +7,15 @@ package main;
 
 import domein.Activiteit;
 import domein.DomeinController;
-import domein.Graad;
-import domein.IOefening;
 import domein.Kampioenschap;
 import domein.Lid;
 import domein.Oefening;
 import gui.MainPanel;
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import persistentie.ActiviteitenMapper;
@@ -92,6 +89,7 @@ public class StartUp extends Application {
 
         primaryStage.setTitle("Taijitan Jiu Jitsu");
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("/images/TaijitanLogo.png"));
         primaryStage.show();
 
         //Setting stage and root on max width and max height.
