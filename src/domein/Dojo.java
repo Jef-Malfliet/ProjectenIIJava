@@ -406,7 +406,9 @@ public class Dojo {
                 Predicate<Oefening> onONaam = oefening -> oefening.getNaam().toLowerCase().startsWith(naam.toLowerCase());
 
                 if (graad != null) {
+                    if(graad != Graad.ALLES){
                     oefResult = oefResult.and(onGraad);
+                    }
                 }
 
                 if (!Validatie.isNullOrEmpty(naam)) {

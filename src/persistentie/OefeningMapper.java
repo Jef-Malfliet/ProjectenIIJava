@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public class OefeningMapper {
 
     private SecureRandom random = new SecureRandom();
-    
+
     private final String[] benamingen = {
         "Age uke", "Soto uke", "Uchi uke", "Gedan barai", "Shuto uke", "Morote uke",
         "Kakiwake uke", "Otosohi uke", "Juji uke", "nagashi uke", "hasami uke",
@@ -97,7 +97,7 @@ public class OefeningMapper {
     }
 
     private Graad randomGraad() {
-        int getal = random.nextInt(Graad.values().length);
+        int getal = random.nextInt(Graad.values().length - 1);
         return Graad.values()[getal];
     }
 

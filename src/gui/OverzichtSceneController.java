@@ -173,5 +173,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         cboTFilter.getSelectionModel().clearSelection();
         txfVnFilter.clear();
         dc.filter("", "", "", "");
+        cboGFilter.setPromptText("Kies een graad");
+        cboTFilter.setPromptText("Kies een rol");
     }
 }
