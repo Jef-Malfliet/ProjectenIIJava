@@ -6,12 +6,7 @@
 package gui;
 
 import domein.DomeinController;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Font;
 import util.FullScreenResolution;
 
 /**
