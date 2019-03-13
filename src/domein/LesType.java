@@ -10,5 +10,5 @@ package domein;
  * @author Nante
  */
 public enum LesType {
-    DI_DO,DI_ZA,WO_ZA,WO,ZA, ALLES
+    DI,DI_DO,DI_ZA,WO_ZA,WO,ZA, ALLES
 }

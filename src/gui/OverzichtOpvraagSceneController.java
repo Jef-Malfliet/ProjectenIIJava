@@ -13,6 +13,7 @@ import domein.ExportableKampioenschap;
 import domein.ExportableLidAanwezigheden;
 import domein.ExportableLidInschrijvingen;
 import domein.ExportableOefening;
+import domein.Graad;
 import domein.IActiviteit;
 import domein.IKampioenschap;
 import domein.ILid;
@@ -101,6 +102,7 @@ public class OverzichtOpvraagSceneController extends HBox {
     private DatePicker datePicker;
     private TextField txfANaam;
     private CheckBox cb;
+    private ComboBox<Graad> cboGraad;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -173,6 +175,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         cboFormule = new ComboBox();
         txfANaam = new TextField();
         cb = new CheckBox();
+        cboGraad = new ComboBox();
     }
 
     private void setMaxScreen() {
@@ -287,7 +290,10 @@ public class OverzichtOpvraagSceneController extends HBox {
                 extraParameters.clear();
 
                 hBoxTopRow.getChildren().clear();
-                hBoxTopRow.getChildren().addAll(lblNoExtra);
+                Label lblGraad = new Label("Graad");
+                cboGraad.setPromptText("Kies een graad");
+                cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
+                hBoxTopRow.getChildren().addAll(lblGraad, cboGraad);
 
                 vBoxContainer.getChildren().addAll(hBoxTopRow);
                 hBoxTableContainer.getChildren().clear();
@@ -345,6 +351,10 @@ public class OverzichtOpvraagSceneController extends HBox {
                 TableView<IKampioenschap> tblKampioenschap = new TableView<>();
                 tblKampioenschap.setItems(list);
 
+                TableColumn<IKampioenschap, String> nameCol = new TableColumn<>();
+                nameCol.setText("Naam");
+                nameCol.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
+
                 TableColumn<IKampioenschap, String> datumCol = new TableColumn<>();
                 datumCol.setText("Datum");
                 datumCol.setCellValueFactory(cellData
@@ -360,10 +370,11 @@ public class OverzichtOpvraagSceneController extends HBox {
                 gewichtsCol.setCellValueFactory(cellData
                         -> cellData.getValue().getLeeftijdcategorieënProperty());
 
-                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
-                gewichtsCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
-                leeftijdCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
-                tblKampioenschap.getColumns().addAll(datumCol, gewichtsCol, leeftijdCol);
+                nameCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
+                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
+                gewichtsCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
+                leeftijdCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
+                tblKampioenschap.getColumns().addAll(nameCol, datumCol, gewichtsCol, leeftijdCol);
 
                 tblKampioenschap.setPrefWidth(sceneWidth * 2 / 3.1);
                 tblKampioenschap.setPrefHeight(sceneHeight - 100);
@@ -529,6 +540,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 break;
             case LESMATERIAAL:
                 Oefening.setExportable(new ExportableOefening());
+                extraParameters.addAll(Arrays.asList(cboGraad.getSelectionModel().getSelectedItem()));
                 break;
         }
     }

@@ -5,6 +5,7 @@
  */
 package persistentie;
 
+import domein.Activiteit;
 import domein.Kampioenschap;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,23 +20,20 @@ import java.util.logging.Logger;
  *
  * @author Mout
  */
-public class KampioenschapMapper {
+public class ActiviteitenMapper {
 
-    public static List<Kampioenschap> getKampioenschappen() {
-        List<Kampioenschap> lijst = new ArrayList<>();
-        try (Scanner input = new Scanner(new File("DataKampioenschap.csv"))) {
+    public static List<Activiteit> getActiviteiten() {
+        List<Activiteit> lijst = new ArrayList<>();
+        try (Scanner input = new Scanner(new File("DataActiviteiten.csv"))) {
             while (input.hasNext()) {
                 String[] split = input.nextLine().split(";");
-                lijst.add(new Kampioenschap(split[0], LocalDate.of(Integer.parseInt(split[1].trim()), Integer.parseInt(split[2].trim()), Integer.parseInt(split[3].trim())),
-                        convertToArray(split[4]), convertToArray(split[5])));
+                lijst.add(new Activiteit(split[0], LocalDate.of(Integer.parseInt(split[1].trim()), Integer.parseInt(split[2].trim()), Integer.parseInt(split[3].trim())),
+                        LocalDate.of(Integer.parseInt(split[4].trim()), Integer.parseInt(split[5].trim()), Integer.parseInt(split[6].trim())),
+                        Boolean.getBoolean(split[7]), Integer.parseInt(split[8])));
             }
         } catch (FileNotFoundException | NumberFormatException ex) {
             Logger.getLogger(PostcodeMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lijst;
-    }
-
-    private static String[] convertToArray(String string) {
-        return string.split(" ");
     }
 }

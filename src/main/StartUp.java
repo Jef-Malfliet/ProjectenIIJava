@@ -58,17 +58,53 @@ public class StartUp extends Application {
 
         for (int i = 0; i < ledenLijst.size(); i++) {
             if (i % 15 == 0) {
-                dc.schrijfLidIn(act1.getNaam(), ledenLijst.get(i).getEmail());
-            } 
-            if(i % 17 == 0 ){
-                dc.schrijfLidIn(act2.getNaam(), ledenLijst.get(i).getEmail());
+                dc.schrijfLidIn(act1.getNaam(), act1.getBeginDatum(), act1.getEindDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 17 == 0) {
+                dc.schrijfLidIn(act2.getNaam(), act2.getBeginDatum(), act2.getEindDatum(), ledenLijst.get(i).getEmail());
             }
         }
-        
-//        List<Kampioenschap> kampioenschappen = KampioenschapMapper.getKampioenschappen();
-//        for (Kampioenschap kampioenschap : kampioenschappen) {
-//            dc.addKampioenschap(kampioenschap);
-//        }
+
+        List<Kampioenschap> kampioenschappen = KampioenschapMapper.getKampioenschappen();
+        for (Kampioenschap kampioenschap : kampioenschappen) {
+            dc.addKampioenschap(kampioenschap);
+        }
+
+        for (int i = 0; i < ledenLijst.size(); i++) {
+            if (i % 14 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 15 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 16 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 17 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 18 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 19 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 20 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 13 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 12 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 11 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 21 == 0) {
+                dc.schrijfLidInVoorActiviteit(kampioenschappen.get(i).getNaam(), kampioenschappen.get(i).getDatum(), ledenLijst.get(i).getEmail());
+            }
+        }
 
        
 

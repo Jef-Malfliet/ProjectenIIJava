@@ -43,7 +43,7 @@ public class GenericDaoJpa<E> implements GenericDao<E> {
 
     @Override
     public List<E> findAll() {
-        return em.createQuery(String.format("SELECT entity FROM %s entity",type.getName()), type).getResultList();
+        return em.createQuery(String.format("SELECT entity FROM %s entity", type.getName()), type).getResultList();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class GenericDaoJpa<E> implements GenericDao<E> {
     }
 
     @Override
-    public void insert(E object) {     
+    public void insert(E object) {
         em.persist(object);
     }
 

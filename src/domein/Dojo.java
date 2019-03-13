@@ -15,6 +15,7 @@ import javafx.collections.transformation.SortedList;
 import persistentie.ActiviteitDao;
 import persistentie.ExportFiles;
 import persistentie.GenericDaoJpa;
+import persistentie.KampioenschapDao;
 import persistentie.LidDao;
 import persistentie.OefeningDao;
 import static util.Validatie.isNull;
@@ -36,7 +37,7 @@ public class Dojo {
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
     private ActiviteitDao activiteitRepo;
-    private GenericDaoJpa<Kampioenschap> kampioenschapRepo;
+    private KampioenschapDao kampioenschapRepo;
     private final List<Overzicht<Object>> overzichtList;
     private int current_Lid = -1;
 
@@ -44,10 +45,11 @@ public class Dojo {
 
     private int current_Activiteit = -1;
 
-    public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo) {
+    public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo, KampioenschapDao kampioenschapDao) {
         setLidRepo(lidRepo);
         setOefeningRepo(oefeningRepo);
         setActiviteitDao(actRepo);
+        setKampioenschapRepo(kampioenschapDao);
         this.type = RolType.BEHEERDER;
         leden = FXCollections.observableArrayList(this.lidRepo.findAll());
         activiteiten = FXCollections.observableArrayList(this.activiteitRepo.findAll());
@@ -117,15 +119,15 @@ public class Dojo {
         }
         return false;
     }
-    
-    public boolean voegKampioenschapToe(Kampioenschap k){
-        if(!kampioenschappen.contains(k)){
-            if(kampioenschapRepo.get(k.getId()) == null){
-            GenericDaoJpa.startTransaction();
-            kampioenschapRepo.insert(k);
-            GenericDaoJpa.commitTransaction();
-            kampioenschappen.add(k);
-            return true;
+
+    public boolean voegKampioenschapToe(Kampioenschap k) {
+        if (!kampioenschappen.contains(k)) {
+            if (kampioenschapRepo.get(k.getId()) == null) {
+                GenericDaoJpa.startTransaction();
+                kampioenschapRepo.insert(k);
+                GenericDaoJpa.commitTransaction();
+                kampioenschappen.add(k);
+                return true;
             }
         }
         return false;
@@ -184,8 +186,8 @@ public class Dojo {
     public void setLidRepo(LidDao mock) {
         lidRepo = mock;
     }
-    
-    public void setKampioenschapRepo(GenericDaoJpa mock){
+
+    public void setKampioenschapRepo(KampioenschapDao mock) {
         kampioenschapRepo = mock;
     }
 
@@ -211,15 +213,15 @@ public class Dojo {
         return activiteiten;
     }
 
-    public void lidInschrijven(String activiteitNaam, String lidEmail) {
-        Activiteit actTemp = activiteitRepo.getByName(activiteitNaam);
+    public void lidInschrijven(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
+        Activiteit actTemp = activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
         Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
         actTemp.lidInschrijven(lidTemp);
         activiteitRepo.update(actTemp);
     }
 
-    public void lidUitschrijven(String activiteitNaam, String lidEmail) {
-        Activiteit tempAct = activiteitRepo.getByName(activiteitNaam);
+    public void lidUitschrijven(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
+        Activiteit tempAct = activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
         Lid tempLid = lidRepo.getLidByEmail(lidEmail);
         tempAct.lidUitschrijven(tempLid);
     }
@@ -374,6 +376,14 @@ public class Dojo {
                 return overzicht;
             case LESMATERIAAL:
                 overzicht = new FilteredList(oefeningen, p -> true);
+                Graad graad = (Graad) extraParameters.get(0);
+                Predicate<Oefening> oefResult = o -> true;
+                Predicate<Oefening> onGraad = o -> o.getGraad().equals(graad);
+
+                if (graad != null) {
+                    oefResult = oefResult.and(onGraad);
+                }
+                overzicht.setPredicate(oefResult);
                 return overzicht;
             default:
                 return null;
@@ -420,7 +430,21 @@ public class Dojo {
         return true;
     }
 
-    public IActiviteit getActiviteitByName(String naam) {
-        return activiteitRepo.getByName(naam);
+    public IActiviteit getActiviteitByNaamAndBeginAndEinddate(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum) {
+        return activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
     }
+
+    public void lidInschrijvenClubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
+        Kampioenschap actKamp = kampioenschapRepo.getByNaamAndDate(activiteitNaam, date);
+        Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
+        actKamp.lidInschrijven(lidTemp);
+        kampioenschapRepo.update(actKamp);
+    }
+
+    public void lidUitschrijvenClubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
+        Kampioenschap tempKamp = kampioenschapRepo.getByNaamAndDate(activiteitNaam, date);
+        Lid tempLid = lidRepo.getLidByEmail(lidEmail);
+        tempKamp.lidUitschrijven(tempLid);
+    }
+
 }

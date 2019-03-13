@@ -9,7 +9,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import persistentie.ActiviteitDao;
 import persistentie.ActiviteitDaoJpa;
+import persistentie.GenericDao;
 import persistentie.GenericDaoJpa;
+import persistentie.KampioenschapDao;
+import persistentie.KampioenschapDaoJpa;
 import persistentie.LidDao;
 import persistentie.LidDaoJpa;
 import persistentie.OefeningDao;
@@ -21,12 +24,14 @@ public class DomeinController {
     private LidDao lidRepository;
     private OefeningDao oefeningRepository;
     private ActiviteitDao activiteitRepository;
+    private KampioenschapDao kampioenschapRepository;
 
     public DomeinController() {
         setLidRepository(new LidDaoJpa());
         setOefeningRepository(new OefeningDaoJpa());
         setActiviteitRepository(new ActiviteitDaoJpa());
-        dojo = new Dojo(lidRepository, oefeningRepository, activiteitRepository);
+        setKampioenschapRepository(new KampioenschapDaoJpa());
+        dojo = new Dojo(lidRepository, oefeningRepository, activiteitRepository, kampioenschapRepository);
     }
 
     public List<String> toonLeden() {
@@ -145,9 +150,15 @@ public class DomeinController {
         return iLeden;
     }
 
-    public void schrijfLidIn(String activiteitNaam, String lidEmail) {
+    public void schrijfLidIn(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
         GenericDaoJpa.startTransaction();
-        dojo.lidInschrijven(activiteitNaam, lidEmail);
+        dojo.lidInschrijven(activiteitNaam, beginDatum, eindDatum, lidEmail);
+        GenericDaoJpa.commitTransaction();
+    }
+
+    public void schrijfLidInVoorActiviteit(String activiteitNaam, LocalDate date, String lidEmail) {
+        GenericDaoJpa.startTransaction();
+        dojo.lidInschrijvenClubkampioenschap(activiteitNaam, date, lidEmail);
         GenericDaoJpa.commitTransaction();
     }
 
@@ -159,9 +170,6 @@ public class DomeinController {
         return dojo.maakOverzichtList(type, extraParameters);
     }
 
-//    public String maakHeaders() {
-//        return dojo.maakHeaders();
-//    }
     public void setCurrentLid(ILid lid) {
         dojo.setCurrentLid(lid);
     }
@@ -187,7 +195,7 @@ public class DomeinController {
     }
 
     public void setCurrentActiviteit(IActiviteit activiteit) {
-            dojo.setCurrentActiviteit(activiteit);
+        dojo.setCurrentActiviteit(activiteit);
     }
 
     public boolean geenActiviteitGeselecteerd() {
@@ -203,21 +211,25 @@ public class DomeinController {
     }
 
     public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean isStage, int maxAanwezigen) {
-        boolean activiteit = dojo.wijzigActiviteit(naam,beginDatum,eindDatum,isStage,maxAanwezigen);
+        boolean activiteit = dojo.wijzigActiviteit(naam, beginDatum, eindDatum, isStage, maxAanwezigen);
         return activiteit;
     }
 
-    public IActiviteit getActiviteitByName(String naam) {
-        return dojo.getActiviteitByName(naam);
+    public IActiviteit getActiviteitByNaamAndBeginAndEinddate(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum) {
+        return dojo.getActiviteitByNaamAndBeginAndEinddate(activiteitNaam, beginDatum, eindDatum);
     }
-    
-    public void schrijfLidUit(String activiteitNaam, String lidEmail) {
+
+    public void schrijfLidUit(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
         GenericDaoJpa.startTransaction();
-        dojo.lidUitschrijven(activiteitNaam, lidEmail);
+        dojo.lidUitschrijven(activiteitNaam, beginDatum, eindDatum, lidEmail);
         GenericDaoJpa.commitTransaction();
     }
 
     public void addKampioenschap(Kampioenschap kampioenschap) {
         dojo.voegKampioenschapToe(kampioenschap);
+    }
+
+    private void setKampioenschapRepository(KampioenschapDaoJpa kampioenschapDao) {
+        this.kampioenschapRepository = kampioenschapDao;
     }
 }
