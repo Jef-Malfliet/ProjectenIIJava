@@ -117,15 +117,15 @@ public class Dojo {
         }
         return false;
     }
-    
-    public boolean voegKampioenschapToe(Kampioenschap k){
-        if(!kampioenschappen.contains(k)){
-            if(kampioenschapRepo.get(k.getId()) == null){
-            GenericDaoJpa.startTransaction();
-            kampioenschapRepo.insert(k);
-            GenericDaoJpa.commitTransaction();
-            kampioenschappen.add(k);
-            return true;
+
+    public boolean voegKampioenschapToe(Kampioenschap k) {
+        if (!kampioenschappen.contains(k)) {
+            if (kampioenschapRepo.get(k.getId()) == null) {
+                GenericDaoJpa.startTransaction();
+                kampioenschapRepo.insert(k);
+                GenericDaoJpa.commitTransaction();
+                kampioenschappen.add(k);
+                return true;
             }
         }
         return false;
@@ -184,8 +184,8 @@ public class Dojo {
     public void setLidRepo(LidDao mock) {
         lidRepo = mock;
     }
-    
-    public void setKampioenschapRepo(GenericDaoJpa mock){
+
+    public void setKampioenschapRepo(GenericDaoJpa mock) {
         kampioenschapRepo = mock;
     }
 
@@ -374,6 +374,14 @@ public class Dojo {
                 return overzicht;
             case LESMATERIAAL:
                 overzicht = new FilteredList(oefeningen, p -> true);
+                Graad graad = (Graad) extraParameters.get(0);
+                Predicate<Oefening> oefResult = o -> true;
+                Predicate<Oefening> onGraad = o -> o.getGraad().equals(graad);
+
+                if (graad != null) {
+                    oefResult = oefResult.and(onGraad);
+                }
+                overzicht.setPredicate(oefResult);
                 return overzicht;
             default:
                 return null;
