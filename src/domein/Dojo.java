@@ -455,8 +455,7 @@ public class Dojo {
         GenericDaoJpa.startTransaction();
         Activiteit currentActiviteit = current_Activiteit != -1 ? activiteiten.get(current_Activiteit) : null;
         currentActiviteit.wijzigActiviteit(naam, beginDatum, eindDatum, isStage, maxAanwezigen);
-        this.activiteiten.set(current_Activiteit, currentActiviteit);
-        this.activiteitRepo.update(currentActiviteit);
+        activiteitRepo.update(currentActiviteit);
         GenericDaoJpa.commitTransaction();
         return true;
     }

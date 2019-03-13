@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import persistentie.ActiviteitDao;
 import persistentie.ActiviteitDaoJpa;
-import persistentie.GenericDao;
 import persistentie.GenericDaoJpa;
 import persistentie.KampioenschapDao;
 import persistentie.KampioenschapDaoJpa;
