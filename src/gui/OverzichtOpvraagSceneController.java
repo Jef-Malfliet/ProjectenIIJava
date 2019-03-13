@@ -224,6 +224,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         vBoxFormule.getChildren().addAll(lblFormule, cboFormule);
 
         Label lblNoExtra = new Label("Geen extra parameters");
+        cboGraad.getSelectionModel().selectLast();
 
         switch (type) {
             case AANWEZIGHEID:

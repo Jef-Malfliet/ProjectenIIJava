@@ -74,7 +74,7 @@
               <columns>
                 <TableColumn fx:id="colVoorNaam" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Voornaam" />
                   <TableColumn fx:id="colAchterNaam" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Familienaam" />
-                <TableColumn fx:id="colBand" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Band" />
+                <TableColumn fx:id="colBand" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Graad" />
                   <TableColumn fx:id="colType" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="0.0" text="Type" />
               </columns>
             </TableView>
