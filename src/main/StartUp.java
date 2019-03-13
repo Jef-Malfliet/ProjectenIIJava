@@ -61,10 +61,10 @@ public class StartUp extends Application {
             }
         }
         
-//        List<Kampioenschap> kampioenschappen = KampioenschapMapper.getKampioenschappen();
-//        for (Kampioenschap kampioenschap : kampioenschappen) {
-//            dc.addKampioenschap(kampioenschap);
-//        }
+        List<Kampioenschap> kampioenschappen = KampioenschapMapper.getKampioenschappen();
+        for (Kampioenschap kampioenschap : kampioenschappen) {
+            dc.addKampioenschap(kampioenschap);
+        }
 
         Oefening oef1 = new Oefening(Graad.GROEN, "Test1");
         Oefening oef2 = new Oefening(Graad.DAN11, "Test2");

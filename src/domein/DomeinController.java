@@ -10,6 +10,8 @@ import javafx.collections.ObservableList;
 import persistentie.ActiviteitDao;
 import persistentie.ActiviteitDaoJpa;
 import persistentie.GenericDaoJpa;
+import persistentie.KampioenschapDao;
+import persistentie.KampioenschapDaoJpa;
 import persistentie.LidDao;
 import persistentie.LidDaoJpa;
 import persistentie.OefeningDao;
@@ -21,12 +23,14 @@ public class DomeinController {
     private LidDao lidRepository;
     private OefeningDao oefeningRepository;
     private ActiviteitDao activiteitRepository;
+    private KampioenschapDao kampioenschapRepository;
 
     public DomeinController() {
         setLidRepository(new LidDaoJpa());
         setOefeningRepository(new OefeningDaoJpa());
         setActiviteitRepository(new ActiviteitDaoJpa());
-        dojo = new Dojo(lidRepository, oefeningRepository, activiteitRepository);
+        setKampioenschapRepository(new KampioenschapDaoJpa());
+        dojo = new Dojo(lidRepository, oefeningRepository, activiteitRepository, kampioenschapRepository);
     }
 
     public List<String> toonLeden() {
@@ -187,7 +191,7 @@ public class DomeinController {
     }
 
     public void setCurrentActiviteit(IActiviteit activiteit) {
-            dojo.setCurrentActiviteit(activiteit);
+        dojo.setCurrentActiviteit(activiteit);
     }
 
     public boolean geenActiviteitGeselecteerd() {
@@ -203,14 +207,14 @@ public class DomeinController {
     }
 
     public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean isStage, int maxAanwezigen) {
-        boolean activiteit = dojo.wijzigActiviteit(naam,beginDatum,eindDatum,isStage,maxAanwezigen);
+        boolean activiteit = dojo.wijzigActiviteit(naam, beginDatum, eindDatum, isStage, maxAanwezigen);
         return activiteit;
     }
 
     public IActiviteit getActiviteitByName(String naam) {
         return dojo.getActiviteitByName(naam);
     }
-    
+
     public void schrijfLidUit(String activiteitNaam, String lidEmail) {
         GenericDaoJpa.startTransaction();
         dojo.lidUitschrijven(activiteitNaam, lidEmail);
@@ -219,5 +223,9 @@ public class DomeinController {
 
     public void addKampioenschap(Kampioenschap kampioenschap) {
         dojo.voegKampioenschapToe(kampioenschap);
+    }
+
+    private void setKampioenschapRepository(KampioenschapDaoJpa kampioenschapDao) {
+        this.kampioenschapRepository = kampioenschapDao;
     }
 }

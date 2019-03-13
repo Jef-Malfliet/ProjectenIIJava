@@ -15,6 +15,7 @@ import javafx.collections.transformation.SortedList;
 import persistentie.ActiviteitDao;
 import persistentie.ExportFiles;
 import persistentie.GenericDaoJpa;
+import persistentie.KampioenschapDao;
 import persistentie.LidDao;
 import persistentie.OefeningDao;
 import static util.Validatie.isNull;
@@ -36,7 +37,7 @@ public class Dojo {
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
     private ActiviteitDao activiteitRepo;
-    private GenericDaoJpa<Kampioenschap> kampioenschapRepo;
+    private KampioenschapDao kampioenschapRepo;
     private final List<Overzicht<Object>> overzichtList;
     private int current_Lid = -1;
 
@@ -44,10 +45,11 @@ public class Dojo {
 
     private int current_Activiteit = -1;
 
-    public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo) {
+    public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo, KampioenschapDao kampioenschapDao) {
         setLidRepo(lidRepo);
         setOefeningRepo(oefeningRepo);
         setActiviteitDao(actRepo);
+        setKampioenschapRepo(kampioenschapDao);
         this.type = RolType.BEHEERDER;
         leden = FXCollections.observableArrayList(this.lidRepo.findAll());
         activiteiten = FXCollections.observableArrayList(this.activiteitRepo.findAll());
@@ -117,15 +119,15 @@ public class Dojo {
         }
         return false;
     }
-    
-    public boolean voegKampioenschapToe(Kampioenschap k){
-        if(!kampioenschappen.contains(k)){
-            if(kampioenschapRepo.get(k.getId()) == null){
-            GenericDaoJpa.startTransaction();
-            kampioenschapRepo.insert(k);
-            GenericDaoJpa.commitTransaction();
-            kampioenschappen.add(k);
-            return true;
+
+    public boolean voegKampioenschapToe(Kampioenschap k) {
+        if (!kampioenschappen.contains(k)) {
+            if (kampioenschapRepo.get(k.getId()) == null) {
+                GenericDaoJpa.startTransaction();
+                kampioenschapRepo.insert(k);
+                GenericDaoJpa.commitTransaction();
+                kampioenschappen.add(k);
+                return true;
             }
         }
         return false;
@@ -184,8 +186,8 @@ public class Dojo {
     public void setLidRepo(LidDao mock) {
         lidRepo = mock;
     }
-    
-    public void setKampioenschapRepo(GenericDaoJpa mock){
+
+    public void setKampioenschapRepo(KampioenschapDao mock) {
         kampioenschapRepo = mock;
     }
 

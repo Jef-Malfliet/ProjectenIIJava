@@ -25,6 +25,8 @@ public interface IKampioenschap extends Serializable {
     SimpleStringProperty getGewichtcategorieënProperty();
 
     SimpleStringProperty getLeeftijdcategorieënProperty();
+    
+    SimpleStringProperty getNaamProperty();
 
     List<Lid> geefAanwezigen();
 }

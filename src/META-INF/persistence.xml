@@ -6,6 +6,7 @@
     <class>domein.Oefening</class>
     <class>domein.Activiteit</class>
     <class>domein.Overzicht</class>
+    <class>domein.Kampioenschap</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/G19_DB"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
