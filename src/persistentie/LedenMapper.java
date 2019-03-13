@@ -56,10 +56,10 @@ public class LedenMapper {
     private static RolType randomType() {
         SecureRandom r = new SecureRandom();
         double kans = r.nextDouble();
-        if (kans <= 0.7) {
+        if (kans <= 0.9) {
             return RolType.LID;
-        } else if (kans <= 0.9) {
-            return RolType.NIET_LID;
+//        } else if (kans <= 0.9) {
+//            return RolType.NIET_LID;
         } else {
             return RolType.LESGEVER;
         }

@@ -40,5 +40,6 @@ public class LidTest {
         Assert.assertEquals(Geslacht.MAN, nieuwLid.getGeslacht());
         Assert.assertEquals(Graad.DAN12, nieuwLid.getGraad());
         Assert.assertEquals(RolType.BEHEERDER, nieuwLid.getType());
+        Assert.assertEquals(LesType.DI_DO, nieuwLid.getLessen());
     }
 }

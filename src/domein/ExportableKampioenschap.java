@@ -6,6 +6,7 @@
 package domein;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -15,7 +16,8 @@ public class ExportableKampioenschap implements Exportable<Kampioenschap> {
 
     @Override
     public String excelFormat(Kampioenschap k) {
-        return String.format("%s,%s,%s,%s", k.getNaam(), k.getDatum().toString(), Arrays.toString(k.getGewichtcategorie()), k.geefAanwezigen().stream().map(l -> l.getVoornaam() + " " + l.getFamilienaam()));
+        return String.format("%s,%s,%s,%s", k.getNaam(), k.getDatum().toString(), Arrays.asList(k.getGewichtcategorie()).stream().collect(Collectors.joining(" /")),
+                 Arrays.asList(k.getLeeftijdscategorieën()).stream().collect(Collectors.joining(" / ")));
     }
 
     @Override

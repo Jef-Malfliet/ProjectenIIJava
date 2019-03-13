@@ -44,7 +44,7 @@ public class DojoTest {
         kampioenschapDaoDummy = Mockito.mock(KampioenschapDao.class);
         testLid = Mockito.mock(Lid.class);
         lid1 = new Lid("Nante", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "98.10.19-333.61", "nante.vermeulen@student.hogent.be",
-                "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.GROEN, RolType.BEHEERDER, LesType.DI_ZA);
+                "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(Arrays.asList(LocalDate.of(1998, 8, 16))){}, Geslacht.MAN, Graad.GROEN, RolType.BEHEERDER, LesType.DI_ZA);
 
         lid2 = new Lid("Indy", "Van Canegem", "ivc12345", "0479154978", "053698442", "Straat", "13", "88", "9520", "Zele", Land.België, "98.10.19-333.61", "indy.vancanegem@student.hogent.be",
                 "ouders.indy@skynet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.ANDERS, Graad.GROEN, RolType.LID, LesType.WO_ZA);
@@ -121,9 +121,60 @@ public class DojoTest {
         Assert.assertTrue(beheerder.getLijstLeden().contains(testLid));
         Mockito.verify(lidDaoDummy).insert(testLid);
     }
-
-    @Test
-    public void testMaakOverzicht() {
+    @Test()
+    public void testMaakOverzichtAanwezigheidLeeg() {
+        Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
+        OverzichtType type = OverzichtType.AANWEZIGHEID;
+        List<Object> extraParameters = new ArrayList<>();
+        extraParameters.add(null);
+        extraParameters.add("");
+        extraParameters.add(LesType.ALLES);
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
+        List<Exportable> maakOverzichtList = beheerder.maakOverzichtList(type,extraParameters);
+        System.out.println(maakOverzichtList);
+        Assert.assertEquals(3,maakOverzichtList.size());
+        
+    }
+    @Test()
+    public void testMaakOverzichtAanwezigheidOpLidNante() {
+        Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
+        OverzichtType type = OverzichtType.AANWEZIGHEID;
+        List<Object> extraParameters = new ArrayList<>();
+        extraParameters.add(null);
+        extraParameters.add("Nante");
+        extraParameters.add(LesType.ALLES);
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
+        List<Exportable> maakOverzichtList = beheerder.maakOverzichtList(type,extraParameters);
+        System.out.println(maakOverzichtList);
+        Assert.assertEquals(1,maakOverzichtList.size());
+        
+    }
+    @Test()
+    public void testMaakOverzichtAanwezigheidOpAanwezigheid() {
+        Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
+        OverzichtType type = OverzichtType.AANWEZIGHEID;
+        List<Object> extraParameters = new ArrayList<>();
+        extraParameters.add(LocalDate.of(1998, 8, 16));
+        extraParameters.add("");
+        extraParameters.add(LesType.ALLES);
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
+        List<Exportable> maakOverzichtList = beheerder.maakOverzichtList(type,extraParameters);
+        System.out.println(maakOverzichtList);
+        Assert.assertEquals(1,maakOverzichtList.size());
+        
+    }
+    @Test()
+    public void testMaakOverzichtAanwezigheidOpLesType() {
+        Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
+        OverzichtType type = OverzichtType.AANWEZIGHEID;
+        List<Object> extraParameters = new ArrayList<>();
+        extraParameters.add(null);
+        extraParameters.add("");
+        extraParameters.add(LesType.WO_ZA);
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
+        List<Exportable> maakOverzichtList = beheerder.maakOverzichtList(type,extraParameters);
+        System.out.println(maakOverzichtList);
+        Assert.assertEquals(2,maakOverzichtList.size());
         
     }
 }

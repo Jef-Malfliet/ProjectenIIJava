@@ -163,4 +163,8 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
         this.leeftijdscategorieën = leeftijdscategorieën;
     }
 
+    public String[] getLeeftijdscategorieën() {
+        return leeftijdscategorieën;
+    }
+
 }
