@@ -6,15 +6,16 @@
 package persistentie;
 
 import domein.Activiteit;
+import java.time.LocalDate;
 
 /**
  *
  * @author Jef
  */
-public interface ActiviteitDao extends GenericDao<Activiteit>{
+public interface ActiviteitDao extends GenericDao<Activiteit> {
 
-    public Activiteit getByName(String activiteitNaam);
-    
+    public Activiteit getByNaamAndBeginAndEindDate(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum);
+
     @Override
     public void delete(Activiteit currentActiviteit);
 }

@@ -54,13 +54,13 @@ public class StartUp extends Application {
 
         for (int i = 0; i < ledenLijst.size(); i++) {
             if (i % 15 == 0) {
-                dc.schrijfLidIn(act1.getNaam(), ledenLijst.get(i).getEmail());
-            } 
-            if(i % 17 == 0 ){
-                dc.schrijfLidIn(act2.getNaam(), ledenLijst.get(i).getEmail());
+                dc.schrijfLidIn(act1.getNaam(), act1.getBeginDatum(), act1.getEindDatum(), ledenLijst.get(i).getEmail());
+            }
+            if (i % 17 == 0) {
+                dc.schrijfLidIn(act2.getNaam(), act2.getBeginDatum(), act2.getEindDatum(), ledenLijst.get(i).getEmail());
             }
         }
-        
+
         List<Kampioenschap> kampioenschappen = KampioenschapMapper.getKampioenschappen();
         for (Kampioenschap kampioenschap : kampioenschappen) {
             dc.addKampioenschap(kampioenschap);

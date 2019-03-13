@@ -10,7 +10,6 @@ import domein.IActiviteit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.util.Date;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -62,7 +61,7 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
     private void buildGui() {
         tvActiviteiten.getSelectionModel().selectedItemProperty().addListener((observable, oldAct, newAct) -> {
             if (newAct != null) {
-                IActiviteit activiteit = dc.getActiviteitByName(newAct.getNaam());
+                IActiviteit activiteit = dc.getActiviteitByNaamAndBeginAndEinddate(newAct.getNaam(), newAct.getBeginDatum(), newAct.getEindDatum());
                 if (adpc.fillActiviteit(activiteit)) {
                     dc.setCurrentActiviteit(activiteit);
                     adpc.updateButtons();

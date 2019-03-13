@@ -6,6 +6,7 @@
 package persistentie;
 
 import domein.Activiteit;
+import java.time.LocalDate;
 
 /**
  *
@@ -18,8 +19,8 @@ public class ActiviteitDaoJpa extends GenericDaoJpa<Activiteit> implements Activ
     }
 
     @Override
-    public Activiteit getByName(String activiteitNaam) {
-        return findAll().stream().filter(a -> a.getNaam() == activiteitNaam).findFirst().orElse(null);
+    public Activiteit getByNaamAndBeginAndEindDate(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum) {
+        return findAll().stream().filter(a -> a.getNaam().equals(activiteitNaam) && a.getBeginDatum().equals(beginDatum) && a.getEindDatum().equals(eindDatum)).findFirst().orElse(null);
     }
 
     @Override

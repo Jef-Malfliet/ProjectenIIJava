@@ -149,9 +149,9 @@ public class DomeinController {
         return iLeden;
     }
 
-    public void schrijfLidIn(String activiteitNaam, String lidEmail) {
+    public void schrijfLidIn(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
         GenericDaoJpa.startTransaction();
-        dojo.lidInschrijven(activiteitNaam, lidEmail);
+        dojo.lidInschrijven(activiteitNaam, beginDatum, eindDatum, lidEmail);
         GenericDaoJpa.commitTransaction();
     }
 
@@ -211,13 +211,13 @@ public class DomeinController {
         return activiteit;
     }
 
-    public IActiviteit getActiviteitByName(String naam) {
-        return dojo.getActiviteitByName(naam);
+    public IActiviteit getActiviteitByNaamAndBeginAndEinddate(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum) {
+        return dojo.getActiviteitByNaamAndBeginAndEinddate(activiteitNaam, beginDatum, eindDatum);
     }
 
-    public void schrijfLidUit(String activiteitNaam, String lidEmail) {
+    public void schrijfLidUit(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
         GenericDaoJpa.startTransaction();
-        dojo.lidUitschrijven(activiteitNaam, lidEmail);
+        dojo.lidUitschrijven(activiteitNaam, beginDatum, eindDatum, lidEmail);
         GenericDaoJpa.commitTransaction();
     }
 

@@ -213,15 +213,15 @@ public class Dojo {
         return activiteiten;
     }
 
-    public void lidInschrijven(String activiteitNaam, String lidEmail) {
-        Activiteit actTemp = activiteitRepo.getByName(activiteitNaam);
+    public void lidInschrijven(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
+        Activiteit actTemp = activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
         Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
         actTemp.lidInschrijven(lidTemp);
         activiteitRepo.update(actTemp);
     }
 
-    public void lidUitschrijven(String activiteitNaam, String lidEmail) {
-        Activiteit tempAct = activiteitRepo.getByName(activiteitNaam);
+    public void lidUitschrijven(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {
+        Activiteit tempAct = activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
         Lid tempLid = lidRepo.getLidByEmail(lidEmail);
         tempAct.lidUitschrijven(tempLid);
     }
@@ -430,7 +430,7 @@ public class Dojo {
         return true;
     }
 
-    public IActiviteit getActiviteitByName(String naam) {
-        return activiteitRepo.getByName(naam);
+    public IActiviteit getActiviteitByNaamAndBeginAndEinddate(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum) {
+        return activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
     }
 }
