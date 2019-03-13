@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import persistentie.ActiviteitDao;
 import persistentie.ActiviteitDaoJpa;
+import persistentie.GenericDao;
 import persistentie.GenericDaoJpa;
 import persistentie.KampioenschapDao;
 import persistentie.KampioenschapDaoJpa;
@@ -155,6 +156,12 @@ public class DomeinController {
         GenericDaoJpa.commitTransaction();
     }
 
+    public void schrijfLidInVoorActiviteit(String activiteitNaam, LocalDate date, String lidEmail) {
+        GenericDaoJpa.startTransaction();
+        dojo.lidInschrijvenKlubkampioenschap(activiteitNaam, date, lidEmail);
+        GenericDaoJpa.commitTransaction();
+    }
+
     public Activiteit getActiviteit(long id) {
         return dojo.getActiviteit(id);
     }
@@ -163,9 +170,6 @@ public class DomeinController {
         return dojo.maakOverzichtList(type, extraParameters);
     }
 
-//    public String maakHeaders() {
-//        return dojo.maakHeaders();
-//    }
     public void setCurrentLid(ILid lid) {
         dojo.setCurrentLid(lid);
     }

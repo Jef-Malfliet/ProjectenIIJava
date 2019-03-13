@@ -293,7 +293,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 Label lblGraad = new Label("Graad");
                 cboGraad.setPromptText("Kies een graad");
                 cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
-                hBoxTopRow.getChildren().addAll(lblGraad,cboGraad);
+                hBoxTopRow.getChildren().addAll(lblGraad, cboGraad);
 
                 vBoxContainer.getChildren().addAll(hBoxTopRow);
                 hBoxTableContainer.getChildren().clear();
@@ -351,6 +351,10 @@ public class OverzichtOpvraagSceneController extends HBox {
                 TableView<IKampioenschap> tblKampioenschap = new TableView<>();
                 tblKampioenschap.setItems(list);
 
+                TableColumn<IKampioenschap, String> nameCol = new TableColumn<>();
+                nameCol.setText("Naam");
+                nameCol.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
+
                 TableColumn<IKampioenschap, String> datumCol = new TableColumn<>();
                 datumCol.setText("Datum");
                 datumCol.setCellValueFactory(cellData
@@ -366,10 +370,11 @@ public class OverzichtOpvraagSceneController extends HBox {
                 gewichtsCol.setCellValueFactory(cellData
                         -> cellData.getValue().getLeeftijdcategorieënProperty());
 
-                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
-                gewichtsCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
-                leeftijdCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
-                tblKampioenschap.getColumns().addAll(datumCol, gewichtsCol, leeftijdCol);
+                nameCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
+                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
+                gewichtsCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
+                leeftijdCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
+                tblKampioenschap.getColumns().addAll(nameCol, datumCol, gewichtsCol, leeftijdCol);
 
                 tblKampioenschap.setPrefWidth(sceneWidth * 2 / 3.1);
                 tblKampioenschap.setPrefHeight(sceneHeight - 100);

@@ -220,6 +220,13 @@ public class Dojo {
         activiteitRepo.update(actTemp);
     }
 
+    public void lidInschrijvenKlubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
+        Kampioenschap kTemp = kampioenschapRepo.getByNaamAndDate(activiteitNaam, date);
+        Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
+        kTemp.lidInschrijven(lidTemp);
+        kampioenschapRepo.update(kTemp);
+    }
+
     public void lidUitschrijven(String activiteitNaam, String lidEmail) {
         Activiteit tempAct = activiteitRepo.getByName(activiteitNaam);
         Lid tempLid = lidRepo.getLidByEmail(lidEmail);
