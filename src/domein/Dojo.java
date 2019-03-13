@@ -434,14 +434,14 @@ public class Dojo {
         return activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
     }
 
-    public void lidInschrijvenKlubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
+    public void lidInschrijvenClubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
         Kampioenschap actKamp = kampioenschapRepo.getByNaamAndDate(activiteitNaam, date);
         Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
         actKamp.lidInschrijven(lidTemp);
         kampioenschapRepo.update(actKamp);
     }
 
-    public void lidUitschrijvenKlubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
+    public void lidUitschrijvenClubkampioenschap(String activiteitNaam, LocalDate date, String lidEmail) {
         Kampioenschap tempKamp = kampioenschapRepo.getByNaamAndDate(activiteitNaam, date);
         Lid tempLid = lidRepo.getLidByEmail(lidEmail);
         tempKamp.lidUitschrijven(tempLid);
