@@ -367,7 +367,7 @@ public class OverzichtOpvraagSceneController extends HBox {
 
                 TableColumn<IKampioenschap, String> leeftijdCol = new TableColumn<>();
                 leeftijdCol.setText("Leeftijdscategoriën");
-                gewichtsCol.setCellValueFactory(cellData
+                leeftijdCol.setCellValueFactory(cellData
                         -> cellData.getValue().getLeeftijdcategorieënProperty());
 
                 nameCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
