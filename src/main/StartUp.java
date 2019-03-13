@@ -8,6 +8,7 @@ package main;
 import domein.Activiteit;
 import domein.DomeinController;
 import domein.Graad;
+import domein.Kampioenschap;
 import domein.Lid;
 import domein.Oefening;
 import gui.MainPanel;
@@ -19,6 +20,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import persistentie.KampioenschapMapper;
 import persistentie.LedenMapper;
 
 import util.FullScreenResolution;
@@ -58,6 +60,11 @@ public class StartUp extends Application {
                 dc.schrijfLidIn(act2.getNaam(), ledenLijst.get(i).getEmail());
             }
         }
+        
+//        List<Kampioenschap> kampioenschappen = KampioenschapMapper.getKampioenschappen();
+//        for (Kampioenschap kampioenschap : kampioenschappen) {
+//            dc.addKampioenschap(kampioenschap);
+//        }
 
         Oefening oef1 = new Oefening(Graad.GROEN, "Test1");
         Oefening oef2 = new Oefening(Graad.DAN11, "Test2");

@@ -3,6 +3,7 @@ package domein;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -34,6 +35,8 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
     private SimpleStringProperty videoProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty imageProperty = new SimpleStringProperty();
     private static Exportable<Oefening> exportable;
 
     /**
@@ -146,6 +149,7 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
         this.naamProperty.set(this.naam);
         this.graadProperty.set(this.graad.toString());
         this.videoProperty.set(this.video);
+        this.imageProperty.setValue(getImagePaths().stream().collect(Collectors.joining("\n")));
     }
 
     private void setGraadProperty(SimpleStringProperty graadProperty) {
@@ -177,5 +181,14 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
     @Override
     public String excelheaders() {
         return exportable.excelheaders();
+    }
+
+    @Override
+    public SimpleStringProperty getImageProperty() {
+        return imageProperty;
+    }
+
+    private void setImageProperty(SimpleStringProperty imageProperty) {
+        this.imageProperty = imageProperty;
     }
 }

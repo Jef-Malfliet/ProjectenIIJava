@@ -355,9 +355,15 @@ public class OverzichtOpvraagSceneController extends HBox {
                 gewichtsCol.setCellValueFactory(cellData
                         -> cellData.getValue().getGewichtcategorieënProperty());
 
-                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(2));
-                gewichtsCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(2));
-                tblKampioenschap.getColumns().addAll(datumCol, gewichtsCol);
+                TableColumn<IKampioenschap, String> leeftijdCol = new TableColumn<>();
+                leeftijdCol.setText("Leeftijdscategoriën");
+                gewichtsCol.setCellValueFactory(cellData
+                        -> cellData.getValue().getLeeftijdcategorieënProperty());
+
+                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
+                gewichtsCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
+                leeftijdCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
+                tblKampioenschap.getColumns().addAll(datumCol, gewichtsCol, leeftijdCol);
 
                 tblKampioenschap.setPrefWidth(sceneWidth * 2 / 3.1);
                 tblKampioenschap.setPrefHeight(sceneHeight - 100);
@@ -462,6 +468,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 hBoxTableContainer.getChildren().clear();
 
                 TableView<IOefening> tblLesMateriaal = new TableView<>();
+                tblLesMateriaal.setItems(list);
 
                 TableColumn<IOefening, String> colLNaam = new TableColumn<>();
                 colLNaam.setText("Naam");
@@ -471,18 +478,23 @@ public class OverzichtOpvraagSceneController extends HBox {
                 colLGraad.setText("Graad");
                 colLGraad.setCellValueFactory(cellData -> cellData.getValue().getGraadProperty());
 
-                TableColumn<IOefening, String> colLPad = new TableColumn<>();
-                colLPad.setText("Pad naar het lesmateriaal");
-                colLPad.setCellValueFactory(cellData -> cellData.getValue().getVideoProperty());
+                TableColumn<IOefening, String> colLURL = new TableColumn<>();
+                colLURL.setText("Vide URL");
+                colLURL.setCellValueFactory(cellData -> cellData.getValue().getVideoProperty());
 
-                colLNaam.prefWidthProperty().bind(tblLesMateriaal.widthProperty().divide(3));
-                colLGraad.prefWidthProperty().bind(tblLesMateriaal.widthProperty().divide(3));
-                colLPad.prefWidthProperty().bind(tblLesMateriaal.widthProperty().divide(3));
+                TableColumn<IOefening, String> colLPad = new TableColumn<>();
+                colLPad.setText("Afbeelding pad");
+                colLPad.setCellValueFactory(cellData -> cellData.getValue().getImageProperty());
+
+                colLNaam.prefWidthProperty().bind(tblLesMateriaal.widthProperty().divide(4));
+                colLGraad.prefWidthProperty().bind(tblLesMateriaal.widthProperty().divide(4));
+                colLURL.prefWidthProperty().bind(tblLesMateriaal.widthProperty().divide(4));
+                colLPad.prefWidthProperty().bind(tblLesMateriaal.widthProperty().divide(4));
 
                 tblLesMateriaal.setPrefWidth(sceneWidth);
                 tblLesMateriaal.setPrefHeight(sceneHeight - 100);
 
-                tblLesMateriaal.getColumns().addAll(colLNaam, colLGraad, colLPad);
+                tblLesMateriaal.getColumns().addAll(colLNaam, colLGraad, colLURL, colLPad);
                 hBoxTableContainer.getChildren().addAll(tblLesMateriaal);
                 break;
         }

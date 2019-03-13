@@ -23,22 +23,21 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
     private List<Lid> aanwezigen;
     @Temporal(TemporalType.DATE)
     private LocalDate datum;
-    private int[] gewichtcategorie;
+    private String[] gewichtcategorie;
+    private String[] leeftijdscategorieën;
     private static Exportable<Kampioenschap> exportable;
 
     @Transient
     private SimpleStringProperty datumProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty gewichtcategorieProperty = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty leeftijdscategorieProperty = new SimpleStringProperty();
 
-    /**
-     *
-     * @param datum
-     * @param gewichtcategorie
-     */
-    public Kampioenschap(LocalDate datum, int[] gewichtcategorie) {
+    public Kampioenschap(LocalDate datum, String[] gewichtcategorie, String[] leeftijdscategorieën) {
         this.datum = datum;
         this.gewichtcategorie = gewichtcategorie;
+        this.leeftijdscategorieën = leeftijdscategorieën;
         aanwezigen = new ArrayList<>();
         fillSimpleProperties();
     }
@@ -95,11 +94,11 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
     }
 
     @Override
-    public int[] getGewichtcategorie() {
+    public String[] getGewichtcategorie() {
         return gewichtcategorie;
     }
 
-    public void setGewichtcategorie(int[] gewichtcategorie) {
+    public void setGewichtcategorie(String[] gewichtcategorie) {
         this.gewichtcategorie = gewichtcategorie;
     }
 
@@ -121,9 +120,23 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
         this.gewichtcategorieProperty = gewichtProperty;
     }
 
-    public void fillSimpleProperties() {                        
+    @Override
+    public SimpleStringProperty getLeeftijdcategorieënProperty() {
+        return this.leeftijdscategorieProperty;
+    }
+
+    public void setLeeftijdcategorieënProperty(SimpleStringProperty leeftijdProperty) {
+        this.leeftijdscategorieProperty = leeftijdProperty;
+    }
+
+    public void fillSimpleProperties() {
         this.setDatumProperty(new SimpleStringProperty(datum.toString()));
         this.setGewichtcategorieënProperty(new SimpleStringProperty(Arrays.toString(gewichtcategorie)));
+        this.setLeeftijdcategorieënProperty(new SimpleStringProperty(Arrays.toString(leeftijdscategorieën)));
+    }
+    
+    public long getId(){
+        return id;
     }
 
 }

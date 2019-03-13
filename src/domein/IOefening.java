@@ -21,6 +21,8 @@ public interface IOefening extends Serializable {
 
     SimpleStringProperty getGraadProperty();
     
+    SimpleStringProperty getImageProperty();
+    
     String getUitleg();
         
     String getVideo();
