@@ -5,6 +5,8 @@
  */
 package domein;
 
+import java.util.stream.Collectors;
+
 /**
  *
  * @author Mout
@@ -13,12 +15,12 @@ public class ExportableOefening implements Exportable<Oefening>{
 
     @Override
     public String excelFormat(Oefening o) {
-        return null;
+        return String.format("%s,%s,%s,%s", o.getNaam(), o.getGraad().toString(),o.getVideo(),o.getImagePaths().stream().collect(Collectors.joining("\n")));
     }
 
     @Override
     public String excelheaders() {
-        return null;
+        return String.format("%s,%s,%s,%s","Naam","Graad","Video URL","Image paden");
     }
     
 }

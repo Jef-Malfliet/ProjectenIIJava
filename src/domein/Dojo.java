@@ -18,6 +18,7 @@ import persistentie.GenericDaoJpa;
 import persistentie.KampioenschapDao;
 import persistentie.LidDao;
 import persistentie.OefeningDao;
+import util.Validatie;
 import static util.Validatie.isNull;
 
 public class Dojo {
@@ -31,8 +32,8 @@ public class Dojo {
     private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
     private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
     private final Comparator<Lid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
-    private final Comparator<Oefening> opOefNaam = (oef1,oef2)->oef1.getNaam().compareToIgnoreCase(oef2.getNaam());
-    private final Comparator<Oefening> opOefGraad = (oef1,oef2)->oef1.getGraad().compareTo(oef2.getGraad());
+    private final Comparator<Oefening> opOefNaam = (oef1, oef2) -> oef1.getNaam().compareToIgnoreCase(oef2.getNaam());
+    private final Comparator<Oefening> opOefGraad = (oef1, oef2) -> oef1.getGraad().compareTo(oef2.getGraad());
     private final Comparator<Oefening> sortOefeningOrder = opOefNaam.thenComparing(opOefGraad);
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
@@ -63,7 +64,7 @@ public class Dojo {
         subject = new PropertyChangeSupport(this);
         overzichtList = new ArrayList();
         oefeningen = FXCollections.observableArrayList(oefeningRepo.findAll());
-        filteredOefeningen = new FilteredList<>(oefeningen, (p)->true);
+        filteredOefeningen = new FilteredList<>(oefeningen, (p) -> true);
         sortedOefeningen = new SortedList<>(filteredOefeningen, sortOefeningOrder);
         kampioenschappen = FXCollections.observableArrayList();
     }
@@ -291,14 +292,14 @@ public class Dojo {
         Predicate<Oefening> result = oefening -> true;
         Predicate<Oefening> naam = oefening -> oefening.getNaam().toLowerCase().startsWith(naamFilter.toLowerCase());
         Predicate<Oefening> graad = oefening -> oefening.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
-        
-        if(notEmpty(naamFilter)){
+
+        if (notEmpty(naamFilter)) {
             result = result.and(naam);
         }
-        if(notEmpty(graadFilter)){
+        if (notEmpty(graadFilter)) {
             result = result.and(graad);
         }
-        
+
         filteredOefeningen.setPredicate(result);
     }
 
@@ -399,11 +400,17 @@ public class Dojo {
             case LESMATERIAAL:
                 overzicht = new FilteredList(oefeningen, p -> true);
                 Graad graad = (Graad) extraParameters.get(0);
+                String naam = extraParameters.get(1).toString();
                 Predicate<Oefening> oefResult = o -> true;
                 Predicate<Oefening> onGraad = o -> o.getGraad().equals(graad);
+                Predicate<Oefening> onONaam = oefening -> oefening.getNaam().toLowerCase().startsWith(naam.toLowerCase());
 
                 if (graad != null) {
                     oefResult = oefResult.and(onGraad);
+                }
+
+                if (!Validatie.isNullOrEmpty(naam)) {
+                    oefResult = oefResult.and(onONaam);
                 }
                 overzicht.setPredicate(oefResult);
                 return overzicht;

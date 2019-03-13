@@ -6,14 +6,19 @@
 package gui;
 
 import domein.DomeinController;
+import domein.Graad;
 import domein.ILid;
+import domein.RolType;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.util.Arrays;
+import javafx.collections.FXCollections;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -53,10 +58,6 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     @FXML
     private TextField txfFnFilter;
     @FXML
-    private TextField txfGFilter;
-    @FXML
-    private TextField txfTFilter;
-    @FXML
     private Button btnFilter;
     @FXML
     private Label lblVnFilter;
@@ -68,6 +69,10 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private Label lblTFilter;
     @FXML
     private Button btnReset;
+    @FXML
+    private ComboBox<Graad> cboGFilter;
+    @FXML
+    private ComboBox<RolType> cboTFilter;
 
     public OverzichtSceneController(DomeinController dc, DetailPaneelController dpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtScene.fxml"));
@@ -88,9 +93,9 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
                 addListener((observableValue, oldLid, newLid)
                         -> {
                     if (newLid != null) {
-                       if (dpc.fillLid(newLid)) {
+                        if (dpc.fillLid(newLid)) {
                             dc.setCurrentLid(newLid);
-                        }   
+                        }
                     }
                 });
 
@@ -103,6 +108,8 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
 //        cboFilterOptie.getSelectionModel().selectFirst();
         setMaxScreen();
         ((SortedList) dc.getLeden()).comparatorProperty().bind(tableOverview.comparatorProperty());
+        cboGFilter.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
+        cboTFilter.setItems(FXCollections.observableArrayList(Arrays.asList(RolType.values())));
     }
 
     @Override
@@ -151,8 +158,10 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     private void filter(MouseEvent event) {
         String voornaamFilter = txfVnFilter.getText();
         String familienaamFilter = txfFnFilter.getText();
-        String graadFilter = txfGFilter.getText();
-        String typeFilter = txfTFilter.getText();
+        Graad g = cboGFilter.getSelectionModel().getSelectedItem();
+        RolType r = cboTFilter.getSelectionModel().getSelectedItem();
+        String graadFilter = g == null ? "" : g.toString();
+        String typeFilter = r == null ? "" : r.toString();
 
         dc.filter(voornaamFilter, familienaamFilter, graadFilter, typeFilter);
     }
@@ -160,8 +169,8 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     @FXML
     private void reset(MouseEvent event) {
         txfFnFilter.clear();
-        txfGFilter.clear();
-        txfTFilter.clear();
+        cboGFilter.getSelectionModel().clearSelection();
+        cboTFilter.getSelectionModel().clearSelection();
         txfVnFilter.clear();
         dc.filter("", "", "", "");
     }

@@ -103,6 +103,7 @@ public class OverzichtOpvraagSceneController extends HBox {
     private TextField txfANaam;
     private CheckBox cb;
     private ComboBox<Graad> cboGraad;
+    private TextField txfNaam;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -176,6 +177,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         txfANaam = new TextField();
         cb = new CheckBox();
         cboGraad = new ComboBox();
+        txfNaam = new TextField();
     }
 
     private void setMaxScreen() {
@@ -267,6 +269,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 extraParameters.clear();
 
                 hBoxTopRow.getChildren().clear();
+
                 hBoxTopRow.getChildren().addAll(lblNoExtra);
 
                 vBoxContainer.getChildren().addAll(hBoxTopRow);
@@ -293,9 +296,21 @@ public class OverzichtOpvraagSceneController extends HBox {
                 Label lblGraad = new Label("Graad");
                 cboGraad.setPromptText("Kies een graad");
                 cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
-                hBoxTopRow.getChildren().addAll(lblGraad, cboGraad);
+                cboGraad.setPrefWidth(sceneWidth / 4.2);
+                VBox vbGraad = new VBox();
+                VBox.setMargin(vbGraad, new Insets(10));
+                vbGraad.getChildren().addAll(Arrays.asList(lblGraad, cboGraad));
+                hBoxTopRow.getChildren().addAll(Arrays.asList(vbGraad));
 
-                vBoxContainer.getChildren().addAll(hBoxTopRow);
+                hBoxUnderRow.getChildren().clear();
+                Label lblNaam = new Label("Naam");
+                txfNaam.setPrefWidth(sceneWidth / 4.2);
+                VBox vbNaam = new VBox();
+                VBox.setMargin(vbNaam, new Insets(10));
+                vbNaam.getChildren().addAll(lblNaam, txfNaam);
+                hBoxUnderRow.getChildren().addAll(Arrays.asList(vbNaam));
+
+                vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
                 hBoxTableContainer.getChildren().clear();
                 break;
         }
@@ -540,7 +555,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 break;
             case LESMATERIAAL:
                 Oefening.setExportable(new ExportableOefening());
-                extraParameters.addAll(Arrays.asList(cboGraad.getSelectionModel().getSelectedItem()));
+                extraParameters.addAll(Arrays.asList(cboGraad.getSelectionModel().getSelectedItem(), txfNaam.getText()));
                 break;
         }
     }

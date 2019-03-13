@@ -2,6 +2,7 @@ package domein;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -141,8 +142,8 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
 
     public void fillSimpleProperties() {
         this.setDatumProperty(new SimpleStringProperty(datum.toString()));
-        this.setGewichtcategorieënProperty(new SimpleStringProperty(Arrays.toString(gewichtcategorie)));
-        this.setLeeftijdcategorieënProperty(new SimpleStringProperty(Arrays.toString(leeftijdscategorieën)));
+        this.setGewichtcategorieënProperty(new SimpleStringProperty(Arrays.stream(gewichtcategorie).collect(Collectors.joining(" / "))));
+        this.setLeeftijdcategorieënProperty(new SimpleStringProperty(Arrays.stream(leeftijdscategorieën).collect(Collectors.joining(" / "))));
         this.setNaamProperty(new SimpleStringProperty(naam));
     }
 

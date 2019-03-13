@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -44,19 +45,13 @@
             <VBox>
                <children>
                   <Label fx:id="lblGFilter" text="Graad filter" />
-                  <TextField fx:id="txfGFilter">
-                     <VBox.margin>
-                        <Insets left="3.0" right="2.0" />
-                     </VBox.margin></TextField>
+                  <ComboBox fx:id="cboGFilter" prefWidth="150.0" promptText="Kies een graad" />
                </children>
             </VBox>
             <VBox>
                <children>
                   <Label fx:id="lblTFilter" text="Type filter" />
-                  <TextField fx:id="txfTFilter">
-                     <VBox.margin>
-                        <Insets left="3.0" right="2.0" />
-                     </VBox.margin></TextField>
+                  <ComboBox fx:id="cboTFilter" prefWidth="150.0" promptText="Kies een rol" />
                </children>
             </VBox>
             <VBox>

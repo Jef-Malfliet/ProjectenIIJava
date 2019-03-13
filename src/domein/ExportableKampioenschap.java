@@ -11,16 +11,16 @@ import java.util.Arrays;
  *
  * @author Mout
  */
-public class ExportableKampioenschap implements Exportable<Kampioenschap>{
+public class ExportableKampioenschap implements Exportable<Kampioenschap> {
 
     @Override
     public String excelFormat(Kampioenschap k) {
-        return String.format("%s,%s,%s",k.getDatum().toString(),Arrays.toString(k.getGewichtcategorie()),k.geefAanwezigen().stream().map(l -> l.getVoornaam() + " " + l.getFamilienaam()));
+        return String.format("%s,%s,%s,%s", k.getNaam(), k.getDatum().toString(), Arrays.toString(k.getGewichtcategorie()), k.geefAanwezigen().stream().map(l -> l.getVoornaam() + " " + l.getFamilienaam()));
     }
 
     @Override
     public String excelheaders() {
-        return String.format("%s,%s,%s", "Datum", "Gewichtscategorieën","Aanwezige leden");
+        return String.format("%s,%s,%s,%s", "Naam", "Datum", "Gewichtscategorieën", "Aanwezige leden");
     }
-    
+
 }
