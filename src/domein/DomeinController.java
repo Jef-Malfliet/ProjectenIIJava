@@ -216,4 +216,8 @@ public class DomeinController {
         dojo.lidUitschrijven(activiteitNaam, lidEmail);
         GenericDaoJpa.commitTransaction();
     }
+
+    public void addKampioenschap(Kampioenschap kampioenschap) {
+        dojo.voegKampioenschapToe(kampioenschap);
+    }
 }

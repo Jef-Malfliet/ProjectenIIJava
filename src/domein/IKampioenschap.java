@@ -18,11 +18,13 @@ public interface IKampioenschap extends Serializable {
 
     LocalDate getDatum();
 
-    int[] getGewichtcategorie();
+    String[] getGewichtcategorie();
 
     SimpleStringProperty getDatumProperty();
 
     SimpleStringProperty getGewichtcategorieënProperty();
+
+    SimpleStringProperty getLeeftijdcategorieënProperty();
 
     List<Lid> geefAanwezigen();
 }

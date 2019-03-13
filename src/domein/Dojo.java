@@ -25,6 +25,7 @@ public class Dojo {
     private final ObservableList<Lid> leden;
     private final ObservableList<Activiteit> activiteiten;
     private final ObservableList<Oefening> oefeningen;
+    private final ObservableList<Kampioenschap> kampioenschappen;
     private final Comparator<Lid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
     private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
     private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
@@ -35,9 +36,8 @@ public class Dojo {
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
     private ActiviteitDao activiteitRepo;
+    private GenericDaoJpa<Kampioenschap> kampioenschapRepo;
     private final List<Overzicht<Object>> overzichtList;
-    private List<Kampioenschap> kampioenschappen;
-    private List<Oefening> lesmateriaal;
     private int current_Lid = -1;
 
     private List<String> headers = new ArrayList<>();
@@ -56,8 +56,7 @@ public class Dojo {
         subject = new PropertyChangeSupport(this);
         overzichtList = new ArrayList();
         oefeningen = FXCollections.observableArrayList(oefeningRepo.findAll());
-        kampioenschappen = new ArrayList<>();
-        lesmateriaal = new ArrayList<>();
+        kampioenschappen = FXCollections.observableArrayList();
     }
 
     /**
@@ -118,6 +117,19 @@ public class Dojo {
         }
         return false;
     }
+    
+    public boolean voegKampioenschapToe(Kampioenschap k){
+        if(!kampioenschappen.contains(k)){
+            if(kampioenschapRepo.get(k.getId()) == null){
+            GenericDaoJpa.startTransaction();
+            kampioenschapRepo.insert(k);
+            GenericDaoJpa.commitTransaction();
+            kampioenschappen.add(k);
+            return true;
+            }
+        }
+        return false;
+    }
 
     public boolean voegActiviteitToe(Activiteit activiteit) {
 
@@ -171,6 +183,10 @@ public class Dojo {
 
     public void setLidRepo(LidDao mock) {
         lidRepo = mock;
+    }
+    
+    public void setKampioenschapRepo(GenericDaoJpa mock){
+        kampioenschapRepo = mock;
     }
 
     public <T extends Exportable> void maakOverzicht(List<T> overzicht, String path) {
@@ -354,10 +370,10 @@ public class Dojo {
                 overzicht.setPredicate(actResult);
                 return overzicht;
             case CLUBKAMPIOENSCHAP:
-                overzicht = new FilteredList(FXCollections.observableArrayList(kampioenschappen), p -> true);
+                overzicht = new FilteredList(kampioenschappen, p -> true);
                 return overzicht;
             case LESMATERIAAL:
-                overzicht = new FilteredList(FXCollections.observableArrayList(lesmateriaal), p -> true);
+                overzicht = new FilteredList(oefeningen, p -> true);
                 return overzicht;
             default:
                 return null;
