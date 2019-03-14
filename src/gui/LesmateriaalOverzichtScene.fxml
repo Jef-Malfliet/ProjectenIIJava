@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -35,13 +36,18 @@
             <VBox>
                <children>
                   <Label text="Filteren op Graad" />
-                  <TextField fx:id="txfGraad" />
+                  <ComboBox fx:id="cbFilterGraad" prefWidth="150.0" />
                </children>
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </VBox>
             <Button fx:id="btnFilter" mnemonicParsing="false" onAction="#filter" text="Filter">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnMaakLeeg" mnemonicParsing="false" onAction="#geenFilter" text="Maak leeg">
                <HBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>

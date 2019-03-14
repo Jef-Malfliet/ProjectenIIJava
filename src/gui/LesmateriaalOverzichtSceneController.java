@@ -6,14 +6,18 @@
 package gui;
 
 import domein.DomeinController;
+import domein.Graad;
 import domein.IOefening;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.util.Arrays;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -42,11 +46,13 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
     private TableColumn<IOefening, String> tcURL;
     @FXML
     private TextField txfNaam;
-    @FXML
     private TextField txfGraad;
     @FXML
     private Button btnFilter;
-
+    @FXML
+    private ComboBox<Graad> cbFilterGraad;
+    @FXML
+    private Button btnMaakLeeg;
 
     public LesmateriaalOverzichtSceneController(DomeinController dc, LesmateriaalDetailPaneelController ldpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalOverzichtScene.fxml"));
@@ -75,7 +81,8 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
                 ldpc.setCurrentOefening(newOef);
             }
         });
-        
+
+        cbFilterGraad.setItems(FXCollections.observableArrayList(Graad.values()));
 
     }
 
@@ -109,8 +116,18 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
     @FXML
     private void filter(ActionEvent event) {
         String naam = txfNaam.getText();
-        String graad = txfGraad.getText();
+        String graad="";
+        if(cbFilterGraad.getSelectionModel().getSelectedItem()!=null){
+            graad = cbFilterGraad.getSelectionModel().getSelectedItem().toString();
+        }
         dc.filterOefening(naam, graad);
+    }
+
+    @FXML
+    private void geenFilter(ActionEvent event) {
+        txfNaam.clear();
+        cbFilterGraad.getSelectionModel().clearSelection();
+        dc.filterOefening("", "");
     }
 
 }

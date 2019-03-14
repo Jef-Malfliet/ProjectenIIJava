@@ -297,7 +297,10 @@ public class Dojo {
             result = result.and(naam);
         }
         if (notEmpty(graadFilter)) {
-            result = result.and(graad);
+            if (!graadFilter.equals(Graad.ALLES.toString())) {
+                result = result.and(graad);
+            }
+
         }
 
         filteredOefeningen.setPredicate(result);
@@ -406,8 +409,8 @@ public class Dojo {
                 Predicate<Oefening> onONaam = oefening -> oefening.getNaam().toLowerCase().startsWith(naam.toLowerCase());
 
                 if (graad != null) {
-                    if(graad != Graad.ALLES){
-                    oefResult = oefResult.and(onGraad);
+                    if (graad != Graad.ALLES) {
+                        oefResult = oefResult.and(onGraad);
                     }
                 }
 
