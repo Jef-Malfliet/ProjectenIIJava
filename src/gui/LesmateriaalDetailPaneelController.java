@@ -9,6 +9,8 @@ import domein.DomeinController;
 import domein.Graad;
 import domein.IOefening;
 import domein.Oefening;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -40,14 +42,13 @@ import util.FullScreenResolution;
  *
  * @author IndyV
  */
-public class LesmateriaalDetailPaneelController extends VBox {
+public class LesmateriaalDetailPaneelController extends VBox implements PropertyChangeListener {
 
     private DomeinController dc;
     private List<String> imagePaths;
     private boolean nieuweOefening;
     private LesmateriaalOverzichtSceneController losc;
     boolean geldig = false;
-    private IOefening current_oefening = null;
     VBox box = new VBox();
 
     @FXML
@@ -91,7 +92,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
     private void buildGui() {
         cbMinimumgraad.setItems(FXCollections.observableArrayList(Graad.values()));
         box = new VBox();
-        youtube.setPrefSize(FullScreenResolution.getWidth()/10*4.25, FullScreenResolution.getHeight());
+        youtube.setPrefSize(FullScreenResolution.getWidth() / 10 * 4.25, FullScreenResolution.getHeight());
     }
 
     @FXML
@@ -168,7 +169,7 @@ public class LesmateriaalDetailPaneelController extends VBox {
             }
             vbImages.setContent(box);
         }
-        
+
     }
 
     private void fillBoxWithImages(VBox box, String imagePath) {
@@ -179,7 +180,6 @@ public class LesmateriaalDetailPaneelController extends VBox {
     }
 
     public void clearAll() {
-        this.current_oefening = null;
         cbMinimumgraad.setValue(null);
         imagePaths.clear();
         txfNaam.clear();
@@ -193,11 +193,9 @@ public class LesmateriaalDetailPaneelController extends VBox {
 
     @FXML
     private void verwijderOefening(ActionEvent event) {
-        if (!nieuweOefening) {
-            losc.verwijderOefening();
-        } else {
-            clearAll();
-        }
+        IOefening oef = dc.getCurrent_oefening();
+        dc.verwijderLesMateriaal(oef.getId());
+        clearAll();
     }
 
     public void setLesmateriaalOverzicht(LesmateriaalOverzichtSceneController losc) {
@@ -241,13 +239,15 @@ public class LesmateriaalDetailPaneelController extends VBox {
                 }
             }
 
-            if (current_oefening == null) {
+            if (dc.getCurrent_oefening() == null) {
                 addNieuwLesmateriaal(nieuweWaardes);
 
             } else {
                 wijzigLesmateriaal(nieuweWaardes);
             }
         }
+        
+        clearAll();
 
     }
 
@@ -257,11 +257,22 @@ public class LesmateriaalDetailPaneelController extends VBox {
     }
 
     private void wijzigLesmateriaal(Oefening nieuweWaardes) {
-        dc.wijzigLesMateriaal(nieuweWaardes, current_oefening);
+        dc.wijzigLesMateriaal(nieuweWaardes, dc.getCurrent_oefening());
         clearAll();
     }
 
     public void setCurrentOefening(IOefening oefening) {
-        this.current_oefening = oefening;
+        dc.setCurrent_oefening(oefening);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        update();
+    }
+
+    private void update() {
+        if (dc.getCurrent_oefening() != null) {
+            fillDetailsMetGeselecteerdeOefening(dc.getCurrent_oefening());
+        }
     }
 }

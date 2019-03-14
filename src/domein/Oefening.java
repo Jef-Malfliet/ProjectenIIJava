@@ -56,11 +56,8 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
     public void mergeOefening(Oefening nieuweWaarden) {
         setGraad(nieuweWaarden.getGraad());
         setNaam(nieuweWaarden.getNaam());
-        setGraadProperty(nieuweWaarden.getGraadProperty());
-        setNaamProperty(nieuweWaarden.getNaamProperty());
         setUitleg(nieuweWaarden.getUitleg());
         setVideo(nieuweWaarden.getVideo());
-        setVideoProperty(nieuweWaarden.getVideoProperty());
         nieuweWaarden.getImagePaths().forEach(path -> addImagePath(path));
     }
 

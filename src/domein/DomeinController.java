@@ -235,4 +235,15 @@ public class DomeinController {
     private void setKampioenschapRepository(KampioenschapDaoJpa kampioenschapDao) {
         this.kampioenschapRepository = kampioenschapDao;
     }
+
+    public void addPropertyChangeListenerOefening(PropertyChangeListener pcl){
+        dojo.addPropertyChangeListenerOefening(pcl);
+    }
+    public void setCurrent_oefening(IOefening newOef) {
+        dojo.setCurrent_oefening(newOef);
+    }
+    
+    public IOefening getCurrent_oefening(){
+        return dojo.getCurrent_oefening();
+    }
 }

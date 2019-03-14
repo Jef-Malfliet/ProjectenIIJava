@@ -29,12 +29,11 @@ import util.FullScreenResolution;
  *
  * @author IndyV
  */
-public class LesmateriaalOverzichtSceneController extends VBox implements PropertyChangeListener {
+public class LesmateriaalOverzichtSceneController extends VBox{
 
     private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
     private double sceneHeight = FullScreenResolution.getHeight();
 
-    private LesmateriaalDetailPaneelController ldpc;
     private DomeinController dc;
     @FXML
     private TableView<IOefening> tvOverzichtLesmateriaal;
@@ -46,7 +45,6 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
     private TableColumn<IOefening, String> tcURL;
     @FXML
     private TextField txfNaam;
-    private TextField txfGraad;
     @FXML
     private Button btnFilter;
     @FXML
@@ -54,7 +52,7 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
     @FXML
     private Button btnMaakLeeg;
 
-    public LesmateriaalOverzichtSceneController(DomeinController dc, LesmateriaalDetailPaneelController ldpc) {
+    public LesmateriaalOverzichtSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalOverzichtScene.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -64,7 +62,6 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
             throw new RuntimeException(ex);
         }
         this.dc = dc;
-        this.ldpc = ldpc;
         buildGui();
     }
 
@@ -77,8 +74,7 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
 
         tvOverzichtLesmateriaal.getSelectionModel().selectedItemProperty().addListener((observable, oldOef, newOef) -> {
             if (newOef != null) {
-                ldpc.fillDetailsMetGeselecteerdeOefening(newOef);
-                ldpc.setCurrentOefening(newOef);
+                dc.setCurrent_oefening(newOef);
             }
         });
 
@@ -93,25 +89,6 @@ public class LesmateriaalOverzichtSceneController extends VBox implements Proper
         tcURL.setPrefWidth(sceneWidth / 3);
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        update();
-    }
-
-    private void update() {
-        tvOverzichtLesmateriaal.setItems(dc.getLesmateriaal());
-        tvOverzichtLesmateriaal.refresh();
-        tvOverzichtLesmateriaal.getSelectionModel().clearSelection();
-    }
-
-    public void verwijderOefening() {
-        IOefening oef = tvOverzichtLesmateriaal.getSelectionModel().selectedItemProperty().get();
-        tvOverzichtLesmateriaal.getSelectionModel().clearSelection();
-        ldpc.clearAll();
-        if (oef != null) {
-            dc.verwijderLesMateriaal(oef.getId());
-        }
-    }
 
     @FXML
     private void filter(ActionEvent event) {

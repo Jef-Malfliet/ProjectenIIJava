@@ -47,13 +47,13 @@ public class MainPanel extends BorderPane {
         OverzichtOpvraagSceneController opsc = new OverzichtOpvraagSceneController(dc);
         opsc.setPrefSize(overzichtOpvraagWidth, height);
         LesmateriaalDetailPaneelController ldpc = new LesmateriaalDetailPaneelController(dc);
+        dc.addPropertyChangeListenerOefening(ldpc);
         ldpc.setPrefSize(beheerMateriaalWidth, height);
         ActiviteitDetailPaneelController adpc = new ActiviteitDetailPaneelController(dc);
         ActiviteitOverzichtSceneController aosc = new ActiviteitOverzichtSceneController(dc, adpc);
         adpc.setAosc(aosc);
         
-        LesmateriaalOverzichtSceneController losc = new LesmateriaalOverzichtSceneController(dc,ldpc);
-        dc.addPropertyChangeListener(losc);
+        LesmateriaalOverzichtSceneController losc = new LesmateriaalOverzichtSceneController(dc);
         ldpc.setLesmateriaalOverzicht(losc);
         losc.setPrefSize(lesmateriaalOverzichtWidth, height);
         BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, opsc, ldpc, aosc, adpc,losc);

@@ -45,7 +45,8 @@ public class Dojo {
     private KampioenschapDao kampioenschapRepo;
     private final List<Overzicht<Object>> overzichtList;
     private int current_Lid = -1;
-
+    private IOefening current_oefening;
+    
     private List<String> headers = new ArrayList<>();
 
     private int current_Activiteit = -1;
@@ -180,6 +181,10 @@ public class Dojo {
     private void fillSimplePropertiesActiviteitForGui() {
         activiteiten.forEach(Activiteit::fillSimpleProperties);
     }
+    
+    private void fillSimplePropertiesOefeningForGui(){
+        oefeningen.forEach(Oefening::fillSimpleString);
+    }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         subject.addPropertyChangeListener(pcl);
@@ -208,7 +213,7 @@ public class Dojo {
     }
 
     public ObservableList<Oefening> getSortedOefeningen() {
-        oefeningen.forEach(Oefening::fillSimpleString);
+        fillSimplePropertiesOefeningForGui();
         return sortedOefeningen;
     }
 
@@ -479,5 +484,21 @@ public class Dojo {
         Lid tempLid = lidRepo.getLidByEmail(lidEmail);
         tempKamp.lidUitschrijven(tempLid);
     }
+
+    public IOefening getCurrent_oefening() {
+        return current_oefening;
+    }
+
+    public void setCurrent_oefening(IOefening current_oefening) {
+        this.current_oefening = current_oefening;
+        subject.firePropertyChange("currentOefening",null,this.current_oefening);
+    }
+    
+    public void addPropertyChangeListenerOefening(PropertyChangeListener pcl){
+        subject.addPropertyChangeListener(pcl);
+        pcl.propertyChange(new PropertyChangeEvent(pcl,"currentOefening",null,current_oefening));
+    }
+    
+    
 
 }
