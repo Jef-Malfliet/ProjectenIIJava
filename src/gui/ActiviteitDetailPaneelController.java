@@ -394,7 +394,7 @@ public class ActiviteitDetailPaneelController extends VBox {
         if (!isInFuture(dpEinddatum.getValue())) {
             errorOn(lblEinddatumFout, null, "Gelieve vandaag of een datum in de toekomst te geven");
         }
-        if (dpBegindatum.getValue().compareTo(dpEinddatum.getValue()) > 0) {
+        if (dpBegindatum.getValue().isAfter(dpEinddatum.getValue())) {
             errorOn(lblEinddatumFout, null, "Gelieve een datum die op of na de begindatum ligt te geven");
         }
     }
@@ -479,7 +479,7 @@ public class ActiviteitDetailPaneelController extends VBox {
     public void enableEdits() {
         LocalDate tempDate = dc.getCurrentActiviteit().getBeginDatum();
         LocalDate today = LocalDate.now();
-        if (tempDate.getYear() >= today.getYear() && tempDate.getDayOfYear() >= today.getDayOfYear()) {
+        if (tempDate.isAfter(today)) {
             tfNaam.setEditable(true);
             dpBegindatum.setDisable(false);
             dpEinddatum.setDisable(false);
