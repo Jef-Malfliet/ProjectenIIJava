@@ -14,6 +14,8 @@ import domein.Land;
 import domein.LesType;
 import domein.Postcode;
 import domein.RolType;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
@@ -43,7 +45,7 @@ import static util.Validatie.*;
  *
  * @author Nante
  */
-public class DetailPaneelController extends VBox {
+public class DetailPaneelController extends VBox implements PropertyChangeListener{
 
     private DomeinController dc;
 
@@ -270,7 +272,7 @@ public class DetailPaneelController extends VBox {
         nieuwlid = false;
     }
 
-    public boolean fillLid(ILid lid) {
+    private boolean fillLid(ILid lid) {
 
         if (clearTextFields()) {
             errorMessage.setVisible(false);
@@ -537,6 +539,13 @@ public class DetailPaneelController extends VBox {
             txt.setStyle(errorstyle);
         }
 
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        ILid lid = (ILid)evt.getNewValue();
+        if(lid != null)
+        fillLid(lid);
     }
 
 }

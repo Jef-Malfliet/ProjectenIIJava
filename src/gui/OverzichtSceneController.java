@@ -32,7 +32,7 @@ import util.FullScreenResolution;
  *
  * @author IndyV
  */
-public class OverzichtSceneController extends VBox implements PropertyChangeListener {
+public class OverzichtSceneController extends VBox{
 
     private DomeinController dc;
     //OverzichtSceneController was 4/10 van het scherm.
@@ -46,7 +46,6 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     @FXML
     private TableColumn<ILid, String> colType = new TableColumn<>();
 
-    private final DetailPaneelController dpc;
     @FXML
     private Label lblLedenBeheren;
     @FXML
@@ -74,7 +73,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
     @FXML
     private ComboBox<RolType> cboTFilter;
 
-    public OverzichtSceneController(DomeinController dc, DetailPaneelController dpc) {
+    public OverzichtSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtScene.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -83,8 +82,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        this.dc = dc;
-        this.dpc = dpc;
+        this.dc = dc;   
         buildGui();
     }
 
@@ -93,9 +91,7 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
                 addListener((observableValue, oldLid, newLid)
                         -> {
                     if (newLid != null) {
-                        if (dpc.fillLid(newLid)) {
-                            dc.setCurrentLid(newLid);
-                        }
+                         dc.setCurrentLid(newLid);                  
                     }
                 });
 
@@ -112,10 +108,6 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         cboTFilter.setItems(FXCollections.observableArrayList(Arrays.asList(RolType.values())));
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        update();
-    }
 
     private void setMaxScreen() {
         lblLedenBeheren.setPrefWidth(sceneWidth);
@@ -141,17 +133,13 @@ public class OverzichtSceneController extends VBox implements PropertyChangeList
         tableOverview.refresh();
     }
 
-    public DetailPaneelController getDpc() {
-        return dpc;
-    }
-
     public void verwijdergeselecteerdLid() {
         ILid lid = tableOverview.getSelectionModel().selectedItemProperty().get();
         tableOverview.getSelectionModel().clearSelection();
         if (lid != null) {
             dc.verwijderCurrentLid();
         }
-        dpc.clearNaVerwijderen();
+        
     }
 
     @FXML

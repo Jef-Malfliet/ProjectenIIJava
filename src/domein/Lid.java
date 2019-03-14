@@ -13,19 +13,21 @@ import static util.Validatie.*;
  *
  * @author Nante
  */
-@Entity
+
 @NamedQueries({
     @javax.persistence.NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e"),
-    @javax.persistence.NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
+    //@javax.persistence.NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
 })
+@Entity
+@Access(AccessType.FIELD)
 public class Lid implements Serializable, ILid, Exportable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String voornaam;
-    private String familienaam;
+//    private String voornaam;
+//    private String familienaam;
     private String wachtwoord;
     private String gsm;
     private String telefoon_vast;
@@ -39,19 +41,19 @@ public class Lid implements Serializable, ILid, Exportable {
     private String email;
     private String email_ouders;
     private LocalDate geboortedatum;
-    private LocalDate inschrijvingsdatum;
+   // private LocalDate inschrijvingsdatum;
     private List<LocalDate> aanwezigheden;
-    private LesType lessen;
+  //  private LesType lessen;
 
     private static Exportable<Lid> exportable;
 
     @Enumerated(EnumType.STRING)
     private Geslacht geslacht;
-    @Enumerated(EnumType.STRING)
-    private Graad graad;
+//    @Enumerated(EnumType.STRING)
+//    private Graad graad;
 
-    @javax.persistence.Transient
-    private RolType type;
+//    @javax.persistence.Transient
+//    private RolType type;
 
     @Transient
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
@@ -87,7 +89,7 @@ public class Lid implements Serializable, ILid, Exportable {
 
     public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, Land land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
         wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type, lessen);
-
+        
     }
 
     public final void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, Land land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
@@ -112,21 +114,12 @@ public class Lid implements Serializable, ILid, Exportable {
         setGraad(graad);
         setType(type);
         setLessen(lessen);
-        fillSimpleProperties();
-    }
-
-    public void fillSimpleProperties() {
-        this.setGraadProperty(new SimpleStringProperty(this.getGraad().toString()));
-        this.setVoornaamProperty(new SimpleStringProperty(this.getVoornaam()));
-        this.setTypeProperty(new SimpleStringProperty(this.getType().toString()));
-        this.setFamilienaamProperty(new SimpleStringProperty(this.getFamilienaam()));
-        this.setLessenProperty(new SimpleStringProperty(this.getLessen().toString()));
-        this.setInschrijvingsDatumProperty(new SimpleStringProperty(this.getInschrijvingsdatum().toString()));
+        
     }
 
     @Override
     public String toString() {
-        return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %s in %s%n", voornaam, familienaam, graad.toString(), telefoon_vast, email, straatnaam, postcode, stad);
+        return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %s in %s%n", voornaamProperty.get(), familienaamProperty.get(), graadProperty.get(), telefoon_vast, email, straatnaam, postcode, stad);
     }
 
     @Override
@@ -134,17 +127,9 @@ public class Lid implements Serializable, ILid, Exportable {
         return this.voornaamProperty;
     }
 
-    public void setVoornaamProperty(javafx.beans.property.SimpleStringProperty voornaamProperty) {
-        this.voornaamProperty = voornaamProperty;
-    }
-
     @Override
     public javafx.beans.property.SimpleStringProperty getGraadProperty() {
         return this.graadProperty;
-    }
-
-    public void setGraadProperty(javafx.beans.property.SimpleStringProperty graadProperty) {
-        this.graadProperty = graadProperty;
     }
 
     @Override
@@ -173,27 +158,30 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
+    @Access(AccessType.PROPERTY) @Column(name = "Voornaam")
     public String getVoornaam() {
-        return voornaam;
+        return voornaamProperty.get();
     }
 
     public void setVoornaam(String voornaam) {
         if (isNullOrEmpty(voornaam)) {
             throw new IllegalArgumentException("Voornaam mag niet leeg zijn.");
         }
-        this.voornaam = voornaam;
+        voornaamProperty.set(voornaam);
+        
     }
 
     @Override
+    @Access(AccessType.PROPERTY) @Column(name = "Familienaam")
     public String getFamilienaam() {
-        return familienaam;
+        return familienaamProperty.get();
     }
 
     public void setFamilienaam(String familienaam) {
         if (isNullOrEmpty(familienaam)) {
             throw new IllegalArgumentException("familienaam mag niet leeg zijn.");
         }
-        this.familienaam = familienaam;
+        familienaamProperty.set(familienaam);
     }
 
     @Override
@@ -268,16 +256,17 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
+    @Access(AccessType.PROPERTY) @Column(name = "Graad")
     public Graad getGraad() {
         
-        return graad;
+        return Graad.valueOf(graadProperty.get());
     }
 
     public void setGraad(Graad graad) {
         if (isNull(graad)) {
             throw new IllegalArgumentException("Graad mag niet null zijn");
         }
-        this.graad = graad;
+        graadProperty.set(graad.toString());
     }
 
     @Override
@@ -289,12 +278,13 @@ public class Lid implements Serializable, ILid, Exportable {
         if (isNull(type)) {
             throw new IllegalArgumentException("Type mag niet null zijn");
         }
-        this.type = type;
+        typeProperty.set(type.toString());
     }
 
     @Override
+    @Access(AccessType.PROPERTY) @Column(name = "Roltype")
     public RolType getType() {
-        return type;
+        return RolType.valueOf(typeProperty.get());
     }
 
     @Override
@@ -360,11 +350,11 @@ public class Lid implements Serializable, ILid, Exportable {
 
     @Override
     public LocalDate getInschrijvingsdatum() {
-        return inschrijvingsdatum;
+        return LocalDate.parse(inschrijvingsDatumProperty.get());
     }
 
     public void setInschrijvingsdatum(LocalDate inschrijvingsdatum) {
-        this.inschrijvingsdatum = inschrijvingsdatum;
+        inschrijvingsDatumProperty.set(inschrijvingsdatum.toString());
     }
 
     @Override
@@ -376,6 +366,8 @@ public class Lid implements Serializable, ILid, Exportable {
         this.aanwezigheden = aanwezigheden;
     }
 
+    @Override
+    
     public Geslacht getGeslacht() {
         return geslacht;
     }
@@ -437,8 +429,8 @@ public class Lid implements Serializable, ILid, Exportable {
     private String generateWachtwoord() {
         SecureRandom r = new SecureRandom();
         StringBuilder initials = new StringBuilder();
-        initials.append(voornaam.charAt(0));
-        String[] famNaamSplit = familienaam.split(" ");
+        initials.append(voornaamProperty.get().charAt(0));
+        String[] famNaamSplit = familienaamProperty.get().split(" ");
         for (String deel : famNaamSplit) {
             initials.append(deel.charAt(0));
         }
@@ -449,12 +441,13 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
+    @Access(AccessType.PROPERTY) @Column(name = "Lessen")
     public LesType getLessen() {
-        return lessen;
+        return LesType.valueOf(lessenProperty.get());
     }
 
     public void setLessen(LesType lessen) {
-        this.lessen = lessen;
+       lessenProperty.set(lessen.toString());
     }
 
     @Override
@@ -477,18 +470,12 @@ public class Lid implements Serializable, ILid, Exportable {
         return lessenProperty;
     }
 
-    private void setLessenProperty(SimpleStringProperty simpleStringProperty) {
-        this.lessenProperty = simpleStringProperty;
-    }
 
     @Override
     public SimpleStringProperty getInschrijvingsDatumProperty() {
         return inschrijvingsDatumProperty;
     }
 
-    private void setInschrijvingsDatumProperty(SimpleStringProperty simpleStringProperty) {
-        this.inschrijvingsDatumProperty = simpleStringProperty;
-    }
 
     public static Exportable<Lid> getExportable() {
         return exportable;
