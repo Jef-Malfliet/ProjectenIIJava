@@ -15,9 +15,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,8 +48,6 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
 
     private DomeinController dc;
     private List<String> imagePaths;
-    private boolean nieuweOefening;
-    private LesmateriaalOverzichtSceneController losc;
     boolean geldig = false;
     VBox box = new VBox();
 
@@ -98,7 +98,7 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     @FXML
     private void maakOefening(ActionEvent event) {
         clearAll();
-        nieuweOefening = true;
+        dc.setCurrent_oefening(null);
     }
 
     private boolean validate() {
@@ -156,15 +156,14 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
 
     public void fillDetailsMetGeselecteerdeOefening(IOefening newOef) {
         clearAll();
-        nieuweOefening = false;
         lblTitel.setText("Wijzig oefening");
         cbMinimumgraad.setValue(newOef.getGraad());
         txfNaam.setText(newOef.getNaam());
         txaUitleg.setText(newOef.getUitleg());
         txfVideoURL.setText(newOef.getVideo());
         youtube.getEngine().load(newOef.getVideo());
-        if (newOef.getImagePaths() != null) {
-            for (String imagePath : newOef.getImagePaths()) {
+        if (newOef.getImages()!= null) {
+            for (String imagePath : newOef.getImages()) {
                 fillBoxWithImages(box, imagePath);
             }
             vbImages.setContent(box);
@@ -195,12 +194,10 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     private void verwijderOefening(ActionEvent event) {
         IOefening oef = dc.getCurrent_oefening();
         dc.verwijderLesMateriaal(oef.getId());
+        dc.setCurrent_oefening(null);
         clearAll();
     }
 
-    public void setLesmateriaalOverzicht(LesmateriaalOverzichtSceneController losc) {
-        this.losc = losc;
-    }
 
     @FXML
     private void bevestig(ActionEvent event) {
@@ -232,11 +229,13 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
                 }
             }
             if (!imagePaths.isEmpty()) {
+                List<String> paths = new ArrayList<>();
                 for (String path : imagePaths) {
                     if (path != null) {
-                        nieuweWaardes.addImagePath(path);
+                        paths.add(path);
                     }
                 }
+                nieuweWaardes.setImages(paths);
             }
 
             if (dc.getCurrent_oefening() == null) {

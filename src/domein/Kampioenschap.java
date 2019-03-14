@@ -18,7 +18,7 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REFRESH)
     private List<Lid> aanwezigen;
     private LocalDate datum;
     private String naam;

@@ -33,7 +33,7 @@ public interface IOefening extends Serializable {
     
     long getId();
     
-    List<String> getImagePaths();
+    List<String> getImages();
  
     
 

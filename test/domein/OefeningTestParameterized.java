@@ -5,8 +5,10 @@
  */
 package domein;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import org.eclipse.persistence.jpa.jpql.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +24,7 @@ public class OefeningTestParameterized {
     private final Graad graad;
     private final String naam;
     private final String videoURL;
-    private final String fotoPath;
+    private final List<String> fotoPath;
     private final String uitleg;
 
     
@@ -47,7 +49,8 @@ public class OefeningTestParameterized {
         this.graad = graad;
         this.naam = naam;
         this.videoURL = URL;
-        this.fotoPath = path;
+        this.fotoPath=new ArrayList<>();
+        this.fotoPath.add(path);
         this.uitleg = uitleg;
     }
 
@@ -55,7 +58,7 @@ public class OefeningTestParameterized {
     public void maakOefening() {
         Oefening oef = new Oefening(graad, naam);
         oef.setUitleg(uitleg);
-        oef.addImagePath(fotoPath);
+        oef.setImages(fotoPath);
         oef.setVideo(videoURL);
     }
 

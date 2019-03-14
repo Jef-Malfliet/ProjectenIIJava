@@ -2,9 +2,13 @@ package domein;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,19 +20,22 @@ import javax.persistence.Transient;
 import util.Validatie;
 
 @Entity
+@Access(AccessType.FIELD)
 public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Enumerated(EnumType.STRING)
-    private Graad graad;
+    //@Enumerated(EnumType.STRING)
+    //private Graad graad;
     private String uitleg;
+
     @ElementCollection
+    @Column(name = "Images")
     private List<String> images;
-    private String video;
-    private String naam;
+    //private String video;
+    //private String naam;
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
     @Transient
@@ -58,16 +65,12 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
         setNaam(nieuweWaarden.getNaam());
         setUitleg(nieuweWaarden.getUitleg());
         setVideo(nieuweWaarden.getVideo());
-        nieuweWaarden.getImagePaths().forEach(path -> addImagePath(path));
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
+        setImages(nieuweWaarden.getImages());
     }
 
     public void setGraad(Graad graad) {
         if (graad != null) {
-            this.graad = graad;
+            graadProperty.set(graad.toString());
         } else {
             throw new IllegalArgumentException("Graad mag niet leeg zijn.");
         }
@@ -81,44 +84,37 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
         if (url != null) {
             String ID = Validatie.getYoutubeId(url);
             String URL = "https://www.youtube.com/embed/" + ID;
-            this.video = URL;
+            this.videoProperty.set(URL);
         }
     }
 
-    public void setNaamProperty(SimpleStringProperty naamProperty) {
-        this.naamProperty = naamProperty;
-    }
-
-    public void setVideoProperty(SimpleStringProperty videoProperty) {
-        this.videoProperty = videoProperty;
-    }
-
     public void setNaam(String naam) {
-        if (naam != null && !naam.isEmpty()) {
-            this.naam = naam;
+        if (naamProperty != null) {
+            naamProperty.set(naam.toString());
         } else {
             throw new IllegalArgumentException("Naam mag niet leeg zijn.");
         }
     }
 
+    public void setImages(List<String> paths) {
+
+        List<String> fuseBothImages = new ArrayList<>();
+        if (this.images != null) {
+            this.images.forEach(pad -> fuseBothImages.add(pad));
+        }
+        if (paths != null) {
+            paths.forEach(pad -> fuseBothImages.add(pad));
+        }
+        this.images=fuseBothImages;
+        this.imageProperty.set(fuseBothImages.stream().collect(Collectors.joining("\n")));
+
+    }
+
     @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Video")
     public String getVideo() {
-        return this.video;
-    }
-
-    @Override
-    public SimpleStringProperty getNaamProperty() {
-        return naamProperty;
-    }
-
-    @Override
-    public SimpleStringProperty getVideoProperty() {
-        return videoProperty;
-    }
-
-    @Override
-    public SimpleStringProperty getGraadProperty() {
-        return graadProperty;
+        return videoProperty.get();
     }
 
     @Override
@@ -127,13 +123,22 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
     }
 
     @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Graad")
     public Graad getGraad() {
-        return graad;
+        return Graad.valueOf(graadProperty.get());
     }
 
     @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Naam")
     public String getNaam() {
-        return naam;
+        return naamProperty.get();
+    }
+
+    @Override
+    public SimpleStringProperty getImageProperty() {
+        return imageProperty;
     }
 
     @Override
@@ -141,23 +146,8 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
         return id;
     }
 
-    public void fillSimpleString() {
-        this.naamProperty.set(this.naam);
-        this.graadProperty.set(this.graad.toString());
-        this.videoProperty.set(this.video);
-        this.imageProperty.setValue(getImagePaths().stream().collect(Collectors.joining("\n")));
-    }
-
-    private void setGraadProperty(SimpleStringProperty graadProperty) {
-        this.graadProperty = graadProperty;
-    }
-
-    public void addImagePath(String path) {
-        this.images.add(path);
-    }
-
     @Override
-    public List<String> getImagePaths() {
+    public List<String> getImages() {
         return this.images;
     }
 
@@ -180,11 +170,18 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
     }
 
     @Override
-    public SimpleStringProperty getImageProperty() {
-        return imageProperty;
+    public SimpleStringProperty getNaamProperty() {
+        return this.naamProperty;
     }
 
-    private void setImageProperty(SimpleStringProperty imageProperty) {
-        this.imageProperty = imageProperty;
+    @Override
+    public SimpleStringProperty getVideoProperty() {
+        return this.videoProperty;
     }
+
+    @Override
+    public SimpleStringProperty getGraadProperty() {
+        return this.graadProperty;
+    }
+
 }

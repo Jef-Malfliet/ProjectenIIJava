@@ -15,7 +15,7 @@ public class ExportableOefening implements Exportable<Oefening>{
 
     @Override
     public String excelFormat(Oefening o) {
-        return String.format("%s,%s,%s,%s", o.getNaam(), o.getGraad().toString(),o.getVideo(),o.getImagePaths().stream().collect(Collectors.joining("\n")));
+        return String.format("%s,%s,%s,%s", o.getNaam(), o.getGraad().toString(),o.getVideo(),o.getImages());
     }
 
     @Override

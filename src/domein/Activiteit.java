@@ -26,7 +26,7 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     private int maxAanwezigen;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.REFRESH)
     private ObservableList<Lid> aanwezigen;
 
     @Transient

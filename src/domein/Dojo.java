@@ -40,6 +40,7 @@ public class Dojo {
     private final SortedList<Lid> sorted;
     private final SortedList<Oefening> sortedOefeningen;
     private final PropertyChangeSupport subject;
+    private final PropertyChangeSupport subjectOef;
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
     private ActiviteitDao activiteitRepo;
@@ -64,6 +65,7 @@ public class Dojo {
         filtered = new FilteredList<>(leden, (p) -> true);
         sorted = new SortedList<>(filtered, sortOrder);
         subject = new PropertyChangeSupport(this);
+        subjectOef = new PropertyChangeSupport(this);
         overzichtList = new ArrayList();
         oefeningen = FXCollections.observableArrayList(oefeningRepo.findAll());
         filteredOefeningen = new FilteredList<>(oefeningen, (p) -> true);
@@ -168,10 +170,7 @@ public class Dojo {
     private void fillSimplePropertiesActiviteitForGui() {
         activiteiten.forEach(Activiteit::fillSimpleProperties);
     }
-    
-    private void fillSimplePropertiesOefeningForGui(){
-        oefeningen.forEach(Oefening::fillSimpleString);
-    }
+
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         subject.addPropertyChangeListener(pcl);
@@ -200,7 +199,6 @@ public class Dojo {
     }
 
     public ObservableList<Oefening> getSortedOefeningen() {
-        fillSimplePropertiesOefeningForGui();
         return sortedOefeningen;
     }
 
@@ -236,7 +234,6 @@ public class Dojo {
             if (oefeningRepo.get(oefening.getId()) == null) {
                 this.oefeningen.add(oefening);
                 oefeningRepo.insert(oefening);
-                subject.firePropertyChange("lijstOefeningen", null, oefeningen);
             }
         }
         GenericDaoJpa.commitTransaction();
@@ -247,7 +244,6 @@ public class Dojo {
         GenericDaoJpa.startTransaction();
         origin.mergeOefening(newValue);
         GenericDaoJpa.commitTransaction();
-        subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 
     private void setOefeningRepo(OefeningDao oefeningRepo) {
@@ -308,7 +304,6 @@ public class Dojo {
         this.oefeningRepo.delete(oef);
         this.oefeningen.remove(oef);
         GenericDaoJpa.commitTransaction();
-        subject.firePropertyChange("lijstOefeningen", null, oefeningen);
     }
 
     Activiteit getActiviteit(long id) {
@@ -484,11 +479,11 @@ public class Dojo {
 
     public void setCurrent_oefening(IOefening current_oefening) {
         this.current_oefening = current_oefening;
-        subject.firePropertyChange("currentOefening",null,this.current_oefening);
+        subjectOef.firePropertyChange("currentOefening",null,current_oefening);
     }
     
     public void addPropertyChangeListenerOefening(PropertyChangeListener pcl){
-        subject.addPropertyChangeListener(pcl);
+        subjectOef.addPropertyChangeListener(pcl);
         pcl.propertyChange(new PropertyChangeEvent(pcl,"currentOefening",null,current_oefening));
     }
     
