@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -38,13 +39,13 @@ public class Dojo {
     private final FilteredList<Lid> filtered;
     private final SortedList<Lid> sorted;
     private final SortedList<Oefening> sortedOefeningen;
-    private PropertyChangeSupport subject;
+    private final PropertyChangeSupport subject;
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
     private ActiviteitDao activiteitRepo;
     private KampioenschapDao kampioenschapRepo;
     private final List<Overzicht<Object>> overzichtList;
-    private int current_Lid = -1;
+    private Lid currentLid;
 
     private List<String> headers = new ArrayList<>();
 
@@ -74,11 +75,11 @@ public class Dojo {
      * @param lid
      */
     public boolean verwijderCurrentLid() {
-        Lid currentLid = current_Lid != -1 ? leden.get(current_Lid) : null;
         GenericDaoJpa.startTransaction();
         this.lidRepo.delete(currentLid);
+        boolean remove = this.leden.remove(currentLid);
         GenericDaoJpa.commitTransaction();
-        return this.leden.remove(currentLid);
+        return remove;
     }
 
     /**
@@ -87,18 +88,9 @@ public class Dojo {
      */
     public boolean wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, Land land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
         GenericDaoJpa.startTransaction();
-        //Lid temp = lidRepo.get(id);
-        Lid currentLid = current_Lid != -1 ? leden.get(current_Lid) : null;
-
         currentLid.wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type, lessen);
-        leden.set(current_Lid, currentLid);
-//ILid temp = lidRepo.update(lid);
         lidRepo.update(currentLid);
         GenericDaoJpa.commitTransaction();
-        // subject.firePropertyChange("lijstleden", null, leden);
-//        if (temp == null) {
-//            return false;
-//        }
         return true;
     }
 
@@ -165,16 +157,11 @@ public class Dojo {
     }
 
     public ObservableList<Lid> getSortedLeden() {
-        fillSimplePropertiesLidForGui();
         return sorted;
     }
 
     public FilteredList getFilteredLeden() {
         return filtered;
-    }
-
-    private void fillSimplePropertiesLidForGui() {
-        leden.forEach(Lid::fillSimpleProperties);
     }
 
     private void fillSimplePropertiesActiviteitForGui() {
@@ -183,7 +170,7 @@ public class Dojo {
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         subject.addPropertyChangeListener(pcl);
-        pcl.propertyChange(new PropertyChangeEvent(pcl, "lijstOefeningen", null, oefeningen));
+        pcl.propertyChange(new PropertyChangeEvent(pcl, "currentLid", null, currentLid));
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pc1) {
@@ -425,14 +412,20 @@ public class Dojo {
     }
 
     public void setCurrentLid(ILid lid) {
-        current_Lid = leden.indexOf(lid);
+        int plaats = leden.indexOf(lid);
+        Lid nieuwLid = null;
+
+        if (plaats != -1) {
+            nieuwLid = leden.get(plaats);
+        }
+        subject.firePropertyChange("currentLid", currentLid, nieuwLid);
+        // currentLid = (Lid) lid;
+        currentLid = nieuwLid;
+
     }
 
-    public ILid getCurrentLid() {
-        if (current_Lid != -1) {
-            return leden.get(current_Lid);
-        }
-        return null;
+    public Lid getCurrentLid() {
+        return currentLid;
     }
 
     public void setCurrentActiviteit(IActiviteit activiteit) {

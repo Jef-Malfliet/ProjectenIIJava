@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.persistence.*;
 
 @Entity
+@Access(AccessType.FIELD)
 public class Activiteit implements Serializable, IActiviteit, Exportable<Activiteit> {
 
     @Id
@@ -23,8 +26,8 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     private int maxAanwezigen;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Lid> aanwezigen;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private ObservableList<Lid> aanwezigen;
 
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
@@ -56,13 +59,19 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
         this.eindDatum = eindDatum;
         this.stage = stage;
         this.maxAanwezigen = maxAanwezigen;
-        this.aanwezigen = new ArrayList<>();
+        this.aanwezigen = FXCollections.observableArrayList();
     }
 
+    @Access(AccessType.PROPERTY)
     public List<Lid> getAanwezigen() {
         return aanwezigen;
     }
+   
+    public void setAanwezigen(List<Lid> aanwezigen) {
+        this.aanwezigen = FXCollections.observableArrayList(aanwezigen);
+    }
 
+    
     /**
      *
      * @param lid

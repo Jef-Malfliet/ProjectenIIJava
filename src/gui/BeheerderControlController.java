@@ -44,6 +44,7 @@ public class BeheerderControlController extends VBox {
     private ActiviteitDetailPaneelController adpc;
     private final ActiviteitOverzichtSceneController aosc;
     private final LesmateriaalOverzichtSceneController losc;
+    private final DetailPaneelController dpc;
     @FXML
     private Label lblLedenBeheren;
     @FXML
@@ -67,7 +68,7 @@ public class BeheerderControlController extends VBox {
             LesmateriaalDetailPaneelController ldpc,
             ActiviteitOverzichtSceneController aosc, 
             ActiviteitDetailPaneelController adpc,
-            LesmateriaalOverzichtSceneController losc) {
+            LesmateriaalOverzichtSceneController losc,DetailPaneelController dpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BeheerderControl.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -84,6 +85,7 @@ public class BeheerderControlController extends VBox {
         this.adpc = adpc;
         this.aosc = aosc;
         this.losc = losc;
+        this.dpc = dpc;
         buildGui();
     }
 
@@ -106,7 +108,7 @@ public class BeheerderControlController extends VBox {
         btnLedenBeheren.setOnMouseClicked(e -> {
             ledenBeheren();
             mp.setCenter(osc);
-            mp.setRight(osc.getDpc());
+            mp.setRight(dpc);
         });
 
         btnLesmateriaalBeheren.setOnMouseClicked(e -> {
