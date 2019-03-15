@@ -16,16 +16,6 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String naam;
-
-    private LocalDate beginDatum;
-
-    private LocalDate eindDatum;
-
-    private int maxAanwezigen;
-
-    private ActiviteitType type;
-
     @ManyToMany(cascade = CascadeType.REFRESH)
     private ObservableList<Lid> aanwezigen;
 
@@ -40,8 +30,9 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     @Transient
     private SimpleStringProperty maxAanwezigenProperty = new SimpleStringProperty();
+
     @Transient
-    private SimpleStringProperty typeProperty = new SimpleStringProperty();
+    private SimpleStringProperty activiteitTypeProperty = new SimpleStringProperty();
 
     private static Exportable<Activiteit> exportable;
 
@@ -49,16 +40,16 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     }
 
     public Activiteit(IActiviteit act) {
-        this(act.getNaam(), act.getBeginDatum(), act.getEindDatum(), act.getMaxAanwezigen(), act.getType());
+        this(act.getNaam(), act.getBeginDatum(), act.getEindDatum(), act.getMaxAanwezigen(), act.getActiviteitType());
     }
 
     public Activiteit(String naam, LocalDate beginDatum, LocalDate eindDatum, int maxAanwezigen, ActiviteitType type) {
         setNaam(naam);
         setBeginDatum(beginDatum);
-        this.eindDatum = eindDatum;
-        this.maxAanwezigen = maxAanwezigen;
+        setEindDatum(eindDatum);
+        setMaxAanwezigen(maxAanwezigen);
         this.aanwezigen = FXCollections.observableArrayList();
-        this.type = type;
+        setActiviteitType(type);
     }
 
     @Access(AccessType.PROPERTY)
@@ -87,25 +78,29 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     }
 
     @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "BeginDatum")
     public LocalDate getBeginDatum() {
-        return beginDatum;
+        return LocalDate.parse(beginDatumProperty.get());
     }
 
     private void setBeginDatum(LocalDate startDatum) {
-        this.beginDatum = startDatum;
+        beginDatumProperty.set(startDatum.toString());
     }
 
     @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "EindDatum")
     public LocalDate getEindDatum() {
-        return eindDatum;
+        return LocalDate.parse(eindDatumProperty.get());
     }
 
     private void setEindDatum(LocalDate eindDatum) {
-        this.eindDatum = eindDatum;
+        eindDatumProperty.set(eindDatum.toString());
     }
 
     private void setNaam(String naam) {
-        this.naam = naam;
+        naamProperty.set(naam);
     }
 
     @Override
@@ -114,17 +109,8 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     }
 
     @Override
-    public String getNaam() {
-        return naam;
-    }
-
-    @Override
     public SimpleStringProperty getNaamProperty() {
         return naamProperty;
-    }
-
-    public void setNaamProperty(SimpleStringProperty naamProperty) {
-        this.naamProperty = naamProperty;
     }
 
     @Override
@@ -132,26 +118,13 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
         return beginDatumProperty;
     }
 
-    public void setBeginDatumProperty(SimpleStringProperty startDatumProperty) {
-        this.beginDatumProperty = startDatumProperty;
-    }
-
     @Override
     public SimpleStringProperty getEindDatumProperty() {
         return eindDatumProperty;
     }
 
-    public void setEindDatumProperty(SimpleStringProperty eindDatumProperty) {
-        this.eindDatumProperty = eindDatumProperty;
-    }
-
-    @Override
-    public int getMaxAanwezigen() {
-        return maxAanwezigen;
-    }
-
     public void setMaxAanwezigen(int maxAanwezigen) {
-        this.maxAanwezigen = maxAanwezigen;
+        maxAanwezigenProperty.set(String.format("%d", maxAanwezigen));
     }
 
     @Override
@@ -159,26 +132,20 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
         return maxAanwezigenProperty;
     }
 
-    public void setMaxAanwezigenProperty(SimpleStringProperty maxAanwezigenProperty) {
-        this.maxAanwezigenProperty = maxAanwezigenProperty;
+    @Override
+    public javafx.beans.property.SimpleStringProperty getActiviteitTypeProperty() {
+        return activiteitTypeProperty;
+    }
+
+    private void setActiviteitType(ActiviteitType type) {
+        activiteitTypeProperty.set(type.toString());
     }
 
     @Override
-    public ActiviteitType getType() {
-        return type;
-    }
-
-    public void setType(ActiviteitType type) {
-        this.type = type;
-    }
-
-    @Override
-    public SimpleStringProperty getTypeProperty() {
-        return typeProperty;
-    }
-
-    public void setTypeProperty(SimpleStringProperty typeProperty) {
-        this.typeProperty = typeProperty;
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Naam")
+    public String getNaam() {
+        return naamProperty.get();
     }
 
     public final void wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, int maxAanwezigen, ActiviteitType type) {
@@ -186,7 +153,7 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
         setBeginDatum(eindDatum);
         setEindDatum(eindDatum);
         setMaxAanwezigen(maxAanwezigen);
-        setType(type);
+        setActiviteitType(type);
     }
 
     public static Exportable<Activiteit> getExportable() {
@@ -205,6 +172,20 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     @Override
     public String excelheaders() {
         return exportable.excelheaders();
+    }
+
+    @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "MaxAanwezigen")
+    public int getMaxAanwezigen() {
+        return Integer.parseInt(maxAanwezigenProperty.get());
+    }
+
+    @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "ActiviteitType")
+    public ActiviteitType getActiviteitType() {
+        return ActiviteitType.valueOf(activiteitTypeProperty.get());
     }
 
 }

@@ -9,8 +9,6 @@ import domein.DomeinController;
 import domein.Graad;
 import domein.ILid;
 import domein.RolType;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.Arrays;
 import javafx.collections.FXCollections;

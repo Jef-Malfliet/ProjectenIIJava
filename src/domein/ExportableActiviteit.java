@@ -13,7 +13,7 @@ public class ExportableActiviteit implements Exportable<Activiteit> {
 
     @Override
     public String excelFormat(Activiteit activiteit) {
-        return String.format("%s,%s,%s,%s", activiteit.getNaam(), activiteit.getBeginDatum().toString(), activiteit.getEindDatum(), activiteit.getType().toString());
+        return String.format("%s,%s,%s,%s", activiteit.getNaam(), activiteit.getBeginDatum().toString(), activiteit.getEindDatum(), activiteit.getActiviteitType().toString());
     }
 
     @Override

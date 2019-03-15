@@ -25,7 +25,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -215,7 +214,7 @@ public class ActiviteitDetailPaneelController extends VBox {
 
     public boolean fillActiviteit(IActiviteit activiteit) {
         if (clearTextFields()) {
-            cbType.getSelectionModel().select(activiteit.getType());
+            cbType.getSelectionModel().select(activiteit.getActiviteitType());
             tfNaam.setText(activiteit.getNaam());
             dpBegindatum.setValue(activiteit.getBeginDatum());
             dpEinddatum.setValue(activiteit.getEindDatum());
@@ -339,7 +338,7 @@ public class ActiviteitDetailPaneelController extends VBox {
         }
 
         boolean wijzig = current_activiteit.getNaam().equals(tfNaam.getText()) && current_activiteit.getBeginDatum().equals(dpBegindatum.getValue())
-                && current_activiteit.getEindDatum().equals(dpEinddatum.getValue()) && current_activiteit.getType().equals(cbType.getSelectionModel().getSelectedItem())
+                && current_activiteit.getEindDatum().equals(dpEinddatum.getValue()) && current_activiteit.getActiviteitType().equals(cbType.getSelectionModel().getSelectedItem())
                 && current_activiteit.getMaxAanwezigen() == maxAawezigentemp;
         return !wijzig;
     }
@@ -445,7 +444,7 @@ public class ActiviteitDetailPaneelController extends VBox {
         dpBegindatum.setValue(activiteit.getBeginDatum());
         dpEinddatum.setValue(activiteit.getEindDatum());
         tfMaxAanwezigen.setText(String.format("%d", activiteit.getMaxAanwezigen()));
-        cbType.getSelectionModel().select(activiteit.getType());
+        cbType.getSelectionModel().select(activiteit.getActiviteitType());
         nieuwActiviteit = false;
     }
 

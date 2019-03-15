@@ -20,19 +20,19 @@ public class DTOActiviteit implements IActiviteit {
     private LocalDate beginDatum;
     private LocalDate eindDatum;
     private int maxAanwezigen;
-    private ActiviteitType type;
+    private ActiviteitType actvititeitType;
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
     private SimpleStringProperty beginDatumProperty = new SimpleStringProperty();
     private SimpleStringProperty eindDatumProperty = new SimpleStringProperty();
     private SimpleStringProperty maxAanwezigenProperty = new SimpleStringProperty();
-    private SimpleStringProperty typeProperty = new SimpleStringProperty();
+    private SimpleStringProperty actvititeitTypeProperty = new SimpleStringProperty();
 
     public DTOActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, int maxAanwezigen, ActiviteitType type) {
         setNaam(naam);
         setBeginDatum(beginDatum);
         setEindDatum(eindDatum);
         setMaxAanwezigen(maxAanwezigen);
-        setType(type);
+        setActiviteitType(type);
     }
 
     @Override
@@ -117,21 +117,21 @@ public class DTOActiviteit implements IActiviteit {
     }
 
     @Override
-    public ActiviteitType getType() {
-       return type;
+    public ActiviteitType getActiviteitType() {
+       return actvititeitType;
     }
 
-    public void setType(ActiviteitType type) {
-        this.type = type;
+    public void setActiviteitType(ActiviteitType type) {
+        this.actvititeitType = type;
     }
 
     @Override
-    public SimpleStringProperty getTypeProperty() {
-        return typeProperty;
+    public SimpleStringProperty getActiviteitTypeProperty() {
+        return actvititeitTypeProperty;
     }
 
-    public void setTypeProperty(SimpleStringProperty typeProperty) {
-        this.typeProperty = typeProperty;
+    public void setActiviteitTypeProperty(SimpleStringProperty typeProperty) {
+        this.actvititeitTypeProperty = typeProperty;
     }
     
 }

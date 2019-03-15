@@ -5,7 +5,6 @@
  */
 package gui;
 
-import domein.ActiviteitType;
 import domein.DomeinController;
 import domein.IActiviteit;
 import java.beans.PropertyChangeEvent;
@@ -36,14 +35,15 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
     @FXML
     private TableColumn<IActiviteit, String> tcNaam;
     @FXML
-    private TableColumn<IActiviteit, String> tcStartdatum;
+    private TableColumn<IActiviteit, String> tcBegindatum;
     @FXML
     private TableColumn<IActiviteit, String> tcEinddatum;
     @FXML
-    private TableColumn<IActiviteit, String> tcType;
+    private TableColumn<IActiviteit, String> tcActiviteitType;
     
     private final DomeinController dc;
     private final ActiviteitDetailPaneelController adpc;
+    
 
     public ActiviteitOverzichtSceneController(DomeinController dc, ActiviteitDetailPaneelController adpc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ActiviteitOverzichtScene.fxml"));
@@ -80,9 +80,9 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
         tvActiviteiten.setPrefHeight(sceneHeight);
         // 4 kolommen, dus 1/4 van de tableview.
         tcNaam.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
-        tcStartdatum.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
+        tcBegindatum.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
         tcEinddatum.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
-        tcType.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
+        tcActiviteitType.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
     }
 
     public void verwijderGeselecteerdeActiviteit() {
@@ -98,13 +98,13 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
     public void propertyChange(PropertyChangeEvent evt) {
         updateList();
     }
-
+ 
     public void updateList() {
         tvActiviteiten.setItems(dc.getActiviteiten());
         tcNaam.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
-        tcStartdatum.setCellValueFactory(cellData -> cellData.getValue().getBeginDatumProperty());
+        tcBegindatum.setCellValueFactory(cellData -> cellData.getValue().getBeginDatumProperty());
         tcEinddatum.setCellValueFactory(cellData -> cellData.getValue().getEindDatumProperty());
-        tcType.setCellValueFactory(cellData -> cellData.getValue().getTypeProperty());
+        tcActiviteitType.setCellValueFactory(cellData -> cellData.getValue().getActiviteitTypeProperty());
     }
 
 }

@@ -31,7 +31,7 @@ public class ActiviteitenMapper {
                 String[] split = input.nextLine().split(";");
                 lijst.add(new Activiteit(split[0], LocalDate.of(Integer.parseInt(split[1].trim()), Integer.parseInt(split[2].trim()), Integer.parseInt(split[3].trim())),
                         LocalDate.of(Integer.parseInt(split[4].trim()), Integer.parseInt(split[5].trim()), Integer.parseInt(split[6].trim())),
-                        Integer.parseInt(split[8]), randomType()));
+                        Integer.parseInt(split[7]), randomType()));
             }
         } catch (FileNotFoundException | NumberFormatException ex) {
             Logger.getLogger(PostcodeMapper.class.getName()).log(Level.SEVERE, null, ex);

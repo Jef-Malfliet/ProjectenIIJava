@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -365,9 +364,9 @@ public class Dojo {
             case ACTIVITEIT:
                 overzicht = new FilteredList(activiteiten, p -> true);
                 String aNaam = extraParameters.get(1).toString();
-                ActiviteitType aType = (ActiviteitType) extraParameters.get(2);
+                ActiviteitType aType = (ActiviteitType) extraParameters.get(0);
                 Predicate<Activiteit> actResult = a -> true;
-                Predicate<Activiteit> onType = a -> a.getType().equals(aType);
+                Predicate<Activiteit> onType = a -> a.getActiviteitType().equals(aType);
                 Predicate<Activiteit> onAName = a -> a.getNaam().toLowerCase().startsWith(aNaam.toLowerCase());
 
                 if (aType != null) {

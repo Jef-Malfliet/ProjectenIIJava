@@ -23,7 +23,7 @@ public interface IActiviteit{
     
     int getMaxAanwezigen();
     
-    ActiviteitType getType();
+    ActiviteitType getActiviteitType();
     
     SimpleStringProperty getNaamProperty();
     
@@ -33,5 +33,5 @@ public interface IActiviteit{
     
     SimpleStringProperty getMaxAanwezigenProperty();
     
-    SimpleStringProperty getTypeProperty();
+    SimpleStringProperty getActiviteitTypeProperty();
 }

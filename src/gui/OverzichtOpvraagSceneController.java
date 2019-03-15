@@ -6,6 +6,7 @@
 package gui;
 
 import domein.Activiteit;
+import domein.ActiviteitType;
 import domein.DomeinController;
 import domein.Exportable;
 import domein.ExportableActiviteit;
@@ -101,7 +102,7 @@ public class OverzichtOpvraagSceneController extends HBox {
     private TextField txfLidNaam;
     private DatePicker datePicker;
     private TextField txfANaam;
-    private CheckBox cb;
+    private ComboBox cbActiviteitType;
     private ComboBox<Graad> cboGraad;
     private TextField txfNaam;
 
@@ -175,7 +176,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         txfLidNaam = new TextField();
         cboFormule = new ComboBox();
         txfANaam = new TextField();
-        cb = new CheckBox();
+        cbActiviteitType = new ComboBox();
         cboGraad = new ComboBox();
         txfNaam = new TextField();
     }
@@ -254,13 +255,14 @@ public class OverzichtOpvraagSceneController extends HBox {
                 VBox.setMargin(vbANaam, new Insets(10));
                 vbANaam.getChildren().addAll(lblANaam, txfANaam);
 
-                Label lblStage = new Label("");
-                cb.setText("Stage");
-                VBox vbStage = new VBox();
-                VBox.setMargin(vbStage, new Insets(10));
-                vbStage.getChildren().addAll(lblStage, cb);
+                Label lblType = new Label("Type");
+                cbActiviteitType.setItems(FXCollections.observableArrayList(Arrays.asList(ActiviteitType.values())));
+                cbActiviteitType.getSelectionModel().selectFirst();
+                VBox vbType = new VBox();
+                VBox.setMargin(vbType, new Insets(10));
+                vbType.getChildren().addAll(lblType, cbActiviteitType);
 
-                hBoxTopRow.getChildren().addAll(vbANaam, vbStage);
+                hBoxTopRow.getChildren().addAll(vbANaam, vbType);
 
                 vBoxContainer.getChildren().addAll(hBoxTopRow);
                 hBoxTableContainer.getChildren().clear();
@@ -348,7 +350,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 TableColumn<IActiviteit, String> StageCol = new TableColumn<>();
                 StageCol.setText("Type");
                 StageCol.setCellValueFactory(cellData
-                        -> cellData.getValue().getTypeProperty());
+                        -> cellData.getValue().getActiviteitTypeProperty());
 
                 tblActiviteiten.setPrefWidth(sceneWidth);
                 tblActiviteiten.setPrefHeight(sceneHeight - 100);
@@ -549,7 +551,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 break;
             case ACTIVITEIT:
                 Activiteit.setExportable(new ExportableActiviteit());
-                extraParameters.addAll(Arrays.asList(cboType.getSelectionModel().getSelectedItem(), txfANaam.getText()));
+                extraParameters.addAll(Arrays.asList(cbActiviteitType.getSelectionModel().getSelectedItem(), txfANaam.getText()));
                 break;
             case CLUBKAMPIOENSCHAP:
                 Kampioenschap.setExportable(new ExportableKampioenschap());
