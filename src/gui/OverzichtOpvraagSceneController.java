@@ -346,9 +346,9 @@ public class OverzichtOpvraagSceneController extends HBox {
                         -> cellData.getValue().getEindDatumProperty());
 
                 TableColumn<IActiviteit, String> StageCol = new TableColumn<>();
-                StageCol.setText("Stage");
+                StageCol.setText("Type");
                 StageCol.setCellValueFactory(cellData
-                        -> cellData.getValue().getStageProperty());
+                        -> cellData.getValue().getTypeProperty());
 
                 tblActiviteiten.setPrefWidth(sceneWidth);
                 tblActiviteiten.setPrefHeight(sceneHeight - 100);
@@ -549,7 +549,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 break;
             case ACTIVITEIT:
                 Activiteit.setExportable(new ExportableActiviteit());
-                extraParameters.addAll(Arrays.asList(cb.isSelected(), txfANaam.getText()));
+                extraParameters.addAll(Arrays.asList(cboType.getSelectionModel().getSelectedItem(), txfANaam.getText()));
                 break;
             case CLUBKAMPIOENSCHAP:
                 Kampioenschap.setExportable(new ExportableKampioenschap());

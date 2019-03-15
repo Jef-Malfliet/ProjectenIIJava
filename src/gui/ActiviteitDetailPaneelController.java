@@ -5,6 +5,7 @@
  */
 package gui;
 
+import domein.ActiviteitType;
 import domein.DTOActiviteit;
 import domein.DomeinController;
 import domein.IActiviteit;
@@ -25,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -53,10 +55,6 @@ public class ActiviteitDetailPaneelController extends VBox {
     private DatePicker dpEinddatum;
     @FXML
     private Label lblEinddatumFout;
-    @FXML
-    private Label lblStage;
-    @FXML
-    private CheckBox cbStage;
     @FXML
     private Button btnNieuweActiviteit;
     @FXML
@@ -127,6 +125,10 @@ public class ActiviteitDetailPaneelController extends VBox {
     private Button btnAnnuleerWijziging;
     @FXML
     private Button btnBevestigWijziging;
+    @FXML
+    private Label lblType;
+    @FXML
+    private ComboBox<ActiviteitType> cbType;
 
     public ActiviteitDetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ActiviteitDetailPaneel.fxml"));
@@ -164,6 +166,9 @@ public class ActiviteitDetailPaneelController extends VBox {
 
         btnInschrijven.prefWidthProperty().bind(tblAlleLeden.widthProperty().divide(2));
         btnUitschrijven.prefWidthProperty().bind(tblIngeschreven.widthProperty().divide(2));
+
+        //invulling en standaard waarde combobox setten
+        cbType.setItems(FXCollections.observableArrayList(Arrays.asList(ActiviteitType.values())));
 
         btnVerwijderActiviteit.setOnMouseClicked(e -> {
             aosc.verwijderGeselecteerdeActiviteit();
@@ -210,11 +215,10 @@ public class ActiviteitDetailPaneelController extends VBox {
 
     public boolean fillActiviteit(IActiviteit activiteit) {
         if (clearTextFields()) {
-            cbStage.setSelected(false);
+            cbType.getSelectionModel().select(activiteit.getType());
             tfNaam.setText(activiteit.getNaam());
             dpBegindatum.setValue(activiteit.getBeginDatum());
             dpEinddatum.setValue(activiteit.getEindDatum());
-            cbStage.setSelected(activiteit.isStage());
             tfMaxAanwezigen.setText(String.format("%d", activiteit.getMaxAanwezigen()));
 
             tInschrijven.setDisable(false);
@@ -284,7 +288,7 @@ public class ActiviteitDetailPaneelController extends VBox {
             dpEinddatum.setDisable(false);
             dpBegindatum.setValue(null);
             dpEinddatum.setValue(null);
-            cbStage.setDisable(false);
+            cbType.getSelectionModel().selectFirst();
             return true;
         }
 
@@ -335,7 +339,7 @@ public class ActiviteitDetailPaneelController extends VBox {
         }
 
         boolean wijzig = current_activiteit.getNaam().equals(tfNaam.getText()) && current_activiteit.getBeginDatum().equals(dpBegindatum.getValue())
-                && current_activiteit.getEindDatum().equals(dpEinddatum.getValue()) && current_activiteit.isStage() == cbStage.isSelected()
+                && current_activiteit.getEindDatum().equals(dpEinddatum.getValue()) && current_activiteit.getType().equals(cbType.getSelectionModel().getSelectedItem())
                 && current_activiteit.getMaxAanwezigen() == maxAawezigentemp;
         return !wijzig;
     }
@@ -400,7 +404,7 @@ public class ActiviteitDetailPaneelController extends VBox {
     }
 
     private void maakNieuweActiviteit() {
-        DTOActiviteit dto = new DTOActiviteit(tfNaam.getText(), dpBegindatum.getValue(), dpEinddatum.getValue(), cbStage.isSelected(), Integer.parseInt(tfMaxAanwezigen.getText()));
+        DTOActiviteit dto = new DTOActiviteit(tfNaam.getText(), dpBegindatum.getValue(), dpEinddatum.getValue(), Integer.parseInt(tfMaxAanwezigen.getText()), cbType.getSelectionModel().getSelectedItem());
         dc.voegActiviteitToe(dto);
         lblMessage.setText("Activiteit werd toegevoegd");
         lblMessage.setVisible(true);
@@ -409,7 +413,7 @@ public class ActiviteitDetailPaneelController extends VBox {
 
     private void wijzigActiviteit() {
         dc.wijzigActiviteit(tfNaam.getText(), dpBegindatum.getValue(),
-                dpEinddatum.getValue(), cbStage.isSelected(), Integer.parseInt(tfMaxAanwezigen.getText()));
+                dpEinddatum.getValue(), Integer.parseInt(tfMaxAanwezigen.getText()), cbType.getSelectionModel().getSelectedItem());
 
         lblMessage.setText("Wijzigingen zijn opgeslagen");
         lblMessage.setVisible(true);
@@ -441,7 +445,7 @@ public class ActiviteitDetailPaneelController extends VBox {
         dpBegindatum.setValue(activiteit.getBeginDatum());
         dpEinddatum.setValue(activiteit.getEindDatum());
         tfMaxAanwezigen.setText(String.format("%d", activiteit.getMaxAanwezigen()));
-        cbStage.setSelected(activiteit.isStage());
+        cbType.getSelectionModel().select(activiteit.getType());
         nieuwActiviteit = false;
     }
 
@@ -484,7 +488,7 @@ public class ActiviteitDetailPaneelController extends VBox {
             dpBegindatum.setDisable(false);
             dpEinddatum.setDisable(false);
             tfMaxAanwezigen.setEditable(true);
-            cbStage.setDisable(false);
+            cbType.setDisable(false);
             btnBevestigWijziging.setDisable(false);
             btnAnnuleerWijziging.setDisable(false);
             btnInschrijven.setDisable(false);
@@ -494,7 +498,7 @@ public class ActiviteitDetailPaneelController extends VBox {
             dpBegindatum.setDisable(true);
             dpEinddatum.setDisable(true);
             tfMaxAanwezigen.setEditable(false);
-            cbStage.setDisable(true);
+            cbType.setDisable(false);
             btnBevestigWijziging.setDisable(true);
             btnAnnuleerWijziging.setDisable(true);
             btnInschrijven.setDisable(true);

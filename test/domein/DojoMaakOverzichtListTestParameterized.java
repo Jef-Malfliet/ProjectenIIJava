@@ -62,8 +62,8 @@ public class DojoMaakOverzichtListTestParameterized {
         lid3 = new Lid("Jef", "Malfliet", "jm12345", "0234567890", "053698420", "Straat", "1", "2.9", "9220", "Hamme", Land.België, "98.10.19-333.61", "jef.malfliet@student.hogent.be",
                 "ouders.jef@proxymus.be", LocalDate.of(1999, 10, 24), LocalDate.of(2016, 8, 31), new ArrayList<>(), Geslacht.VROUW, Graad.WIT, RolType.LESGEVER, LesType.WO_ZA);
 
-        act1 = new Activiteit("Uitstap", LocalDate.of(2014, Month.FEBRUARY, 11), LocalDate.of(2014, Month.FEBRUARY, 11), false, 50);
-        act2 = new Activiteit("Weekend", LocalDate.of(2019, Month.MARCH, 5), LocalDate.of(2019, Month.MARCH, 7), true, 100);
+        act1 = new Activiteit("Uitstap", LocalDate.of(2014, Month.FEBRUARY, 11), LocalDate.of(2014, Month.FEBRUARY, 11), 50, ActiviteitType.UITSTAP);
+        act2 = new Activiteit("Weekend", LocalDate.of(2019, Month.MARCH, 5), LocalDate.of(2019, Month.MARCH, 7), 100, ActiviteitType.STAGE);
 
         oef1 = new Oefening(Graad.GROEN, "Test1");
         oef2 = new Oefening(Graad.DAN1, "Test2");
@@ -83,12 +83,10 @@ public class DojoMaakOverzichtListTestParameterized {
             {OverzichtType.AANWEZIGHEID, new Object[]{null, "Nante", LesType.ALLES}, 1},
             {OverzichtType.AANWEZIGHEID, new Object[]{LocalDate.of(2012, 8, 16), "", LesType.ALLES}, 1},
             {OverzichtType.AANWEZIGHEID, new Object[]{null, "", LesType.WO_ZA}, 2},
-         
             {OverzichtType.INSCHRIJVING, new Object[]{null, "", LesType.ALLES}, 3},
             {OverzichtType.INSCHRIJVING, new Object[]{null, "Indy", LesType.ALLES}, 1},
             {OverzichtType.INSCHRIJVING, new Object[]{LocalDate.of(2014, 5, 9), "", LesType.ALLES}, 2},
             {OverzichtType.INSCHRIJVING, new Object[]{null, "", LesType.DI_ZA}, 1},
-            
             {OverzichtType.ACTIVITEIT, new Object[]{true, ""}, 1},
             //klopt dit? -- false --> betekent hier dat wel of geen stage niet relevant is
             {OverzichtType.ACTIVITEIT, new Object[]{false, ""}, 2},
@@ -97,8 +95,6 @@ public class DojoMaakOverzichtListTestParameterized {
             //klopt dit? -- false --> betekent hier dat wel of geen stage niet relevant is
             {OverzichtType.ACTIVITEIT, new Object[]{false, "Weekend"}, 1},
             {OverzichtType.ACTIVITEIT, new Object[]{true, "Weekend"}, 1},
-            
-            
             {OverzichtType.LESMATERIAAL, new Object[]{Graad.ALLES, ""}, 3},
             {OverzichtType.LESMATERIAAL, new Object[]{Graad.DAN1, ""}, 1},
             {OverzichtType.LESMATERIAAL, new Object[]{Graad.ALLES, "Test1"}, 1},

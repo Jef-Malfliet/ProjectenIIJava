@@ -19,20 +19,20 @@ public class DTOActiviteit implements IActiviteit {
     private String naam;
     private LocalDate beginDatum;
     private LocalDate eindDatum;
-    private boolean stage;
     private int maxAanwezigen;
+    private ActiviteitType type;
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
     private SimpleStringProperty beginDatumProperty = new SimpleStringProperty();
     private SimpleStringProperty eindDatumProperty = new SimpleStringProperty();
-    private SimpleStringProperty stageProperty = new SimpleStringProperty();
     private SimpleStringProperty maxAanwezigenProperty = new SimpleStringProperty();
+    private SimpleStringProperty typeProperty = new SimpleStringProperty();
 
-    public DTOActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean stage, int maxAanwezigen) {
+    public DTOActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, int maxAanwezigen, ActiviteitType type) {
         setNaam(naam);
         setBeginDatum(beginDatum);
         setEindDatum(eindDatum);
-        setStage(stage);
         setMaxAanwezigen(maxAanwezigen);
+        setType(type);
     }
 
     @Override
@@ -70,16 +70,7 @@ public class DTOActiviteit implements IActiviteit {
     public void setEindDatum(LocalDate eindDatum) {
         this.eindDatum = eindDatum;
     }
-
-    @Override
-    public boolean isStage() {
-        return stage;
-    }
-
-    public void setStage(boolean stage) {
-        this.stage = stage;
-    }
-
+    
     @Override
     public int getMaxAanwezigen() {
         return maxAanwezigen;
@@ -117,15 +108,6 @@ public class DTOActiviteit implements IActiviteit {
     }
 
     @Override
-    public SimpleStringProperty getStageProperty() {
-        return stageProperty;
-    }
-
-    public void setStageProperty(SimpleStringProperty stageProperty) {
-        this.stageProperty = stageProperty;
-    }
-
-    @Override
     public SimpleStringProperty getMaxAanwezigenProperty() {
         return maxAanwezigenProperty;
     }
@@ -134,6 +116,22 @@ public class DTOActiviteit implements IActiviteit {
         this.maxAanwezigenProperty = maxAanwezigenProperty;
     }
 
-    
+    @Override
+    public ActiviteitType getType() {
+       return type;
+    }
+
+    public void setType(ActiviteitType type) {
+        this.type = type;
+    }
+
+    @Override
+    public SimpleStringProperty getTypeProperty() {
+        return typeProperty;
+    }
+
+    public void setTypeProperty(SimpleStringProperty typeProperty) {
+        this.typeProperty = typeProperty;
+    }
     
 }

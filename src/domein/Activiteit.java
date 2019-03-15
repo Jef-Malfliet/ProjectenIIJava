@@ -22,9 +22,9 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     private LocalDate eindDatum;
 
-    private boolean stage;
-
     private int maxAanwezigen;
+
+    private ActiviteitType type;
 
     @ManyToMany(cascade = CascadeType.REFRESH)
     private ObservableList<Lid> aanwezigen;
@@ -39,10 +39,9 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     private SimpleStringProperty eindDatumProperty = new SimpleStringProperty();
 
     @Transient
-    private SimpleStringProperty stageProperty = new SimpleStringProperty();
-
-    @Transient
     private SimpleStringProperty maxAanwezigenProperty = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty typeProperty = new SimpleStringProperty();
 
     private static Exportable<Activiteit> exportable;
 
@@ -50,28 +49,27 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     }
 
     public Activiteit(IActiviteit act) {
-        this(act.getNaam(), act.getBeginDatum(), act.getEindDatum(), act.isStage(), act.getMaxAanwezigen());
+        this(act.getNaam(), act.getBeginDatum(), act.getEindDatum(), act.getMaxAanwezigen(), act.getType());
     }
 
-    public Activiteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean stage, int maxAanwezigen) {
+    public Activiteit(String naam, LocalDate beginDatum, LocalDate eindDatum, int maxAanwezigen, ActiviteitType type) {
         setNaam(naam);
         setBeginDatum(beginDatum);
         this.eindDatum = eindDatum;
-        this.stage = stage;
         this.maxAanwezigen = maxAanwezigen;
         this.aanwezigen = FXCollections.observableArrayList();
+        this.type = type;
     }
 
     @Access(AccessType.PROPERTY)
     public List<Lid> getAanwezigen() {
         return aanwezigen;
     }
-   
+
     public void setAanwezigen(List<Lid> aanwezigen) {
         this.aanwezigen = FXCollections.observableArrayList(aanwezigen);
     }
 
-    
     /**
      *
      * @param lid
@@ -104,15 +102,6 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     private void setEindDatum(LocalDate eindDatum) {
         this.eindDatum = eindDatum;
-    }
-
-    @Override
-    public boolean isStage() {
-        return stage;
-    }
-
-    private void setStage(boolean stage) {
-        this.stage = stage;
     }
 
     private void setNaam(String naam) {
@@ -157,29 +146,12 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     }
 
     @Override
-    public SimpleStringProperty getStageProperty() {
-        return stageProperty;
-    }
-
-    public void setStageProperty(SimpleStringProperty stageProperty) {
-        this.stageProperty = stageProperty;
-    }
-
-    @Override
     public int getMaxAanwezigen() {
         return maxAanwezigen;
     }
 
     public void setMaxAanwezigen(int maxAanwezigen) {
         this.maxAanwezigen = maxAanwezigen;
-    }
-
-    public void fillSimpleProperties() {
-        this.setNaamProperty(new SimpleStringProperty(this.getNaam()));
-        this.setBeginDatumProperty(new SimpleStringProperty(this.getBeginDatum().toString()));
-        this.setEindDatumProperty(new SimpleStringProperty(this.getEindDatum().toString()));
-        this.setStageProperty(new SimpleStringProperty(this.isStage() ? "stage" : "geen stage"));
-        this.setMaxAanwezigenProperty(new SimpleStringProperty(String.format("%d", this.maxAanwezigen)));
     }
 
     @Override
@@ -191,13 +163,30 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
         this.maxAanwezigenProperty = maxAanwezigenProperty;
     }
 
-    public final void wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean stage, int maxAanwezigen) {
+    @Override
+    public ActiviteitType getType() {
+        return type;
+    }
+
+    public void setType(ActiviteitType type) {
+        this.type = type;
+    }
+
+    @Override
+    public SimpleStringProperty getTypeProperty() {
+        return typeProperty;
+    }
+
+    public void setTypeProperty(SimpleStringProperty typeProperty) {
+        this.typeProperty = typeProperty;
+    }
+
+    public final void wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, int maxAanwezigen, ActiviteitType type) {
         setNaam(naam);
         setBeginDatum(eindDatum);
         setEindDatum(eindDatum);
-        setStage(stage);
         setMaxAanwezigen(maxAanwezigen);
-        fillSimpleProperties();
+        setType(type);
     }
 
     public static Exportable<Activiteit> getExportable() {

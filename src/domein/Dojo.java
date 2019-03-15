@@ -48,7 +48,7 @@ public class Dojo {
     private final List<Overzicht<Object>> overzichtList;
     private Lid currentLid;
     private IOefening current_oefening;
-    
+
     private List<String> headers = new ArrayList<>();
 
     private int current_Activiteit = -1;
@@ -167,11 +167,6 @@ public class Dojo {
         return filtered;
     }
 
-    private void fillSimplePropertiesActiviteitForGui() {
-        activiteiten.forEach(Activiteit::fillSimpleProperties);
-    }
-
-
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         subject.addPropertyChangeListener(pcl);
         pcl.propertyChange(new PropertyChangeEvent(pcl, "currentLid", null, currentLid));
@@ -207,7 +202,6 @@ public class Dojo {
     }
 
     public ObservableList<Activiteit> getActiviteitenList() {
-        fillSimplePropertiesActiviteitForGui();
         return activiteiten;
     }
 
@@ -370,14 +364,14 @@ public class Dojo {
                 return overzicht;
             case ACTIVITEIT:
                 overzicht = new FilteredList(activiteiten, p -> true);
-                boolean stage = (boolean) extraParameters.get(0);
                 String aNaam = extraParameters.get(1).toString();
+                ActiviteitType aType = (ActiviteitType) extraParameters.get(2);
                 Predicate<Activiteit> actResult = a -> true;
-                Predicate<Activiteit> isStage = a -> a.isStage();
+                Predicate<Activiteit> onType = a -> a.getType().equals(aType);
                 Predicate<Activiteit> onAName = a -> a.getNaam().toLowerCase().startsWith(aNaam.toLowerCase());
 
-                if (stage) {
-                    actResult = actResult.and(isStage);
+                if (aType != null) {
+                    actResult = actResult.and(onType);
                 }
                 if (notEmpty(aNaam)) {
                     actResult = actResult.and(onAName);
@@ -447,10 +441,10 @@ public class Dojo {
         return this.activiteiten.remove(currentActiviteit);
     }
 
-    public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean isStage, int maxAanwezigen) {
+    public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, int maxAanwezigen, ActiviteitType type) {
         GenericDaoJpa.startTransaction();
         Activiteit currentActiviteit = current_Activiteit != -1 ? activiteiten.get(current_Activiteit) : null;
-        currentActiviteit.wijzigActiviteit(naam, beginDatum, eindDatum, isStage, maxAanwezigen);
+        currentActiviteit.wijzigActiviteit(naam, beginDatum, eindDatum, maxAanwezigen, type);
         activiteitRepo.update(currentActiviteit);
         GenericDaoJpa.commitTransaction();
         return true;
@@ -479,14 +473,12 @@ public class Dojo {
 
     public void setCurrent_oefening(IOefening current_oefening) {
         this.current_oefening = current_oefening;
-        subjectOef.firePropertyChange("currentOefening",null,current_oefening);
+        subjectOef.firePropertyChange("currentOefening", null, current_oefening);
     }
-    
-    public void addPropertyChangeListenerOefening(PropertyChangeListener pcl){
+
+    public void addPropertyChangeListenerOefening(PropertyChangeListener pcl) {
         subjectOef.addPropertyChangeListener(pcl);
-        pcl.propertyChange(new PropertyChangeEvent(pcl,"currentOefening",null,current_oefening));
+        pcl.propertyChange(new PropertyChangeEvent(pcl, "currentOefening", null, current_oefening));
     }
-    
-    
 
 }

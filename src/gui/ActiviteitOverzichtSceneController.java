@@ -5,6 +5,7 @@
  */
 package gui;
 
+import domein.ActiviteitType;
 import domein.DomeinController;
 import domein.IActiviteit;
 import java.beans.PropertyChangeEvent;
@@ -39,8 +40,8 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
     @FXML
     private TableColumn<IActiviteit, String> tcEinddatum;
     @FXML
-    private TableColumn<IActiviteit, String> tcStage;
-
+    private TableColumn<IActiviteit, String> tcType;
+    
     private final DomeinController dc;
     private final ActiviteitDetailPaneelController adpc;
 
@@ -81,7 +82,7 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
         tcNaam.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
         tcStartdatum.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
         tcEinddatum.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
-        tcStage.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
+        tcType.prefWidthProperty().bind(tvActiviteiten.widthProperty().divide(4));
     }
 
     public void verwijderGeselecteerdeActiviteit() {
@@ -103,7 +104,7 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
         tcNaam.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
         tcStartdatum.setCellValueFactory(cellData -> cellData.getValue().getBeginDatumProperty());
         tcEinddatum.setCellValueFactory(cellData -> cellData.getValue().getEindDatumProperty());
-        tcStage.setCellValueFactory(cellData -> cellData.getValue().getStageProperty());
+        tcType.setCellValueFactory(cellData -> cellData.getValue().getTypeProperty());
     }
 
 }

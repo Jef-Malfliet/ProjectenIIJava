@@ -213,8 +213,8 @@ public class DomeinController {
         return dojo.getCurrentActiviteit();
     }
 
-    public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, boolean isStage, int maxAanwezigen) {
-        boolean activiteit = dojo.wijzigActiviteit(naam, beginDatum, eindDatum, isStage, maxAanwezigen);
+    public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, int maxAanwezigen, ActiviteitType type) {
+        boolean activiteit = dojo.wijzigActiviteit(naam, beginDatum, eindDatum, maxAanwezigen, type);
         return activiteit;
     }
 

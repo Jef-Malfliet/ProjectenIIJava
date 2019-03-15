@@ -21,9 +21,9 @@ public interface IActiviteit{
     
     LocalDate getEindDatum();
     
-    boolean isStage();
-    
     int getMaxAanwezigen();
+    
+    ActiviteitType getType();
     
     SimpleStringProperty getNaamProperty();
     
@@ -31,7 +31,7 @@ public interface IActiviteit{
     
     SimpleStringProperty getEindDatumProperty();
     
-    SimpleStringProperty getStageProperty();
-    
     SimpleStringProperty getMaxAanwezigenProperty();
+    
+    SimpleStringProperty getTypeProperty();
 }
