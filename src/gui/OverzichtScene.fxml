@@ -60,7 +60,7 @@
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin></Button>
-                  <Button fx:id="btnReset" mnemonicParsing="false" onMouseClicked="#reset" text="Maak leeg" />
+                  <Button fx:id="btnReset" mnemonicParsing="false" onMouseClicked="#reset" text="Maak filter leeg" />
                </children>
                <HBox.margin>
                   <Insets left="3.0" right="5.0" />

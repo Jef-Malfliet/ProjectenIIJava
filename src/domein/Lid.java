@@ -13,10 +13,8 @@ import static util.Validatie.*;
  *
  * @author Nante
  */
-
 @NamedQueries({
-    @javax.persistence.NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e"),
-    //@javax.persistence.NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
+    @javax.persistence.NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e"), //@javax.persistence.NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
 })
 @Entity
 @Access(AccessType.FIELD)
@@ -41,10 +39,9 @@ public class Lid implements Serializable, ILid, Exportable {
     private String email;
     private String email_ouders;
     private LocalDate geboortedatum;
-   // private LocalDate inschrijvingsdatum;
+    // private LocalDate inschrijvingsdatum;
     private List<LocalDate> aanwezigheden;
-  //  private LesType lessen;
-
+//  private LesType lessen;
     private static Exportable<Lid> exportable;
 
     @Enumerated(EnumType.STRING)
@@ -54,7 +51,6 @@ public class Lid implements Serializable, ILid, Exportable {
 
 //    @javax.persistence.Transient
 //    private RolType type;
-
     @Transient
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
 
@@ -89,7 +85,7 @@ public class Lid implements Serializable, ILid, Exportable {
 
     public Lid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, Land land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
         wijzigLid(voornaam, familienaam, wachtwoord, gsm, telefoon_vast, straatnaam, huisnummer, busnummer, postcode, stad, land, rijksregisternummer, email, email_ouders, geboortedatum, inschrijvingsdatum, aanwezigheden, geslacht, graad, type, lessen);
-        
+
     }
 
     public final void wijzigLid(String voornaam, String familienaam, String wachtwoord, String gsm, String telefoon_vast, String straatnaam, String huisnummer, String busnummer, String postcode, String stad, Land land, String rijksregisternummer, String email, String email_ouders, LocalDate geboortedatum, LocalDate inschrijvingsdatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type, LesType lessen) {
@@ -114,7 +110,7 @@ public class Lid implements Serializable, ILid, Exportable {
         setGraad(graad);
         setType(type);
         setLessen(lessen);
-        
+
     }
 
     @Override
@@ -158,7 +154,8 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
-    @Access(AccessType.PROPERTY) @Column(name = "Voornaam")
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Voornaam")
     public String getVoornaam() {
         return voornaamProperty.get();
     }
@@ -168,11 +165,12 @@ public class Lid implements Serializable, ILid, Exportable {
             throw new IllegalArgumentException("Voornaam mag niet leeg zijn.");
         }
         voornaamProperty.set(voornaam);
-        
+
     }
 
     @Override
-    @Access(AccessType.PROPERTY) @Column(name = "Familienaam")
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Familienaam")
     public String getFamilienaam() {
         return familienaamProperty.get();
     }
@@ -256,9 +254,10 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
-    @Access(AccessType.PROPERTY) @Column(name = "Graad")
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Graad")
     public Graad getGraad() {
-        
+
         return Graad.valueOf(graadProperty.get());
     }
 
@@ -282,7 +281,8 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
-    @Access(AccessType.PROPERTY) @Column(name = "Roltype")
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Roltype")
     public RolType getType() {
         return RolType.valueOf(typeProperty.get());
     }
@@ -367,7 +367,7 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
-    
+
     public Geslacht getGeslacht() {
         return geslacht;
     }
@@ -441,13 +441,14 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
-    @Access(AccessType.PROPERTY) @Column(name = "Lessen")
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Lessen")
     public LesType getLessen() {
         return LesType.valueOf(lessenProperty.get());
     }
 
     public void setLessen(LesType lessen) {
-       lessenProperty.set(lessen.toString());
+        lessenProperty.set(lessen.toString());
     }
 
     @Override
@@ -470,12 +471,10 @@ public class Lid implements Serializable, ILid, Exportable {
         return lessenProperty;
     }
 
-
     @Override
     public SimpleStringProperty getInschrijvingsDatumProperty() {
         return inschrijvingsDatumProperty;
     }
-
 
     public static Exportable<Lid> getExportable() {
         return exportable;

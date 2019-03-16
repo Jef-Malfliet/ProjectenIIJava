@@ -259,11 +259,16 @@ public class Dojo {
         }
 
         if (notEmpty(graadFilter)) {
-            result = result.and(graad);
+            if (!graadFilter.equalsIgnoreCase("alles")) {
+                result = result.and(graad);
+            }
         }
 
         if (notEmpty(typeFilter)) {
-            result = result.and(lidType);
+            if (!typeFilter.equalsIgnoreCase("alles")) {
+                result = result.and(lidType);
+            }
+
         }
 
         filtered.setPredicate(result);

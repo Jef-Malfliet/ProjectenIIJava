@@ -30,7 +30,7 @@ import util.FullScreenResolution;
  *
  * @author IndyV
  */
-public class OverzichtSceneController extends VBox{
+public class OverzichtSceneController extends VBox {
 
     private DomeinController dc;
     //OverzichtSceneController was 4/10 van het scherm.
@@ -80,7 +80,7 @@ public class OverzichtSceneController extends VBox{
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        this.dc = dc;   
+        this.dc = dc;
         buildGui();
     }
 
@@ -89,7 +89,7 @@ public class OverzichtSceneController extends VBox{
                 addListener((observableValue, oldLid, newLid)
                         -> {
                     if (newLid != null) {
-                         dc.setCurrentLid(newLid);                  
+                        dc.setCurrentLid(newLid);
                     }
                 });
 
@@ -104,8 +104,9 @@ public class OverzichtSceneController extends VBox{
         ((SortedList) dc.getLeden()).comparatorProperty().bind(tableOverview.comparatorProperty());
         cboGFilter.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
         cboTFilter.setItems(FXCollections.observableArrayList(Arrays.asList(RolType.values())));
+        cboGFilter.getSelectionModel().selectLast();
+        cboTFilter.getSelectionModel().selectLast();
     }
-
 
     private void setMaxScreen() {
         lblLedenBeheren.setPrefWidth(sceneWidth);
@@ -137,7 +138,7 @@ public class OverzichtSceneController extends VBox{
         if (lid != null) {
             dc.verwijderCurrentLid();
         }
-        
+
     }
 
     @FXML
@@ -158,8 +159,8 @@ public class OverzichtSceneController extends VBox{
         cboGFilter.getSelectionModel().clearSelection();
         cboTFilter.getSelectionModel().clearSelection();
         txfVnFilter.clear();
-        dc.filter("", "", "", "");
-        cboGFilter.setPromptText("Kies een graad");
-        cboTFilter.setPromptText("Kies een rol");
+        dc.filter("", "", Graad.ALLES.toString(), RolType.ALLES.toString());
+        cboGFilter.getSelectionModel().selectLast();
+        cboTFilter.getSelectionModel().selectLast();
     }
 }

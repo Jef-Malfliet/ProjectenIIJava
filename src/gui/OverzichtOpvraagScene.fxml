@@ -114,6 +114,11 @@
                         <Insets bottom="5.0" left="10.0" />
                      </HBox.margin>
                   </Button>
+                  <Button fx:id="btnClear" mnemonicParsing="false" onAction="#maakFiltersLeeg" prefHeight="25.0" text="Maak filters leeg">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="20.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
          </children>

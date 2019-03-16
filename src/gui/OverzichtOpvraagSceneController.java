@@ -40,7 +40,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -105,6 +104,8 @@ public class OverzichtOpvraagSceneController extends HBox {
     private ComboBox cbActiviteitType;
     private ComboBox<Graad> cboGraad;
     private TextField txfNaam;
+    @FXML
+    private Button btnClear;
 
     public OverzichtOpvraagSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("OverzichtOpvraagScene.fxml"));
@@ -194,6 +195,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         btnLocation.setPrefWidth(sceneWidth / 5);
         btnPreview.setPrefWidth(sceneWidth / 4.5);
         btnMaak.setPrefWidth(sceneWidth / 5);
+        btnClear.setPrefWidth(sceneWidth/4.5);
 
         lblExtraParameters.setPrefWidth(sceneWidth / 2);
     }
@@ -378,21 +380,10 @@ public class OverzichtOpvraagSceneController extends HBox {
                 datumCol.setCellValueFactory(cellData
                         -> cellData.getValue().getDatumProperty());
 
-                TableColumn<IKampioenschap, String> gewichtsCol = new TableColumn<>();
-                gewichtsCol.setText("Gewichtscategoriën");
-                gewichtsCol.setCellValueFactory(cellData
-                        -> cellData.getValue().getGewichtcategorieënProperty());
 
-                TableColumn<IKampioenschap, String> leeftijdCol = new TableColumn<>();
-                leeftijdCol.setText("Leeftijdscategoriën");
-                leeftijdCol.setCellValueFactory(cellData
-                        -> cellData.getValue().getLeeftijdcategorieënProperty());
-
-                nameCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
-                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
-                gewichtsCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
-                leeftijdCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(4));
-                tblKampioenschap.getColumns().addAll(nameCol, datumCol, gewichtsCol, leeftijdCol);
+                nameCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(2));
+                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(2));
+                tblKampioenschap.getColumns().addAll(nameCol, datumCol);
 
                 tblKampioenschap.setPrefWidth(sceneWidth * 2 / 3.1);
                 tblKampioenschap.setPrefHeight(sceneHeight - 100);
@@ -561,6 +552,11 @@ public class OverzichtOpvraagSceneController extends HBox {
                 extraParameters.addAll(Arrays.asList(cboGraad.getSelectionModel().getSelectedItem(), txfNaam.getText()));
                 break;
         }
+    }
+
+    @FXML
+    private void maakFiltersLeeg(ActionEvent event) {
+        
     }
 
 }

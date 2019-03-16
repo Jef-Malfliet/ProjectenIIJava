@@ -26,8 +26,7 @@ public class KampioenschapMapper {
         try (Scanner input = new Scanner(new File("DataKampioenschap.csv"))) {
             while (input.hasNext()) {
                 String[] split = input.nextLine().split(";");
-                lijst.add(new Kampioenschap(split[0], LocalDate.of(Integer.parseInt(split[1].trim()), Integer.parseInt(split[2].trim()), Integer.parseInt(split[3].trim())),
-                        convertToArray(split[4]), convertToArray(split[5])));
+                lijst.add(new Kampioenschap(split[0], LocalDate.of(Integer.parseInt(split[1].trim()), Integer.parseInt(split[2].trim()), Integer.parseInt(split[3].trim()))));
             }
         } catch (FileNotFoundException | NumberFormatException ex) {
             Logger.getLogger(PostcodeMapper.class.getName()).log(Level.SEVERE, null, ex);
