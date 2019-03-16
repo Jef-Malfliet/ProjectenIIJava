@@ -76,10 +76,10 @@ public class StartUp extends Application {
             Kampioenschap temp1 = kampioenschappen.get(i % 10);
             Kampioenschap temp2 = kampioenschappen.get((i + 1) % 10);
             if (i % 15 == 0) {
-                dc.schrijfLidInVoorActiviteit(temp1.getNaam(), temp1.getDatum(), ledenLijst.get(i).getEmail());
+                dc.schrijfLidInVoorActiviteit(temp1.getName(), temp1.getDate(), ledenLijst.get(i).getEmail());
             }
             if (i % 17 == 0) {
-                dc.schrijfLidInVoorActiviteit(temp2.getNaam(), temp2.getDatum(), ledenLijst.get(i).getEmail());
+                dc.schrijfLidInVoorActiviteit(temp2.getName(), temp2.getDate(), ledenLijst.get(i).getEmail());
             }
         }
 

@@ -79,7 +79,7 @@ public class OverzichtOpvraagSceneController extends HBox {
     @FXML
     private Label lblBesNaam;
 
-    private List<Object> extraParameters;
+    private final List<Object> extraParameters;
     @FXML
     private Label lblExtraParameters;
     @FXML
@@ -195,7 +195,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         btnLocation.setPrefWidth(sceneWidth / 5);
         btnPreview.setPrefWidth(sceneWidth / 4.5);
         btnMaak.setPrefWidth(sceneWidth / 5);
-        btnClear.setPrefWidth(sceneWidth/4.5);
+        btnClear.setPrefWidth(sceneWidth / 4.5);
 
         lblExtraParameters.setPrefWidth(sceneWidth / 2);
     }
@@ -380,10 +380,15 @@ public class OverzichtOpvraagSceneController extends HBox {
                 datumCol.setCellValueFactory(cellData
                         -> cellData.getValue().getDatumProperty());
 
+                TableColumn<IKampioenschap, String> leeftijdCCol = new TableColumn<>();
+                leeftijdCCol.setText("Leeftijdcategorie");
+                leeftijdCCol.setCellValueFactory(cellData
+                        -> cellData.getValue().getLeeftijdCategorieProperty());
 
-                nameCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(2));
-                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(2));
-                tblKampioenschap.getColumns().addAll(nameCol, datumCol);
+                nameCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
+                datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
+                leeftijdCCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
+                tblKampioenschap.getColumns().addAll(nameCol, datumCol,leeftijdCCol);
 
                 tblKampioenschap.setPrefWidth(sceneWidth * 2 / 3.1);
                 tblKampioenschap.setPrefHeight(sceneHeight - 100);
@@ -556,7 +561,7 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     @FXML
     private void maakFiltersLeeg(ActionEvent event) {
-        
+
     }
 
 }

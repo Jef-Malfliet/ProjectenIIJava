@@ -16,13 +16,13 @@ public class ExportableKampioenschap implements Exportable<Kampioenschap> {
 
     @Override
     public String excelFormat(Kampioenschap k) {
-        return String.format("%s,%s,%s", k.getNaam(), k.getDatum().toString(), k.geefAanwezigen().stream()
+        return String.format("%s,%s,%s,%s", k.getName(), k.getDate().toString(), k.getLeeftijdCategorie().toString(), k.geefAanwezigen().stream()
                 .map(l -> l.getVoornaam() + " " + l.getFamilienaam()).collect(Collectors.joining("\n")));
     }
 
     @Override
     public String excelheaders() {
-        return String.format("%s,%s, %s", "Naam", "Datum", "Aanwezige leden");
+        return String.format("%s,%s,%s,%s", "Naam", "Datum", "Leeftijdscategorie","Aanwezige leden");
     }
 
 }
