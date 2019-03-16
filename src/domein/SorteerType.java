@@ -10,8 +10,10 @@ package domein;
  * @author Mout
  */
 public enum SorteerType {
-    VOORNAAM,
-    FAMILIENAAM,
-    GRAAD,
-    TYPE
+    LID,
+    AANWEZIGHEID,
+    INSCHRIJVING,
+    ACTIVITIET,
+    CLUBKAMPIOENSCHAP,
+    LESMATERIAAL
 }
