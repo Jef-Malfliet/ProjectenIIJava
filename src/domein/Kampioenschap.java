@@ -2,10 +2,14 @@ package domein;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity
+@Access(AccessType.FIELD)
 public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> {
 
     @Id
@@ -20,20 +25,23 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
     private long id;
     @OneToMany(cascade = CascadeType.REFRESH)
     private List<Lid> aanwezigen;
-    private LocalDate datum;
-    private String naam;
+//    private LocalDate datum;
+//    private String naam;
     private static Exportable<Kampioenschap> exportable;
+    //private LeeftijdCategorie leeftijdCategorie;
 
     @Transient
     private SimpleStringProperty datumProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty leeftijdCategorieProperty = new SimpleStringProperty();
 
-    public Kampioenschap(String naam, LocalDate datum) {
-        setNaam(naam);
-        setDatum(datum);
+    public Kampioenschap(String naam, LocalDate datum, LeeftijdCategorie categorie) {
+        setName(naam);
+        setDate(datum);
+        setLeeftijdCategorie(categorie);
         aanwezigen = new ArrayList<>();
-        fillSimpleProperties();
     }
 
     protected Kampioenschap() {
@@ -79,21 +87,19 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
     }
 
     @Override
-    public LocalDate getDatum() {
-        return datum;
-    }
-
-    public void setDatum(LocalDate datum) {
-        this.datum = datum;
-    }
-
-    @Override
     public SimpleStringProperty getDatumProperty() {
         return this.datumProperty;
     }
 
-    public void setDatumProperty(SimpleStringProperty datumProperty) {
-        this.datumProperty = datumProperty;
+    @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Datum")
+    public LocalDate getDate() {
+        return LocalDate.parse(datumProperty.get());
+    }
+
+    public void setDate(LocalDate datum) {
+        this.datumProperty.set(datum.toString());
     }
 
     @Override
@@ -101,25 +107,38 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
         return naamProperty;
     }
 
-    public void setNaamProperty(SimpleStringProperty naamProperty) {
-        this.naamProperty = naamProperty;
+    @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Naam")
+    public String getName() {
+        return naamProperty.get();
     }
 
-    public void fillSimpleProperties() {
-        this.setDatumProperty(new SimpleStringProperty(datum.toString()));
-        this.setNaamProperty(new SimpleStringProperty(naam));
+    public void setName(String naam) {
+        this.naamProperty.set(naam);
+    }
+
+    @Override
+    public SimpleStringProperty getLeeftijdCategorieProperty() {
+        return leeftijdCategorieProperty;
+    }
+
+    @Override
+    @Access(AccessType.PROPERTY)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Leeftijdcategorie")
+    public LeeftijdCategorie getLeeftijdCategorie() {
+        return LeeftijdCategorie.valueOf(leeftijdCategorieProperty.get());
+    }
+
+    public void setLeeftijdCategorie(LeeftijdCategorie categorie) {
+        this.leeftijdCategorieProperty.set(categorie.toString());
     }
 
     public long getId() {
         return id;
     }
-
-    public String getNaam() {
-        return naam;
-    }
-
-    public void setNaam(String naam) {
-        this.naam = naam;
-    }
+    
+    
 
 }

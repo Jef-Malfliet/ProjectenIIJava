@@ -20,7 +20,7 @@ public class KampioenschapDaoJpa extends GenericDaoJpa<Kampioenschap> implements
     
     @Override
     public Kampioenschap getByNaamAndDate(String kampioenschapNaam, LocalDate datum) {
-        return findAll().stream().filter(k -> k.getNaam().equals(kampioenschapNaam) && k.getDatum().equals(datum)).findFirst().orElse(null);
+        return findAll().stream().filter(k -> k.getName().equals(kampioenschapNaam) && k.getDate().equals(datum)).findFirst().orElse(null);
     }
     
 }

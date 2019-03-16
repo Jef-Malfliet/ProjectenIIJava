@@ -16,11 +16,18 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public interface IKampioenschap extends Serializable {
 
-    LocalDate getDatum();
-
     SimpleStringProperty getDatumProperty();
-    
+
     SimpleStringProperty getNaamProperty();
 
+    SimpleStringProperty getLeeftijdCategorieProperty();
+
     List<Lid> geefAanwezigen();
+
+    LocalDate getDate();
+
+    String getName();
+    
+    LeeftijdCategorie getLeeftijdCategorie();
+
 }

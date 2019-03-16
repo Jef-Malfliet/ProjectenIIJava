@@ -6,8 +6,10 @@
 package persistentie;
 
 import domein.Kampioenschap;
+import domein.LeeftijdCategorie;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,8 @@ public class KampioenschapMapper {
         try (Scanner input = new Scanner(new File("DataKampioenschap.csv"))) {
             while (input.hasNext()) {
                 String[] split = input.nextLine().split(";");
-                lijst.add(new Kampioenschap(split[0], LocalDate.of(Integer.parseInt(split[1].trim()), Integer.parseInt(split[2].trim()), Integer.parseInt(split[3].trim()))));
+                lijst.add(new Kampioenschap(split[0], LocalDate.of(Integer.parseInt(split[1].trim()), Integer.parseInt(split[2].trim()), Integer.parseInt(split[3].trim())),
+                        LeeftijdCategorieGen()));
             }
         } catch (FileNotFoundException | NumberFormatException ex) {
             Logger.getLogger(PostcodeMapper.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,5 +39,10 @@ public class KampioenschapMapper {
 
     private static String[] convertToArray(String string) {
         return string.split(" ");
+    }
+
+    private static LeeftijdCategorie LeeftijdCategorieGen() {
+        SecureRandom r = new SecureRandom();
+        return LeeftijdCategorie.values()[r.nextInt(LeeftijdCategorie.values().length - 1)];
     }
 }
