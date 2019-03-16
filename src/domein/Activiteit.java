@@ -16,7 +16,7 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToMany(cascade = CascadeType.REFRESH)
+    @Transient
     private ObservableList<Lid> aanwezigen;
 
     @Transient
@@ -53,6 +53,8 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     }
 
     @Access(AccessType.PROPERTY)
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    
     public List<Lid> getAanwezigen() {
         return aanwezigen;
     }

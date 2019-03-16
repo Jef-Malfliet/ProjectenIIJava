@@ -39,11 +39,8 @@ public class MainPanel extends BorderPane {
 
         DetailPaneelController dpc = new DetailPaneelController(dc);
         dpc.setPrefSize(detailPaneelWidth, height);
-
         OverzichtSceneController osc = new OverzichtSceneController(dc);
         osc.setPrefSize(overzichtWidth, height);
-        dpc.setOverzichtSceneController(osc);
-        
         dc.addPropertyChangeListener(dpc);
         OverzichtOpvraagSceneController opsc = new OverzichtOpvraagSceneController(dc);
         opsc.setPrefSize(overzichtOpvraagWidth, height);

@@ -13,7 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 @Entity
@@ -23,7 +23,8 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToMany(cascade = CascadeType.REFRESH)
+    
+    @ManyToMany(cascade = CascadeType.REFRESH)
     private List<Lid> aanwezigen;
 //    private LocalDate datum;
 //    private String naam;

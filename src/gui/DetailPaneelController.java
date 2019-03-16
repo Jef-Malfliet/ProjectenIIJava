@@ -45,7 +45,7 @@ import static util.Validatie.*;
  *
  * @author Nante
  */
-public class DetailPaneelController extends VBox implements PropertyChangeListener{
+public class DetailPaneelController extends VBox implements PropertyChangeListener {
 
     private DomeinController dc;
 
@@ -75,7 +75,6 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     @FXML
     private Button btnVerwijderLid;
 
-    private OverzichtSceneController osc;
     @FXML
     private TextField txtWachtwoord;
     @FXML
@@ -168,8 +167,11 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             nieuwLidPaneel();
         });
 
-        btnVerwijderLid.setOnMouseClicked(e -> { 
-            dc.verwijderCurrentLid();
+        btnVerwijderLid.setOnMouseClicked(e -> {
+            if (alertVerwijderenLid()) {
+                dc.verwijderCurrentLid();
+            }
+
         });
 
         txtPostCode.setOnKeyReleased(e -> {
@@ -178,7 +180,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         });
         voegNietVerplichteVeldenToe();
         dpGeboorte.setEditable(false);
-        dpInschrijving.setEditable(false); 
+        dpInschrijving.setEditable(false);
         cboGemeentes.setOnAction(e -> {
             changeGemeenteTextField();
         });
@@ -310,7 +312,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             if (nieuwlid) {
                 maaknieuwlid();
                 dc.verwijderSelectieLid();
-                
+
                 clearTextFields();
             } else {
                 if (isgewijzigd()) {
@@ -366,7 +368,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         if (!isHuisnummer(txtHuisnummer.getText())) {
             errorOn(lblM_Huisnummer, txtHuisnummer, "Geen geldig huisnummer");
         }
-        if(isInFuture(dpGeboorte.getValue())){
+        if (isInFuture(dpGeboorte.getValue())) {
             errorOn(lblM_Geboortedatum, null, "Geboortedatum ligt in de toekomst");
         }
     }
@@ -496,20 +498,15 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
 
     }
 
-    public void setOverzichtSceneController(OverzichtSceneController osc
-    ) {
-        this.osc = osc;
-
-    }
 
     private TextField[] geefTextfields() {
-        TextField[] textfields = {txtVoornaam, txtAchternaam, txtWachtwoord, txtVasteTelefoon, txtStraat, txtHuisnummer, txtBusnummer, txtPostCode, txtGemeente, txtEmail, txtEmail_ouders, txtGsmnummer,txtRijksregisternummer0,txtRijksregisternummer1,txtRijksregisternummer2,txtRijksregisternummer3,txtRijksregisternummer3,txtRijksregisternummer4};
+        TextField[] textfields = {txtVoornaam, txtAchternaam, txtWachtwoord, txtVasteTelefoon, txtStraat, txtHuisnummer, txtBusnummer, txtPostCode, txtGemeente, txtEmail, txtEmail_ouders, txtGsmnummer, txtRijksregisternummer0, txtRijksregisternummer1, txtRijksregisternummer2, txtRijksregisternummer3, txtRijksregisternummer3, txtRijksregisternummer4};
         return textfields;
 
     }
 
     private Label[] geefLabels() {
-        Label[] errormessages = {lblM_Voornaam, lblM_Familienaam, lblM_Wachtwoord, lblM_VasteTelefoon, lblM_Straatnaam, lblM_Huisnummer, lblM_Busnummer, lblM_Postcode, lblM_Stad, lblM_Email, lblM_Emailouder, lblM_Gsmnummer, lblM_Inschrijvingsdatum, lblM_Geboortedatum,lblM_Rijkregisternummer};
+        Label[] errormessages = {lblM_Voornaam, lblM_Familienaam, lblM_Wachtwoord, lblM_VasteTelefoon, lblM_Straatnaam, lblM_Huisnummer, lblM_Busnummer, lblM_Postcode, lblM_Stad, lblM_Email, lblM_Emailouder, lblM_Gsmnummer, lblM_Inschrijvingsdatum, lblM_Geboortedatum, lblM_Rijkregisternummer};
         return errormessages;
 
     }
@@ -558,27 +555,43 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        ILid lid = (ILid)evt.getNewValue();
-        if(lid != null)
-        fillLid(lid);
+        ILid lid = (ILid) evt.getNewValue();
+        if (lid != null) {
+            fillLid(lid);
+        }
     }
-    private void vulRijksregisternummer(String rijksregisternummer){
+
+    private void vulRijksregisternummer(String rijksregisternummer) {
         String[] split = rijksregisternummer.split("");
-        txtRijksregisternummer0.setText(split[0]+split[1]);
-        txtRijksregisternummer1.setText(split[3]+split[4]);
-        txtRijksregisternummer2.setText(split[6]+split[7]);
-        txtRijksregisternummer3.setText(split[9]+split[10]+split[11]);
-        txtRijksregisternummer4.setText(split[13]+split[14]);
-        
+        txtRijksregisternummer0.setText(split[0] + split[1]);
+        txtRijksregisternummer1.setText(split[3] + split[4]);
+        txtRijksregisternummer2.setText(split[6] + split[7]);
+        txtRijksregisternummer3.setText(split[9] + split[10] + split[11]);
+        txtRijksregisternummer4.setText(split[13] + split[14]);
+
     }
-    private String geefRijksregisternummer(){
-        return String.format("%s.%s.%s-%s.%s", txtRijksregisternummer0.getText(), txtRijksregisternummer1.getText(),txtRijksregisternummer2.getText(),txtRijksregisternummer3.getText(),txtRijksregisternummer4.getText());
 
+    private String geefRijksregisternummer() {
+        return String.format("%s.%s.%s-%s.%s", txtRijksregisternummer0.getText(), txtRijksregisternummer1.getText(), txtRijksregisternummer2.getText(), txtRijksregisternummer3.getText(), txtRijksregisternummer4.getText());
 
+    }
 
-        
-       
-        
+    private boolean alertVerwijderenLid() {
+       ILid currentLid = dc.getCurrentLid();
+       Alert a = new Alert(AlertType.CONFIRMATION);
+            a.setTitle("OPGELET");
+            a.setHeaderText("OPGELET");
+            a.setContentText(String.format("Bent u zeker dat u het lid %s wil verwijderen?",currentLid.getVoornaam() + currentLid.getFamilienaam()));
+            ButtonType verwijder = new ButtonType("Verwijder");
+            ButtonType annuleer = new ButtonType("Annuleer");
+            a.getButtonTypes().clear();
+
+            a.getButtonTypes().addAll(verwijder, annuleer);
+            Optional<ButtonType> showAndWait = a.showAndWait();
+            if (showAndWait.isPresent()) {
+                return showAndWait.get() == verwijder;
+            }
+            return false;
     }
 
 }
