@@ -80,12 +80,12 @@
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
-                  <Label prefHeight="28.0" prefWidth="115.0" text="Gsmnummer*">
+                  <Label prefHeight="54.0" prefWidth="115.0" text="Gsmnummer*" wrapText="true">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtGsmnummer" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtGsmnummer" prefHeight="28.0" prefWidth="231.0" promptText="0472123456" />
                   <Label fx:id="lblM_Gsmnummer" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Gelieve een gsmnummer in te vullen" textAlignment="CENTER" textFill="#f26943">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
@@ -103,7 +103,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtVasteTelefoon" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtVasteTelefoon" prefHeight="28.0" prefWidth="231.0" promptText="094584597" />
                   <Label fx:id="lblM_VasteTelefoon" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Gelieve een vast nummer in te vullen" textAlignment="CENTER" textFill="#f26943">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
@@ -229,7 +229,31 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtRijksregisternummer" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtRijksregisternummer0" alignment="CENTER" prefHeight="28.0" prefWidth="40.0" />
+                  <Label alignment="TOP_LEFT" contentDisplay="TOP" maxHeight="28.0" maxWidth="-Infinity" minHeight="28.0" prefHeight="28.0" prefWidth="4.0" text="." textAlignment="CENTER" textOverrun="CLIP">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtRijksregisternummer1" alignment="CENTER" prefHeight="28.0" prefWidth="40.0" />
+                  <Label alignment="TOP_LEFT" contentDisplay="TOP" maxHeight="28.0" maxWidth="-Infinity" minHeight="28.0" prefHeight="28.0" text="." textAlignment="CENTER" textOverrun="CLIP">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtRijksregisternummer2" alignment="CENTER" prefHeight="28.0" prefWidth="40.0" />
+                  <Label maxHeight="28.0" prefHeight="28.0" text="-">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtRijksregisternummer3" alignment="CENTER" prefHeight="28.0" prefWidth="45.0" />
+                  <Label alignment="TOP_LEFT" contentDisplay="TOP" maxHeight="28.0" maxWidth="-Infinity" minHeight="28.0" prefHeight="28.0" text="." textAlignment="CENTER" textOverrun="CLIP">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtRijksregisternummer4" alignment="CENTER" prefHeight="28.0" prefWidth="40.0" />
                   <Label fx:id="lblM_Rijkregisternummer" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" textAlignment="CENTER" textFill="#f26943">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
@@ -247,7 +271,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtEmail" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtEmail" prefHeight="28.0" prefWidth="231.0" promptText="voorbeeld@hotmail.com" />
                   <Label fx:id="lblM_Email" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Voornaam mag niet leeg zijn" textAlignment="CENTER" textFill="#f26943">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
@@ -265,7 +289,7 @@
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtEmail_ouders" prefHeight="28.0" prefWidth="231.0" />
+                  <TextField fx:id="txtEmail_ouders" prefHeight="28.0" prefWidth="231.0" promptText="voorbeeld@hotmail.com" />
                   <Label fx:id="lblM_Emailouder" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="251.0" text="Voornaam mag niet leeg zijn" textAlignment="CENTER" textFill="#f26943" visible="false">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
@@ -353,7 +377,7 @@
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>
-                  <Label prefHeight="28.0" prefWidth="115.0" text="Lessen*">
+                  <Label prefHeight="28.0" prefWidth="115.0" text="Formules*">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -399,6 +423,9 @@
          <VBox.margin>
             <Insets left="30.0" top="40.0" />
          </VBox.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </VBox>
       <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
          <children>

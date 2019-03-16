@@ -18,14 +18,11 @@ import static util.Validatie.*;
 })
 @Entity
 @Access(AccessType.FIELD)
-public class Lid implements Serializable, ILid, Exportable {
+public class Lid implements ILid, Serializable, Exportable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-//    private String voornaam;
-//    private String familienaam;
     private String wachtwoord;
     private String gsm;
     private String telefoon_vast;
@@ -39,18 +36,11 @@ public class Lid implements Serializable, ILid, Exportable {
     private String email;
     private String email_ouders;
     private LocalDate geboortedatum;
-    // private LocalDate inschrijvingsdatum;
     private List<LocalDate> aanwezigheden;
-//  private LesType lessen;
     private static Exportable<Lid> exportable;
 
     @Enumerated(EnumType.STRING)
     private Geslacht geslacht;
-//    @Enumerated(EnumType.STRING)
-//    private Graad graad;
-
-//    @javax.persistence.Transient
-//    private RolType type;
     @Transient
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
 
@@ -71,6 +61,7 @@ public class Lid implements Serializable, ILid, Exportable {
 
     public Lid() {
     }
+    
 
     public Lid(ILid lid) {
         this(lid.getVoornaam(), lid.getFamilienaam(), lid.getWachtwoord(), lid.getGsm(), lid.getTelefoon_vast(), lid.getStraatnaam(), lid.getHuisnummer(), lid.getBusnummer(), lid.getPostcode(), lid.getStad(),
@@ -113,19 +104,8 @@ public class Lid implements Serializable, ILid, Exportable {
 
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %s in %s%n", voornaamProperty.get(), familienaamProperty.get(), graadProperty.get(), telefoon_vast, email, straatnaam, postcode, stad);
-    }
-
-    @Override
-    public SimpleStringProperty getVoornaamProperty() {
-        return this.voornaamProperty;
-    }
-
-    @Override
-    public javafx.beans.property.SimpleStringProperty getGraadProperty() {
-        return this.graadProperty;
+    private void voegAanwezigheidToe(LocalDate date) {
+        aanwezigheden.add(date);
     }
 
     @Override
@@ -154,6 +134,11 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
+    public String toString() {
+        return String.format("%s %s met graad %s%nTel.: %s%nE-mail adres: %s%nAdres: %s %s in %s%n", voornaamProperty.get(), familienaamProperty.get(), graadProperty.get(), telefoon_vast, email, straatnaam, postcode, stad);
+    }
+
+    @Override
     @Access(AccessType.PROPERTY)
     @Column(name = "Voornaam")
     public String getVoornaam() {
@@ -166,6 +151,11 @@ public class Lid implements Serializable, ILid, Exportable {
         }
         voornaamProperty.set(voornaam);
 
+    }
+
+    @Override
+    public SimpleStringProperty getVoornaamProperty() {
+        return this.voornaamProperty;
     }
 
     @Override
@@ -269,6 +259,11 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
+    public javafx.beans.property.SimpleStringProperty getGraadProperty() {
+        return this.graadProperty;
+    }
+
+    @Override
     public long getId() {
         return id;
     }
@@ -290,14 +285,6 @@ public class Lid implements Serializable, ILid, Exportable {
     @Override
     public javafx.beans.property.SimpleStringProperty getTypeProperty() {
         return typeProperty;
-    }
-
-    public void setTypeProperty(javafx.beans.property.SimpleStringProperty typeProperty) {
-        this.typeProperty = typeProperty;
-    }
-
-    private void voegAanwezigheidToe(LocalDate date) {
-        aanwezigheden.add(date);
     }
 
     @Override
@@ -358,6 +345,27 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
+    public SimpleStringProperty getInschrijvingsDatumProperty() {
+        return inschrijvingsDatumProperty;
+    }
+
+    @Override
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Lessen")
+    public LesType getLessen() {
+        return LesType.valueOf(lessenProperty.get());
+    }
+
+    public void setLessen(LesType lessen) {
+        lessenProperty.set(lessen.toString());
+    }
+
+    @Override
+    public SimpleStringProperty getLessenProperty() {
+        return lessenProperty;
+    }
+
+    @Override
     public List<LocalDate> getAanwezigheden() {
         return aanwezigheden;
     }
@@ -377,14 +385,6 @@ public class Lid implements Serializable, ILid, Exportable {
             throw new IllegalArgumentException("Graad mag niet null zijn");
         }
         this.geslacht = geslacht;
-    }
-
-    public SimpleStringProperty getFamilienaamProperty() {
-        return familienaamProperty;
-    }
-
-    public void setFamilienaamProperty(SimpleStringProperty familienaamProperty) {
-        this.familienaamProperty = familienaamProperty;
     }
 
     @Override
@@ -441,17 +441,6 @@ public class Lid implements Serializable, ILid, Exportable {
     }
 
     @Override
-    @Access(AccessType.PROPERTY)
-    @Column(name = "Lessen")
-    public LesType getLessen() {
-        return LesType.valueOf(lessenProperty.get());
-    }
-
-    public void setLessen(LesType lessen) {
-        lessenProperty.set(lessen.toString());
-    }
-
-    @Override
     public String getRijksregisternummer() {
         return rijksregisternummer;
     }
@@ -464,16 +453,6 @@ public class Lid implements Serializable, ILid, Exportable {
             throw new IllegalArgumentException("Rijksregisternummer voldoet niet aan het juiste formaat");
         }
         this.rijksregisternummer = rijksregisternummer;
-    }
-
-    @Override
-    public SimpleStringProperty getLessenProperty() {
-        return lessenProperty;
-    }
-
-    @Override
-    public SimpleStringProperty getInschrijvingsDatumProperty() {
-        return inschrijvingsDatumProperty;
     }
 
     public static Exportable<Lid> getExportable() {
@@ -492,6 +471,11 @@ public class Lid implements Serializable, ILid, Exportable {
     @Override
     public String excelheaders() {
         return exportable.excelheaders();
+    }
+
+    @Override
+    public SimpleStringProperty getFamilienaamProperty() {
+        return familienaamProperty;
     }
 
 }

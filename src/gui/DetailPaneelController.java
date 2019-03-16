@@ -130,14 +130,23 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     private boolean veldenCompleet;
     @FXML
     private ComboBox<LesType> cboLesType;
-    @FXML
-    private TextField txtRijksregisternummer;
+    //private TextField txtRijksregisternummer;
     @FXML
     private Label lblM_Rijkregisternummer;
     private ComboBox<String> cboGemeentes = new ComboBox();
     private boolean comboGemeentes = true;
     @FXML
     private ComboBox<Land> cboLand;
+    @FXML
+    private TextField txtRijksregisternummer0;
+    @FXML
+    private TextField txtRijksregisternummer1;
+    @FXML
+    private TextField txtRijksregisternummer2;
+    @FXML
+    private TextField txtRijksregisternummer3;
+    @FXML
+    private TextField txtRijksregisternummer4;
 
     public DetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
@@ -159,8 +168,8 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             nieuwLidPaneel();
         });
 
-        btnVerwijderLid.setOnMouseClicked(e -> {
-            osc.verwijdergeselecteerdLid();
+        btnVerwijderLid.setOnMouseClicked(e -> { 
+            dc.verwijderCurrentLid();
         });
 
         txtPostCode.setOnKeyReleased(e -> {
@@ -260,7 +269,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         txtGemeente.setText(lid.getStad());
         txtPostCode.setText(lid.getPostcode());
         cboLand.getSelectionModel().select(lid.getLand());
-        txtRijksregisternummer.setText(lid.getRijksregisternummer());
+        vulRijksregisternummer(lid.getRijksregisternummer());
         txtEmail.setText(lid.getEmail());
         dpGeboorte.setValue(lid.getGeboortedatum());
         dpInschrijving.setValue(lid.getInschrijvingsdatum());
@@ -300,6 +309,9 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         if (veldenCompleet) {
             if (nieuwlid) {
                 maaknieuwlid();
+                dc.verwijderSelectieLid();
+                
+                clearTextFields();
             } else {
                 if (isgewijzigd()) {
                     wijziglid();
@@ -333,8 +345,8 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             errorOn(lblM_Inschrijvingsdatum, null, "Gelieve een datum in te vullen");
         }
 
-        if (!rijksregisternummerIsCorrect(txtRijksregisternummer.getText())) {
-            errorOn(lblM_Rijkregisternummer, txtRijksregisternummer, "Geen geldig rijkregisternummer");
+        if (!rijksregisternummerIsCorrect(geefRijksregisternummer())) {
+            errorOn(lblM_Rijkregisternummer, null, "Geen geldig rijkregisternummer");
         }
         if (!(isLeeg(txtVasteTelefoon.getText()) || isValidLeeg(txtVasteTelefoon.getText()) || isVasteTelefoonNummer(txtVasteTelefoon.getText()))) {
             errorOn(lblM_VasteTelefoon, txtVasteTelefoon, "Gelieve een geldig telefoonnr op te geven");
@@ -354,12 +366,15 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         if (!isHuisnummer(txtHuisnummer.getText())) {
             errorOn(lblM_Huisnummer, txtHuisnummer, "Geen geldig huisnummer");
         }
+        if(isInFuture(dpGeboorte.getValue())){
+            errorOn(lblM_Geboortedatum, null, "Geboortedatum ligt in de toekomst");
+        }
     }
 
     private void maaknieuwlid() {
         DTOLid dto = new DTOLid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
                 txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText().isEmpty() ? "/" : txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
-                cboLand.getSelectionModel().getSelectedItem(), txtRijksregisternummer.getText(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
+                cboLand.getSelectionModel().getSelectedItem(), geefRijksregisternummer(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
                 cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem(), cboLesType.getSelectionModel().getSelectedItem());
 
         dc.voegLidToe(dto);
@@ -370,7 +385,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     private void wijziglid() {
         dc.wijzigLid(txtVoornaam.getText(), txtAchternaam.getText(), txtWachtwoord.getText(), txtGsmnummer.getText(), txtVasteTelefoon.getText().isEmpty() ? "/" : txtVasteTelefoon.getText(),
                 txtStraat.getText(), txtHuisnummer.getText(), txtBusnummer.getText().isEmpty() ? "/" : txtBusnummer.getText(), txtPostCode.getText(), txtGemeente.getText(),
-                cboLand.getSelectionModel().getSelectedItem(), txtRijksregisternummer.getText(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
+                cboLand.getSelectionModel().getSelectedItem(), geefRijksregisternummer(), txtEmail.getText(), txtEmail_ouders.getText().isEmpty() ? "/" : txtEmail_ouders.getText(), dpGeboorte.getValue(), dpInschrijving.getValue(), new ArrayList<>(),
                 cboGeslacht.getSelectionModel().getSelectedItem(), cboGraad.getSelectionModel().getSelectedItem(), cboType.getSelectionModel().getSelectedItem(), cboLesType.getSelectionModel().getSelectedItem());
 
         errorMessage.setText("Wijzigingen zijn opgeslagen");
@@ -488,13 +503,13 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     }
 
     private TextField[] geefTextfields() {
-        TextField[] textfields = {txtVoornaam, txtAchternaam, txtWachtwoord, txtVasteTelefoon, txtStraat, txtHuisnummer, txtBusnummer, txtPostCode, txtGemeente, txtRijksregisternummer, txtEmail, txtEmail_ouders, txtGsmnummer};
+        TextField[] textfields = {txtVoornaam, txtAchternaam, txtWachtwoord, txtVasteTelefoon, txtStraat, txtHuisnummer, txtBusnummer, txtPostCode, txtGemeente, txtEmail, txtEmail_ouders, txtGsmnummer,txtRijksregisternummer0,txtRijksregisternummer1,txtRijksregisternummer2,txtRijksregisternummer3,txtRijksregisternummer3,txtRijksregisternummer4};
         return textfields;
 
     }
 
     private Label[] geefLabels() {
-        Label[] errormessages = {lblM_Voornaam, lblM_Familienaam, lblM_Wachtwoord, lblM_VasteTelefoon, lblM_Straatnaam, lblM_Huisnummer, lblM_Busnummer, lblM_Postcode, lblM_Stad, lblM_Rijkregisternummer, lblM_Email, lblM_Emailouder, lblM_Gsmnummer, lblM_Inschrijvingsdatum, lblM_Geboortedatum};
+        Label[] errormessages = {lblM_Voornaam, lblM_Familienaam, lblM_Wachtwoord, lblM_VasteTelefoon, lblM_Straatnaam, lblM_Huisnummer, lblM_Busnummer, lblM_Postcode, lblM_Stad, lblM_Email, lblM_Emailouder, lblM_Gsmnummer, lblM_Inschrijvingsdatum, lblM_Geboortedatum,lblM_Rijkregisternummer};
         return errormessages;
 
     }
@@ -510,7 +525,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
                 && current_lid.getTelefoon_vast().equals(txtVasteTelefoon.getText()) && current_lid.getStraatnaam().equals(txtStraat.getText())
                 && current_lid.getHuisnummer().equals(txtHuisnummer.getText()) && current_lid.getBusnummer().equals(txtBusnummer.getText())
                 && current_lid.getPostcode().equals(txtPostCode.getText()) && current_lid.getStad().equals(txtGemeente.getText())
-                && current_lid.getLand().equals(cboLand.getSelectionModel().getSelectedItem()) && current_lid.getRijksregisternummer().equals(txtRijksregisternummer.getText()) && current_lid.getEmail().equals(txtEmail.getText())
+                && current_lid.getLand().equals(cboLand.getSelectionModel().getSelectedItem()) && current_lid.getRijksregisternummer().equals(geefRijksregisternummer()) && current_lid.getEmail().equals(txtEmail.getText())
                 && current_lid.getEmail_ouders().equals(txtEmail_ouders.getText()) && current_lid.getGraad().equals(cboGraad.getSelectionModel().getSelectedItem())
                 && current_lid.getType().equals(cboType.getSelectionModel().getSelectedItem()) && current_lid.getGeslacht().equals(cboGeslacht.getSelectionModel().getSelectedItem())
                 && current_lid.getInschrijvingsdatum().equals(dpInschrijving.getValue())
@@ -546,6 +561,24 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         ILid lid = (ILid)evt.getNewValue();
         if(lid != null)
         fillLid(lid);
+    }
+    private void vulRijksregisternummer(String rijksregisternummer){
+        String[] split = rijksregisternummer.split("");
+        txtRijksregisternummer0.setText(split[0]+split[1]);
+        txtRijksregisternummer1.setText(split[3]+split[4]);
+        txtRijksregisternummer2.setText(split[6]+split[7]);
+        txtRijksregisternummer3.setText(split[9]+split[10]+split[11]);
+        txtRijksregisternummer4.setText(split[13]+split[14]);
+        
+    }
+    private String geefRijksregisternummer(){
+        return String.format("%s.%s.%s-%s.%s", txtRijksregisternummer0.getText(), txtRijksregisternummer1.getText(),txtRijksregisternummer2.getText(),txtRijksregisternummer3.getText(),txtRijksregisternummer4.getText());
+
+
+
+        
+       
+        
     }
 
 }
