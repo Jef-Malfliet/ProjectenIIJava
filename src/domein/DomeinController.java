@@ -169,7 +169,7 @@ public class DomeinController {
         return dojo.getActiviteit(id);
     }
 
-    public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
+    public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<String> extraParameters) {
         return dojo.maakOverzichtList(type, extraParameters);
     }
 

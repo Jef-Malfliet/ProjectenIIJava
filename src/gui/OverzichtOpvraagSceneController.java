@@ -137,8 +137,8 @@ public class OverzichtOpvraagSceneController extends HBox {
             alert.showAndWait();
         } else {
             fillParameters(type);
-            //List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
-            //placeTable(type, FXCollections.observableArrayList(overzicht));
+            List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
+            placeTable(type, FXCollections.observableArrayList(overzicht));
         }
     }
 
@@ -377,7 +377,6 @@ public class OverzichtOpvraagSceneController extends HBox {
                 tblActiviteiten.setPrefWidth(sceneWidth);
                 tblActiviteiten.setPrefHeight(sceneHeight - 100);
 
-                // 3 kolommen, dus 1/3 van de tableview.
                 aNaamcol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(4));
                 aStartCol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(4));
                 aEndCol.prefWidthProperty().bind(tblActiviteiten.widthProperty().divide(4));
@@ -501,7 +500,6 @@ public class OverzichtOpvraagSceneController extends HBox {
                 tblLidInschrijvingen.setPrefWidth(sceneWidth);
                 tblLidInschrijvingen.setPrefHeight(sceneHeight - 10);
 
-                // 3 kolommen, dus 1/3 van de tableview.
                 colNaam.prefWidthProperty().bind(tblLidInschrijvingen.widthProperty().divide(3));
                 colDatum.prefWidthProperty().bind(tblLidInschrijvingen.widthProperty().divide(3));
                 colFormule.prefWidthProperty().bind(tblLidInschrijvingen.widthProperty().divide(3));
@@ -549,9 +547,9 @@ public class OverzichtOpvraagSceneController extends HBox {
     private <T extends Exportable> void maakDocument(MouseEvent event) {
         OverzichtType type = cboType.getSelectionModel().getSelectedItem();
         fillParameters(type);
-        //List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
-        //dc.maakOverzicht(overzicht, path);
-        //maakOverzicht(type, FXCollections.observableArrayList(overzicht));
+        List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
+        dc.maakOverzicht(overzicht, path);
+        maakOverzicht(type, FXCollections.observableArrayList(overzicht));
     }
 
     private void fillParameters(OverzichtType type) {
@@ -559,23 +557,33 @@ public class OverzichtOpvraagSceneController extends HBox {
         switch (type) {
             case AANWEZIGHEID:
                 Lid.setExportable(new ExportableLidAanwezigheden());
-                extraParameters.addAll(Arrays.asList(dpStartDatum.getValue().toString(), txfNaam.getText(), cboFormule.getSelectionModel().getSelectedItem().toString()));
+                String aanwezigheidsDatum = dpStartDatum.getValue() != null ? dpStartDatum.getValue().toString() : "";
+                String aFormule = cboFormule.getSelectionModel().getSelectedItem() != null ? cboFormule.getSelectionModel().getSelectedItem().toString() : "";
+                extraParameters.addAll(Arrays.asList(aanwezigheidsDatum, txfNaam.getText(), aFormule));
                 break;
             case INSCHRIJVING:
                 Lid.setExportable(new ExportableLidInschrijvingen());
-                extraParameters.addAll(Arrays.asList(dpStartDatum.getValue().toString(), txfNaam.getText(), cboFormule.getSelectionModel().getSelectedItem().toString()));
+                String inschrijvingsDatum = dpStartDatum.getValue() != null ? dpStartDatum.getValue().toString() : "";
+                String iFormule = cboFormule.getSelectionModel().getSelectedItem() != null ? cboFormule.getSelectionModel().getSelectedItem().toString() : "";
+                extraParameters.addAll(Arrays.asList(inschrijvingsDatum, txfNaam.getText(), iFormule));
                 break;
             case ACTIVITEIT:
                 Activiteit.setExportable(new ExportableActiviteit());
-                extraParameters.addAll(Arrays.asList(cboActiviteitType.getSelectionModel().getSelectedItem().toString(), txfNaam.getText(), dpStartDatum.getValue().toString(), dpEindDatum.getValue().toString()));
+                String typeActiviteit = cboActiviteitType.getSelectionModel().getSelectedItem() != null ? cboActiviteitType.getSelectionModel().getSelectedItem().toString() : "";
+                String startDatum = dpStartDatum.getValue() != null ? dpStartDatum.getValue().toString() : "";
+                String eindDatum = dpEindDatum.getValue() != null ? dpEindDatum.getValue().toString() : "";
+                extraParameters.addAll(Arrays.asList(typeActiviteit, txfNaam.getText(), startDatum, eindDatum));
                 break;
             case CLUBKAMPIOENSCHAP:
                 Kampioenschap.setExportable(new ExportableKampioenschap());
-                extraParameters.addAll(Arrays.asList(txfNaam.getText(), cboLeeftijd.getSelectionModel().getSelectedItem().toString(), dpStartDatum.getValue().toString()));
+                String leeftijdCategorie = cboLeeftijd.getSelectionModel().getSelectedItem() != null ? cboLeeftijd.getSelectionModel().getSelectedItem().toString() : "";
+                String kampioenschapDatum = dpStartDatum.getValue() != null ? dpStartDatum.getValue().toString() : "";
+                extraParameters.addAll(Arrays.asList(txfNaam.getText(), leeftijdCategorie, kampioenschapDatum));
                 break;
             case LESMATERIAAL:
                 Oefening.setExportable(new ExportableOefening());
-                extraParameters.addAll(Arrays.asList(cboGraad.getSelectionModel().getSelectedItem().toString(), txfNaam.getText()));
+                String graad = cboGraad.getSelectionModel().getSelectedItem() != null ? cboGraad.getSelectionModel().getSelectedItem().toString() : "";
+                extraParameters.addAll(Arrays.asList(graad, txfNaam.getText()));
                 break;
         }
     }

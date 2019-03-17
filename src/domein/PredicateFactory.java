@@ -105,7 +105,7 @@ public class PredicateFactory {
         Predicate<Oefening> onONaam = oefening -> oefening.getNaam().toLowerCase().startsWith(naam.toLowerCase());
 
         if (!isNullOrEmpty(graad)) {
-            if (graad.equalsIgnoreCase("alles")) {
+            if (!graad.equalsIgnoreCase("alles")) {
                 full = full.and(onGraad);
             }
         }
@@ -137,7 +137,7 @@ public class PredicateFactory {
         }
 
         if (!isNullOrEmpty(formule)) {
-            if (formule.equalsIgnoreCase("alles")) {
+            if (!formule.equalsIgnoreCase("alles")) {
                 full = full.and(onFormule);
             }
         }
@@ -224,7 +224,7 @@ public class PredicateFactory {
         }
 
         if (!isNullOrEmpty(lidFormule)) {
-            if (lidFormule.equalsIgnoreCase("alles")) {
+            if (!lidFormule.equalsIgnoreCase("alles")) {
                 full = full.and(onFormuleA);
             }
         }

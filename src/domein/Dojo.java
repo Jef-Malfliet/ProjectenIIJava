@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -23,21 +24,29 @@ import static util.Validatie.isNull;
 
 public class Dojo {
 
-    private final RolType type;
     private final ObservableList<Lid> leden;
-    private final ObservableList<Activiteit> activiteiten;
-    private final ObservableList<Oefening> oefeningen;
-    private final ObservableList<Kampioenschap> kampioenschappen;
+    private final FilteredList<Lid> filteredLeden;
+    private final SortedList<Lid> sortedLeden;
     private final Comparator<Lid> opVoornaam = (lid1, lid2) -> lid1.getVoornaam().compareToIgnoreCase(lid2.getVoornaam());
     private final Comparator<Lid> opType = (lid1, lid2) -> lid1.getType().compareTo(lid2.getType());
     private final Comparator<Lid> opGraad = (lid1, lid2) -> lid1.getGraad().compareTo(lid2.getGraad());
-    private final Comparator<Lid> sortOrder = opVoornaam.thenComparing(opGraad).thenComparing(opType);
+    private final Comparator<Lid> sortOrderLeden = opVoornaam.thenComparing(opGraad).thenComparing(opType);
+
+    private final ObservableList<Activiteit> activiteiten;
+    private final FilteredList<Activiteit> filteredActiviteiten;
+    private final SortedList<Activiteit> sortedActiviteiten;
+
+    private final ObservableList<Oefening> oefeningen;
+    private final FilteredList<Oefening> filteredOefeningen;
+    private final SortedList<Oefening> sortedOefeningen;
     private final Comparator<Oefening> opOefNaam = (oef1, oef2) -> oef1.getNaam().compareToIgnoreCase(oef2.getNaam());
     private final Comparator<Oefening> opOefGraad = (oef1, oef2) -> oef1.getGraad().compareTo(oef2.getGraad());
     private final Comparator<Oefening> sortOefeningOrder = opOefNaam.thenComparing(opOefGraad);
-    private final FilteredList<Lid> filtered;
-    private final SortedList<Lid> sorted;
-    private final SortedList<Oefening> sortedOefeningen;
+
+    private final ObservableList<Kampioenschap> kampioenschappen;
+    private final FilteredList<Kampioenschap> filteredKampioenschappen;
+    private final SortedList<Kampioenschap> sortedKampioenschappen;
+
     private final PropertyChangeSupport subject;
     private final PropertyChangeSupport subjectOef;
     private LidDao lidRepo;
@@ -47,11 +56,11 @@ public class Dojo {
     private final List<Overzicht<Object>> overzichtList;
     private Lid currentLid;
     private IOefening current_oefening;
+    private final RolType type;
 
     private List<String> headers = new ArrayList<>();
 
     private int current_Activiteit = -1;
-    private final FilteredList<Oefening> filteredOefeningen;
 
     public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo, KampioenschapDao kampioenschapDao) {
         setLidRepo(lidRepo);
@@ -59,17 +68,25 @@ public class Dojo {
         setActiviteitDao(actRepo);
         setKampioenschapRepo(kampioenschapDao);
         this.type = RolType.BEHEERDER;
-        leden = FXCollections.observableArrayList(this.lidRepo.findAll());
-        activiteiten = FXCollections.observableArrayList(this.activiteitRepo.findAll());
-        filtered = new FilteredList<>(leden, (p) -> true);
-        sorted = new SortedList<>(filtered, sortOrder);
         subject = new PropertyChangeSupport(this);
         subjectOef = new PropertyChangeSupport(this);
         overzichtList = new ArrayList();
+
+        leden = FXCollections.observableArrayList(this.lidRepo.findAll());
+        filteredLeden = new FilteredList<>(leden, (p) -> true);
+        sortedLeden = new SortedList<>(filteredLeden, sortOrderLeden);
+
         oefeningen = FXCollections.observableArrayList(oefeningRepo.findAll());
         filteredOefeningen = new FilteredList<>(oefeningen, (p) -> true);
         sortedOefeningen = new SortedList<>(filteredOefeningen, sortOefeningOrder);
+
         kampioenschappen = FXCollections.observableArrayList();
+        filteredKampioenschappen = new FilteredList<>(kampioenschappen, p -> true);
+        sortedKampioenschappen = new SortedList<>(filteredKampioenschappen);
+
+        activiteiten = FXCollections.observableArrayList(this.activiteitRepo.findAll());
+        filteredActiviteiten = new FilteredList<>(activiteiten, p -> true);
+        sortedActiviteiten = new SortedList<>(filteredActiviteiten);
     }
 
     /**
@@ -159,11 +176,11 @@ public class Dojo {
     }
 
     public ObservableList<Lid> getSortedLeden() {
-        return sorted;
+        return sortedLeden;
     }
 
     public FilteredList getFilteredLeden() {
-        return filtered;
+        return filteredLeden;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -245,33 +262,9 @@ public class Dojo {
 
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
         Predicate<Lid> result = lid -> true;
-        Predicate<Lid> voornaam = lid -> lid.getVoornaam().toLowerCase().startsWith(voornaamFilter.toLowerCase());
-        Predicate<Lid> familienaam = lid -> lid.getFamilienaam().toLowerCase().startsWith(familienaamFilter.toLowerCase());
-        Predicate<Lid> graad = lid -> lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
-        Predicate<Lid> lidType = lid -> lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
-
-        if (notEmpty(voornaamFilter)) {
-            result = result.and(voornaam);
-        }
-
-        if (notEmpty(familienaamFilter)) {
-            result = result.and(familienaam);
-        }
-
-        if (notEmpty(graadFilter)) {
-            if (!graadFilter.equalsIgnoreCase("alles")) {
-                result = result.and(graad);
-            }
-        }
-
-        if (notEmpty(typeFilter)) {
-            if (!typeFilter.equalsIgnoreCase("alles")) {
-                result = result.and(lidType);
-            }
-
-        }
-
-        filtered.setPredicate(result);
+        Predicate<Lid> predicate = PredicateFactory.makePredicate(SorteerType.LID, Arrays.asList(voornaamFilter, familienaamFilter, graadFilter, typeFilter));
+        result = result.and(predicate);
+        filteredLeden.setPredicate(result);
     }
 
     public void filterOefening(String naamFilter, String graadFilter) {
@@ -312,98 +305,29 @@ public class Dojo {
         return !(value == null || value.isEmpty());
     }
 
-    public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<Object> extraParameters) {
-        FilteredList overzicht;
-
+    public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<String> extraParameters) {
+        Predicate predicate;
         switch (type) {
             case AANWEZIGHEID:
-                overzicht = new FilteredList<>(leden, (p) -> true);
-                LocalDate aanwezigheidDatum = (LocalDate) extraParameters.get(0);
-                String lidVoornaam = extraParameters.get(1).toString();
-                LesType lidFormule = (LesType) extraParameters.get(2);
-                Predicate<Lid> aanwResult = lid -> true;
-                Predicate<Lid> onAanwezigheid = lid -> lid.getAanwezigheden().contains(aanwezigheidDatum);
-                Predicate<Lid> onNameA = lid -> lid.getVoornaam().toLowerCase().startsWith(lidVoornaam.toLowerCase());
-                Predicate<Lid> onFormuleA = lid -> lid.getLessen().equals(lidFormule);
-
-                if (aanwezigheidDatum != null) {
-                    aanwResult = aanwResult.and(onAanwezigheid);
-                }
-
-                if (notEmpty(lidVoornaam)) {
-                    aanwResult = aanwResult.and(onNameA);
-                }
-
-                if (!isNull(onFormuleA)) {
-                    if (lidFormule != LesType.ALLES) {
-                        aanwResult = aanwResult.and(onFormuleA);
-                    }
-                }
-                overzicht.setPredicate(aanwResult);
-                return overzicht;
+                predicate = PredicateFactory.makePredicate(SorteerType.AANWEZIGHEID, extraParameters);
+                filteredLeden.setPredicate(predicate);
+                return (List<T>) filteredLeden;
             case INSCHRIJVING:
-                overzicht = new FilteredList<>(leden, (p) -> true);
-                LocalDate inschrijvingdatum = (LocalDate) extraParameters.get(0);
-                String voornaam = extraParameters.get(1).toString();
-                LesType formule = (LesType) extraParameters.get(2);
-                Predicate<Lid> inschResult = lid -> true;
-                Predicate<Lid> onInschrijving = lid -> lid.getInschrijvingsdatum().equals(inschrijvingdatum);
-                Predicate<Lid> onName = lid -> lid.getVoornaam().toLowerCase().startsWith(voornaam.toLowerCase());
-                Predicate<Lid> onFormule = lid -> lid.getLessen().equals(formule);
-
-                if (!isNull(inschrijvingdatum)) {
-                    inschResult = inschResult.and(onInschrijving);
-                }
-
-                if (notEmpty(voornaam)) {
-                    inschResult = inschResult.and(onName);
-                }
-
-                if (!isNull(formule)) {
-                    if (formule != LesType.ALLES) {
-                        inschResult = inschResult.and(onFormule);
-                    }
-                }
-                overzicht.setPredicate(inschResult);
-                return overzicht;
+                predicate = PredicateFactory.makePredicate(SorteerType.INSCHRIJVING, extraParameters);
+                filteredLeden.setPredicate(predicate);
+                return (List<T>) filteredLeden;
             case ACTIVITEIT:
-                overzicht = new FilteredList(activiteiten, p -> true);
-                String aNaam = extraParameters.get(1).toString();
-                ActiviteitType aType = (ActiviteitType) extraParameters.get(0);
-                Predicate<Activiteit> actResult = a -> true;
-                Predicate<Activiteit> onType = a -> a.getActiviteitType().equals(aType);
-                Predicate<Activiteit> onAName = a -> a.getNaam().toLowerCase().startsWith(aNaam.toLowerCase());
-
-                if (aType != null) {
-                    actResult = actResult.and(onType);
-                }
-                if (notEmpty(aNaam)) {
-                    actResult = actResult.and(onAName);
-                }
-                overzicht.setPredicate(actResult);
-                return overzicht;
+                predicate = PredicateFactory.makePredicate(SorteerType.ACTIVITIET, extraParameters);
+                filteredActiviteiten.setPredicate(predicate);
+                return (List<T>) filteredActiviteiten;
             case CLUBKAMPIOENSCHAP:
-                overzicht = new FilteredList(kampioenschappen, p -> true);
-                return overzicht;
+                predicate = PredicateFactory.makePredicate(SorteerType.CLUBKAMPIOENSCHAP, extraParameters);
+                filteredKampioenschappen.setPredicate(predicate);
+                return (List<T>) filteredKampioenschappen;
             case LESMATERIAAL:
-                overzicht = new FilteredList(oefeningen, p -> true);
-                Graad graad = (Graad) extraParameters.get(0);
-                String naam = extraParameters.get(1).toString();
-                Predicate<Oefening> oefResult = o -> true;
-                Predicate<Oefening> onGraad = o -> o.getGraad().equals(graad);
-                Predicate<Oefening> onONaam = oefening -> oefening.getNaam().toLowerCase().startsWith(naam.toLowerCase());
-
-                if (graad != null) {
-                    if (graad != Graad.ALLES) {
-                        oefResult = oefResult.and(onGraad);
-                    }
-                }
-
-                if (!Validatie.isNullOrEmpty(naam)) {
-                    oefResult = oefResult.and(onONaam);
-                }
-                overzicht.setPredicate(oefResult);
-                return overzicht;
+                predicate = PredicateFactory.makePredicate(SorteerType.LESMATERIAAL, extraParameters);
+                filteredOefeningen.setPredicate(predicate);
+                return (List<T>) filteredOefeningen;
             default:
                 return null;
         }
