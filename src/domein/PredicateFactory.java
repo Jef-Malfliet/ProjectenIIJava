@@ -124,7 +124,7 @@ public class PredicateFactory {
         String voornaam = parameters.get(1);
         String formule = parameters.get(2);
 
-        Predicate<Lid> onInschrijving = lid -> lid.getInschrijvingsdatum().toString().equals(inschrijvingdatum);
+        Predicate<Lid> onInschrijving = lid -> lid.getInschrijvingsdatum().equals(LocalDate.parse(inschrijvingdatum));
         Predicate<Lid> onName = lid -> lid.getVoornaam().toLowerCase().startsWith(voornaam.toLowerCase());
         Predicate<Lid> onFormule = lid -> lid.getLessen().toString().equals(formule);
 

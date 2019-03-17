@@ -20,6 +20,7 @@ import domein.IKampioenschap;
 import domein.ILid;
 import domein.IOefening;
 import domein.Kampioenschap;
+import domein.LeeftijdCategorie;
 import domein.LesType;
 import domein.Lid;
 import domein.Oefening;
@@ -79,7 +80,7 @@ public class OverzichtOpvraagSceneController extends HBox {
     @FXML
     private Label lblBesNaam;
 
-    private final List<Object> extraParameters;
+    private final List<String> extraParameters;
     @FXML
     private Label lblExtraParameters;
     @FXML
@@ -98,12 +99,12 @@ public class OverzichtOpvraagSceneController extends HBox {
     private Button btnPreview;
 
     private ComboBox<LesType> cboFormule;
-    private TextField txfLidNaam;
-    private DatePicker datePicker;
-    private TextField txfANaam;
-    private ComboBox cbActiviteitType;
-    private ComboBox<Graad> cboGraad;
     private TextField txfNaam;
+    private ComboBox cboActiviteitType;
+    private ComboBox<Graad> cboGraad;
+    private DatePicker dpStartDatum;
+    private DatePicker dpEindDatum;
+    private ComboBox<LeeftijdCategorie> cboLeeftijd;
     @FXML
     private Button btnClear;
 
@@ -136,8 +137,8 @@ public class OverzichtOpvraagSceneController extends HBox {
             alert.showAndWait();
         } else {
             fillParameters(type);
-            List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
-            placeTable(type, FXCollections.observableArrayList(overzicht));
+            //List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
+            //placeTable(type, FXCollections.observableArrayList(overzicht));
         }
     }
 
@@ -156,8 +157,6 @@ public class OverzichtOpvraagSceneController extends HBox {
             path = selectedDir.getPath();
         }
 
-        //dit is een lijst van alle leden
-        //naam afhankelijk van de lijst later
         String besNaam = txtBesNaam.getText();
         if (besNaam == null || besNaam.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -171,152 +170,173 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     private void buildGui() {
         cboType.setItems(FXCollections.observableArrayList(Arrays.asList(OverzichtType.values())));
+        cboFormule = new ComboBox();
+        cboFormule.setItems(FXCollections.observableArrayList(Arrays.asList(LesType.values())));
+        cboFormule.getSelectionModel().selectLast();
+        cboActiviteitType = new ComboBox();
+        cboActiviteitType.setItems(FXCollections.observableArrayList(Arrays.asList(ActiviteitType.values())));
+        cboActiviteitType.getSelectionModel().selectLast();
+        cboGraad = new ComboBox();
+        cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
+        cboGraad.getSelectionModel().selectLast();
+        txfNaam = new TextField();
+        dpStartDatum = new DatePicker();
+        dpEindDatum = new DatePicker();
+        cboLeeftijd = new ComboBox();
+        cboLeeftijd.setItems(FXCollections.observableArrayList(Arrays.asList(LeeftijdCategorie.values())));
+        cboLeeftijd.getSelectionModel().selectLast();
         setMaxScreen();
 
-        datePicker = new DatePicker();
-        txfLidNaam = new TextField();
-        cboFormule = new ComboBox();
-        txfANaam = new TextField();
-        cbActiviteitType = new ComboBox();
-        cboGraad = new ComboBox();
-        txfNaam = new TextField();
     }
 
     private void setMaxScreen() {
         lblOverzichtOpvragen.setMinWidth(sceneWidth);
         lblOverzichtRaadplegen.setMinWidth(sceneWidth);
-
         cboType.setPrefWidth(sceneWidth / 4.5);
         lblOverzicht.setPrefWidth(sceneWidth / 5);
-
         lblBesNaam.setPrefWidth(sceneWidth / 5);
         txtBesNaam.setPrefWidth(sceneWidth / 5);
-
         btnLocation.setPrefWidth(sceneWidth / 5);
         btnPreview.setPrefWidth(sceneWidth / 4.5);
         btnMaak.setPrefWidth(sceneWidth / 5);
         btnClear.setPrefWidth(sceneWidth / 4.5);
-
         lblExtraParameters.setPrefWidth(sceneWidth / 2);
+        cboActiviteitType.setPrefWidth(sceneWidth / 4.5);
+        dpEindDatum.setPrefWidth(sceneWidth / 4.5);
+        dpStartDatum.setPrefWidth(sceneWidth / 4.5);
+        cboFormule.setPrefWidth(sceneWidth / 4.5);
+        cboLeeftijd.setPrefWidth(sceneWidth / 4.5);
+        txfNaam.setMaxWidth(195);
     }
 
     private void makeExtraParamScreen(OverzichtType type) {
+        VBox vbLeft1 = new VBox();
+        VBox.setMargin(vbLeft1, new Insets(10));
 
-        Label lblDatum = new Label("Op datum");
-        lblDatum.setPrefWidth(sceneWidth / 4.5);
-        datePicker.setPrefWidth(sceneWidth / 4.2);
-        VBox vBoxDatum = new VBox();
-        VBox.setMargin(vBoxDatum, new Insets(10));
-        vBoxDatum.getChildren().addAll(lblDatum, datePicker);
+        VBox vbLeft2 = new VBox();
+        VBox.setMargin(vbLeft2, new Insets(10));
 
-        Label lblLidNaam = new Label("Op lid");
-        lblLidNaam.setPrefWidth(sceneWidth / 4.5);
-        txfLidNaam.setMaxWidth(195);
-        VBox vBoxLid = new VBox();
-        VBox.setMargin(vBoxLid, new Insets(10));
-        vBoxLid.getChildren().addAll(lblLidNaam, txfLidNaam);
+        VBox vbRight1 = new VBox();
+        VBox.setMargin(vbRight1, new Insets(10));
 
-        Label lblFormule = new Label("Op formule");
-        lblFormule.setPrefWidth(sceneWidth / 4.5);
-        cboFormule.setPrefWidth(sceneWidth / 4.5);
-        cboFormule.setPromptText("Kies een formule");
-        cboFormule.setItems(FXCollections.observableArrayList(Arrays.asList(LesType.values())));
-        cboFormule.getSelectionModel().selectLast();
-        VBox vBoxFormule = new VBox();
-        VBox.setMargin(vBoxFormule, new Insets(10));
-        vBoxFormule.getChildren().addAll(lblFormule, cboFormule);
+        VBox vbRight2 = new VBox();
+        VBox.setMargin(vbRight1, new Insets(10));
 
-        Label lblNoExtra = new Label("Geen extra parameters");
-        cboGraad.getSelectionModel().selectLast();
+        Label lblNaam = new Label();
+        Label lblDatum1 = new Label();
+        Label lblDatum2 = new Label();
+        Label lblComboBox = new Label();
+
+        lblNaam.setPrefWidth(sceneWidth / 4.5);
+        lblDatum1.setPrefWidth(sceneWidth / 4.5);
+        lblDatum2.setPrefWidth(sceneWidth / 4.5);
+        lblComboBox.setPrefWidth(sceneWidth / 4.5);
 
         switch (type) {
             case AANWEZIGHEID:
-                vBoxContainer.getChildren().clear();
-                extraParameters.clear();
-
                 hBoxTopRow.getChildren().clear();
-                hBoxTopRow.getChildren().addAll(vBoxLid, vBoxDatum);
-
                 hBoxUnderRow.getChildren().clear();
-                hBoxUnderRow.getChildren().addAll(vBoxFormule);
+                vBoxContainer.getChildren().clear();
 
+                vbLeft1.getChildren().clear();
+                lblNaam.setText("Op lid");
+                vbLeft1.getChildren().addAll(lblNaam, txfNaam);
+
+                vbRight1.getChildren().clear();
+                lblDatum1.setText("Op datum");
+                vbRight1.getChildren().addAll(lblDatum1, dpStartDatum);
+
+                vbLeft2.getChildren().clear();
+                lblComboBox.setText("Op formule");
+                vbLeft2.getChildren().addAll(lblComboBox, cboFormule);
+
+                hBoxTopRow.getChildren().addAll(vbLeft1, vbRight1);
+                hBoxUnderRow.getChildren().addAll(vbLeft2, vbRight2);
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
-                hBoxTableContainer.getChildren().clear();
                 break;
             case ACTIVITEIT:
-                vBoxContainer.getChildren().clear();
-                extraParameters.clear();
-
                 hBoxTopRow.getChildren().clear();
+                hBoxUnderRow.getChildren().clear();
+                vBoxContainer.getChildren().clear();
 
-                Label lblANaam = new Label("Acitiviteitsnaam");
-                lblANaam.setPrefWidth(sceneWidth / 4.5);
+                vbLeft1.getChildren().clear();
+                lblNaam.setText("Op activiteitnaam");
+                vbLeft1.getChildren().addAll(lblNaam, txfNaam);
 
-                txfANaam.setPrefWidth(sceneWidth / 4.5);
-                VBox vbANaam = new VBox();
-                VBox.setMargin(vbANaam, new Insets(10));
-                vbANaam.getChildren().addAll(lblANaam, txfANaam);
+                vbRight1.getChildren().clear();
+                lblDatum1.setText("Op startdatum");
+                vbRight1.getChildren().addAll(lblDatum1, dpStartDatum);
 
-                Label lblType = new Label("Type");
-                cbActiviteitType.setItems(FXCollections.observableArrayList(Arrays.asList(ActiviteitType.values())));
-                cbActiviteitType.getSelectionModel().selectFirst();
-                VBox vbType = new VBox();
-                VBox.setMargin(vbType, new Insets(10));
-                vbType.getChildren().addAll(lblType, cbActiviteitType);
+                vbLeft2.getChildren().clear();
+                lblComboBox.setText("Op formule");
+                vbLeft2.getChildren().addAll(lblComboBox, cboFormule);
 
-                hBoxTopRow.getChildren().addAll(vbANaam, vbType);
+                vbRight2.getChildren().clear();
+                lblDatum2.setText("Op einddatum");
+                vbRight2.getChildren().addAll(lblDatum2, dpEindDatum);
 
-                vBoxContainer.getChildren().addAll(hBoxTopRow);
-                hBoxTableContainer.getChildren().clear();
+                hBoxTopRow.getChildren().addAll(vbLeft1, vbRight1);
+                hBoxUnderRow.getChildren().addAll(vbLeft2, vbRight2);
+                vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
                 break;
             case CLUBKAMPIOENSCHAP:
-                vBoxContainer.getChildren().clear();
-                extraParameters.clear();
-
                 hBoxTopRow.getChildren().clear();
+                hBoxUnderRow.getChildren().clear();
+                vBoxContainer.getChildren().clear();
 
-                hBoxTopRow.getChildren().addAll(lblNoExtra);
+                vbLeft1.getChildren().clear();
+                lblNaam.setText("Op kampioenschapnaam");
+                vbLeft1.getChildren().addAll(lblNaam, txfNaam);
 
-                vBoxContainer.getChildren().addAll(hBoxTopRow);
-                hBoxTableContainer.getChildren().clear();
+                vbRight1.getChildren().clear();
+                lblDatum1.setText("Op datum");
+                vbRight1.getChildren().addAll(lblDatum1, dpStartDatum);
+
+                vbLeft2.getChildren().clear();
+                lblComboBox.setText("Op leeftijdscategorie");
+                vbLeft2.getChildren().addAll(lblComboBox, cboLeeftijd);
+
+                hBoxTopRow.getChildren().addAll(vbLeft1, vbRight1);
+                hBoxUnderRow.getChildren().addAll(vbLeft2, vbRight2);
+                vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
                 break;
             case INSCHRIJVING:
-                vBoxContainer.getChildren().clear();
-                extraParameters.clear();
-
                 hBoxTopRow.getChildren().clear();
-                hBoxTopRow.getChildren().addAll(vBoxLid, vBoxDatum);
-
                 hBoxUnderRow.getChildren().clear();
-                hBoxUnderRow.getChildren().addAll(vBoxFormule);
+                vBoxContainer.getChildren().clear();
 
+                vbLeft1.getChildren().clear();
+                lblNaam.setText("Op lid");
+                vbLeft1.getChildren().addAll(lblNaam, txfNaam);
+
+                vbRight1.getChildren().clear();
+                lblDatum1.setText("Op datum");
+                vbRight1.getChildren().addAll(lblDatum1, dpStartDatum);
+
+                vbLeft2.getChildren().clear();
+                lblComboBox.setText("Op formule");
+                vbLeft2.getChildren().addAll(lblComboBox, cboFormule);
+
+                hBoxTopRow.getChildren().addAll(vbLeft1, vbRight1);
+                hBoxUnderRow.getChildren().addAll(vbLeft2, vbRight2);
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
-                hBoxTableContainer.getChildren().clear();
                 break;
             case LESMATERIAAL:
-                vBoxContainer.getChildren().clear();
-                extraParameters.clear();
-
                 hBoxTopRow.getChildren().clear();
-                Label lblGraad = new Label("Graad");
-                cboGraad.setPromptText("Kies een graad");
-                cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
-                cboGraad.setPrefWidth(sceneWidth / 4.2);
-                VBox vbGraad = new VBox();
-                VBox.setMargin(vbGraad, new Insets(10));
-                vbGraad.getChildren().addAll(Arrays.asList(lblGraad, cboGraad));
-                hBoxTopRow.getChildren().addAll(Arrays.asList(vbGraad));
-
                 hBoxUnderRow.getChildren().clear();
-                Label lblNaam = new Label("Naam");
-                txfNaam.setPrefWidth(sceneWidth / 4.2);
-                VBox vbNaam = new VBox();
-                VBox.setMargin(vbNaam, new Insets(10));
-                vbNaam.getChildren().addAll(lblNaam, txfNaam);
-                hBoxUnderRow.getChildren().addAll(Arrays.asList(vbNaam));
+                vBoxContainer.getChildren().clear();
 
+                vbLeft1.getChildren().clear();
+                lblNaam.setText("Op oefeningnaam");
+                vbLeft1.getChildren().addAll(lblNaam, txfNaam);
+
+                vbRight1.getChildren().clear();
+                lblComboBox.setText("Op graad");
+                vbRight1.getChildren().addAll(lblComboBox, cboFormule);
+
+                hBoxTopRow.getChildren().addAll(vbLeft1, vbRight1);
+                hBoxUnderRow.getChildren().addAll(vbLeft2, vbRight2);
                 vBoxContainer.getChildren().addAll(hBoxTopRow, hBoxUnderRow);
-                hBoxTableContainer.getChildren().clear();
                 break;
         }
     }
@@ -388,7 +408,7 @@ public class OverzichtOpvraagSceneController extends HBox {
                 nameCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
                 datumCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
                 leeftijdCCol.prefWidthProperty().bind(tblKampioenschap.widthProperty().divide(3));
-                tblKampioenschap.getColumns().addAll(nameCol, datumCol,leeftijdCCol);
+                tblKampioenschap.getColumns().addAll(nameCol, datumCol, leeftijdCCol);
 
                 tblKampioenschap.setPrefWidth(sceneWidth * 2 / 3.1);
                 tblKampioenschap.setPrefHeight(sceneHeight - 100);
@@ -529,9 +549,9 @@ public class OverzichtOpvraagSceneController extends HBox {
     private <T extends Exportable> void maakDocument(MouseEvent event) {
         OverzichtType type = cboType.getSelectionModel().getSelectedItem();
         fillParameters(type);
-        List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
-        dc.maakOverzicht(overzicht, path);
-        maakOverzicht(type, FXCollections.observableArrayList(overzicht));
+        //List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
+        //dc.maakOverzicht(overzicht, path);
+        //maakOverzicht(type, FXCollections.observableArrayList(overzicht));
     }
 
     private void fillParameters(OverzichtType type) {
@@ -539,29 +559,36 @@ public class OverzichtOpvraagSceneController extends HBox {
         switch (type) {
             case AANWEZIGHEID:
                 Lid.setExportable(new ExportableLidAanwezigheden());
-                extraParameters.addAll(Arrays.asList(datePicker.getValue(), txfLidNaam.getText(), cboFormule.getSelectionModel().getSelectedItem()));
+                extraParameters.addAll(Arrays.asList(dpStartDatum.getValue().toString(), txfNaam.getText(), cboFormule.getSelectionModel().getSelectedItem().toString()));
                 break;
             case INSCHRIJVING:
                 Lid.setExportable(new ExportableLidInschrijvingen());
-                extraParameters.addAll(Arrays.asList(datePicker.getValue(), txfLidNaam.getText(), cboFormule.getSelectionModel().getSelectedItem()));
+                extraParameters.addAll(Arrays.asList(dpStartDatum.getValue().toString(), txfNaam.getText(), cboFormule.getSelectionModel().getSelectedItem().toString()));
                 break;
             case ACTIVITEIT:
                 Activiteit.setExportable(new ExportableActiviteit());
-                extraParameters.addAll(Arrays.asList(cbActiviteitType.getSelectionModel().getSelectedItem(), txfANaam.getText()));
+                extraParameters.addAll(Arrays.asList(cboActiviteitType.getSelectionModel().getSelectedItem().toString(), txfNaam.getText(), dpStartDatum.getValue().toString(), dpEindDatum.getValue().toString()));
                 break;
             case CLUBKAMPIOENSCHAP:
                 Kampioenschap.setExportable(new ExportableKampioenschap());
+                extraParameters.addAll(Arrays.asList(txfNaam.getText(), cboLeeftijd.getSelectionModel().getSelectedItem().toString(), dpStartDatum.getValue().toString()));
                 break;
             case LESMATERIAAL:
                 Oefening.setExportable(new ExportableOefening());
-                extraParameters.addAll(Arrays.asList(cboGraad.getSelectionModel().getSelectedItem(), txfNaam.getText()));
+                extraParameters.addAll(Arrays.asList(cboGraad.getSelectionModel().getSelectedItem().toString(), txfNaam.getText()));
                 break;
         }
     }
 
     @FXML
     private void maakFiltersLeeg(ActionEvent event) {
-
+        txfNaam.clear();
+        cboActiviteitType.getSelectionModel().clearAndSelect(ActiviteitType.values().length - 1);
+        cboFormule.getSelectionModel().clearAndSelect(LesType.values().length - 1);
+        cboGraad.getSelectionModel().clearAndSelect(Graad.values().length - 1);
+        dpStartDatum.getEditor().clear();
+        dpEindDatum.getEditor().clear();
+        cboLeeftijd.getSelectionModel().clearAndSelect(LeeftijdCategorie.values().length - 1);
     }
 
 }
