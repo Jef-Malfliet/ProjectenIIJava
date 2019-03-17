@@ -10,5 +10,7 @@ package domein;
  * @author Nante
  */
 public enum Geslacht {
-    MAN,VROUW,ANDERS;
+    MAN,
+    VROUW,
+    ANDERS;
 }

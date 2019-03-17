@@ -10,5 +10,7 @@ package domein;
  * @author Nante
  */
 public enum Land {
-    België,Nederland,Anders
+    België, 
+    Nederland, 
+    Anders
 }

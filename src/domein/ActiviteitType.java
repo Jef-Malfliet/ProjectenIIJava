@@ -10,5 +10,7 @@ package domein;
  * @author Jef
  */
 public enum ActiviteitType {
-    UITSTAP,STAGE
+    UITSTAP,
+    STAGE,
+    BEIDE
 }
