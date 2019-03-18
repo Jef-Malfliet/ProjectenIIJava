@@ -12,5 +12,5 @@ package domein;
 public enum ActiviteitType {
     UITSTAP,
     STAGE,
-    BEIDE
+    ALLES
 }

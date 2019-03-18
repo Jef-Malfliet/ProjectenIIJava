@@ -100,7 +100,7 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     private ComboBox<LesType> cboFormule;
     private TextField txfNaam;
-    private ComboBox cboActiviteitType;
+    private ComboBox<ActiviteitType> cboActiviteitType;
     private ComboBox<Graad> cboGraad;
     private DatePicker dpStartDatum;
     private DatePicker dpEindDatum;
@@ -268,8 +268,8 @@ public class OverzichtOpvraagSceneController extends HBox {
                 vbRight1.getChildren().addAll(lblDatum1, dpStartDatum);
 
                 vbLeft2.getChildren().clear();
-                lblComboBox.setText("Op formule");
-                vbLeft2.getChildren().addAll(lblComboBox, cboFormule);
+                lblComboBox.setText("Op type");
+                vbLeft2.getChildren().addAll(lblComboBox, cboActiviteitType);
 
                 vbRight2.getChildren().clear();
                 lblDatum2.setText("Op einddatum");

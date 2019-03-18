@@ -13,7 +13,7 @@ public enum SorteerType {
     LID,
     AANWEZIGHEID,
     INSCHRIJVING,
-    ACTIVITIET,
+    ACTIVITEIT,
     CLUBKAMPIOENSCHAP,
     LESMATERIAAL
 }

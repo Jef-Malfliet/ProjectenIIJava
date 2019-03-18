@@ -260,31 +260,6 @@ public class Dojo {
         this.oefeningRepo = oefeningRepo;
     }
 
-    public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
-        Predicate<Lid> result = lid -> true;
-        Predicate<Lid> predicate = PredicateFactory.makePredicate(SorteerType.LID, Arrays.asList(voornaamFilter, familienaamFilter, graadFilter, typeFilter));
-        result = result.and(predicate);
-        filteredLeden.setPredicate(result);
-    }
-
-    public void filterOefening(String naamFilter, String graadFilter) {
-        Predicate<Oefening> result = oefening -> true;
-        Predicate<Oefening> naam = oefening -> oefening.getNaam().toLowerCase().startsWith(naamFilter.toLowerCase());
-        Predicate<Oefening> graad = oefening -> oefening.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
-
-        if (notEmpty(naamFilter)) {
-            result = result.and(naam);
-        }
-        if (notEmpty(graadFilter)) {
-            if (!graadFilter.equals(Graad.ALLES.toString())) {
-                result = result.and(graad);
-            }
-
-        }
-
-        filteredOefeningen.setPredicate(result);
-    }
-
     private void setActiviteitDao(ActiviteitDao actRepo) {
         this.activiteitRepo = actRepo;
     }
@@ -301,8 +276,9 @@ public class Dojo {
         return activiteitRepo.get(id);
     }
 
-    private boolean notEmpty(String value) {
-        return !(value == null || value.isEmpty());
+    public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
+        Predicate predicate = PredicateFactory.makePredicate(SorteerType.LID, Arrays.asList(voornaamFilter, familienaamFilter, graadFilter, typeFilter));
+        filteredLeden.setPredicate(predicate);
     }
 
     public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<String> extraParameters) {
@@ -317,7 +293,7 @@ public class Dojo {
                 filteredLeden.setPredicate(predicate);
                 return (List<T>) filteredLeden;
             case ACTIVITEIT:
-                predicate = PredicateFactory.makePredicate(SorteerType.ACTIVITIET, extraParameters);
+                predicate = PredicateFactory.makePredicate(SorteerType.ACTIVITEIT, extraParameters);
                 filteredActiviteiten.setPredicate(predicate);
                 return (List<T>) filteredActiviteiten;
             case CLUBKAMPIOENSCHAP:
@@ -328,6 +304,10 @@ public class Dojo {
                 predicate = PredicateFactory.makePredicate(SorteerType.LESMATERIAAL, extraParameters);
                 filteredOefeningen.setPredicate(predicate);
                 return (List<T>) filteredOefeningen;
+//            case LID:
+//                predicate = PredicateFactory.makePredicate(SorteerType.LID, extraParameters);
+//                filteredLeden.setPredicate(predicate);
+//                return (List<T>) filteredLeden;  
             default:
                 return null;
         }

@@ -6,12 +6,14 @@
 package gui;
 
 import domein.DomeinController;
+import domein.Exportable;
 import domein.Graad;
 import domein.IOefening;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import domein.Oefening;
+import domein.OverzichtType;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,7 +31,7 @@ import util.FullScreenResolution;
  *
  * @author IndyV
  */
-public class LesmateriaalOverzichtSceneController extends VBox{
+public class LesmateriaalOverzichtSceneController extends VBox {
 
     private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
     private double sceneHeight = FullScreenResolution.getHeight();
@@ -79,6 +81,7 @@ public class LesmateriaalOverzichtSceneController extends VBox{
         });
 
         cbFilterGraad.setItems(FXCollections.observableArrayList(Graad.values()));
+        cbFilterGraad.getSelectionModel().selectLast();
 
     }
 
@@ -89,22 +92,20 @@ public class LesmateriaalOverzichtSceneController extends VBox{
         tcURL.setPrefWidth(sceneWidth / 3);
     }
 
-
     @FXML
     private void filter(ActionEvent event) {
         String naam = txfNaam.getText();
-        String graad="";
-        if(cbFilterGraad.getSelectionModel().getSelectedItem()!=null){
-            graad = cbFilterGraad.getSelectionModel().getSelectedItem().toString();
-        }
-        dc.filterOefening(naam, graad);
+        String graad = cbFilterGraad.getSelectionModel().getSelectedItem() != null ? cbFilterGraad.getSelectionModel().getSelectedItem().toString() : "";
+        List<Oefening> overzicht = dc.maakOverzichtList(OverzichtType.LESMATERIAAL, Arrays.asList(graad, naam));
+        tvOverzichtLesmateriaal.setItems(FXCollections.observableArrayList(overzicht));
     }
 
     @FXML
-    private void geenFilter(ActionEvent event) {
+    private <T extends Exportable> void geenFilter(ActionEvent event) {
         txfNaam.clear();
-        cbFilterGraad.getSelectionModel().clearSelection();
-        dc.filterOefening("", "");
+        cbFilterGraad.getSelectionModel().clearAndSelect(Graad.values().length-1);
+        List<Oefening> overzicht = dc.maakOverzichtList(OverzichtType.LESMATERIAAL, Arrays.asList("", ""));
+        tvOverzichtLesmateriaal.setItems(FXCollections.observableArrayList(overzicht));
     }
 
 }

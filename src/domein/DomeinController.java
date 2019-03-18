@@ -3,6 +3,7 @@ package domein;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
@@ -128,10 +129,10 @@ public class DomeinController {
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
         dojo.filter(voornaamFilter, familienaamFilter, graadFilter, typeFilter);
     }
-    
-    public void filterOefening(String naam, String graad){
-        dojo.filterOefening(naam,graad);
-    }
+
+//    public void filterOefening(String naam, String graad) {
+//        dojo.filterOefening(naam, graad);
+//    }
 
     public ObservableList<IActiviteit> getActiviteiten() {
         return (ObservableList<IActiviteit>) (Object) dojo.getActiviteitenList();
@@ -236,14 +237,15 @@ public class DomeinController {
         this.kampioenschapRepository = kampioenschapDao;
     }
 
-    public void addPropertyChangeListenerOefening(PropertyChangeListener pcl){
+    public void addPropertyChangeListenerOefening(PropertyChangeListener pcl) {
         dojo.addPropertyChangeListenerOefening(pcl);
     }
+
     public void setCurrent_oefening(IOefening newOef) {
         dojo.setCurrent_oefening(newOef);
     }
-    
-    public IOefening getCurrent_oefening(){
+
+    public IOefening getCurrent_oefening() {
         return dojo.getCurrent_oefening();
     }
 }

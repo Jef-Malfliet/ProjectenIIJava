@@ -24,7 +24,7 @@ public class PredicateFactory {
                 Predicate aanwezig = genPredAanwezig(parameters);
                 full = full.and(aanwezig);
                 break;
-            case ACTIVITIET:
+            case ACTIVITEIT:
                 Predicate activiteit = genPredActiviteit(parameters);
                 full = full.and(activiteit);
                 break;
@@ -73,21 +73,21 @@ public class PredicateFactory {
         Predicate<Lid> graad = lid -> lid.getGraad().toString().toLowerCase().startsWith(graadFilter.toLowerCase());
         Predicate<Lid> lidType = lid -> lid.getType().toString().toLowerCase().startsWith(typeFilter.toLowerCase());
 
-        if (isNullOrEmpty(voornaamFilter)) {
+        if (!isNullOrEmpty(voornaamFilter)) {
             full = full.and(voornaam);
         }
 
-        if (isNullOrEmpty(familienaamFilter)) {
+        if (!isNullOrEmpty(familienaamFilter)) {
             full = full.and(familienaam);
         }
 
-        if (isNullOrEmpty(graadFilter)) {
+        if (!isNullOrEmpty(graadFilter)) {
             if (!graadFilter.equalsIgnoreCase("alles")) {
                 full = full.and(graad);
             }
         }
 
-        if (isNullOrEmpty(typeFilter)) {
+        if (!isNullOrEmpty(typeFilter)) {
             if (!typeFilter.equalsIgnoreCase("alles")) {
                 full = full.and(lidType);
             }

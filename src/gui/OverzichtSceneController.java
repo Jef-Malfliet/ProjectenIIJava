@@ -145,11 +145,8 @@ public class OverzichtSceneController extends VBox {
     private void filter(MouseEvent event) {
         String voornaamFilter = txfVnFilter.getText();
         String familienaamFilter = txfFnFilter.getText();
-        Graad g = cboGFilter.getSelectionModel().getSelectedItem();
-        RolType r = cboTFilter.getSelectionModel().getSelectedItem();
-        String graadFilter = g == null ? "" : g.toString();
-        String typeFilter = r == null ? "" : r.toString();
-
+        String graadFilter = cboGFilter.getSelectionModel() != null ? cboGFilter.getSelectionModel().getSelectedItem().toString() : "";
+        String typeFilter = cboTFilter.getSelectionModel() != null ? cboTFilter.getSelectionModel().getSelectedItem().toString() : "";
         dc.filter(voornaamFilter, familienaamFilter, graadFilter, typeFilter);
     }
 
