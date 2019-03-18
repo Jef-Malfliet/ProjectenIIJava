@@ -455,16 +455,6 @@
       <HBox maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="703.0">
          <children>
             <HBox alignment="CENTER" prefHeight="91.0" prefWidth="300.0">
-               <children>
-                  <Button fx:id="btnNieuwNIETLID" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="37.0" prefWidth="135.0" text="Nieuw NIET LID">
-                     <HBox.margin>
-                        <Insets bottom="20.0" left="70.0" right="20.0" top="20.0" />
-                     </HBox.margin>
-                     <opaqueInsets>
-                        <Insets left="50.0" />
-                     </opaqueInsets>
-                  </Button>
-               </children>
                <opaqueInsets>
                   <Insets left="500.0" />
                </opaqueInsets>

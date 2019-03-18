@@ -66,7 +66,6 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     @FXML
     private Label lblDetail;
     private boolean nieuwlid;
-    private boolean nieuwNIETlid;
     @FXML
     private ComboBox<Graad> cboGraad;
     @FXML
@@ -170,9 +169,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             nieuwLidPaneel();
         });
         
-        btnNieuwNIETLID.setOnMouseClicked(e -> {
-            nieuwNIETLidPaneel();
-        });
+      
         btnVerwijderLid.setOnMouseClicked(e -> {
             if (alertVerwijderenLid()) {
                 dc.verwijderCurrentLid();
@@ -608,11 +605,5 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             return false;
     }
 
-    private void nieuwNIETLidPaneel() {
-        if (clearTextFields()) {
-            nieuwNIETlid = true;
-            lblDetail.setText("Nieuw NIET Lid toevoegen");
-        }
-    }
 
 }
