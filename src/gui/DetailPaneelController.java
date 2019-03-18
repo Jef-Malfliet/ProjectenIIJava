@@ -66,6 +66,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     @FXML
     private Label lblDetail;
     private boolean nieuwlid;
+    private boolean nieuwNIETlid;
     @FXML
     private ComboBox<Graad> cboGraad;
     @FXML
@@ -146,6 +147,8 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     private TextField txtRijksregisternummer3;
     @FXML
     private TextField txtRijksregisternummer4;
+    @FXML
+    private Button btnNieuwNIETLID;
 
     public DetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
@@ -166,7 +169,10 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         btnNieuwLid.setOnMouseClicked(e -> {
             nieuwLidPaneel();
         });
-
+        
+        btnNieuwNIETLID.setOnMouseClicked(e -> {
+            nieuwNIETLidPaneel();
+        });
         btnVerwijderLid.setOnMouseClicked(e -> {
             if (alertVerwijderenLid()) {
                 dc.verwijderCurrentLid();
@@ -198,11 +204,19 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     }
 
     private void vulComboboxen() {
-        cboGraad.setItems(FXCollections.observableArrayList(Arrays.asList(Graad.values())));
-        cboType.setItems(FXCollections.observableArrayList(Arrays.asList(RolType.values())));
-        cboGeslacht.setItems(FXCollections.observableArrayList(Arrays.asList(Geslacht.values())));
-        cboLesType.setItems(FXCollections.observableArrayList(Arrays.asList(LesType.values())));
+        List<Graad> graden = Arrays.asList(Graad.values());
+        List<RolType> roltypes = Arrays.asList(RolType.values());
+        List<LesType> lestypes = Arrays.asList(LesType.values());
+        cboGraad.setItems(FXCollections.observableArrayList(removeLastItem(graden)));
+        cboType.setItems(FXCollections.observableArrayList(removeLastItem(roltypes)));
+        cboLesType.setItems(FXCollections.observableArrayList(removeLastItem(lestypes)));
         cboLand.setItems(FXCollections.observableArrayList(Arrays.asList(Land.values())));
+        cboGeslacht.setItems(FXCollections.observableArrayList(Arrays.asList(Geslacht.values())));
+
+    }
+    
+    private <T> List<T> removeLastItem (List<T> lijst){
+        return lijst.subList(0, lijst.size()-1);
     }
 
     private void changeGemeenteTextField() {
@@ -592,6 +606,13 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
                 return showAndWait.get() == verwijder;
             }
             return false;
+    }
+
+    private void nieuwNIETLidPaneel() {
+        if (clearTextFields()) {
+            nieuwNIETlid = true;
+            lblDetail.setText("Nieuw NIET Lid toevoegen");
+        }
     }
 
 }
