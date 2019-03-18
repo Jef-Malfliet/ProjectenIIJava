@@ -101,7 +101,6 @@ public class Lid implements ILid, Serializable, Exportable {
         setGraad(graad);
         setType(type);
         setLessen(lessen);
-
     }
 
     private void voegAanwezigheidToe(LocalDate date) {

@@ -34,6 +34,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -146,8 +148,6 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     private TextField txtRijksregisternummer3;
     @FXML
     private TextField txtRijksregisternummer4;
-    @FXML
-    private Button btnNieuwNIETLID;
 
     public DetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailPaneel.fxml"));
@@ -168,8 +168,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         btnNieuwLid.setOnMouseClicked(e -> {
             nieuwLidPaneel();
         });
-        
-      
+
         btnVerwijderLid.setOnMouseClicked(e -> {
             if (alertVerwijderenLid()) {
                 dc.verwijderCurrentLid();
@@ -187,10 +186,16 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         cboGemeentes.setOnAction(e -> {
             changeGemeenteTextField();
         });
+
         cboLand.setOnAction(e -> {
             comboGemeentes = !cboLand.getSelectionModel().getSelectedItem().equals(Land.Anders);
             controleerOpgemeentes();
         });
+
+        cboType.setOnAction(e -> {
+            updateBasedOnType();
+        });
+
 //        Button b = new Button();
 //        b.setText("USE CBO");
 //        b.setOnAction(e -> {
@@ -209,11 +214,10 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         cboLesType.setItems(FXCollections.observableArrayList(removeLastItem(lestypes)));
         cboLand.setItems(FXCollections.observableArrayList(Arrays.asList(Land.values())));
         cboGeslacht.setItems(FXCollections.observableArrayList(Arrays.asList(Geslacht.values())));
-
     }
-    
-    private <T> List<T> removeLastItem (List<T> lijst){
-        return lijst.subList(0, lijst.size()-1);
+
+    private <T> List<T> removeLastItem(List<T> lijst) {
+        return lijst.subList(0, lijst.size() - 1);
     }
 
     private void changeGemeenteTextField() {
@@ -457,6 +461,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             cboGemeentes.setPrefWidth(231);
             cboGemeentes.setPrefHeight(28);
             comboGemeentes = true;
+            updateBasedOnType();
             return true;
 
         }
@@ -508,7 +513,6 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         }
 
     }
-
 
     private TextField[] geefTextfields() {
         TextField[] textfields = {txtVoornaam, txtAchternaam, txtWachtwoord, txtVasteTelefoon, txtStraat, txtHuisnummer, txtBusnummer, txtPostCode, txtGemeente, txtEmail, txtEmail_ouders, txtGsmnummer, txtRijksregisternummer0, txtRijksregisternummer1, txtRijksregisternummer2, txtRijksregisternummer3, txtRijksregisternummer3, txtRijksregisternummer4};
@@ -588,22 +592,34 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     }
 
     private boolean alertVerwijderenLid() {
-       ILid currentLid = dc.getCurrentLid();
-       Alert a = new Alert(AlertType.CONFIRMATION);
-            a.setTitle("OPGELET");
-            a.setHeaderText("OPGELET");
-            a.setContentText(String.format("Bent u zeker dat u het lid %s wil verwijderen?",currentLid.getVoornaam() + currentLid.getFamilienaam()));
-            ButtonType verwijder = new ButtonType("Verwijder");
-            ButtonType annuleer = new ButtonType("Annuleer");
-            a.getButtonTypes().clear();
+        ILid currentLid = dc.getCurrentLid();
+        Alert a = new Alert(AlertType.CONFIRMATION);
+        a.setTitle("OPGELET");
+        a.setHeaderText("OPGELET");
+        a.setContentText(String.format("Bent u zeker dat u het lid %s wil verwijderen?", currentLid.getVoornaam() + currentLid.getFamilienaam()));
+        ButtonType verwijder = new ButtonType("Verwijder");
+        ButtonType annuleer = new ButtonType("Annuleer");
+        a.getButtonTypes().clear();
 
-            a.getButtonTypes().addAll(verwijder, annuleer);
-            Optional<ButtonType> showAndWait = a.showAndWait();
-            if (showAndWait.isPresent()) {
-                return showAndWait.get() == verwijder;
-            }
-            return false;
+        a.getButtonTypes().addAll(verwijder, annuleer);
+        Optional<ButtonType> showAndWait = a.showAndWait();
+        if (showAndWait.isPresent()) {
+            return showAndWait.get() == verwijder;
+        }
+        return false;
     }
 
+    private void updateBasedOnType() {
+        RolType type = cboType.getSelectionModel().getSelectedItem();
+        if (type == RolType.NIET_LID) {
+            cboGraad.setDisable(true);
+            dpInschrijving.setDisable(true);
+            cboLesType.setDisable(true);
+        } else {
+            cboGraad.setDisable(false);
+            dpInschrijving.setDisable(false);
+            cboLesType.setDisable(false);
+        }
+    }
 
 }
