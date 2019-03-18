@@ -24,7 +24,6 @@ import domein.LeeftijdCategorie;
 import domein.LesType;
 import domein.Lid;
 import domein.Oefening;
-import domein.OverzichtType;
 import domein.SorteerType;
 import java.io.File;
 import java.io.IOException;
@@ -598,6 +597,8 @@ public class OverzichtOpvraagSceneController extends HBox {
         dpStartDatum.getEditor().clear();
         dpEindDatum.getEditor().clear();
         cboLeeftijd.getSelectionModel().clearAndSelect(LeeftijdCategorie.values().length - 1);
+        SorteerType type = cboType.getSelectionModel().getSelectedItem();
+        placeTable(type, FXCollections.observableArrayList(dc.maakOverzichtList(type, null)));
     }
 
 }
