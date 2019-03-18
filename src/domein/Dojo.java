@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -19,8 +18,6 @@ import persistentie.GenericDaoJpa;
 import persistentie.KampioenschapDao;
 import persistentie.LidDao;
 import persistentie.OefeningDao;
-import util.Validatie;
-import static util.Validatie.isNull;
 
 public class Dojo {
 
@@ -276,12 +273,12 @@ public class Dojo {
         return activiteitRepo.get(id);
     }
 
-    public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
-        Predicate predicate = PredicateFactory.makePredicate(SorteerType.LID, Arrays.asList(voornaamFilter, familienaamFilter, graadFilter, typeFilter));
-        filteredLeden.setPredicate(predicate);
-    }
+//    public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
+//        Predicate predicate = PredicateFactory.makePredicate(SorteerType.LID, Arrays.asList(voornaamFilter, familienaamFilter, graadFilter, typeFilter));
+//        filteredLeden.setPredicate(predicate);
+//    }
 
-    public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<String> extraParameters) {
+    public <T extends Exportable> List<T> maakOverzichtList(SorteerType type, List<String> extraParameters) {
         Predicate predicate;
         switch (type) {
             case AANWEZIGHEID:
@@ -304,10 +301,11 @@ public class Dojo {
                 predicate = PredicateFactory.makePredicate(SorteerType.LESMATERIAAL, extraParameters);
                 filteredOefeningen.setPredicate(predicate);
                 return (List<T>) filteredOefeningen;
-//            case LID:
-//                predicate = PredicateFactory.makePredicate(SorteerType.LID, extraParameters);
-//                filteredLeden.setPredicate(predicate);
-//                return (List<T>) filteredLeden;  
+            case LID:
+                predicate = PredicateFactory.makePredicate(SorteerType.LID, extraParameters);
+                filteredLeden.setPredicate(predicate);
+                //return (List<T>) filteredLeden;
+                return null;
             default:
                 return null;
         }

@@ -127,12 +127,9 @@ public class DomeinController {
     }
 
     public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {
-        dojo.filter(voornaamFilter, familienaamFilter, graadFilter, typeFilter);
+        //dojo.filter(voornaamFilter, familienaamFilter, graadFilter, typeFilter);
+        dojo.maakOverzichtList(SorteerType.LID, Arrays.asList(voornaamFilter, familienaamFilter, graadFilter, typeFilter));
     }
-
-//    public void filterOefening(String naam, String graad) {
-//        dojo.filterOefening(naam, graad);
-//    }
 
     public ObservableList<IActiviteit> getActiviteiten() {
         return (ObservableList<IActiviteit>) (Object) dojo.getActiviteitenList();
@@ -170,7 +167,7 @@ public class DomeinController {
         return dojo.getActiviteit(id);
     }
 
-    public <T extends Exportable> List<T> maakOverzichtList(OverzichtType type, List<String> extraParameters) {
+    public <T extends Exportable> List<T> maakOverzichtList(SorteerType type, List<String> extraParameters) {
         return dojo.maakOverzichtList(type, extraParameters);
     }
 

@@ -11,6 +11,7 @@ import domein.Graad;
 import domein.IOefening;
 import domein.Oefening;
 import domein.OverzichtType;
+import domein.SorteerType;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -96,7 +97,7 @@ public class LesmateriaalOverzichtSceneController extends VBox {
     private void filter(ActionEvent event) {
         String naam = txfNaam.getText();
         String graad = cbFilterGraad.getSelectionModel().getSelectedItem() != null ? cbFilterGraad.getSelectionModel().getSelectedItem().toString() : "";
-        List<Oefening> overzicht = dc.maakOverzichtList(OverzichtType.LESMATERIAAL, Arrays.asList(graad, naam));
+        List<Oefening> overzicht = dc.maakOverzichtList(SorteerType.LESMATERIAAL, Arrays.asList(graad, naam));
         tvOverzichtLesmateriaal.setItems(FXCollections.observableArrayList(overzicht));
     }
 
@@ -104,7 +105,7 @@ public class LesmateriaalOverzichtSceneController extends VBox {
     private <T extends Exportable> void geenFilter(ActionEvent event) {
         txfNaam.clear();
         cbFilterGraad.getSelectionModel().clearAndSelect(Graad.values().length-1);
-        List<Oefening> overzicht = dc.maakOverzichtList(OverzichtType.LESMATERIAAL, Arrays.asList("", ""));
+        List<Oefening> overzicht = dc.maakOverzichtList(SorteerType.LESMATERIAAL, Arrays.asList("", ""));
         tvOverzichtLesmateriaal.setItems(FXCollections.observableArrayList(overzicht));
     }
 

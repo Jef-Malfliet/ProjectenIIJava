@@ -25,6 +25,7 @@ import domein.LesType;
 import domein.Lid;
 import domein.Oefening;
 import domein.OverzichtType;
+import domein.SorteerType;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ import util.FullScreenResolution;
 public class OverzichtOpvraagSceneController extends HBox {
 
     @FXML
-    private ComboBox<OverzichtType> cboType;
+    private ComboBox<SorteerType> cboType;
 
     private final DomeinController dc;
     @FXML
@@ -120,7 +121,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         this.dc = dc;
         buildGui();
         extraParameters = new ArrayList<>();
-        cboType.valueProperty().addListener((ObservableValue<? extends OverzichtType> observable, OverzichtType oldValue, OverzichtType newValue) -> {
+        cboType.valueProperty().addListener((ObservableValue<? extends SorteerType> observable, SorteerType oldValue, SorteerType newValue) -> {
             System.out.println(newValue);
             makeExtraParamScreen(newValue);
         });
@@ -129,7 +130,7 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     @FXML
     private <T extends Exportable> void maakOverzicht(ActionEvent event) {
-        OverzichtType type = cboType.getSelectionModel().getSelectedItem();
+        SorteerType type = cboType.getSelectionModel().getSelectedItem();
         if (type == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error: geen overzichtstype");
@@ -142,7 +143,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         }
     }
 
-    private void maakOverzicht(OverzichtType type, ObservableList list) {
+    private void maakOverzicht(SorteerType type, ObservableList list) {
         placeTable(type, list);
     }
 
@@ -169,7 +170,7 @@ public class OverzichtOpvraagSceneController extends HBox {
     }
 
     private void buildGui() {
-        cboType.setItems(FXCollections.observableArrayList(Arrays.asList(OverzichtType.values())));
+        cboType.setItems(FXCollections.observableArrayList(Arrays.asList(SorteerType.values()).subList(1, SorteerType.values().length)));
         cboFormule = new ComboBox();
         cboFormule.setItems(FXCollections.observableArrayList(Arrays.asList(LesType.values())));
         cboFormule.getSelectionModel().selectLast();
@@ -209,7 +210,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         txfNaam.setMaxWidth(195);
     }
 
-    private void makeExtraParamScreen(OverzichtType type) {
+    private void makeExtraParamScreen(SorteerType type) {
         VBox vbLeft1 = new VBox();
         VBox.setMargin(vbLeft1, new Insets(10));
 
@@ -341,7 +342,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         }
     }
 
-    private void placeTable(OverzichtType type, ObservableList list) {
+    private void placeTable(SorteerType type, ObservableList list) {
         Label lblAanwezigheden = new Label("Aanwezigheden");
         ListView<String> lstAanwezigheden = new ListView<>();
         lstAanwezigheden.setPrefHeight(sceneHeight - 100);
@@ -545,14 +546,14 @@ public class OverzichtOpvraagSceneController extends HBox {
 
     @FXML
     private <T extends Exportable> void maakDocument(MouseEvent event) {
-        OverzichtType type = cboType.getSelectionModel().getSelectedItem();
+        SorteerType type = cboType.getSelectionModel().getSelectedItem();
         fillParameters(type);
         List<T> overzicht = dc.maakOverzichtList(type, extraParameters);
         dc.maakOverzicht(overzicht, path);
         maakOverzicht(type, FXCollections.observableArrayList(overzicht));
     }
 
-    private void fillParameters(OverzichtType type) {
+    private void fillParameters(SorteerType type) {
         extraParameters.clear();
         switch (type) {
             case AANWEZIGHEID:
