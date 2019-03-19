@@ -54,7 +54,7 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     @Access(AccessType.PROPERTY)
     @ManyToMany(cascade = CascadeType.REFRESH)
-    
+
     public List<Lid> getAanwezigen() {
         return aanwezigen;
     }

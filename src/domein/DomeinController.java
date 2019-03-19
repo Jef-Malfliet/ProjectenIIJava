@@ -1,5 +1,6 @@
 package domein;
 
+import gui.ActiviteitDetailPaneelController;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -244,5 +245,9 @@ public class DomeinController {
 
     public IOefening getCurrent_oefening() {
         return dojo.getCurrent_oefening();
+    }
+
+    public void addPropertyChangeListenerActiviteit(ActiviteitDetailPaneelController pcl) {
+        dojo.addPropertyChangeListenerActiviteit(pcl);
     }
 }

@@ -7,8 +7,7 @@ package gui;
 
 import domein.DomeinController;
 import domein.IActiviteit;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import domein.ILid;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +22,7 @@ import util.FullScreenResolution;
  *
  * @author Jef
  */
-public class ActiviteitOverzichtSceneController extends VBox implements PropertyChangeListener {
+public class ActiviteitOverzichtSceneController extends VBox {
 
     private double sceneWidth = FullScreenResolution.getWidth() / 10 * 4.25;
     private double sceneHeight = FullScreenResolution.getHeight();
@@ -40,12 +39,10 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
     private TableColumn<IActiviteit, String> tcEinddatum;
     @FXML
     private TableColumn<IActiviteit, String> tcActiviteitType;
-    
-    private final DomeinController dc;
-    private final ActiviteitDetailPaneelController adpc;
-    
 
-    public ActiviteitOverzichtSceneController(DomeinController dc, ActiviteitDetailPaneelController adpc) {
+    private final DomeinController dc;
+
+    public ActiviteitOverzichtSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ActiviteitOverzichtScene.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -55,23 +52,23 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
             throw new RuntimeException(ex);
         }
         this.dc = dc;
-        this.adpc = adpc;
         buildGui();
     }
 
     private void buildGui() {
         tvActiviteiten.getSelectionModel().selectedItemProperty().addListener((observable, oldAct, newAct) -> {
             if (newAct != null) {
-                IActiviteit activiteit = dc.getActiviteitByNaamAndBeginAndEinddate(newAct.getNaam(), newAct.getBeginDatum(), newAct.getEindDatum());
-                if (adpc.fillActiviteit(activiteit)) {
-                    dc.setCurrentActiviteit(activiteit);
-                    adpc.enableEdits();
-                }
+                dc.setCurrentActiviteit(newAct);
             }
         });
         setMaxScreen();
-        updateList();
+        tvActiviteiten.setItems(dc.getActiviteiten());
+        tcNaam.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
+        tcBegindatum.setCellValueFactory(cellData -> cellData.getValue().getBeginDatumProperty());
+        tcEinddatum.setCellValueFactory(cellData -> cellData.getValue().getEindDatumProperty());
+        tcActiviteitType.setCellValueFactory(cellData -> cellData.getValue().getActiviteitTypeProperty());
         tvActiviteiten.getSelectionModel().selectFirst();
+        dc.setCurrentActiviteit((IActiviteit) tvActiviteiten.getSelectionModel().getSelectedItem());
     }
 
     private void setMaxScreen() {
@@ -91,20 +88,6 @@ public class ActiviteitOverzichtSceneController extends VBox implements Property
         if (activiteit != null) {
             dc.verwijderCurrentActiviteit();
         }
-        adpc.clearNaVerwijderen();
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        updateList();
-    }
- 
-    public void updateList() {
-        tvActiviteiten.setItems(dc.getActiviteiten());
-        tcNaam.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
-        tcBegindatum.setCellValueFactory(cellData -> cellData.getValue().getBeginDatumProperty());
-        tcEinddatum.setCellValueFactory(cellData -> cellData.getValue().getEindDatumProperty());
-        tcActiviteitType.setCellValueFactory(cellData -> cellData.getValue().getActiviteitTypeProperty());
     }
 
 }

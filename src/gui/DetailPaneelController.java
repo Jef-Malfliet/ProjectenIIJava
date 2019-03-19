@@ -34,8 +34,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -173,7 +171,6 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             if (alertVerwijderenLid()) {
                 dc.verwijderCurrentLid();
             }
-
         });
 
         txtPostCode.setOnKeyReleased(e -> {

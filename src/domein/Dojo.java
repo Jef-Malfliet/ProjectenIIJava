@@ -45,6 +45,7 @@ public class Dojo {
     private final SortedList<Kampioenschap> sortedKampioenschappen;
 
     private final PropertyChangeSupport subject;
+    private final PropertyChangeSupport subjectAct;
     private final PropertyChangeSupport subjectOef;
     private LidDao lidRepo;
     private OefeningDao oefeningRepo;
@@ -57,7 +58,7 @@ public class Dojo {
 
     private List<String> headers = new ArrayList<>();
 
-    private int current_Activiteit = -1;
+    private Activiteit currentActiviteit;
 
     public Dojo(LidDao lidRepo, OefeningDao oefeningRepo, ActiviteitDao actRepo, KampioenschapDao kampioenschapDao) {
         setLidRepo(lidRepo);
@@ -67,6 +68,7 @@ public class Dojo {
         this.type = RolType.BEHEERDER;
         subject = new PropertyChangeSupport(this);
         subjectOef = new PropertyChangeSupport(this);
+        subjectAct = new PropertyChangeSupport(this);
         overzichtList = new ArrayList();
 
         leden = FXCollections.observableArrayList(this.lidRepo.findAll());
@@ -277,7 +279,6 @@ public class Dojo {
 //        Predicate predicate = PredicateFactory.makePredicate(SorteerType.LID, Arrays.asList(voornaamFilter, familienaamFilter, graadFilter, typeFilter));
 //        filteredLeden.setPredicate(predicate);
 //    }
-
     public <T extends Exportable> List<T> maakOverzichtList(SorteerType type, List<String> extraParameters) {
         Predicate predicate;
         switch (type) {
@@ -329,18 +330,22 @@ public class Dojo {
     }
 
     public void setCurrentActiviteit(IActiviteit activiteit) {
-        current_Activiteit = activiteiten.indexOf(activiteit);
+        int plaats = activiteiten.indexOf(activiteit);
+        Activiteit nieuweActiviteit = null;
+
+        if (plaats != -1) {
+            nieuweActiviteit = activiteiten.get(plaats);
+        }
+        subjectAct.firePropertyChange("currentActiviteit", currentActiviteit, nieuweActiviteit);
+        // currentLid = (Lid) lid;
+        currentActiviteit = nieuweActiviteit;
     }
 
     public IActiviteit getCurrentActiviteit() {
-        if (current_Activiteit != -1) {
-            return activiteiten.get(current_Activiteit);
-        }
-        return null;
+        return currentActiviteit;
     }
 
     public boolean verwijderCurrentActiviteit() {
-        Activiteit currentActiviteit = current_Activiteit != -1 ? activiteiten.get(current_Activiteit) : null;
         GenericDaoJpa.startTransaction();
         this.activiteitRepo.delete(currentActiviteit);
         GenericDaoJpa.commitTransaction();
@@ -349,7 +354,6 @@ public class Dojo {
 
     public boolean wijzigActiviteit(String naam, LocalDate beginDatum, LocalDate eindDatum, int maxAanwezigen, ActiviteitType type) {
         GenericDaoJpa.startTransaction();
-        Activiteit currentActiviteit = current_Activiteit != -1 ? activiteiten.get(current_Activiteit) : null;
         currentActiviteit.wijzigActiviteit(naam, beginDatum, eindDatum, maxAanwezigen, type);
         activiteitRepo.update(currentActiviteit);
         GenericDaoJpa.commitTransaction();
@@ -387,4 +391,9 @@ public class Dojo {
         pcl.propertyChange(new PropertyChangeEvent(pcl, "currentOefening", null, current_oefening));
     }
 
+    public void addPropertyChangeListenerActiviteit(PropertyChangeListener pcl) {
+        subjectAct.addPropertyChangeListener(pcl);
+        pcl.propertyChange(new PropertyChangeEvent(pcl, "currentActiviteit", null, currentActiviteit));
+    }
+    
 }
