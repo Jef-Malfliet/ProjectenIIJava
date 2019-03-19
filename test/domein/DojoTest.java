@@ -37,6 +37,7 @@ public class DojoTest {
     private Activiteit act1;
     private Activiteit act2;
     private Activiteit act3;
+    private Activiteit act1b;
     private final List<Lid> ledenLijst = new ArrayList<>();
     private final List<Activiteit> activiteitLijst = new ArrayList<>();
     private Dojo beheerder;
@@ -68,6 +69,7 @@ public class DojoTest {
         act2 = new Activiteit("uitstap pretpark", LocalDate.now().plusDays(1), LocalDate.now().plusDays(1), 100, ActiviteitType.UITSTAP);
         act3 = new Activiteit("Stage", LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), 20, ActiviteitType.STAGE);
 
+        act1b = new Activiteit("uitstap pretpark", LocalDate.now().plusDays(1), LocalDate.now().plusDays(1), 100, ActiviteitType.UITSTAP);
         activiteitLijst.addAll(Arrays.asList(act1, act2, act3));
 
     }
@@ -85,6 +87,19 @@ public class DojoTest {
         Assert.assertEquals(2, beheerder.getLijstLeden().size());
         //Assert.assertFalse(beheerder.getLijstLeden().contains(lid1)); //assertionFailed
         Mockito.verify(lidDaoDummy).findAll();
+
+    }
+
+    @Test
+    public void testVerwijderActiviteit() {
+        Mockito.when(activiteitDaoDummy.findAll()).thenReturn(activiteitLijst);
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
+        beheerder.setCurrentActiviteit(act1);
+        beheerder.verwijderCurrentActiviteit();
+
+        Assert.assertEquals(2, beheerder.getActiviteitenList().size());
+        //Assert.assertFalse(beheerder.getLijstLeden().contains(lid1)); //assertionFailed
+        Mockito.verify(activiteitDaoDummy).findAll();
 
     }
 
@@ -110,6 +125,24 @@ public class DojoTest {
         Mockito.verify(lidDaoDummy).update(lid1);
     }
 
+    @Test
+    public void testWijzigActiviteit() {
+        Mockito.when(activiteitDaoDummy.findAll()).thenReturn(activiteitLijst);
+        Mockito.when(activiteitDaoDummy.update(act1)).thenReturn(act1b);
+
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
+//        lid1.wijzigLid("Bram", "Vermeulen", "nv12345", "0479154879", "053548216", "Straat", "100", "/", "9320", "Landegem", Land.België, "nante.vermeulen@student.hogent.be",
+//                "ouders.nante@telenet.be", LocalDate.of(1998, 8, 16), LocalDate.of(2014, 5, 9), new ArrayList<>(), Geslacht.MAN, Graad.WIT, RolType.BEHEERDER);
+        beheerder.setCurrentActiviteit(act1);
+        boolean succes = beheerder.wijzigActiviteit("een ander weekend", LocalDate.now(), LocalDate.now(), 50, ActiviteitType.UITSTAP);
+        IActiviteit gewijzigdeActiviteit = beheerder.getActiviteit(act1.getId());
+        Assert.assertTrue(succes);
+        Assert.assertEquals(act1.getNaam(), gewijzigdeActiviteit.getNaam());
+        Assert.assertEquals(act1.getActiviteitType(), gewijzigdeActiviteit.getActiviteitType());
+        Mockito.verify(activiteitDaoDummy, Mockito.times(1)).findAll();
+        Mockito.verify(activiteitDaoDummy).update(act1);
+    }
+
     /**
      * Test of toonLid method, of class Beheerder.
      */
@@ -120,6 +153,15 @@ public class DojoTest {
         ILid toonLid = beheerder.toonLid(lid1.getId());
         Assert.assertEquals(lid1, toonLid);
         Mockito.verify(lidDaoDummy).findAll();
+    }
+
+    @Test
+    public void testGetActiviteit() {
+        Mockito.when(activiteitDaoDummy.getByNaamAndBeginAndEindDate(act1.getNaam(), act1.getBeginDatum(), act1.getEindDatum())).thenReturn(act1);
+        beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
+        IActiviteit toonActiviteit = beheerder.getActiviteitByNaamAndBeginAndEinddate(act1.getNaam(), act1.getBeginDatum(), act1.getEindDatum());
+        Assert.assertEquals(act1, toonActiviteit);
+        Mockito.verify(activiteitDaoDummy).findAll();
     }
 
     /**
