@@ -5,7 +5,6 @@
  */
 package domein;
 
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -14,6 +13,6 @@ import org.junit.runners.Suite;
  * @author Mout
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({domein.DojoTest.class, domein.FoutiveWaredenLidConstructorTest.class, domein.LidTest.class, domein.OefeningTest.class, domein.OefeningTestParameterized.class,DojoMaakOverzichtListTestParameterized.class})
-public class RunAll {    
+@Suite.SuiteClasses({domein.DojoTest.class, domein.FoutiveWaredenLidConstructorTest.class, domein.LidTest.class, domein.OefeningTest.class, domein.OefeningTestParameterized.class, DojoMaakOverzichtListTestParameterized.class, domein.ActiviteitTestParameterized.class, domein.ActiviteitTest.class})
+public class RunAll {
 }

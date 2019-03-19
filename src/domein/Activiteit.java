@@ -59,15 +59,14 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
         return aanwezigen;
     }
 
-    public void setAanwezigen(List<Lid> aanwezigen) {
-        this.aanwezigen = FXCollections.observableArrayList(aanwezigen);
-    }
-
     /**
      *
      * @param lid
      */
     public void lidInschrijven(Lid lid) {
+        if (lid == null) {
+            throw new IllegalArgumentException("Lid mag niet null zijn");
+        }
         aanwezigen.add(lid);
     }
 
@@ -76,6 +75,12 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
      * @param lid
      */
     public void lidUitschrijven(Lid lid) {
+        if (lid == null) {
+            throw new IllegalArgumentException("Lid mag niet null zijn");
+        }
+        if(!aanwezigen.contains(lid)){
+            throw new IllegalArgumentException("Lid staat nog niet op aanwezig");
+        }
         aanwezigen.remove(lid);
     }
 
@@ -86,8 +91,14 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
         return LocalDate.parse(beginDatumProperty.get());
     }
 
-    private void setBeginDatum(LocalDate startDatum) {
-        beginDatumProperty.set(startDatum.toString());
+    private void setBeginDatum(LocalDate beginDatum) {
+        if (beginDatum == null) {
+            throw new IllegalArgumentException("Begindatum mag niet null zijn");
+        }
+        if (beginDatum.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Begindatum mag niet voor vandaag liggen");
+        }
+        beginDatumProperty.set(beginDatum.toString());
     }
 
     @Override
@@ -98,10 +109,22 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     }
 
     private void setEindDatum(LocalDate eindDatum) {
+        if (eindDatum == null) {
+            throw new IllegalArgumentException("Einddatum mag niet null zijn");
+        }
+        if (eindDatum.isBefore(this.getBeginDatum())) {
+            throw new IllegalArgumentException("Einddatum mag niet voor begindatum liggen");
+        }
+        if (eindDatum.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Einddatum mag niet voor vandaag liggen");
+        }
         eindDatumProperty.set(eindDatum.toString());
     }
 
     private void setNaam(String naam) {
+        if (naam == null || naam.trim().equals("")) {
+            throw new IllegalArgumentException("Naam mag niet leeg of null zijn");
+        }
         naamProperty.set(naam);
     }
 
@@ -126,6 +149,9 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     }
 
     public void setMaxAanwezigen(int maxAanwezigen) {
+        if (maxAanwezigen <= 0) {
+            throw new IllegalArgumentException("Maximun aantal aanwezigen mag niet kleiner of gelijk zijn aan 0");
+        }
         maxAanwezigenProperty.set(String.format("%d", maxAanwezigen));
     }
 
@@ -140,6 +166,9 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     }
 
     private void setActiviteitType(ActiviteitType type) {
+        if (type.equals(ActiviteitType.ALLES)) {
+            throw new IllegalArgumentException("Gelieve een geldig type in te geven");
+        }
         activiteitTypeProperty.set(type.toString());
     }
 
