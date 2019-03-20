@@ -16,7 +16,6 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Transient
     private ObservableList<Lid> aanwezigen;
 
     @Transient
@@ -57,6 +56,11 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     public List<Lid> getAanwezigen() {
         return aanwezigen;
+    }
+    
+    //Alleen zodat JPA werkt, nooit gebruiken.
+    public void setAanwezigen(List<Lid> aanwezigen){
+        this.aanwezigen= FXCollections.observableArrayList(aanwezigen);
     }
 
     /**
