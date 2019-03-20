@@ -159,7 +159,6 @@ public class Dojo {
                 activiteitRepo.insert(activiteit);
                 GenericDaoJpa.commitTransaction();
                 activiteiten.add(activiteit);
-                subject.firePropertyChange("lijstactiviteiten", null, activiteiten);
                 return true;
             }
         }

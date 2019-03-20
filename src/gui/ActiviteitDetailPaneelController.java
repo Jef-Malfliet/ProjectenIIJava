@@ -253,7 +253,6 @@ public class ActiviteitDetailPaneelController extends VBox implements PropertyCh
                 dc.verwijderSelectieActiviteit();
                 btnAnnuleerWijziging.setDisable(true);
                 btnBevestigWijziging.setDisable(true);
-
                 nieuwActiviteit = false;
             } else {
                 if (isGewijzigd()) {
