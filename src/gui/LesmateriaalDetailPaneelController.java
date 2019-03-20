@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -162,7 +164,7 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
         txaUitleg.setText(newOef.getUitleg());
         txfVideoURL.setText(newOef.getVideo());
         youtube.getEngine().load(newOef.getVideo());
-        if (newOef.getImages()!= null) {
+        if (newOef.getImages() != null) {
             for (String imagePath : newOef.getImages()) {
                 fillBoxWithImages(box, imagePath);
             }
@@ -192,12 +194,13 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
 
     @FXML
     private void verwijderOefening(ActionEvent event) {
+        if(bevestigVerwijdering()){
         IOefening oef = dc.getCurrent_oefening();
         dc.verwijderLesMateriaal(oef.getId());
         dc.setCurrent_oefening(null);
         clearAll();
+        }
     }
-
 
     @FXML
     private void bevestig(ActionEvent event) {
@@ -245,7 +248,7 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
                 wijzigLesmateriaal(nieuweWaardes);
             }
         }
-        
+
         clearAll();
 
     }
@@ -273,5 +276,25 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
         if (dc.getCurrent_oefening() != null) {
             fillDetailsMetGeselecteerdeOefening(dc.getCurrent_oefening());
         }
+    }
+
+    private boolean bevestigVerwijdering() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Bevestiging verwijdering");
+        alert.setHeaderText("Bevestig verwijdering");
+        alert.setContentText("Weet u zeker dat u deze oefening wilt verwijderen?");
+        alert.getButtonTypes().clear();
+
+        ButtonType bevestig = new ButtonType("Bevestig verwijderen");
+        ButtonType cancel = new ButtonType("Cancel");
+
+        alert.getButtonTypes().addAll(bevestig, cancel);
+        Optional<ButtonType> showAndWait = alert.showAndWait();
+        if (showAndWait.isPresent()) {
+            return showAndWait.get() == bevestig;
+        } else {
+            return false;
+        }
+
     }
 }
