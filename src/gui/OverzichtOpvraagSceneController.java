@@ -332,7 +332,7 @@ public class OverzichtOpvraagSceneController extends HBox {
 
                 vbRight1.getChildren().clear();
                 lblComboBox.setText("Op graad");
-                vbRight1.getChildren().addAll(lblComboBox, cboFormule);
+                vbRight1.getChildren().addAll(lblComboBox, cboGraad);
 
                 hBoxTopRow.getChildren().addAll(vbLeft1, vbRight1);
                 hBoxUnderRow.getChildren().addAll(vbLeft2, vbRight2);

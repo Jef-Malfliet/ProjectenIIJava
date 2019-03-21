@@ -30,6 +30,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -53,7 +54,6 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     private DomeinController dc;
     private List<String> imagePaths;
     boolean geldig = false;
-    VBox box = new VBox();
 
     @FXML
     private ComboBox<Graad> cbMinimumgraad;
@@ -65,7 +65,6 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     private Button btnFoto;
     @FXML
     private TextField txfVideoURL;
-    @FXML
     private ScrollPane vbImages;
     @FXML
     private Label lblTitel;
@@ -89,6 +88,8 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     private HBox tabWrap;
     @FXML
     private VBox wrapAll;
+    @FXML
+    private ListView<ImageView> lvImages;
 
     public LesmateriaalDetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalDetailPaneel.fxml"));
@@ -107,9 +108,9 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
 
     private void buildGui() {
         cbMinimumgraad.setItems(FXCollections.observableArrayList(Graad.values()));
-        box = new VBox();
-        wrapAll.setPrefWidth(FullScreenResolution.getWidth()/10*6);
-        tabWrap.setPrefWidth(FullScreenResolution.getWidth()/10*6);
+        lvImages.getSelectionModel().selectedIndexProperty().addListener((ob, oldVal, newVal) -> {
+            verwijderFoto(newVal.intValue());
+        });
     }
 
     @FXML
@@ -158,17 +159,11 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
             alert.showAndWait();
         }
         if (imagepath != null) {
-            toonGeselecteerdeFoto(imagepath);
+            imagePaths.add(imagepath);
+            fillImages(imagePaths);
         } else {
             System.out.println("Geen foto gekozen!");
         }
-    }
-
-    private void toonGeselecteerdeFoto(String imagepath) {
-        Image image = new Image(imagepath);
-        this.imagePaths.add(imagepath);
-        fillBoxWithImages(box, imagepath);
-        vbImages.setContent(box);
     }
 
     public void fillDetailsMetGeselecteerdeOefening(IOefening newOef) {
@@ -179,20 +174,8 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
         txaUitleg.setText(newOef.getUitleg());
         txfVideoURL.setText(newOef.getVideo());
         youtube.getEngine().load(newOef.getVideo());
-        if (newOef.getImages() != null) {
-            for (String imagePath : newOef.getImages()) {
-                fillBoxWithImages(box, imagePath);
-            }
-            vbImages.setContent(box);
-        }
-
-    }
-
-    private void fillBoxWithImages(VBox box, String imagePath) {
-        Image image = new Image(imagePath);
-        ImageView imageView = new ImageView();
-        imageView.setImage(image);
-        box.getChildren().add(imageView);
+        imagePaths = newOef.getImages();
+        fillImages(imagePaths);
     }
 
     public void clearAll() {
@@ -201,66 +184,31 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
         txfNaam.clear();
         txaUitleg.clear();
         txfVideoURL.clear();
-        box.getChildren().clear();
+        lvImages.getSelectionModel().clearSelection();
         youtube.getEngine().loadContent("");
         lblTitel.setText("Maak een nieuwe oefening aan.");
     }
 
     @FXML
     private void verwijderOefening(ActionEvent event) {
-        if(bevestigVerwijdering()){
-        IOefening oef = dc.getCurrent_oefening();
-        dc.verwijderLesMateriaal(oef.getId());
-        dc.setCurrent_oefening(null);
-        clearAll();
+        if (bevestigVerwijdering()) {
+            IOefening oef = dc.getCurrent_oefening();
+            dc.verwijderLesMateriaal(oef.getId());
+            dc.setCurrent_oefening(null);
+            clearAll();
         }
     }
 
     @FXML
     private void bevestig(ActionEvent event) {
 
-        Graad graad = cbMinimumgraad.getValue();
-        String naam = txfNaam.getText();
-        String uitleg = txaUitleg.getText();
-        String urlVideo = txfVideoURL.getText();
-        Oefening nieuweWaardes = null;
+        Oefening nieuweWaardes = maakNieuweOefening();
 
-        try {
-            nieuweWaardes = new Oefening(graad, naam);
-            geldig = true;
-        } catch (IllegalArgumentException e) {
-            validate();
-        }
-        if (geldig && nieuweWaardes != null) {
-            if (uitleg != null) {
-                nieuweWaardes.setUitleg(uitleg);
-            }
-            if (urlVideo != null && !urlVideo.isEmpty()) {
-                try {
-                    nieuweWaardes.setVideo(urlVideo);
-                } catch (IllegalArgumentException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Fout");
-                    alert.setContentText(e.getMessage());
-                    alert.showAndWait();
-                }
-            }
-            if (!imagePaths.isEmpty()) {
-                List<String> paths = new ArrayList<>();
-                for (String path : imagePaths) {
-                    if (path != null) {
-                        paths.add(path);
-                    }
-                }
-                nieuweWaardes.setImages(paths);
-            }
+        if (dc.getCurrent_oefening() == null) {
+            addNieuwLesmateriaal(nieuweWaardes);
 
-            if (dc.getCurrent_oefening() == null) {
-                addNieuwLesmateriaal(nieuweWaardes);
-
-            } else {
-                wijzigLesmateriaal(nieuweWaardes);
-            }
+        } else {
+            wijzigLesmateriaal(nieuweWaardes);
         }
 
         clearAll();
@@ -310,5 +258,72 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
             return false;
         }
 
+    }
+
+    private void fillImages(List<String> images) {
+        List<ImageView> views = new ArrayList<>();
+
+        for (String path : images) {
+            Image image = new Image(path);
+            ImageView iv = new ImageView(image);
+            views.add(iv);
+        }
+        this.lvImages.setItems(FXCollections.observableArrayList(views));
+    }
+
+    private void verwijderFoto(int index) {
+        if (index > 0) {
+            System.out.println(index);
+
+            if (bevestigVerwijdering()) {
+                List<String> paths = dc.getCurrent_oefening().getImages();
+                paths.remove(index);
+                fillImages(paths);
+                Oefening nieuweWaardes = maakNieuweOefening();
+                nieuweWaardes.setImages(paths);
+                dc.wijzigLesMateriaal(nieuweWaardes, dc.getCurrent_oefening());
+            }
+        }
+    }
+
+    private Oefening maakNieuweOefening() {
+        Graad graad = cbMinimumgraad.getValue();
+        String naam = txfNaam.getText();
+        String uitleg = txaUitleg.getText();
+        String urlVideo = txfVideoURL.getText();
+        Oefening nieuweWaardes = null;
+
+        try {
+            nieuweWaardes = new Oefening(graad, naam);
+            geldig = true;
+        } catch (IllegalArgumentException e) {
+            validate();
+        }
+        if (geldig && nieuweWaardes != null) {
+            if (uitleg != null) {
+                nieuweWaardes.setUitleg(uitleg);
+            }
+            if (urlVideo != null && !urlVideo.isEmpty()) {
+                try {
+                    nieuweWaardes.setVideo(urlVideo);
+                } catch (IllegalArgumentException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Fout");
+                    alert.setContentText(e.getMessage());
+                    alert.showAndWait();
+                }
+            }
+            if (!imagePaths.isEmpty()) {
+                List<String> paths = new ArrayList<>();
+                for (String path : imagePaths) {
+                    if (path != null) {
+                        paths.add(path);
+                    }
+                }
+                nieuweWaardes.setImages(paths);
+            }
+            return nieuweWaardes;
+        }
+        return null;
     }
 }
