@@ -31,10 +31,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
@@ -75,6 +77,18 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     private Button btnNieuweOefening;
     @FXML
     private Button btnBevestig;
+    @FXML
+    private TextField aantalGeraadpleegd;
+    @FXML
+    private VBox allImages;
+    @FXML
+    private VBox alleCommentaar;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private HBox tabWrap;
+    @FXML
+    private VBox wrapAll;
 
     public LesmateriaalDetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalDetailPaneel.fxml"));
@@ -94,7 +108,8 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     private void buildGui() {
         cbMinimumgraad.setItems(FXCollections.observableArrayList(Graad.values()));
         box = new VBox();
-        youtube.setPrefSize(FullScreenResolution.getWidth() / 10 * 4.25, FullScreenResolution.getHeight());
+        wrapAll.setPrefWidth(FullScreenResolution.getWidth()/10*6);
+        tabWrap.setPrefWidth(FullScreenResolution.getWidth()/10*6);
     }
 
     @FXML
@@ -187,7 +202,6 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
         txaUitleg.clear();
         txfVideoURL.clear();
         box.getChildren().clear();
-        vbImages.setContent(null);
         youtube.getEngine().loadContent("");
         lblTitel.setText("Maak een nieuwe oefening aan.");
     }

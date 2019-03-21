@@ -5,6 +5,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
@@ -12,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="886.0" prefWidth="600.0" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="wrapAll" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: #00B4AB;">
          <children>
@@ -23,7 +25,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox prefHeight="49.0" prefWidth="600.0">
+      <HBox maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="600.0">
          <children>
             <Label fx:id="lblTitel" alignment="CENTER" prefHeight="80.0" prefWidth="600.0" text="Maak een nieuwe oefening aan" textFill="#00b4ab">
                <font>
@@ -32,126 +34,182 @@
             </Label>
          </children>
       </HBox>
-      <VBox maxHeight="1.7976931348623157E308" prefHeight="758.0" prefWidth="600.0">
-         <children>
-            <HBox>
-               <children>
-                  <Label prefHeight="17.0" prefWidth="205.0" text="Kies naam" textAlignment="JUSTIFY">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Quicksand-Regular" size="16.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txfNaam" prefWidth="200.0" />
-               </children>
-            </HBox>
-            <HBox>
-               <children>
-                  <Label prefHeight="17.0" prefWidth="205.0" text="Kies minimum graad" textAlignment="JUSTIFY">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Quicksand-Regular" size="16.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="cbMinimumgraad" prefWidth="200.0" promptText="Kies graad">
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
-                  </ComboBox>
-               </children>
-            </HBox>
-            <HBox>
-               <children>
-                  <Label prefHeight="17.0" prefWidth="205.0" text="Voeg uitleg toe" textAlignment="JUSTIFY">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Quicksand-Regular" size="16.0" />
-                     </font>
-                  </Label>
-                  <TextArea fx:id="txaUitleg" maxWidth="1.7976931348623157E308" prefHeight="205.0" prefWidth="351.0" />
-               </children>
-            </HBox>
-            <HBox>
-               <children>
-                  <Label prefHeight="17.0" prefWidth="205.0" text="Voeg foto toe" textAlignment="JUSTIFY">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Quicksand-Regular" size="16.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="btnFoto" alignment="CENTER" mnemonicParsing="false" onAction="#kiesFoto" prefWidth="200.0" text="Kies foto">
-                     <HBox.margin>
-                        <Insets top="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="155.0" prefWidth="600.0">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="205.0" text="Fotos" textAlignment="JUSTIFY">
-                     <font>
-                        <Font name="Quicksand-Regular" size="16.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <ScrollPane fx:id="vbImages" prefHeight="139.0" prefWidth="354.0" />
-               </children>
-            </HBox>
-            <HBox prefHeight="11.0" prefWidth="600.0">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="205.0" text="Geef URL Video" textAlignment="JUSTIFY">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Quicksand-Regular" size="16.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txfVideoURL" prefWidth="200.0" />
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="btnVerwijderOef" mnemonicParsing="false" onAction="#verwijderOefening" text="Verwijder oefening">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="btnNieuweOefening" mnemonicParsing="false" onAction="#maakOefening" text="Maak nieuwe oefening">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="btnBevestig" mnemonicParsing="false" onAction="#bevestig" text="Bevestig">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="278.0" prefWidth="600.0">
-               <children>
-                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                     <children>
-                        <WebView fx:id="youtube" prefHeight="278.0" prefWidth="633.0" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-         </children>
+      <HBox fx:id="tabWrap" maxWidth="1.7976931348623157E308">
          <VBox.margin>
             <Insets />
          </VBox.margin>
-      </VBox>
+         <children>
+            <TabPane fx:id="tabPane" maxWidth="1.7976931348623157E308">
+               <tabs>
+                  <Tab text="Beheer lesmateriaal">
+                     <content>
+                        <VBox maxHeight="1.7976931348623157E308" prefHeight="758.0" prefWidth="600.0">
+                           <children>
+                              <HBox>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="205.0" text="Kies naam" textAlignment="JUSTIFY">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font name="Quicksand-Regular" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txfNaam" prefWidth="200.0" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="15.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="205.0" text="Kies minimum graad" textAlignment="JUSTIFY">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font name="Quicksand-Regular" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="cbMinimumgraad" prefWidth="200.0" promptText="Kies graad">
+                                       <HBox.margin>
+                                          <Insets top="5.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="205.0" text="Voeg uitleg toe" textAlignment="JUSTIFY">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font name="Quicksand-Regular" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextArea fx:id="txaUitleg" maxWidth="1.7976931348623157E308" prefHeight="347.0" prefWidth="351.0" />
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="205.0" text="Voeg foto toe" textAlignment="JUSTIFY">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font name="Quicksand-Regular" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="btnFoto" alignment="CENTER" mnemonicParsing="false" onAction="#kiesFoto" prefWidth="200.0" text="Kies foto">
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="11.0" prefWidth="600.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="205.0" text="Geef URL Video" textAlignment="JUSTIFY">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font name="Quicksand-Regular" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txfVideoURL" prefWidth="200.0" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="11.0" prefWidth="600.0">
+                                 <children>
+                                    <Label prefHeight="19.0" prefWidth="205.0" text="Aantal keer geraadpleegd" textAlignment="JUSTIFY">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font name="Quicksand-Regular" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="aantalGeraadpleegd" editable="false" prefHeight="25.0" prefWidth="198.0" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="btnVerwijderOef" mnemonicParsing="false" onAction="#verwijderOefening" text="Verwijder oefening">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnNieuweOefening" mnemonicParsing="false" onAction="#maakOefening" text="Maak nieuwe oefening">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnBevestig" mnemonicParsing="false" onAction="#bevestig" text="Bevestig">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </Tab>
+                  <Tab text="Fotos oefening">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="Beheer foto's van de gekozen oefening" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </Label>
+                              <VBox fx:id="allImages" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="696.0">
+                                 <children>
+                                    <ScrollPane fx:id="vbImages" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </Tab>
+                  <Tab text="Video oefening">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="46.0" text="Bekijk video van de gekozen oefening" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </Label>
+                              <HBox>
+                                 <children>
+                                    <WebView fx:id="youtube" prefHeight="400.0" prefWidth="615.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </Tab>
+                  <Tab text="Bekijk commentaar">
+                     <content>
+                        <VBox fx:id="alleCommentaar" prefHeight="559.0" prefWidth="600.0" />
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </children>
+      </HBox>
    </children>
 </fx:root>
