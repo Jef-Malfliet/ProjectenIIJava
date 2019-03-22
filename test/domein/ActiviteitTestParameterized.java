@@ -33,7 +33,6 @@ public class ActiviteitTestParameterized {
             {"act", LocalDate.now(), LocalDate.now().plusDays(1l), 20, ActiviteitType.STAGE, false},
             {"", LocalDate.now(), LocalDate.now().plusDays(1l), 20, ActiviteitType.STAGE, true},
             {null, LocalDate.now(), LocalDate.now().plusDays(1l), 20, ActiviteitType.STAGE, true},
-            {"act", LocalDate.now().minusDays(1l), LocalDate.now().plusDays(1l), 20, ActiviteitType.STAGE, true},
             {"act", null, LocalDate.now().plusDays(1l), 20, ActiviteitType.STAGE, true},
             {"act", LocalDate.now(), LocalDate.now().minusDays(1l), 20, ActiviteitType.STAGE, true},
             {"act", LocalDate.now(), null, 20, ActiviteitType.STAGE, true},

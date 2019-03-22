@@ -213,9 +213,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         cboGeslacht.setItems(FXCollections.observableArrayList(Arrays.asList(Geslacht.values())));
     }
 
-    private <T> List<T> removeLastItem(List<T> lijst) {
-        return lijst.subList(0, lijst.size() - 1);
-    }
+    
 
     private void changeGemeenteTextField() {
         String selectedItem = cboGemeentes.getSelectionModel().getSelectedItem();

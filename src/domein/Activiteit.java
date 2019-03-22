@@ -99,9 +99,7 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
         if (beginDatum == null) {
             throw new IllegalArgumentException("Begindatum mag niet null zijn");
         }
-        if (beginDatum.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Begindatum mag niet voor vandaag liggen");
-        }
+        
         beginDatumProperty.set(beginDatum.toString());
     }
 
@@ -118,9 +116,6 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
         }
         if (eindDatum.isBefore(this.getBeginDatum())) {
             throw new IllegalArgumentException("Einddatum mag niet voor begindatum liggen");
-        }
-        if (eindDatum.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Einddatum mag niet voor vandaag liggen");
         }
         eindDatumProperty.set(eindDatum.toString());
     }

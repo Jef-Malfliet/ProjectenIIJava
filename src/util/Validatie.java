@@ -6,6 +6,7 @@
 package util;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -109,4 +110,7 @@ public class Validatie {
         return false;
     }
 
+    public static <T> List<T> removeLastItem(List<T> lijst) {
+        return lijst.subList(0, lijst.size() - 1);
+    }
 }

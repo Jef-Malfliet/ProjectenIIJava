@@ -223,7 +223,6 @@ public class Dojo {
         Activiteit actTemp = activiteitRepo.getByNaamAndBeginAndEindDate(activiteitNaam, beginDatum, eindDatum);
         Lid lidTemp = lidRepo.getLidByEmail(lidEmail);
         actTemp.lidInschrijven(lidTemp);
-        activiteitRepo.update(actTemp);
     }
 
     public void lidUitschrijven(String activiteitNaam, LocalDate beginDatum, LocalDate eindDatum, String lidEmail) {

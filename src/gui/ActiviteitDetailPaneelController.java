@@ -172,7 +172,7 @@ public class ActiviteitDetailPaneelController extends VBox implements PropertyCh
         btnUitschrijven.prefWidthProperty().bind(tblIngeschreven.widthProperty().divide(2));
 
         //invulling en standaard waarde combobox setten
-        cbType.setItems(FXCollections.observableArrayList(Arrays.asList(ActiviteitType.values())));
+        cbType.setItems(FXCollections.observableArrayList(removeLastItem(Arrays.asList(ActiviteitType.values()))));
 
         btnVerwijderActiviteit.setOnMouseClicked(e -> {
             if (alertVerwijderenActiviteit()) {
