@@ -299,7 +299,7 @@ public class Dojo {
             case LESMATERIAAL:
                 predicate = PredicateFactory.makePredicate(SorteerType.LESMATERIAAL, extraParameters);
                 filteredOefeningen.setPredicate(predicate);
-                return (List<T>) filteredOefeningen;
+                return new SortedList(filteredOefeningen,sortOefeningOrder);
             case LID:
                 predicate = PredicateFactory.makePredicate(SorteerType.LID, extraParameters);
                 filteredLeden.setPredicate(predicate);

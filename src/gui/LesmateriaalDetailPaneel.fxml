@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
@@ -157,7 +158,7 @@
                         </VBox>
                      </content>
                   </Tab>
-                  <Tab text="Fotos oefening">
+                  <Tab text="Bekijk foto's">
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -169,20 +170,15 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                               </Label>
-                              <VBox fx:id="allImages" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="696.0">
-                                 <children>
-                                    <HBox maxHeight="1.7976931348623157E308">
-                                       <children>
-                                          <ListView fx:id="lvImages" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="605.0" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
+                              <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="709.0" prefWidth="600.0">
+                                 <content>
+                                    <VBox fx:id="allImages" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="695.0" prefWidth="586.0" />
+                                 </content></ScrollPane>
                            </children>
                         </VBox>
                      </content>
                   </Tab>
-                  <Tab text="Video oefening">
+                  <Tab text="Bekijk video">
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -208,7 +204,10 @@
                   </Tab>
                   <Tab text="Bekijk commentaar">
                      <content>
-                        <VBox fx:id="alleCommentaar" prefHeight="559.0" prefWidth="600.0" />
+                        <VBox fx:id="alleCommentaar" prefHeight="559.0" prefWidth="600.0">
+                           <children>
+                              <ListView fx:id="lvComments" maxWidth="1.7976931348623157E308" prefWidth="600.0" />
+                           </children></VBox>
                      </content>
                   </Tab>
                </tabs>

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import persistentie.ActiviteitDao;
 import persistentie.ActiviteitDaoJpa;
 import persistentie.GenericDaoJpa;
@@ -99,7 +100,7 @@ public class DomeinController {
     }
 
     public ObservableList<IOefening> getLesmateriaal() {
-        return FXCollections.unmodifiableObservableList((ObservableList<IOefening>) (Object) dojo.getSortedOefeningen());
+        return FXCollections.unmodifiableObservableList((SortedList<IOefening>) (Object) dojo.getSortedOefeningen());
     }
 
     /**

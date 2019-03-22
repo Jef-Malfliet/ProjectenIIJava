@@ -45,6 +45,9 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
     private SimpleStringProperty graadProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty imageProperty = new SimpleStringProperty();
+    private int aantalkeerBekeken = 0;
+    @ElementCollection
+    private List<String> comments;
     private static Exportable<Oefening> exportable;
 
     /**
@@ -56,6 +59,7 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
         setGraad(graad);
         setNaam(naam);
         this.images = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     public Oefening() {
@@ -90,24 +94,16 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
     }
 
     public void setNaam(String naam) {
-        if (naamProperty != null) {
-            naamProperty.set(naam.toString());
-        } else {
+        if (naam == null || naam.isEmpty()) {
             throw new IllegalArgumentException("Naam mag niet leeg zijn.");
+        } else {
+            naamProperty.set(naam);
         }
     }
 
     public void setImages(List<String> paths) {
-
-        List<String> fuseBothImages = new ArrayList<>();
-        if (this.images != null) {
-            this.images.forEach(pad -> fuseBothImages.add(pad));
-        }
-        if (paths != null) {
-            paths.forEach(pad -> fuseBothImages.add(pad));
-        }
-        this.images=fuseBothImages;
-        this.imageProperty.set(fuseBothImages.stream().collect(Collectors.joining("\n")));
+        this.images = paths;
+        this.imageProperty.set(this.images.stream().collect(Collectors.joining("\n")));
 
     }
 
@@ -183,6 +179,24 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
     @Override
     public SimpleStringProperty getGraadProperty() {
         return this.graadProperty;
+    }
+
+    @Override
+    public int getAantalkeerBekeken() {
+        return aantalkeerBekeken;
+    }
+
+    public void setAantalkeerBekeken(int aantalkeerBekeken) {
+        this.aantalkeerBekeken = aantalkeerBekeken;
+    }
+
+    @Override
+    public List<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<String> comments) {
+        this.comments = comments;
     }
 
 }

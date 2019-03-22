@@ -34,6 +34,9 @@ public interface IOefening extends Serializable {
     long getId();
     
     List<String> getImages();
+    
+    List<String> getComments();
+    int getAantalkeerBekeken();
  
     
 

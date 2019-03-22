@@ -22,9 +22,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -37,6 +40,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
@@ -65,7 +69,6 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     private Button btnFoto;
     @FXML
     private TextField txfVideoURL;
-    private ScrollPane vbImages;
     @FXML
     private Label lblTitel;
     @FXML
@@ -79,8 +82,6 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     @FXML
     private TextField aantalGeraadpleegd;
     @FXML
-    private VBox allImages;
-    @FXML
     private VBox alleCommentaar;
     @FXML
     private TabPane tabPane;
@@ -89,7 +90,9 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     @FXML
     private VBox wrapAll;
     @FXML
-    private ListView<ImageView> lvImages;
+    private ListView<String> lvComments;
+    @FXML
+    private VBox allImages;
 
     public LesmateriaalDetailPaneelController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LesmateriaalDetailPaneel.fxml"));
@@ -108,9 +111,6 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
 
     private void buildGui() {
         cbMinimumgraad.setItems(FXCollections.observableArrayList(Graad.values()));
-        lvImages.getSelectionModel().selectedIndexProperty().addListener((ob, oldVal, newVal) -> {
-            verwijderFoto(newVal.intValue());
-        });
     }
 
     @FXML
@@ -176,6 +176,8 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
         youtube.getEngine().load(newOef.getVideo());
         imagePaths = newOef.getImages();
         fillImages(imagePaths);
+        lvComments.setItems(FXCollections.observableArrayList(newOef.getComments()));
+        aantalGeraadpleegd.setText(String.valueOf(newOef.getAantalkeerBekeken()));
     }
 
     public void clearAll() {
@@ -184,8 +186,10 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
         txfNaam.clear();
         txaUitleg.clear();
         txfVideoURL.clear();
-        lvImages.getSelectionModel().clearSelection();
+        allImages.getChildren().clear();
         youtube.getEngine().loadContent("");
+        lvComments.getItems().clear();
+        aantalGeraadpleegd.clear();
         lblTitel.setText("Maak een nieuwe oefening aan.");
     }
 
@@ -204,11 +208,13 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
 
         Oefening nieuweWaardes = maakNieuweOefening();
 
-        if (dc.getCurrent_oefening() == null) {
-            addNieuwLesmateriaal(nieuweWaardes);
+        if (nieuweWaardes != null) {
+            if (dc.getCurrent_oefening() == null) {
+                addNieuwLesmateriaal(nieuweWaardes);
 
-        } else {
-            wijzigLesmateriaal(nieuweWaardes);
+            } else {
+                wijzigLesmateriaal(nieuweWaardes);
+            }
         }
 
         clearAll();
@@ -262,27 +268,25 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
 
     private void fillImages(List<String> images) {
         List<ImageView> views = new ArrayList<>();
+        this.allImages.getChildren().clear();
 
-        for (String path : images) {
-            Image image = new Image(path);
+        for (int i = 0; i < images.size(); i++) {
+            Image image = new Image(images.get(i));
             ImageView iv = new ImageView(image);
+            iv.setOnMouseClicked((val) -> {
+                int index = views.indexOf(val.getSource());
+                verwijderFoto(index);
+            });
             views.add(iv);
         }
-        this.lvImages.setItems(FXCollections.observableArrayList(views));
+        this.allImages.getChildren().addAll(views);
     }
 
     private void verwijderFoto(int index) {
-        if (index > 0) {
-            System.out.println(index);
-
-            if (bevestigVerwijdering()) {
-                List<String> paths = dc.getCurrent_oefening().getImages();
-                paths.remove(index);
-                fillImages(paths);
-                Oefening nieuweWaardes = maakNieuweOefening();
-                nieuweWaardes.setImages(paths);
-                dc.wijzigLesMateriaal(nieuweWaardes, dc.getCurrent_oefening());
-            }
+        if (bevestigVerwijdering()) {
+            this.imagePaths.remove(index);
+            fillImages(imagePaths);
+            System.out.println("Succes");
         }
     }
 

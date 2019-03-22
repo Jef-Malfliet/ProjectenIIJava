@@ -55,7 +55,7 @@ public class MainPanel extends BorderPane {
         losc.setPrefSize(lesmateriaalOverzichtWidth, height);
         BeheerderControlController bcc = new BeheerderControlController(dc, osc, this, opsc, ldpc, aosc, adpc,losc,dpc);
         bcc.setPrefSize(beheerderControlWidth, height);
-
+        
         this.setCenter(osc);
         this.setLeft(bcc);
         this.setRight(dpc);

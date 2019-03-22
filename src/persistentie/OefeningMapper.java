@@ -11,6 +11,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +52,16 @@ public class OefeningMapper {
 
     };
 
+    private final String[] comments = {
+        "comment 1",
+        "comment 2",
+        "comment 3",
+        "comment 4"
+    };
+
+    private final int[] aantalBekeken = {
+        1, 2, 3, 4, 5, 6, 7, 8, 9
+    };
     private final String[] uitleg = {
         "uitleg1",
         "uitleg2",
@@ -69,7 +80,8 @@ public class OefeningMapper {
         oef.setImages(images);
         oef.setVideo(randomYoutube());
         oef.setUitleg(randomUitleg());
-
+        oef.setAantalkeerBekeken(randomBekeken());
+        oef.setComments(Arrays.asList(comments));
         return oef;
     }
 
@@ -101,6 +113,11 @@ public class OefeningMapper {
     private String randomUitleg() {
         int getal = random.nextInt(uitleg.length);
         return uitleg[getal];
+    }
+    
+    private int randomBekeken(){
+        int getal  = random.nextInt(aantalBekeken.length-1);
+        return aantalBekeken[getal];
     }
 
 }
