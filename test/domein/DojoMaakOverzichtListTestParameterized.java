@@ -39,13 +39,16 @@ public class DojoMaakOverzichtListTestParameterized {
     private final List<Lid> ledenLijst = new ArrayList<>();
     private final List<Activiteit> activiteitenLijst = new ArrayList<>();
     private final List<Oefening> oefeningenLijst = new ArrayList<>();
+    private final List<Kampioenschap> kampioenschapLijst = new ArrayList<>();
     private Dojo beheerder;
     private Activiteit act1;
     private Activiteit act2;
     private Oefening oef1;
     private Oefening oef2;
     private Oefening oef3;
-
+    private Kampioenschap kampioenschap1;
+    private Kampioenschap kampioenschap2;
+    private Kampioenschap kampioenschap3;
     @Before
     public void before() {
         lidDaoDummy = Mockito.mock(LidDao.class);
@@ -62,50 +65,66 @@ public class DojoMaakOverzichtListTestParameterized {
         lid3 = new Lid("Jef", "Malfliet", "jm12345", "0234567890", "053698420", "Straat", "1", "2.9", "9220", "Hamme", Land.België, "98.10.19-333.61", "jef.malfliet@student.hogent.be",
                 "ouders.jef@proxymus.be", LocalDate.of(1999, 10, 24), LocalDate.of(2016, 8, 31), new ArrayList<>(), Geslacht.VROUW, Graad.WIT, RolType.LESGEVER, LesType.WO_ZA);
 
-        act1 = new Activiteit("Uitstap", LocalDate.of(2014, Month.FEBRUARY, 11), LocalDate.of(2014, Month.FEBRUARY, 11), 50, ActiviteitType.UITSTAP);
-        act2 = new Activiteit("Weekend", LocalDate.of(2019, Month.MARCH, 5), LocalDate.of(2019, Month.MARCH, 7), 100, ActiviteitType.STAGE);
+        act1 = new Activiteit("Uitstap", LocalDate.of(2020, Month.FEBRUARY, 11), LocalDate.of(2020, Month.FEBRUARY, 11), 50, ActiviteitType.UITSTAP);
+        act2 = new Activiteit("Weekend", LocalDate.of(2019, Month.APRIL, 5), LocalDate.of(2019, Month.APRIL, 7), 100, ActiviteitType.STAGE);
 
         oef1 = new Oefening(Graad.GROEN, "Test1");
         oef2 = new Oefening(Graad.DAN1, "Test2");
         oef3 = new Oefening(Graad.BLAUW, "Test3");
+        
+        kampioenschap1 = new Kampioenschap("kampioenschap1",LocalDate.of(2019,Month.DECEMBER,12),LeeftijdCategorie.BOVEN_15);
+        kampioenschap2 = new Kampioenschap("kampioenschap2",LocalDate.of(2019,Month.DECEMBER,20),LeeftijdCategorie.ONDER_15);
+        kampioenschap3 = new Kampioenschap("kampioenschap3",LocalDate.of(2019,Month.DECEMBER,30),LeeftijdCategorie.BOVEN_15);
         ledenLijst.addAll(Arrays.asList(lid1, lid2, lid3));
         activiteitenLijst.addAll(Arrays.asList(act1, act2));
         oefeningenLijst.addAll(Arrays.asList(oef1, oef2, oef3));
+        kampioenschapLijst.addAll(Arrays.asList(kampioenschap1,kampioenschap2,kampioenschap3));
     }
-    private OverzichtType type;
-    private List<Object> extraParameters = new ArrayList<>();
+    private SorteerType type;
+    private List<String> extraParameters = new ArrayList<>();
     private int aantal;
+
 
     @Parameterized.Parameters
     public static Collection<Object[]> getParameters() {
         return Arrays.asList(new Object[][]{
-            {OverzichtType.AANWEZIGHEID, new Object[]{null, "", LesType.ALLES}, 3},
-            {OverzichtType.AANWEZIGHEID, new Object[]{null, "Nante", LesType.ALLES}, 1},
-            {OverzichtType.AANWEZIGHEID, new Object[]{LocalDate.of(2012, 8, 16), "", LesType.ALLES}, 1},
-            {OverzichtType.AANWEZIGHEID, new Object[]{null, "", LesType.WO_ZA}, 2},
-            {OverzichtType.INSCHRIJVING, new Object[]{null, "", LesType.ALLES}, 3},
-            {OverzichtType.INSCHRIJVING, new Object[]{null, "Indy", LesType.ALLES}, 1},
-            {OverzichtType.INSCHRIJVING, new Object[]{LocalDate.of(2014, 5, 9), "", LesType.ALLES}, 2},
-            {OverzichtType.INSCHRIJVING, new Object[]{null, "", LesType.DI_ZA}, 1},
-            {OverzichtType.ACTIVITEIT, new Object[]{true, ""}, 1},
-            //klopt dit? -- false --> betekent hier dat wel of geen stage niet relevant is
-            {OverzichtType.ACTIVITEIT, new Object[]{false, ""}, 2},
-            {OverzichtType.ACTIVITEIT, new Object[]{false, "Uitstap"}, 1},
-            {OverzichtType.ACTIVITEIT, new Object[]{true, "Uitstap"}, 0},
-            //klopt dit? -- false --> betekent hier dat wel of geen stage niet relevant is
-            {OverzichtType.ACTIVITEIT, new Object[]{false, "Weekend"}, 1},
-            {OverzichtType.ACTIVITEIT, new Object[]{true, "Weekend"}, 1},
-            {OverzichtType.LESMATERIAAL, new Object[]{Graad.ALLES, ""}, 3},
-            {OverzichtType.LESMATERIAAL, new Object[]{Graad.DAN1, ""}, 1},
-            {OverzichtType.LESMATERIAAL, new Object[]{Graad.ALLES, "Test1"}, 1},
-            {OverzichtType.LESMATERIAAL, new Object[]{Graad.DAN11, ""}, 0},
-            {OverzichtType.LESMATERIAAL, new Object[]{Graad.ALLES, "Hallo"}, 0},
-            {OverzichtType.LESMATERIAAL, new Object[]{Graad.BLAUW, "Test3"}, 1}
+            {SorteerType.AANWEZIGHEID, new String[]{"", "",""}, 3},
+            {SorteerType.AANWEZIGHEID, new String[]{"", "", LesType.ALLES.toString()}, 3},
+            {SorteerType.AANWEZIGHEID, new String[]{"", "Nante", LesType.ALLES.toString()}, 1},
+            {SorteerType.AANWEZIGHEID, new String[]{LocalDate.of(2012, 8, 16).toString(), "", LesType.ALLES.toString()}, 1},
+            {SorteerType.AANWEZIGHEID, new String[]{"", "", LesType.WO_ZA.toString()}, 2},
+            
+            {SorteerType.INSCHRIJVING, new String[]{"", "", LesType.ALLES.toString()}, 3},
+            {SorteerType.INSCHRIJVING, new String[]{"", "Indy", LesType.ALLES.toString()}, 1},
+            {SorteerType.INSCHRIJVING, new String[]{LocalDate.of(2014, 5, 9).toString(), "", LesType.ALLES.toString()}, 2},
+            {SorteerType.INSCHRIJVING, new String[]{"", "", LesType.DI_ZA.toString()}, 1},
+            
+            {SorteerType.ACTIVITEIT, new String[]{ActiviteitType.ALLES.toString(), "","",""}, 2},
+            {SorteerType.ACTIVITEIT, new String[]{ActiviteitType.STAGE.toString(), "","",""}, 1},
+            {SorteerType.ACTIVITEIT, new String[]{ActiviteitType.UITSTAP.toString(), "","",""}, 1},
+            {SorteerType.ACTIVITEIT, new String[]{ActiviteitType.ALLES.toString(), "",LocalDate.of(2019, Month.APRIL, 7).toString(),""}, 1},
+            {SorteerType.ACTIVITEIT, new String[]{ActiviteitType.ALLES.toString(), LocalDate.of(2020, Month.FEBRUARY, 11).toString(),"",""}, 1},
+            {SorteerType.ACTIVITEIT, new String[]{ActiviteitType.ALLES.toString(), LocalDate.of(2020, Month.FEBRUARY, 11).toString(),LocalDate.of(2020, Month.FEBRUARY, 11).toString(),""}, 1},
+            {SorteerType.ACTIVITEIT, new String[]{ActiviteitType.UITSTAP.toString(), "Weekend","",""}, 1},
+            {SorteerType.ACTIVITEIT, new String[]{ActiviteitType.STAGE.toString(), "Weekend","",""}, 1},
+            
+            {SorteerType.CLUBKAMPIOENSCHAP,new String[]{"",LeeftijdCategorie.ALLES.toString(),""},3},
+            {SorteerType.CLUBKAMPIOENSCHAP,new String[]{"kampioenschap1",LeeftijdCategorie.ALLES.toString(),""},1},
+            {SorteerType.CLUBKAMPIOENSCHAP,new String[]{"","",LocalDate.of(2019,Month.DECEMBER,12).toString()},1},
+            {SorteerType.CLUBKAMPIOENSCHAP,new String[]{"",LeeftijdCategorie.BOVEN_15.toString(),""},2},
+            {SorteerType.CLUBKAMPIOENSCHAP,new String[]{"kampioenschap3",LeeftijdCategorie.BOVEN_15.toString(),""},1},
+            
+            {SorteerType.LESMATERIAAL, new String[]{Graad.ALLES.toString(), ""}, 3},
+            {SorteerType.LESMATERIAAL, new String[]{Graad.DAN1.toString(), ""}, 1},
+            {SorteerType.LESMATERIAAL, new String[]{Graad.ALLES.toString(), "Test1"}, 1},
+            {SorteerType.LESMATERIAAL, new String[]{Graad.DAN11.toString(), ""}, 0},
+            {SorteerType.LESMATERIAAL, new String[]{Graad.ALLES.toString(), "Hallo"}, 0},
+            {SorteerType.LESMATERIAAL, new String[]{Graad.BLAUW.toString(), "Test3"}, 1}
 
         });
     }
 
-    public DojoMaakOverzichtListTestParameterized(OverzichtType type, Object[] extraParameters, int aantal) {
+    public DojoMaakOverzichtListTestParameterized(SorteerType type, String[] extraParameters, int aantal) {
         this.type = type;
         this.extraParameters = Arrays.asList(extraParameters);
         this.aantal = aantal;
@@ -113,14 +132,15 @@ public class DojoMaakOverzichtListTestParameterized {
     }
 
     @Test()
-    public void testMaakOverzichtAanwezigheidLeeg() {
+    public void testMaakOverzicht() {
         Mockito.when(lidDaoDummy.findAll()).thenReturn(ledenLijst);
         Mockito.when(activiteitDaoDummy.findAll()).thenReturn(activiteitenLijst);
         Mockito.when(oefeningDaoDummy.findAll()).thenReturn(oefeningenLijst);
-
+        Mockito.when(kampioenschapDaoDummy.findAll()).thenReturn(kampioenschapLijst);
+        
+        
         beheerder = new Dojo(lidDaoDummy, oefeningDaoDummy, activiteitDaoDummy, kampioenschapDaoDummy);
         List<Exportable> maakOverzichtList = beheerder.maakOverzichtList(type, extraParameters);
-        System.out.println(maakOverzichtList);
         Assert.assertEquals(aantal, maakOverzichtList.size());
 
     }

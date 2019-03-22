@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -148,7 +149,7 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
 
     @Override
     public List<String> getImages() {
-        return this.images;
+        return FXCollections.observableArrayList(this.images);
     }
 
     public static Exportable<Oefening> getExportable() {
