@@ -95,10 +95,6 @@ public class DomeinController {
         dojo.maakOverzicht(overzicht, path);
     }
 
-    public List<Overzicht<Object>> getOverzicht() {
-        return dojo.getOverzichtList();
-    }
-
     public ObservableList<IOefening> getLesmateriaal() {
         return FXCollections.unmodifiableObservableList((SortedList<IOefening>) (Object) dojo.getSortedOefeningen());
     }
