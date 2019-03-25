@@ -387,5 +387,9 @@ public class Dojo {
         subjectAct.addPropertyChangeListener(pcl);
         pcl.propertyChange(new PropertyChangeEvent(pcl, "currentActiviteit", null, currentActiviteit));
     }
-    
+
+    public SortedList<Activiteit> getSortedActiviteiten() {
+        return sortedActiviteiten;
+    }
+
 }
