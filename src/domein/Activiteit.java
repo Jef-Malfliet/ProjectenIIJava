@@ -90,7 +90,7 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "BeginDatum")
+    @Column(name = "BeginDatum", nullable = false)
     public LocalDate getBeginDatum() {
         return LocalDate.parse(beginDatumProperty.get());
     }
@@ -105,7 +105,7 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "EindDatum")
+    @Column(name = "EindDatum", nullable = false)
     public LocalDate getEindDatum() {
         return LocalDate.parse(eindDatumProperty.get());
     }
@@ -173,7 +173,7 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "Naam")
+    @Column(name = "Naam", nullable = false, length = 50)
     public String getNaam() {
         return naamProperty.get();
     }
@@ -206,14 +206,14 @@ public class Activiteit implements Serializable, IActiviteit, Exportable<Activit
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "MaxAanwezigen")
+    @Column(name = "MaxAanwezigen", nullable = false)
     public int getMaxAanwezigen() {
         return Integer.parseInt(maxAanwezigenProperty.get());
     }
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "ActiviteitType")
+    @Column(name = "ActiviteitType", nullable = false)
     public ActiviteitType getActiviteitType() {
         return ActiviteitType.valueOf(activiteitTypeProperty.get());
     }

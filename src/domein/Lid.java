@@ -24,6 +24,7 @@ public class Lid implements ILid, Serializable, Exportable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String wachtwoord;
+    @Column()
     private String gsm;
     private String telefoon_vast;
     private String straatnaam;
@@ -40,6 +41,7 @@ public class Lid implements ILid, Serializable, Exportable {
     private static Exportable<Lid> exportable;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "Geslacht", nullable = false)
     private Geslacht geslacht;
     @Transient
     private SimpleStringProperty voornaamProperty = new SimpleStringProperty();
@@ -139,7 +141,7 @@ public class Lid implements ILid, Serializable, Exportable {
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "Voornaam")
+    @Column(name = "Voornaam", nullable = false, length = 50)
     public String getVoornaam() {
         return voornaamProperty.get();
     }
@@ -159,7 +161,7 @@ public class Lid implements ILid, Serializable, Exportable {
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "Familienaam")
+    @Column(name = "Familienaam", nullable = false, length = 50)
     public String getFamilienaam() {
         return familienaamProperty.get();
     }
@@ -335,6 +337,7 @@ public class Lid implements ILid, Serializable, Exportable {
     }
 
     @Override
+    @Column(nullable = false)
     public LocalDate getInschrijvingsdatum() {
         return LocalDate.parse(inschrijvingsDatumProperty.get());
     }

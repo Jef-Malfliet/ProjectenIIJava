@@ -22,7 +22,7 @@
             </Label>
          </children>
       </HBox>
-      <VBox prefHeight="790.0" prefWidth="786.0">
+      <VBox prefHeight="790.0" prefWidth="786.0" spacing="5.0">
          <children>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="590.0">
                <children>

@@ -30,10 +30,12 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
 
     //@Enumerated(EnumType.STRING)
     //private Graad graad;
+    @Column(nullable = false)
     private String uitleg;
 
     @ElementCollection
     @Column(name = "Images")
+    
     private List<String> images;
     //private String video;
     //private String naam;
@@ -121,14 +123,14 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "Graad")
+    @Column(name = "Graad", nullable = false)
     public Graad getGraad() {
         return Graad.valueOf(graadProperty.get());
     }
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "Naam")
+    @Column(name = "Naam", nullable = false, length = 50)
     public String getNaam() {
         return naamProperty.get();
     }
