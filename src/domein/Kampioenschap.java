@@ -94,7 +94,7 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "Datum")
+    @Column(name = "Datum", nullable = false)
     public LocalDate getDate() {
         return LocalDate.parse(datumProperty.get());
     }
@@ -110,7 +110,7 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "Naam")
+    @Column(name = "Naam", nullable = false, length = 50)
     public String getName() {
         return naamProperty.get();
     }
@@ -126,8 +126,7 @@ public class Kampioenschap implements IKampioenschap, Exportable<Kampioenschap> 
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Enumerated(EnumType.STRING)
-    @Column(name = "Leeftijdcategorie")
+    @Column(name = "Leeftijdcategorie", nullable = false)
     public LeeftijdCategorie getLeeftijdCategorie() {
         return LeeftijdCategorie.valueOf(leeftijdCategorieProperty.get());
     }
