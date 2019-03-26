@@ -29,7 +29,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -103,8 +105,9 @@ public class OverzichtOpvraagSceneController extends HBox {
     private ComboBox<ActiviteitType> cboActiviteitType;
     private ComboBox<Graad> cboGraad;
     private DatePicker dpStartDatum;
-    private DatePicker dpEindDatum;
+    private ComboBox<String> cboJaar;
     private ComboBox<LeeftijdCategorie> cboLeeftijd;
+    private List<String> jaarList;
     @FXML
     private Button btnClear;
 
@@ -180,7 +183,16 @@ public class OverzichtOpvraagSceneController extends HBox {
         cboGraad.getSelectionModel().selectLast();
         txfNaam = new TextField();
         dpStartDatum = new DatePicker();
-        dpEindDatum = new DatePicker();
+        cboJaar = new ComboBox<>();
+        Set<String> jaarSet = new HashSet<>();
+        dc.getActiviteiten().stream().forEach(a -> {
+            jaarSet.add(String.format("%d", a.getBeginDatum().getYear()));
+        });
+
+        jaarList = new ArrayList<>(jaarSet);
+        jaarList.add("ALLES");
+        cboJaar.setItems(FXCollections.observableArrayList(jaarList));
+        cboJaar.getSelectionModel().selectLast();
         cboLeeftijd = new ComboBox();
         cboLeeftijd.setItems(FXCollections.observableArrayList(Arrays.asList(LeeftijdCategorie.values())));
         cboLeeftijd.getSelectionModel().selectLast();
@@ -201,7 +213,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         btnClear.setPrefWidth(sceneWidth / 4.5);
         lblExtraParameters.setPrefWidth(sceneWidth / 2);
         cboActiviteitType.setPrefWidth(sceneWidth / 4.5);
-        dpEindDatum.setPrefWidth(sceneWidth / 4.5);
+        cboJaar.setPrefWidth(sceneWidth / 4.5);
         dpStartDatum.setPrefWidth(sceneWidth / 4.5);
         cboFormule.setPrefWidth(sceneWidth / 4.5);
         cboLeeftijd.setPrefWidth(sceneWidth / 4.5);
@@ -223,12 +235,12 @@ public class OverzichtOpvraagSceneController extends HBox {
 
         Label lblNaam = new Label();
         Label lblDatum1 = new Label();
-        Label lblDatum2 = new Label();
+        Label lblJaar = new Label();
         Label lblComboBox = new Label();
 
         lblNaam.setPrefWidth(sceneWidth / 4.5);
         lblDatum1.setPrefWidth(sceneWidth / 4.5);
-        lblDatum2.setPrefWidth(sceneWidth / 4.5);
+        lblJaar.setPrefWidth(sceneWidth / 4.5);
         lblComboBox.setPrefWidth(sceneWidth / 4.5);
 
         switch (type) {
@@ -262,17 +274,13 @@ public class OverzichtOpvraagSceneController extends HBox {
                 lblNaam.setText("Op activiteitnaam");
                 vbLeft1.getChildren().addAll(lblNaam, txfNaam);
 
-                vbRight1.getChildren().clear();
-                lblDatum1.setText("Op startdatum");
-                vbRight1.getChildren().addAll(lblDatum1, dpStartDatum);
-
                 vbLeft2.getChildren().clear();
                 lblComboBox.setText("Op type");
                 vbLeft2.getChildren().addAll(lblComboBox, cboActiviteitType);
 
                 vbRight2.getChildren().clear();
-                lblDatum2.setText("Op einddatum");
-                vbRight2.getChildren().addAll(lblDatum2, dpEindDatum);
+                lblJaar.setText("Op jaar");
+                vbRight2.getChildren().addAll(lblJaar, cboJaar);
 
                 hBoxTopRow.getChildren().addAll(vbLeft1, vbRight1);
                 hBoxUnderRow.getChildren().addAll(vbLeft2, vbRight2);
@@ -567,9 +575,8 @@ public class OverzichtOpvraagSceneController extends HBox {
             case ACTIVITEIT:
                 Activiteit.setExportable(new ExportableActiviteit());
                 String typeActiviteit = cboActiviteitType.getSelectionModel().getSelectedItem() != null ? cboActiviteitType.getSelectionModel().getSelectedItem().toString() : "";
-                String startDatum = dpStartDatum.getValue() != null ? dpStartDatum.getValue().toString() : "";
-                String eindDatum = dpEindDatum.getValue() != null ? dpEindDatum.getValue().toString() : "";
-                extraParameters.addAll(Arrays.asList(typeActiviteit, txfNaam.getText(), startDatum, eindDatum));
+                String jaar = cboJaar.getSelectionModel().getSelectedItem() != null ? cboJaar.getSelectionModel().getSelectedItem() : "";
+                extraParameters.addAll(Arrays.asList(txfNaam.getText(), typeActiviteit, jaar));
                 break;
             case CLUBKAMPIOENSCHAP:
                 Kampioenschap.setExportable(new ExportableKampioenschap());
@@ -592,7 +599,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         cboFormule.getSelectionModel().clearAndSelect(LesType.values().length - 1);
         cboGraad.getSelectionModel().clearAndSelect(Graad.values().length - 1);
         dpStartDatum.getEditor().clear();
-        dpEindDatum.getEditor().clear();
+        cboJaar.getSelectionModel().clearAndSelect(jaarList.size() - 1);
         cboLeeftijd.getSelectionModel().clearAndSelect(LeeftijdCategorie.values().length - 1);
         SorteerType type = cboType.getSelectionModel().getSelectedItem();
         placeTable(type, FXCollections.observableArrayList(dc.maakOverzichtList(type, null)));

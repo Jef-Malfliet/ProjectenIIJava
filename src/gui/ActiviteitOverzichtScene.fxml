@@ -27,7 +27,7 @@
             <VBox>
                <children>
                   <Label fx:id="lblNaamFilter" text="Naam filter" />
-                  <TextField fx:id="txfNaamFilter">
+                  <TextField fx:id="txfNaamFilter" prefWidth="120.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -40,20 +40,17 @@
             <VBox>
                <children>
                   <Label fx:id="lblTypeFilter" text="Type filter" />
-                  <ComboBox fx:id="cboTypeFilter" prefWidth="150.0" promptText="Kies een type" />
+                  <ComboBox fx:id="cboTypeFilter" prefWidth="120.0" promptText="Kies een type" />
                </children>
                <HBox.margin>
                   <Insets left="10.0" right="10.0" />
                </HBox.margin>
             </VBox>
-            <VBox>
+            <VBox layoutX="160.0" layoutY="10.0">
                <children>
                   <Label fx:id="lblJaarFilter" text="Jaar filter" />
-                  <ComboBox fx:id="cboJaarFilter" prefWidth="150.0" promptText="Kies een rol" />
+                  <ComboBox fx:id="cboJaarFilter" prefWidth="120.0" promptText="Kies een jaar" />
                </children>
-               <HBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </HBox.margin>
             </VBox>
             <VBox>
                <children>

@@ -248,7 +248,7 @@ public class DomeinController {
         dojo.addPropertyChangeListenerActiviteit(pcl);
     }
 
-    public void filterActiviteit(String NaamFilter, String typeFilter, String JaarFilter) {
-        dojo.maakOverzichtList(SorteerType.ACTIVITEIT, Arrays.asList(NaamFilter,typeFilter,JaarFilter));
+    public void filterActiviteit(String NaamFilter, String typeFilter, String datumfilter) {
+        dojo.maakOverzichtList(SorteerType.ACTIVITEIT, Arrays.asList(NaamFilter,typeFilter,datumfilter));
     }
 }
