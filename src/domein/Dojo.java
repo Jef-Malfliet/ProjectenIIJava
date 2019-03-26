@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -92,6 +93,12 @@ public class Dojo {
      */
     public boolean verwijderCurrentLid() {
         GenericDaoJpa.startTransaction();
+        List<Activiteit> activiteitenLid = this.activiteiten.stream().filter(act -> act.getAanwezigen().contains(currentLid)).collect(Collectors.toList());
+        activiteitenLid.forEach(act -> lidUitschrijven(act.getNaam(), act.getBeginDatum(),act.getEindDatum(), currentLid.getEmail()));
+        
+        List<Kampioenschap> kampioenschappenLid = this.kampioenschappen.stream().filter(kamp -> kamp.geefAanwezigen().contains(currentLid)).collect(Collectors.toList());
+        kampioenschappenLid.forEach(kamp -> lidUitschrijvenClubkampioenschap(kamp.getName(), kamp.getDate(),currentLid.getEmail()));
+        
         this.lidRepo.delete(currentLid);
         boolean remove = this.leden.remove(currentLid);
         GenericDaoJpa.commitTransaction();
