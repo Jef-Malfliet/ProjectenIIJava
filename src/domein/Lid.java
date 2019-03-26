@@ -37,6 +37,8 @@ public class Lid implements ILid, Serializable, Exportable {
     private String email;
     private String email_ouders;
     private LocalDate geboortedatum;
+        
+    @ElementCollection
     private List<LocalDate> aanwezigheden;
     private static Exportable<Lid> exportable;
 

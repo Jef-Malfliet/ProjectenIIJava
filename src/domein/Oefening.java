@@ -35,7 +35,6 @@ public class Oefening implements Serializable, IOefening, Exportable<Oefening> {
 
     @ElementCollection
     @Column(name = "Images")
-    
     private List<String> images;
     //private String video;
     //private String naam;
