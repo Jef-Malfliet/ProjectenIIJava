@@ -182,12 +182,14 @@ public class PredicateFactory {
         Predicate<Activiteit> full = l -> true;
 
         if (!isNull(parameters)) {
-            String aNaam = parameters.get(0);
-            String aType = parameters.get(1);
-            String aDate = parameters.get(2);
+            String aNaam = parameters.get(1);
+            String aType = parameters.get(0);
+            String aStart = parameters.get(2);
+            String aEind = parameters.get(3);
             Predicate<Activiteit> onType = a -> a.getActiviteitType().toString().equalsIgnoreCase(aType);
             Predicate<Activiteit> onAName = a -> a.getNaam().toLowerCase().startsWith(aNaam.toLowerCase());
-            Predicate<Activiteit> onDate = a -> String.format("%d", a.getBeginDatum().getYear()).equals(aDate);
+            Predicate<Activiteit> onStart = a -> a.getBeginDatum().equals(LocalDate.parse(aStart));
+            Predicate<Activiteit> onEind = a -> a.getBeginDatum().equals(LocalDate.parse(aEind));
 
             if (!isNullOrEmpty(aType)) {
                 if (!aType.equalsIgnoreCase("alles")) {
@@ -198,10 +200,12 @@ public class PredicateFactory {
                 full = full.and(onAName);
             }
 
-            if (!isNullOrEmpty(aDate)) {
-                if (!aDate.equalsIgnoreCase("alles")) {
-                    full = full.and(onDate);
-                }
+            if (!isNullOrEmpty(aStart)) {
+                full = full.and(onStart);
+            }
+
+            if (!isNullOrEmpty(aEind)) {
+                full = full.and(onEind);
             }
         }
         return full;
