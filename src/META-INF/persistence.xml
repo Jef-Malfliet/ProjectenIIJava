@@ -8,11 +8,11 @@
     <class>domein.Overzicht</class>
     <class>domein.Kampioenschap</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://remotemysql.com:3306/C7cZQC1H7M?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="C7cZQC1H7M"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://remotemysql.com:3306/qj7QNEeGKN?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="qj7QNEeGKN"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="cWGTRbkwEF"/>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.jdbc.password" value="SIjBB1kN9D"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>

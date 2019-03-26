@@ -17,6 +17,7 @@ import static util.Validatie.*;
     @javax.persistence.NamedQuery(name = "Lid.GetAll", query = "SELECT e FROM Lid e"), //@javax.persistence.NamedQuery(name = "Lid.GetLedenByVoornaam", query = "SELECT e FROM Lid e WHERE e.voornaam = :lidVoornaam")
 })
 @Entity
+@Table(name="Lid")
 @Access(AccessType.FIELD)
 public class Lid implements ILid, Serializable, Exportable {
 
