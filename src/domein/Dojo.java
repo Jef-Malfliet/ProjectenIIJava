@@ -78,7 +78,7 @@ public class Dojo {
         filteredOefeningen = new FilteredList<>(oefeningen, (p) -> true);
         sortedOefeningen = new SortedList<>(filteredOefeningen, sortOefeningOrder);
 
-        kampioenschappen = FXCollections.observableArrayList();
+        kampioenschappen = FXCollections.observableArrayList(kampioenschapRepo.findAll());
         filteredKampioenschappen = new FilteredList<>(kampioenschappen, p -> true);
         sortedKampioenschappen = new SortedList<>(filteredKampioenschappen);
 
@@ -271,7 +271,8 @@ public class Dojo {
     }
 
     Activiteit getActiviteit(long id) {
-        return activiteitRepo.get(id);
+        return activiteiten.stream().filter(l -> l.getId() == id).findFirst().orElse(null);
+       
     }
 
 //    public void filter(String voornaamFilter, String familienaamFilter, String graadFilter, String typeFilter) {

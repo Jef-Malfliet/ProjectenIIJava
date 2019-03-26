@@ -402,17 +402,17 @@
                   <Insets top="10.0" />
                </padding>
             </HBox>
-            <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
+            <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" textFill="#3b3535">
+               <font>
+                  <Font name="Quicksand-Bold" size="31.0" />
+               </font>
+            </Label>
+            <HBox maxWidth="1.7976931348623157E308" prefHeight="158.0" prefWidth="776.0">
                <children>
                   <Label text="* verplicht">
                      <HBox.margin>
                         <Insets top="20.0" />
                      </HBox.margin>
-                  </Label>
-                  <Label fx:id="errorMessage" alignment="CENTER" textAlignment="CENTER" textFill="#3b3535">
-                     <font>
-                        <Font name="Quicksand-Bold" size="31.0" />
-                     </font>
                   </Label>
                </children>
             </HBox>

@@ -121,7 +121,6 @@ public class OverzichtOpvraagSceneController extends HBox {
         buildGui();
         extraParameters = new ArrayList<>();
         cboType.valueProperty().addListener((ObservableValue<? extends SorteerType> observable, SorteerType oldValue, SorteerType newValue) -> {
-            System.out.println(newValue);
             makeExtraParamScreen(newValue);
         });
 
@@ -417,7 +416,6 @@ public class OverzichtOpvraagSceneController extends HBox {
 
                 tblKampioenschap.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
                     if (newValue != null) {
-                        System.out.println(newValue);
                         List<String> aanwezigen = newValue.geefAanwezigen().stream().map(lid -> lid.getVoornaam() + " " + lid.getFamilienaam()).collect(Collectors.toList());
                         lstAanwezigheden.setItems(FXCollections.observableArrayList(aanwezigen));
                     }
@@ -460,7 +458,6 @@ public class OverzichtOpvraagSceneController extends HBox {
 
                 tblActiviteit.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
                     if (newValue != null) {
-                        System.out.println(newValue);
                         List<String> aanwezighedenPerLid = newValue.getAanwezigheden().stream().map(d -> d.toString()).collect(Collectors.toList());
                         lstAanwezigheden.setItems(FXCollections.observableArrayList(aanwezighedenPerLid));
                     }
