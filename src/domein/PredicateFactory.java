@@ -189,7 +189,7 @@ public class PredicateFactory {
             Predicate<Activiteit> onType = a -> a.getActiviteitType().toString().equalsIgnoreCase(aType);
             Predicate<Activiteit> onAName = a -> a.getNaam().toLowerCase().startsWith(aNaam.toLowerCase());
             Predicate<Activiteit> onStart = a -> a.getBeginDatum().equals(LocalDate.parse(aStart));
-            Predicate<Activiteit> onEind = a -> a.getBeginDatum().equals(LocalDate.parse(aEind));
+            Predicate<Activiteit> onEind = a -> a.getEindDatum().equals(LocalDate.parse(aEind));
 
             if (!isNullOrEmpty(aType)) {
                 if (!aType.equalsIgnoreCase("alles")) {
