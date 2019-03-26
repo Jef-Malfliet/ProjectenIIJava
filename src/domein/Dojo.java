@@ -51,7 +51,6 @@ public class Dojo {
     private OefeningDao oefeningRepo;
     private ActiviteitDao activiteitRepo;
     private KampioenschapDao kampioenschapRepo;
-    private final List<Overzicht<Object>> overzichtList;
     private Lid currentLid;
     private IOefening current_oefening;
     private final RolType type;
@@ -69,7 +68,6 @@ public class Dojo {
         subject = new PropertyChangeSupport(this);
         subjectOef = new PropertyChangeSupport(this);
         subjectAct = new PropertyChangeSupport(this);
-        overzichtList = new ArrayList();
 
         leden = FXCollections.observableArrayList(this.lidRepo.findAll());
         filteredLeden = new FilteredList<>(leden, (p) -> true);
@@ -201,10 +199,6 @@ public class Dojo {
 
     public <T extends Exportable> void maakOverzicht(List<T> overzicht, String path) {
         ExportFiles.toExcel(overzicht, 25, 20, path);
-    }
-
-    public List<Overzicht<Object>> getOverzichtList() {
-        return overzichtList;
     }
 
     public ObservableList<Oefening> getSortedOefeningen() {
@@ -393,5 +387,9 @@ public class Dojo {
         subjectAct.addPropertyChangeListener(pcl);
         pcl.propertyChange(new PropertyChangeEvent(pcl, "currentActiviteit", null, currentActiviteit));
     }
-    
+
+    public SortedList<Activiteit> getSortedActiviteiten() {
+        return sortedActiviteiten;
+    }
+
 }

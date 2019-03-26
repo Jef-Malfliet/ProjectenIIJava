@@ -95,10 +95,6 @@ public class DomeinController {
         dojo.maakOverzicht(overzicht, path);
     }
 
-    public List<Overzicht<Object>> getOverzicht() {
-        return dojo.getOverzichtList();
-    }
-
     public ObservableList<IOefening> getLesmateriaal() {
         return FXCollections.unmodifiableObservableList((SortedList<IOefening>) (Object) dojo.getSortedOefeningen());
     }
@@ -134,7 +130,7 @@ public class DomeinController {
     }
 
     public ObservableList<IActiviteit> getActiviteiten() {
-        return (ObservableList<IActiviteit>) (Object) dojo.getActiviteitenList();
+        return (ObservableList<IActiviteit>) (Object) dojo.getSortedActiviteiten();
     }
 
     private void setActiviteitRepository(ActiviteitDaoJpa activiteitDaoJpa) {
@@ -250,5 +246,9 @@ public class DomeinController {
 
     public void addPropertyChangeListenerActiviteit(ActiviteitDetailPaneelController pcl) {
         dojo.addPropertyChangeListenerActiviteit(pcl);
+    }
+
+    public void filterActiviteit(String NaamFilter, String typeFilter, String JaarFilter) {
+        dojo.maakOverzichtList(SorteerType.ACTIVITEIT, Arrays.asList(NaamFilter,typeFilter,JaarFilter));
     }
 }

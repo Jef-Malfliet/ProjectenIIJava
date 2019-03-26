@@ -5,15 +5,26 @@
  */
 package gui;
 
+import domein.ActiviteitType;
 import domein.DomeinController;
 import domein.IActiviteit;
-import domein.ILid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import util.FullScreenResolution;
 
@@ -41,6 +52,22 @@ public class ActiviteitOverzichtSceneController extends VBox {
     private TableColumn<IActiviteit, String> tcActiviteitType;
 
     private final DomeinController dc;
+    @FXML
+    private Label lblNaamFilter;
+    @FXML
+    private TextField txfNaamFilter;
+    @FXML
+    private Label lblTypeFilter;
+    @FXML
+    private ComboBox<ActiviteitType> cboTypeFilter;
+    @FXML
+    private Label lblJaarFilter;
+    @FXML
+    private ComboBox<String> cboJaarFilter;
+    @FXML
+    private Button btnFilter;
+    @FXML
+    private Button btnReset;
 
     public ActiviteitOverzichtSceneController(DomeinController dc) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ActiviteitOverzichtScene.fxml"));
@@ -62,13 +89,25 @@ public class ActiviteitOverzichtSceneController extends VBox {
             }
         });
         setMaxScreen();
+
+        Set<String> jaarSet = new HashSet<>();
+        dc.getActiviteiten().stream().forEach(a -> {
+            jaarSet.add(String.format("%d", a.getBeginDatum().getYear()));
+        });
+
         tvActiviteiten.setItems(dc.getActiviteiten());
         tcNaam.setCellValueFactory(cellData -> cellData.getValue().getNaamProperty());
         tcBegindatum.setCellValueFactory(cellData -> cellData.getValue().getBeginDatumProperty());
         tcEinddatum.setCellValueFactory(cellData -> cellData.getValue().getEindDatumProperty());
         tcActiviteitType.setCellValueFactory(cellData -> cellData.getValue().getActiviteitTypeProperty());
-        tvActiviteiten.getSelectionModel().selectFirst();
-        dc.setCurrentActiviteit((IActiviteit) tvActiviteiten.getSelectionModel().getSelectedItem());
+        
+        ((SortedList) dc.getActiviteiten()).comparatorProperty().bind(tvActiviteiten.comparatorProperty());
+        cboTypeFilter.setItems(FXCollections.observableArrayList(Arrays.asList(ActiviteitType.values())));
+        cboTypeFilter.getSelectionModel().selectLast();
+        List<String> jaarList = new ArrayList(jaarSet);
+        jaarList.add("ALLES");
+        cboJaarFilter.setItems(FXCollections.observableArrayList(jaarList));
+        cboJaarFilter.getSelectionModel().selectLast();
     }
 
     private void setMaxScreen() {
@@ -90,4 +129,23 @@ public class ActiviteitOverzichtSceneController extends VBox {
         }
     }
 
+    @FXML
+    private void filter(MouseEvent event) {
+        String NaamFilter = txfNaamFilter.getText();
+        String typeFilter = cboTypeFilter.getSelectionModel() != null ? cboTypeFilter.getSelectionModel().getSelectedItem().toString() : "";
+        String JaarFilter = cboJaarFilter.getSelectionModel() != null ? cboJaarFilter.getSelectionModel().getSelectedItem() : "";
+        dc.filterActiviteit(NaamFilter, typeFilter, JaarFilter);
+        tvActiviteiten.getSelectionModel().selectFirst();
+        dc.setCurrentActiviteit(tvActiviteiten.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    private void reset(MouseEvent event) {
+        txfNaamFilter.clear();
+        cboTypeFilter.getSelectionModel().clearSelection();
+        cboJaarFilter.getSelectionModel().clearSelection();
+        dc.filterActiviteit("", ActiviteitType.ALLES.toString(), "alles");
+        cboTypeFilter.getSelectionModel().selectLast();
+        cboJaarFilter.getSelectionModel().selectLast();
+    }
 }
