@@ -214,8 +214,6 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         cboGeslacht.setItems(FXCollections.observableArrayList(Arrays.asList(Geslacht.values())));
     }
 
-    
-
     private void changeGemeenteTextField() {
         String selectedItem = cboGemeentes.getSelectionModel().getSelectedItem();
         if (!isNullOrEmpty(selectedItem)) {
@@ -619,18 +617,36 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     }
 
     private void restrictiesRijksregisternummerTextfields() {
-        txtRijksregisternummer0.setOnAction(e-> {txtRijksregisternummer0.setText(makeSubString(txtRijksregisternummer0.getText(),2));});
-        txtRijksregisternummer1.setOnMouseClicked(e-> {txtRijksregisternummer1.setText(makeSubString(txtRijksregisternummer1.getText(),2));});
-        txtRijksregisternummer2.setOnKeyPressed(e-> {txtRijksregisternummer2.setText(makeSubString(txtRijksregisternummer2.getText(),2));});
-        txtRijksregisternummer3.setOnKeyReleased(e-> {txtRijksregisternummer3.setText(makeSubString(txtRijksregisternummer3.getText(),3));});
-        txtRijksregisternummer4.setOnKeyTyped(e-> {txtRijksregisternummer4.setText(makeSubString(txtRijksregisternummer4.getText(),2));});
-            
+        zetRestrictie(txtRijksregisternummer0, txtRijksregisternummer1, 2);
+        zetRestrictie(txtRijksregisternummer1, txtRijksregisternummer2, 2);
+        zetRestrictie(txtRijksregisternummer2, txtRijksregisternummer3, 2);
+        zetRestrictie(txtRijksregisternummer3, txtRijksregisternummer4, 3);
+        zetRestrictie(txtRijksregisternummer4, txtRijksregisternummer0, 2);
+
     }
-    
-    private String makeSubString(String text,int lengte){
-        if(text.length() > lengte)
-            return text.substring(0,lengte);
+
+    private String makeSubString(String text, int lengte) {
+        if (text.length() > lengte) {
+            return text.substring(0, lengte);
+        }
         return text;
     }
 
+    private boolean isLengte(String text, int lengte) {
+
+        return text.length() == lengte;
+    }
+
+    private void zetRestrictie(TextField txt1,TextField txt2,int getal){
+        txt1.setOnKeyTyped(e -> {
+            txt1.setText(makeSubString(txt1.getText(), getal));
+            if (isLengte(txt1.getText(), getal)) {
+                txt2.requestFocus();
+                txt2.selectAll();
+            }
+            else
+                txt1.end();
+                
+        });
+    }
 }
