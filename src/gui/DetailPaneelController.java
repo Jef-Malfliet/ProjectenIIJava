@@ -171,7 +171,10 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         btnVerwijderLid.setOnMouseClicked(e -> {
             if (alertVerwijderenLid()) {
                 dc.verwijderCurrentLid();
+                clearNaVerwijderen();
             }
+            
+            
         });
 
         txtPostCode.setOnKeyReleased(e -> {
@@ -314,8 +317,8 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             if (nieuwlid) {
                 maaknieuwlid();
                 dc.verwijderSelectieLid();
-
                 clearTextFields();
+                errorMessage.setVisible(true);
             } else {
                 if (isgewijzigd()) {
                     wijziglid();
@@ -508,7 +511,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     }
 
     private Label[] geefLabels() {
-        Label[] errormessages = {lblM_Voornaam, lblM_Familienaam, lblM_Wachtwoord, lblM_VasteTelefoon, lblM_Straatnaam, lblM_Huisnummer, lblM_Busnummer, lblM_Postcode, lblM_Stad, lblM_Email, lblM_Emailouder, lblM_Gsmnummer, lblM_Inschrijvingsdatum, lblM_Geboortedatum, lblM_Rijkregisternummer};
+        Label[] errormessages = {lblM_Voornaam, lblM_Familienaam, lblM_Wachtwoord, lblM_VasteTelefoon, lblM_Straatnaam, lblM_Huisnummer, lblM_Busnummer, lblM_Postcode, lblM_Stad, lblM_Email, lblM_Emailouder, lblM_Gsmnummer,lblM_Rijkregisternummer,lblM_Rijkregisternummer,lblM_Rijkregisternummer,lblM_Rijkregisternummer,lblM_Rijkregisternummer, lblM_Inschrijvingsdatum, lblM_Geboortedatum, };
         return errormessages;
 
     }
@@ -583,12 +586,22 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         Alert a = new Alert(AlertType.CONFIRMATION);
         a.setTitle("OPGELET");
         a.setHeaderText("OPGELET");
-        a.setContentText(String.format("Bent u zeker dat u het lid %s wil verwijderen?", currentLid.getVoornaam() + currentLid.getFamilienaam()));
+        
+        if(dc.geenLidGeslecteerd()){
+             a.setContentText("Geen lid geslecteerd om te verwijderen");
+             a.show();
+             return false;
+        }
+        
+        
+        a.setContentText(String.format("Bent u zeker dat u het lid %s %s wil verwijderen?", currentLid.getVoornaam(),currentLid.getFamilienaam()));
         ButtonType verwijder = new ButtonType("Verwijder");
         ButtonType annuleer = new ButtonType("Annuleer");
+        
         a.getButtonTypes().clear();
 
         a.getButtonTypes().addAll(verwijder, annuleer);
+        
         Optional<ButtonType> showAndWait = a.showAndWait();
         if (showAndWait.isPresent()) {
             return showAndWait.get() == verwijder;
@@ -614,7 +627,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
         zetRestrictie(txtRijksregisternummer1, txtRijksregisternummer2, 2);
         zetRestrictie(txtRijksregisternummer2, txtRijksregisternummer3, 2);
         zetRestrictie(txtRijksregisternummer3, txtRijksregisternummer4, 3);
-        zetRestrictie(txtRijksregisternummer4, txtRijksregisternummer0, 2);
+        zetRestrictie(txtRijksregisternummer4, txtRijksregisternummer4, 2);
 
     }
 
