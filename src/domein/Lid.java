@@ -24,18 +24,29 @@ public class Lid implements ILid, Serializable, Exportable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String wachtwoord;
-    @Column()
+    @Column(nullable = false, length = 20)
     private String gsm;
+    @Column(nullable = false, length = 20)
     private String telefoon_vast;
+    @Column(nullable = false, length = 50)
     private String straatnaam;
+    @Column(nullable = false, length = 3)
     private String huisnummer;
+    @Column(length = 3)
     private String busnummer;
+    @Column(nullable = false, length = 4)
     private String postcode;
+    @Column(nullable = false, length = 50)
     private String stad;
+    @Column(nullable = false)
     private Land land;
+    @Column(nullable = false, length = 20)
     private String rijksregisternummer;
+    @Column(nullable = false, length = 60)
     private String email;
+    @Column(length = 60)
     private String email_ouders;
+    @Column(nullable = false)
     private LocalDate geboortedatum;
         
     @ElementCollection
@@ -280,7 +291,7 @@ public class Lid implements ILid, Serializable, Exportable {
 
     @Override
     @Access(AccessType.PROPERTY)
-    @Column(name = "Roltype")
+    @Column(name = "Roltype", nullable = false)
     public RolType getType() {
         return RolType.valueOf(typeProperty.get());
     }
