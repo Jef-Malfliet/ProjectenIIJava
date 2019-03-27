@@ -163,6 +163,7 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
     private void buildGui() {
         vulComboboxen();
         nieuwLidPaneel();
+        restrictiesRijksregisternummerTextfields();
         btnNieuwLid.setOnMouseClicked(e -> {
             nieuwLidPaneel();
         });
@@ -615,6 +616,21 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             dpInschrijving.setDisable(false);
             cboLesType.setDisable(false);
         }
+    }
+
+    private void restrictiesRijksregisternummerTextfields() {
+        txtRijksregisternummer0.setOnAction(e-> {txtRijksregisternummer0.setText(makeSubString(txtRijksregisternummer0.getText(),2));});
+        txtRijksregisternummer1.setOnMouseClicked(e-> {txtRijksregisternummer1.setText(makeSubString(txtRijksregisternummer1.getText(),2));});
+        txtRijksregisternummer2.setOnKeyPressed(e-> {txtRijksregisternummer2.setText(makeSubString(txtRijksregisternummer2.getText(),2));});
+        txtRijksregisternummer3.setOnKeyReleased(e-> {txtRijksregisternummer3.setText(makeSubString(txtRijksregisternummer3.getText(),3));});
+        txtRijksregisternummer4.setOnKeyTyped(e-> {txtRijksregisternummer4.setText(makeSubString(txtRijksregisternummer4.getText(),2));});
+            
+    }
+    
+    private String makeSubString(String text,int lengte){
+        if(text.length() > lengte)
+            return text.substring(0,lengte);
+        return text;
     }
 
 }
