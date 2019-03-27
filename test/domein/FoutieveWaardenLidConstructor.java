@@ -21,7 +21,7 @@ import org.junit.runners.Parameterized.Parameters;
  * @author Mout
  */
 @RunWith(Parameterized.class)
-public class FoutiveWaredenLidConstructorTest {
+public class FoutieveWaardenLidConstructor {
 
     private final String voorNaam;
     private final String achterNaam;
@@ -154,7 +154,7 @@ public class FoutiveWaredenLidConstructorTest {
         });
     }
 
-    public FoutiveWaredenLidConstructorTest(String voorNaam, String achterNaam, String wachtwoord, String gsm, String telefoon,
+    public FoutieveWaardenLidConstructor(String voorNaam, String achterNaam, String wachtwoord, String gsm, String telefoon,
             String straat, String huisnummer, String busnummer, String postcode, String stad, Land land,String rijksregister, String email, String emailOuders, LocalDate geboorteDatum,
             LocalDate inschrijvingsDatum, List<LocalDate> aanwezigheden, Geslacht geslacht, Graad graad, RolType type,LesType lessen) {
         this.voorNaam = voorNaam;

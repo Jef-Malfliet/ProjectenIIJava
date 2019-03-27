@@ -601,6 +601,7 @@ public class OverzichtOpvraagSceneController extends HBox {
         dpStartDatum.getEditor().clear();
         cboJaar.getSelectionModel().clearAndSelect(jaarList.size() - 1);
         cboLeeftijd.getSelectionModel().clearAndSelect(LeeftijdCategorie.values().length - 1);
+        dpStartDatum.setValue(null);
         SorteerType type = cboType.getSelectionModel().getSelectedItem();
         placeTable(type, FXCollections.observableArrayList(dc.maakOverzichtList(type, null)));
     }
