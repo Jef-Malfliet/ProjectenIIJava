@@ -194,13 +194,6 @@ public class DetailPaneelController extends VBox implements PropertyChangeListen
             updateBasedOnType();
         });
 
-//        Button b = new Button();
-//        b.setText("USE CBO");
-//        b.setOnAction(e -> {
-//            comboGemeentes = !comboGemeentes;
-//            controleerOpgemeentes();
-//        });
-        //((HBox) txtGemeente.getParent()).getChildren().add(2, b);
     }
 
     private void vulComboboxen() {
