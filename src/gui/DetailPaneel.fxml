@@ -404,10 +404,13 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="errorMessage" textAlignment="CENTER" textFill="#3b3535">
+                  <Label fx:id="errorMessage" alignment="CENTER" textFill="#3b3535">
                      <font>
                         <Font name="Quicksand-Bold" size="31.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets left="135.0" />
+                     </HBox.margin>
                   </Label>
                </children>
                <opaqueInsets>
