@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class PostcodeMapper {
 
-    private static final Map<Land, Map<String, Postcode>> lijst = new HashMap<>() {
+    private static final Map<Land, Map<String, Postcode>> lijst = new HashMap<Land, Map<String,Postcode>>() {
         {
             put(Land.België, getPostcodesBelgië());
             put(Land.Nederland, getPostcodesNederland());

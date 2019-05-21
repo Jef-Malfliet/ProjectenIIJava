@@ -47,7 +47,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="btnMaakLeeg" mnemonicParsing="false" onAction="#geenFilter" text="Maak leeg">
+            <Button fx:id="btnMaakLeeg" mnemonicParsing="false" onAction="#geenFilter" text="Maak filters leeg">
                <HBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>

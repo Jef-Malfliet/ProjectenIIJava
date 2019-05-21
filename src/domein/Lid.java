@@ -48,7 +48,6 @@ public class Lid implements ILid, Serializable, Exportable {
     private String email_ouders;
     @Column(nullable = false)
     private LocalDate geboortedatum;
-        
     @ElementCollection
     private List<LocalDate> aanwezigheden;
     private static Exportable<Lid> exportable;
@@ -76,7 +75,6 @@ public class Lid implements ILid, Serializable, Exportable {
 
     public Lid() {
     }
-    
 
     public Lid(ILid lid) {
         this(lid.getVoornaam(), lid.getFamilienaam(), lid.getWachtwoord(), lid.getGsm(), lid.getTelefoon_vast(), lid.getStraatnaam(), lid.getHuisnummer(), lid.getBusnummer(), lid.getPostcode(), lid.getStad(),
@@ -348,13 +346,13 @@ public class Lid implements ILid, Serializable, Exportable {
     public void setGeboortedatum(LocalDate geboortedatum) {
         this.geboortedatum = geboortedatum;
     }
-
     @Override
-    @Column(nullable = false)
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Inschrijvingsdatum", nullable = false)
     public LocalDate getInschrijvingsdatum() {
         return LocalDate.parse(inschrijvingsDatumProperty.get());
     }
-
+    
     public void setInschrijvingsdatum(LocalDate inschrijvingsdatum) {
         inschrijvingsDatumProperty.set(inschrijvingsdatum.toString());
     }

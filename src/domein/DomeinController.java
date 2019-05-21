@@ -36,17 +36,7 @@ public class DomeinController {
         dojo = new Dojo(lidRepository, oefeningRepository, activiteitRepository, kampioenschapRepository);
     }
 
-    public List<String> toonLeden() {
-        return dojo.getLijstLeden().stream().map(ILid::toString).collect(Collectors.toList());
-    }
 
-    /**
-     *
-     * @param lid
-     */
-    public String toonLid(long id) {
-        return dojo.toonLid(id).toString();
-    }
 
     /**
      *
