@@ -269,9 +269,12 @@ public class LesmateriaalDetailPaneelController extends VBox implements Property
     private void fillImages(List<String> images) {
         List<ImageView> views = new ArrayList<>();
         this.allImages.getChildren().clear();
-
-        for (int i = 0; i < images.size(); i++) {
-            Image image = new Image(images.get(i));
+        List<String> imagesNamesOnly = new ArrayList<>();
+        images.forEach(str->imagesNamesOnly.add(str.split("/")[str.split("/").length-1]));
+        
+        for (int i = 0; i < imagesNamesOnly.size(); i++) {
+            System.out.println("/images/"+imagesNamesOnly.get(i));
+            Image image = new Image("/images/"+imagesNamesOnly.get(i));
             ImageView iv = new ImageView(image);
             iv.setOnMouseClicked((val) -> {
                 int index = views.indexOf(val.getSource());
